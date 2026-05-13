@@ -34,6 +34,20 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        .error-hint {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: none; /* Hidden by default */
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .input-error {
+            border-color: #ff4444 !important;
+            background-color: #fff8f8 !important;
+        }
+
         /* USER PROFILE DROPDOWN */
         .user-profile-wrap {
             position: relative;
@@ -700,18 +714,32 @@
     }
 };
     // --- IMPROVED SIGNUP (With "Already Exists" Check) ---
-    window.handleEmailSignup = async () => {
+   window.handleEmailSignup = async () => {
     const emailInput = document.querySelector('#signupForm input[type="email"]');
+    const pass = document.getElementById('signupPass').value;
     const signupError = document.getElementById('signupError');
 
     try {
-        // ... (your existing signup logic) ...
+        const result = await auth.createUserWithEmailAndPassword(emailInput.value, pass);
+        const user = result.user;
+
+        await db.collection("users").doc(user.uid).set({
+            email: user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        updateUIForUser(user);
     } catch (error) {
         signupError.style.display = 'block';
         
         // CHECK FOR EXISTING USER ERROR
         if (error.code === 'auth/email-already-in-use') {
-            signupError.innerHTML = '<i class="fa-solid fa-circle-info"></i> This email is already registered. <span onclick="toggleAuthMode(\'login\')" style="text-decoration:underline; cursor:pointer;">Login instead?</span>';
+            signupError.innerHTML = `
+                <i class="fa-solid fa-circle-info"></i> 
+                This email is already registered. 
+                <span onclick="toggleAuthMode('login')" style="text-decoration: underline; cursor: pointer; font-weight: 700;">
+                    Login instead?
+                </span>`;
         } else {
             signupError.innerText = error.message;
         }
