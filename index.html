@@ -529,15 +529,16 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
         <header class="top-header">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <i class="fa-solid fa-bars-staggered" style="cursor:pointer; font-size: 1.2rem; color: var(--deep-blue);" onclick="toggleSidebar()"></i>
-                <img src="quans.png" alt="QUANS" class="logo" style="zoom:2">
-            </div>
-            <div class="auth-buttons">
-                <a href="#" class="btn-auth login-btn">Login</a>
-                <a href="#" class="btn-auth signup-btn">Sign Up</a>
-            </div>
-        </header>
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fa-solid fa-bars-staggered" style="cursor:pointer; font-size: 1.2rem; color: var(--deep-blue);" onclick="toggleSidebar()"></i>
+        <img src="quans.png" alt="QUANS" class="logo" style="zoom:2">
+    </div>
+    <!-- ID moved here so the header updates -->
+    <div class="auth-buttons" id="authInterface">
+        <a href="#" class="btn-auth login-btn" onclick="openAuth('login')">Login</a>
+        <a href="#" class="btn-auth signup-btn" onclick="openAuth('signup')">Sign Up</a>
+    </div>
+</header>
 
         <div class="chat-area" id="chatStream">
             <!-- Messages go here in the future -->
@@ -562,13 +563,7 @@
 
         // Add this at the very top of your <script> section
         const firebaseConfig = {
-         apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
-  authDomain: "quans-14b18.firebaseapp.com",
-  projectId: "quans-14b18",
-  storageBucket: "quans-14b18.firebasestorage.app",
-  messagingSenderId: "309027278772",
-  appId: "1:309027278772:web:7273a0ca9490df3c056ce1",
-  measurementId: "G-8KH5DW1SP1"
+         
         };
         
         // Initialize Firebase
@@ -692,28 +687,24 @@
             }
         }
 
-        function handleGoogleLogin() {
+        // 1. Corrected Google Login
+function handleGoogleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then(() => updateUIForUser())
+        .then((result) => updateUIForUser(result.user)) // Pass the user object
         .catch((err) => {
             if(err.code !== 'auth/popup-closed-by-user') {
-                alert("Google link failed. Check Firebase Console settings.");
+                alert("Google link failed.");
             }
         });
 }
 
-// Assigning functions to buttons
-document.querySelector('.google-btn').onclick = handleGoogleLogin;
-document.querySelector('#loginForm .modal-submit-btn').onclick = handleEmailLogin;
-document.querySelector('#signupForm .modal-submit-btn').onclick = handleEmailSignup;
-
-        async function handleEmailSignup() {
+// 2. Corrected Email Signup
+async function handleEmailSignup() {
     const email = document.querySelector('#signupForm input[type="email"]').value;
     const pass = document.getElementById('signupPass').value;
     const errorHint = document.getElementById('signupError');
 
-    // Validation check
     if (pass.length < 6) {
         errorHint.style.display = 'block';
         document.getElementById('signupPass').classList.add('input-error');
@@ -721,26 +712,25 @@ document.querySelector('#signupForm .modal-submit-btn').onclick = handleEmailSig
     }
 
     try {
-        await auth.createUserWithEmailAndPassword(email, pass);
-        updateUIForUser();
+        const result = await auth.createUserWithEmailAndPassword(email, pass);
+        updateUIForUser(result.user); // Pass the user object
     } catch (error) {
         alert(error.message);
     }
 }
 
-       async function handleEmailLogin() {
+// 3. Corrected Email Login
+async function handleEmailLogin() {
     const email = document.querySelector('#loginForm input[type="email"]').value;
     const pass = document.getElementById('loginPass').value;
     const errorHint = document.getElementById('loginError');
 
     try {
-        await auth.signInWithEmailAndPassword(email, pass);
-        updateUIForUser();
+        const result = await auth.signInWithEmailAndPassword(email, pass);
+        updateUIForUser(result.user); // Pass the user object
     } catch (error) {
-        // Show the "Wrong Pass" message for any auth error
         errorHint.style.display = 'block';
         document.getElementById('loginPass').classList.add('input-error');
-        console.error("Auth Error:", error.code);
     }
 }
 
@@ -786,29 +776,20 @@ function updateUIForUser(user) {
 // 3. Handle Firebase Logout
 function handleLogout() {
     auth.signOut().then(() => {
-        // Reset Global State
         isLoggedIn = false;
-        
-        // Reset Header UI
         document.getElementById('authInterface').innerHTML = `
             <a href="#" class="btn-auth login-btn" onclick="openAuth('login')">Login</a>
             <a href="#" class="btn-auth signup-btn" onclick="openAuth('signup')">Sign Up</a>
         `;
-        
-        // Relock Terminal
         lockInterface(); 
-        
-        // Optional: Refresh page to clear sensitive data
-        window.location.reload();
-    }).catch((error) => {
-        console.error("Logout Error:", error);
+        closeAuth();
     });
 }
 
 // 4. Update the onAuthStateChanged listener
 auth.onAuthStateChanged((user) => {
     if (user) {
-        updateUIForUser(user);
+        updateUIForUser(result.user);
     } else {
         isLoggedIn = false;
         lockInterface();
@@ -841,11 +822,6 @@ window.addEventListener('click', (e) => {
     <!-- AUTH MODAL -->
 <!-- AUTH MODAL WITH GOOGLE -->
 <div id="authModal" class="modal-overlay">
-
-    <div class="auth-buttons" id="authInterface">
-    <a href="#" class="btn-auth login-btn">Login</a>
-    <a href="#" class="btn-auth signup-btn">Sign Up</a>
-    </div>
     <div class="modal-card">
         <button class="close-modal" onclick="closeAuth()">&times;</button>
         
