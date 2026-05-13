@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <!-- Firebase Auth -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <style>
         :root {
@@ -564,13 +563,7 @@
 
         // Add this at the very top of your <script> section
         const firebaseConfig = {
-         apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
-  authDomain: "quans-14b18.firebaseapp.com",
-  projectId: "quans-14b18",
-  storageBucket: "quans-14b18.firebasestorage.app",
-  messagingSenderId: "309027278772",
-  appId: "1:309027278772:web:7273a0ca9490df3c056ce1",
-  measurementId: "G-8KH5DW1SP1"
+         
         };
         
         // Initialize Firebase
@@ -580,15 +573,14 @@ const db = firebase.firestore();
 
         let isLoggedIn = false; 
 
-        function toggleDropdown() { document.getElementById('modelDropdown').classList.toggle('open'); }
+        window.toggleDropdown() { document.getElementById('modelDropdown').classList.toggle('open'); }
 
-        function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            const ov = document.getElementById('overlay');
-            if (window.innerWidth > 768) sb.classList.toggle('closed');
-            else { sb.classList.toggle('open'); ov.classList.toggle('active'); }
-        }
-
+       window.toggleSidebar = () => {
+        const sb = document.getElementById('sidebar');
+        const ov = document.getElementById('overlay');
+        if (window.innerWidth > 768) sb.classList.toggle('closed');
+        else { sb.classList.toggle('open'); ov.classList.toggle('active'); }
+    };
         function handleSendMessage() {
             const input = document.getElementById('userInput');
             const stream = document.getElementById('chatStream');
@@ -658,17 +650,17 @@ const db = firebase.firestore();
             openAuth('signup');
         });
         
-        function openAuth(mode) {
+        window.openAuth(mode) {
             const modal = document.getElementById('authModal');
             modal.style.display = 'flex';
             toggleAuthMode(mode);
         }
         
-        function closeAuth() {
+        window.closeAuth() {
             document.getElementById('authModal').style.display = 'none';
         }
         
-        function toggleAuthMode(mode) {
+        window.toggleAuthMode(mode) {
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const mainTitle = document.getElementById('modalMainTitle');
@@ -696,7 +688,7 @@ const db = firebase.firestore();
         }
 
         // 1. Corrected Google Login
-function handleGoogleLogin() {
+window.handleGoogleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
         .then((result) => updateUIForUser(result.user)) // Pass the user object
@@ -709,7 +701,7 @@ function handleGoogleLogin() {
 
 // 2. Corrected Email Signup
 // Initialize Firestore (make sure this is at the top of your script)
-async function handleEmailSignup() {
+window.handleEmailSignup() {
     const email = document.querySelector('#signupForm input[type="email"]').value;
     const pass = document.getElementById('signupPass').value;
 
@@ -732,7 +724,7 @@ async function handleEmailSignup() {
 }
 
 // 3. Corrected Email Login
-async function handleEmailLogin() {
+window.handleEmailLogin() {
     const email = document.querySelector('#loginForm input[type="email"]').value;
     const pass = document.getElementById('loginPass').value;
     const errorHint = document.getElementById('loginError');
@@ -747,7 +739,7 @@ async function handleEmailLogin() {
 }
 
         // 1. Eye Icon Toggle Logic
-function toggleVisibility(inputId, icon) {
+window.toggleVisibility(inputId, icon) {
     const input = document.getElementById(inputId);
     if (input.type === "password") {
         input.type = "text";
@@ -758,7 +750,7 @@ function toggleVisibility(inputId, icon) {
     }
 }
 
-        function toggleUserMenu() {
+        window.toggleUserMenu() {
             document.getElementById('userDropdown').classList.toggle('show');
         }    
 
@@ -786,7 +778,7 @@ function updateUIForUser(user) {
 }
 
 // 3. Handle Firebase Logout
-function handleLogout() {
+window.handleLogout() {
     auth.signOut().then(() => {
         isLoggedIn = false;
         document.getElementById('authInterface').innerHTML = `
@@ -800,13 +792,9 @@ function handleLogout() {
 
 // 4. Update the onAuthStateChanged listener
 auth.onAuthStateChanged((user) => {
-    if (user) {
-        updateUIForUser(result.user);
-    } else {
-        isLoggedIn = false;
-        lockInterface();
-    }
-});
+        if (user) updateUIForUser(user);
+        else lockInterface();
+    });
 
 // Close dropdown if user clicks outside
 window.addEventListener('click', (e) => {
