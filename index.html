@@ -706,20 +706,27 @@ function handleGoogleLogin() {
 }
 
 // 2. Corrected Email Signup
+// Initialize Firestore (make sure this is at the top of your script)
+const db = firebase.firestore();
+
 async function handleEmailSignup() {
     const email = document.querySelector('#signupForm input[type="email"]').value;
     const pass = document.getElementById('signupPass').value;
-    const errorHint = document.getElementById('signupError');
-
-    if (pass.length < 6) {
-        errorHint.style.display = 'block';
-        document.getElementById('signupPass').classList.add('input-error');
-        return;
-    }
-
+    
     try {
         const result = await auth.createUserWithEmailAndPassword(email, pass);
-        updateUIForUser(result.user); // Pass the user object
+        const user = result.user;
+
+        // --- NEW: Manually save to Firestore ---
+        await db.collection("users").doc(user.uid).set({
+            email: user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            uid: user.uid
+        });
+        // ---------------------------------------
+
+        updateUIForUser(user);
+        closeAuth();
     } catch (error) {
         alert(error.message);
     }
