@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <!-- Firebase Auth -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore-compat.js"></script>
     
     <style>
         :root {
@@ -559,7 +560,7 @@
         </footer>
     </main>
 
-    <script>
+    <script type="module">
 
         // Add this at the very top of your <script> section
         const firebaseConfig = {
@@ -575,6 +576,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+const db = firebase.firestore();
 
         let isLoggedIn = false; 
 
@@ -707,27 +709,24 @@ function handleGoogleLogin() {
 
 // 2. Corrected Email Signup
 // Initialize Firestore (make sure this is at the top of your script)
-const db = firebase.firestore();
-
 async function handleEmailSignup() {
     const email = document.querySelector('#signupForm input[type="email"]').value;
     const pass = document.getElementById('signupPass').value;
-    
+
     try {
         const result = await auth.createUserWithEmailAndPassword(email, pass);
         const user = result.user;
 
-        // --- NEW: Manually save to Firestore ---
+        // Now 'db' is safely initialized and accessible here
         await db.collection("users").doc(user.uid).set({
             email: user.email,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            uid: user.uid
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        // ---------------------------------------
 
         updateUIForUser(user);
         closeAuth();
     } catch (error) {
+        console.error("Signup Error:", error);
         alert(error.message);
     }
 }
