@@ -34,6 +34,35 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--deep-blue);
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+        
+        .error-hint {
+            color: #ff4444;
+            font-size: 0.75rem;
+            margin-top: 5px;
+            margin-left: 15px;
+            display: none; /* Hidden by default */
+        }
+        
+        /* Red border for invalid inputs */
+        .input-error {
+            border-color: #ff4444 !important;
+        }
+
         /* --- GOOGLE & SEPARATOR STYLES --- */
         .google-btn {
             width: 100%;
@@ -619,43 +648,65 @@
         function handleGoogleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then((result) => {
-            console.log("User logged in via Google:", result.user);
-            handleLoginSuccess(); // This is the function we wrote earlier!
-        }).catch((error) => {
-            alert("Google Sign-In Error: " + error.message);
+        .then(() => handleLoginSuccess())
+        .catch((err) => {
+            if(err.code !== 'auth/popup-closed-by-user') {
+                alert("Google link failed. Check Firebase Console settings.");
+            }
         });
 }
 
-// Attach to the Google button
+// Assigning functions to buttons
 document.querySelector('.google-btn').onclick = handleGoogleLogin;
+document.querySelector('#loginForm .modal-submit-btn').onclick = handleEmailLogin;
+document.querySelector('#signupForm .modal-submit-btn').onclick = handleEmailSignup;
 
-        function handleEmailSignup() {
+        async function handleEmailSignup() {
     const email = document.querySelector('#signupForm input[type="email"]').value;
-    const password = document.querySelector('#signupForm input[type="password"]').value;
+    const pass = document.getElementById('signupPass').value;
+    const errorHint = document.getElementById('signupError');
 
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            console.log("Account created:", userCredential.user);
-            handleLoginSuccess();
-        })
-        .catch((error) => {
-            alert("Signup Error: " + error.message);
-        });
+    // Validation check
+    if (pass.length < 6) {
+        errorHint.style.display = 'block';
+        document.getElementById('signupPass').classList.add('input-error');
+        return;
+    }
+
+    try {
+        await auth.createUserWithEmailAndPassword(email, pass);
+        handleLoginSuccess();
+    } catch (error) {
+        alert(error.message);
+    }
 }
 
-        function handleEmailLogin() {
+       async function handleEmailLogin() {
     const email = document.querySelector('#loginForm input[type="email"]').value;
-    const password = document.querySelector('#loginForm input[type="password"]').value;
+    const pass = document.getElementById('loginPass').value;
+    const errorHint = document.getElementById('loginError');
 
-    auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            console.log("Logged in:", userCredential.user);
-            handleLoginSuccess();
-        })
-        .catch((error) => {
-            alert("Login Error: " + error.message);
-        });
+    try {
+        await auth.signInWithEmailAndPassword(email, pass);
+        handleLoginSuccess();
+    } catch (error) {
+        // Show the "Wrong Pass" message for any auth error
+        errorHint.style.display = 'block';
+        document.getElementById('loginPass').classList.add('input-error');
+        console.error("Auth Error:", error.code);
+    }
+}
+
+        // 1. Eye Icon Toggle Logic
+function toggleVisibility(inputId, icon) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = "password";
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
 }
     </script>
 
@@ -685,8 +736,10 @@ document.querySelector('.google-btn').onclick = handleGoogleLogin;
                 <div class="form-group">
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
-                <div class="form-group">
-                    <input type="password" class="modal-input" placeholder="Password" required>
+                <div class="form-group password-wrapper">
+                    <input type="password" id="loginPass" class="modal-input" placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
+                    <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
                 <button class="modal-submit-btn">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
@@ -702,8 +755,10 @@ document.querySelector('.google-btn').onclick = handleGoogleLogin;
                 <div class="form-group">
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
-                <div class="form-group">
-                    <input type="password" class="modal-input" placeholder="Create Password" required>
+                <div class="form-group password-wrapper">
+                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required>
+                    <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
+                    <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
                 <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
                 <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
