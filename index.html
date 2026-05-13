@@ -372,49 +372,44 @@
             if(window.innerWidth <= 768) toggleSidebar();
         }
 
-        function handleSendMessage() {
-            const input = document.getElementById('userInput');
-            const sendBtn = document.querySelector('.send-btn');
-            const chatStream = document.getElementById('chatStream');
-            const welcomeNote = document.getElementById('welcomeNote');
-            const message = input.value.trim();
-        
-            if (!message || input.disabled) return;
-        
-            // 1. Clear welcome note & show user message
-            if (welcomeNote) welcomeNote.style.display = 'none';
+        function selectModel(name, el) {
+        const input = document.getElementById('userInput');
+        const sendBtn = document.querySelector('.send-btn');
+        const chatStream = document.getElementById('chatStream');
+    
+        // 1. Check if user is logged in
+        if (!isLoggedIn) {
+            // Force the sidebar to close on mobile so they see the alert
+            if(window.innerWidth <= 768) toggleSidebar();
+    
+            // Trigger the Access Denied Alert
+            const alert = document.createElement('div');
+            alert.className = 'system-alert';
+            alert.style.border = '2px solid #ff4444';
+            alert.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <i class="fa-solid fa-shield-halved" style="font-size:1.2rem;"></i>
+                    <span><strong>Access Denied:</strong> ${name} is a premium protocol. Please login to upgrade your access.</span>
+                </div>
+            `;
+            chatStream.appendChild(alert);
             
-            const userBubble = document.createElement('div');
-            userBubble.className = 'user-msg-bubble';
-            userBubble.innerText = message;
-            chatStream.appendChild(userBubble);
+            // Lock the UI and start the button glow
+            lockInterface(input, sendBtn);
             
-            input.value = ''; 
-        
-            // 2. The Logic Gate
-            setTimeout(() => {
-                if (!isLoggedIn) {
-                    // Create the alert
-                    const alert = document.createElement('div');
-                    alert.className = 'system-alert';
-                    alert.style.border = '2px solid #ff4444'; // Make it pop more
-                    alert.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <i class="fa-solid fa-circle-exclamation" style="font-size:1.2rem;"></i>
-                            <span>Access Restricted: Please <strong>Login</strong> to continue your session with Quans.</span>
-                        </div>
-                    `;
-                    chatStream.appendChild(alert);
-                    
-                    // 3. LOCK THE INTERFACE
-                    lockInterface(input, sendBtn);
-                    
-                    chatStream.scrollTop = chatStream.scrollHeight;
-                } else {
-                    // AI Response logic would go here
-                }
-            }, 600);
+            chatStream.scrollTop = chatStream.scrollHeight;
+            return; // Stop the function here so the model doesn't actually change
         }
+
+    // 2. Normal behavior if logged in
+    document.getElementById('accessTitle').innerText = `ACCESSING: ${name.toUpperCase()}`;
+    document.getElementById('userInput').placeholder = `Message ${name}...`;
+    
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active-model'));
+    el.classList.add('active-model');
+
+    if(window.innerWidth <= 768) toggleSidebar();
+}
         
         // Updated lockInterface function
     function lockInterface(input, button) {
