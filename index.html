@@ -549,46 +549,56 @@
     </script>
 
     <!-- AUTH MODAL -->
+<!-- AUTH MODAL WITH GOOGLE -->
 <div id="authModal" class="modal-overlay">
     <div class="modal-card">
         <button class="close-modal" onclick="closeAuth()">&times;</button>
         
-        <div id="loginSection">
-            <h2 class="modal-title">Welcome Back</h2>
-            <p class="modal-subtitle">Continue your session with Quans Intelligence</p>
+        <div id="authContent">
+            <h2 class="modal-title" id="modalMainTitle">Welcome Back</h2>
+            <p class="modal-subtitle" id="modalSubTitle">Continue your session with Quans Intelligence</p>
             
-            <form>
-            <div class="form-group">
-                <input type="email" class="modal-input" placeholder="Email address" required>
-            </div>
-            <div class="form-group">
-                <input type="password" class="modal-input" placeholder="Password" required>
-            </div>
-            
-            <button class="modal-submit-btn">Login to Terminal</button>
-            <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
-        </div>
-        </form>
+            <!-- Google Sign-In Button -->
+            <button class="google-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
+                <span>Continue with Google</span>
+            </button>
 
-        <div id="signupSection" style="display: none;">
-            <h2 class="modal-title">Create Account</h2>
-            <p class="modal-subtitle">Get full access to premium protocols</p>
-            
+            <div class="separator">
+                <span>or use email</span>
+            </div>
+
+            <!-- Login Form -->
             <form>
-            <div class="form-group">
-                <input type="text" class="modal-input" placeholder="Full Name" required>
+            <div id="loginForm">
+                <div class="form-group">
+                    <input type="email" class="modal-input" placeholder="Email address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="modal-input" placeholder="Password" required>
+                </div>
+                <button class="modal-submit-btn">Login to Terminal</button>
+                <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
-            <div class="form-group">
-                <input type="email" class="modal-input" placeholder="Email address" required>
+            </form>
+
+            <!-- Signup Form (Hidden by default) -->
+            <form>
+            <div id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <input type="text" class="modal-input" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="modal-input" placeholder="Email address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="modal-input" placeholder="Create Password" required>
+                </div>
+                <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
+                <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
             </div>
-            <div class="form-group">
-                <input type="password" class="modal-input" placeholder="Choose Password" required>
-            </div>
-            
-            <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
-            <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
+                </form>
         </div>
-        </form>
     </div>
 </div>
 </body>
