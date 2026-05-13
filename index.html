@@ -393,6 +393,27 @@
                 }
             }, 600);
         }
+
+        function lockInterface(input, button) {
+            // Disable elements
+            input.disabled = true;
+            input.placeholder = "Login to unlock chat...";
+            input.style.backgroundColor = "#f9f9f9";
+            input.style.cursor = "not-allowed";
+            
+            // Animate the button to a 'locked' state
+            button.style.background = "#ccc";
+            button.style.cursor = "not-allowed";
+            button.innerHTML = '<i class="fa-solid fa-lock"></i>';
+            
+            // Subtle shake animation to show it's locked if they try to click
+            button.parentElement.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-5px)' },
+                { transform: 'translateX(5px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 300 });
+        }
     
         // Listen for Send Button click
         document.querySelector('.send-btn').addEventListener('click', handleSendMessage);
