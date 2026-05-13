@@ -671,7 +671,7 @@
             updateUIForUser(result.user);
         } catch (error) {
             errorHint.style.display = 'block';
-            errorHint.innerText = error.code === 'auth/wrong-password' ? "Incorrect password." : "User not found or invalid email.";
+            errorHint.innerText = error.code === 'auth/wrong-password' ? "Incorrect password." : "User not found or invalid password.";
             passInput.classList.add('input-error');
         }
     };
