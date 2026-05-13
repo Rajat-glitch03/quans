@@ -822,11 +822,29 @@ window.addEventListener('click', (e) => {
         document.getElementById('userDropdown')?.classList.remove('show');
     }
 });
+
+        function unlockTerminal() {
+    isLoggedIn = true;
+    const input = document.getElementById('userInput');
+    const btn = document.querySelector('.send-btn');
+    input.disabled = false;
+    input.placeholder = "Message Quans...";
+    btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+    btn.style.background = "var(--electric-blue)";
+    document.querySelector('.login-btn')?.classList.remove('glow-active');
+    document.querySelector('.signup-btn')?.classList.remove('glow-active');
+    closeAuth();
+}
     </script>
 
     <!-- AUTH MODAL -->
 <!-- AUTH MODAL WITH GOOGLE -->
 <div id="authModal" class="modal-overlay">
+
+    <div class="auth-buttons" id="authInterface">
+    <a href="#" class="btn-auth login-btn">Login</a>
+    <a href="#" class="btn-auth signup-btn">Sign Up</a>
+    </div>
     <div class="modal-card">
         <button class="close-modal" onclick="closeAuth()">&times;</button>
         
@@ -855,7 +873,7 @@ window.addEventListener('click', (e) => {
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
-                <button class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
+                <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
             </form>
@@ -874,7 +892,7 @@ window.addEventListener('click', (e) => {
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
-                <button class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
+                <button type="button" class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
                 <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
             </div>
                 </form>
