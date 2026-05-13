@@ -744,7 +744,7 @@ window.handleEmailSignup = async () => {
         } else if (error.code === 'auth/missing-password') {
             signupError.innerText = "A non-empty password must be provided.";
         } else if (error.code === 'auth/weak-password') {
-            signupError.innerText('<i class="fa-solid fa-triangle-exclamation"></i> Weak Password: Minimum 6 characters required.');
+            signupError.innerText = "Password should be atleast 6 characters long.";
         } else {
             signupError.innerText = error.message;
         }
