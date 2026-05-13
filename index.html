@@ -663,18 +663,24 @@
     };
 
     window.handleEmailLogin = async () => {
-        const emailInput = document.querySelector('#loginForm input[type="email"]');
-        const passInput = document.getElementById('loginPass');
-        const errorHint = document.getElementById('loginError');
+    const emailInput = document.querySelector('#loginForm input[type="email"]');
+    const passInput = document.getElementById('loginPass');
+    const errorHint = document.getElementById('loginError');
 
-        try {
-            const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
-            updateUIForUser(result.user);
-        } catch (error) {
-            errorHint.style.display = 'block';
-            passInput.classList.add('input-error');
+    try {
+        const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
+        updateUIForUser(result.user);
+    } catch (error) {
+        errorHint.style.display = 'block';
+        
+        if (error.code === 'auth/missing-password') {
+            errorHint.innerText = "Please enter your password.";
+        } else {
+            errorHint.innerText = "Incorrect email or password.";
         }
-    };
+        passInput.classList.add('input-error');
+    }
+};
 
         // --- FORGOT PASSWORD ---
     window.handleForgotPassword = async () => {
@@ -713,38 +719,34 @@
         statusBox.innerText = "Error: " + error.message;
     }
 };
-    // --- IMPROVED SIGNUP (With "Already Exists" Check) ---
-   window.handleEmailSignup = async () => {
+    // --- UPDATED EMAIL SIGNUP ---
+window.handleEmailSignup = async () => {
     const emailInput = document.querySelector('#signupForm input[type="email"]');
-    const pass = document.getElementById('signupPass').value;
+    const passInput = document.getElementById('signupPass');
     const signupError = document.getElementById('signupError');
 
+    // Basic pre-check to avoid hitting Firebase if empty
+    if (!passInput.value.trim()) {
+        signupError.style.display = 'block';
+        signupError.innerHTML = '<i class="fa-solid fa-key"></i> Please provide a password.';
+        passInput.classList.add('input-error');
+        return;
+    }
+
     try {
-        const result = await auth.createUserWithEmailAndPassword(emailInput.value, pass);
-        const user = result.user;
-
-        await db.collection("users").doc(user.uid).set({
-            email: user.email,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        updateUIForUser(user);
+        const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
+        updateUIForUser(result.user);
     } catch (error) {
         signupError.style.display = 'block';
         
-        // CHECK FOR EXISTING USER ERROR
         if (error.code === 'auth/email-already-in-use') {
-            signupError.innerHTML = `
-                <i class="fa-solid fa-circle-info"></i> 
-                This email is already registered. 
-                <span onclick="toggleAuthMode('login')" style="text-decoration: underline; cursor: pointer; font-weight: 700;">
-                    Login instead?
-                </span>`;
+            signupError.innerHTML = '<i class="fa-solid fa-circle-info"></i> Already registered. <span onclick="toggleAuthMode(\'login\')" style="text-decoration:underline; cursor:pointer;">Login?</span>';
+        } else if (error.code === 'auth/missing-password') {
+            signupError.innerText = "A non-empty password must be provided.";
         } else {
             signupError.innerText = error.message;
         }
-        
-        emailInput.classList.add('input-error');
+        passInput.classList.add('input-error');
     }
 };
         
