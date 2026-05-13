@@ -30,6 +30,35 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        .welcome-msg {
+        text-align: center;
+        margin-top: 100px;
+        animation: fadeIn 1s ease;
+        }
+        
+        .system-alert {
+            background: #fff4f4;
+            color: #d32f2f;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid #ffcdd2;
+            margin: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    
+        .user-msg-bubble {
+            align-self: flex-end;
+            background: var(--light-grey);
+            padding: 12px 20px;
+            border-radius: 20px 20px 0 20px;
+            max-width: 80%;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
         /* --- ANIMATIONS --- */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -278,8 +307,12 @@
             </div>
         </header>
 
-        <div class="chat-area">
+        <div class="chat-area" id="chatStream">
             <!-- Messages go here in the future -->
+            <div class="welcome-msg" id="welcomeNote">
+                <h2>Welcome to Quans Terminal</h2>
+                <p>Experience tactical intelligence. Login or Signin to save your sessions and access.</p>
+            </div>
         </div>
 
         <footer class="input-container">
@@ -294,6 +327,11 @@
     </main>
 
     <script>
+
+        let isLoggedIn = false; // Toggle this to true to see the "Logged In" behavior
+        let messageCount = 0;
+        const MAX_FREE_MESSAGES = 1;
+        
         function toggleDropdown() {
             const drp = document.getElementById('modelDropdown');
             drp.classList.toggle('open');
@@ -319,6 +357,50 @@
 
             if(window.innerWidth <= 768) toggleSidebar();
         }
+
+        function handleSendMessage() {
+            const input = document.getElementById('userInput');
+            const chatStream = document.getElementById('chatStream');
+            const welcomeNote = document.getElementById('welcomeNote');
+            const message = input.value.trim();
+    
+            if (!message) return;
+    
+            // Remove welcome note on first message
+            if (welcomeNote) welcomeNote.style.display = 'none';
+    
+            // 1. Display User Message
+            const userBubble = document.createElement('div');
+            userBubble.className = 'user-msg-bubble';
+            userBubble.innerText = message;
+            chatStream.appendChild(userBubble);
+            
+            input.value = ''; // Clear input
+    
+            // 2. Logic Check
+            setTimeout(() => {
+                if (!isLoggedIn) {
+                    const alert = document.createElement('div');
+                    alert.className = 'system-alert';
+                    alert.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:10px;"></i> Please <strong>Login</strong> or <strong>Create an Account</strong> to access the full Quans Intelligence suite.';
+                    chatStream.appendChild(alert);
+                    
+                    // Scroll to bottom
+                    chatStream.scrollTop = chatStream.scrollHeight;
+                } else {
+                    // Here is where you would call the real AI later
+                    console.log("User is logged in. Processing with AI...");
+                }
+            }, 600);
+        }
+    
+        // Listen for Send Button click
+        document.querySelector('.send-btn').addEventListener('click', handleSendMessage);
+    
+        // Listen for Enter Key
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSendMessage();
+        });
     </script>
 </body>
 </html>
