@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Quans | Intelligence Interface</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,29 +17,34 @@
             --font-main: 'DM Sans', sans-serif;
         }
 
+        /* --- CRITICAL BOX MODEL FIXES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevents the whole page from scrolling */
+            position: fixed; /* Stops mobile "bounce" effects */
+        }
 
         body {
             font-family: var(--font-main);
             background-color: var(--white);
             color: var(--deep-blue);
-            height: 100vh;
-            height: -webkit-fill-available;
             display: flex;
-            overflow: hidden;
         }
 
-        /* --- SIDEBAR (FULL HEIGHT FIX) --- */
+        /* --- SIDEBAR: FIXED FULL HEIGHT --- */
         .sidebar {
             width: 280px;
             min-width: 280px;
-            height: 100vh; /* Full screen height */
+            height: 100vh;
             background-color: var(--deep-blue);
             color: var(--white);
             display: flex;
             flex-direction: column;
             padding: 20px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
             z-index: 2000;
         }
 
@@ -64,48 +69,44 @@
             border-color: var(--electric-blue); 
         }
 
-        .dropdown-content {
-            display: none;
-            padding-left: 10px;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
+        .dropdown-content { display: none; padding-left: 10px; flex-direction: column; }
         .dropdown.open .dropdown-content { display: flex; }
 
         .new-chat-btn { background-color: var(--electric-blue); color: var(--white); font-weight: 700; margin-top: 10px; }
 
         .history-section { margin-top: 30px; overflow-y: auto; flex-grow: 1; }
-        .history-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 15px; padding-left: 15px; letter-spacing: 1px;}
+        .history-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 15px; padding-left: 15px; }
 
-        /* --- MAIN SCREEN --- */
+        /* --- MAIN CONTENT AREA --- */
         .main-content {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100vh; /* Strictly matches viewport */
+            position: relative;
             min-width: 0;
-            background: var(--white);
         }
 
         .top-header {
+            height: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
+            padding: 0 20px;
             border-bottom: 1px solid var(--border-color);
             background: var(--white);
             flex-shrink: 0;
         }
 
-        .logo { height: 24px; }
+        .logo { height: 22px; }
 
+        /* Auth buttons visible on mobile */
         .auth-buttons { display: flex; gap: 8px; }
         .btn-auth {
-            padding: 6px 16px;
+            padding: 6px 14px;
             border-radius: 50px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -113,59 +114,62 @@
         .login-btn { color: var(--deep-blue); border: 1px solid var(--deep-blue); }
         .signup-btn { background: var(--deep-blue); color: var(--white); }
 
-        /* --- CHAT AREA & INPUT AT BOTTOM --- */
+        /* --- SCROLLABLE CHAT AREA --- */
         .chat-messages-stream {
-            flex-grow: 1;
+            flex: 1;
             overflow-y: auto;
             padding: 20px;
+            -webkit-overflow-scrolling: touch; /* Smooth mobile scrolling */
         }
 
+        /* --- FIXED BOTTOM INPUT AREA --- */
         .chat-input-area {
-            padding: 15px 0 30px 0;
+            width: 100%;
             background: var(--white);
+            padding: 10px 0 30px 0; /* Bottom padding for mobile home indicators */
+            border-top: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top: 1px solid var(--border-color);
             flex-shrink: 0;
         }
 
         .access-indicator {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             color: var(--electric-blue);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
             background: var(--light-grey);
-            padding: 6px 16px;
+            padding: 4px 14px;
             border-radius: 50px;
         }
 
         .input-wrapper {
             width: 92%;
-            max-width: 750px;
+            max-width: 700px;
             position: relative;
         }
 
         .chat-input {
             width: 100%;
-            padding: 14px 55px 14px 22px;
+            padding: 14px 50px 14px 20px;
             border: 1px solid var(--border-color);
             border-radius: 50px;
             font-family: var(--font-main);
-            font-size: 16px;
+            font-size: 16px; /* Prevents auto-zoom on iPhone */
             outline: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .send-btn {
             position: absolute;
-            right: 7px;
+            right: 6px;
             top: 50%;
             transform: translateY(-50%);
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             background: var(--electric-blue);
             color: white;
             border-radius: 50%;
@@ -179,20 +183,14 @@
         /* --- MOBILE REFINEMENTS --- */
         @media (max-width: 768px) {
             .sidebar {
-                position: fixed;
+                position: absolute;
                 left: -280px;
-                height: 100vh;
-                margin-left: 0;
+                top: 0;
             }
             .sidebar.open { transform: translateX(280px); }
             .sidebar.closed { margin-left: 0; }
             
-            /* Show condensed auth buttons on mobile */
-            .auth-buttons { display: flex; }
-            .btn-auth { padding: 5px 12px; font-size: 0.65rem; }
-            
-            .top-header { padding: 10px 15px; }
-            .chat-input-area { padding-bottom: 15px; }
+            .chat-input-area { padding-bottom: 20px; } /* Slightly less padding on mobile */
         }
 
         #sidebarOverlay {
@@ -209,16 +207,16 @@
 
     <div id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (FULL HEIGHT BLUE BOX) -->
     <aside class="sidebar" id="sidebar">
         <div class="dropdown open" id="modelDropdown">
             <div class="sidebar-item" onclick="toggleDropdown()">
                 <i class="fa-solid fa-layer-group"></i>
                 Models
-                <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.6rem;"></i>
             </div>
             <div class="dropdown-content">
-                <div class="sidebar-item active-model" id="model-quans" onclick="selectModel('Quans', this)">
+                <div class="sidebar-item active-model" onclick="selectModel('Quans', this)">
                     <i class="fa-solid fa-microchip"></i> Quans
                 </div>
                 <div class="sidebar-item" onclick="selectModel('Quans v2.4bb', this)">
@@ -240,23 +238,23 @@
         </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- MAIN SCREEN -->
     <section class="main-content">
         <header class="top-header">
             <div style="display: flex; align-items: center; gap: 12px;">
-                <i class="fa-solid fa-bars" id="menuIcon" style="cursor:pointer; font-size: 1.1rem;" onclick="toggleSidebar()"></i>
+                <i class="fa-solid fa-bars" style="cursor:pointer; font-size: 1rem;" onclick="toggleSidebar()"></i>
                 <img src="quans-logo-dark.png" alt="QUANS" class="logo">
             </div>
-            <!-- Auth buttons now visible on mobile -->
             <div class="auth-buttons">
                 <a href="#" class="btn-auth login-btn">Login</a>
                 <a href="#" class="btn-auth signup-btn">Sign Up</a>
             </div>
         </header>
 
-        <div class="chat-messages-stream" id="chatStream"></div>
+        <!-- Only this part scrolls -->
+        <div class="chat-messages-stream"></div>
 
-        <!-- This area is pinned to the bottom -->
+        <!-- This part is pinned to the bottom of the visible screen -->
         <div class="chat-input-area">
             <div class="access-indicator" id="accessTitle">ACCESSING: QUANS</div>
             <div class="input-wrapper">
@@ -292,6 +290,7 @@
             if(window.innerWidth <= 768) toggleSidebar();
         }
 
+        // Handle resizing to reset mobile/desktop states
         window.addEventListener('resize', () => {
             if(window.innerWidth > 768) {
                 document.getElementById('sidebarOverlay').classList.remove('active');
