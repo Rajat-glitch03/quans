@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quans | Intelligence Interface</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,20 +24,22 @@
             background-color: var(--white);
             color: var(--deep-blue);
             height: 100vh;
+            height: -webkit-fill-available;
             display: flex;
-            overflow: hidden;
+            overflow: hidden; /* Prevents whole-page bounce */
         }
 
         /* --- SIDEBAR --- */
         .sidebar {
             width: 280px;
+            min-width: 280px;
             background-color: var(--deep-blue);
             color: var(--white);
             display: flex;
             flex-direction: column;
             padding: 20px;
-            transition: transform 0.3s ease;
-            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
         }
 
         .sidebar-item {
@@ -50,10 +52,14 @@
             border-radius: 50px;
             font-size: 0.9rem;
             transition: all 0.2s;
+            border: 1px solid transparent;
         }
 
         .sidebar-item:hover { background: rgba(255, 255, 255, 0.1); }
-        .sidebar-item.active-model { background: rgba(0, 157, 255, 0.2); border: 1px solid var(--electric-blue); }
+        .sidebar-item.active-model { 
+            background: rgba(0, 157, 255, 0.2); 
+            border-color: var(--electric-blue); 
+        }
 
         .dropdown-content {
             display: none;
@@ -66,53 +72,70 @@
         .new-chat-btn { background-color: var(--electric-blue); color: var(--white); font-weight: 700; margin-top: 10px; }
 
         .history-section { margin-top: 30px; overflow-y: auto; flex-grow: 1; }
-        .history-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 15px; padding-left: 15px; }
+        .history-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 15px; padding-left: 15px; letter-spacing: 1px;}
 
         /* --- MAIN SCREEN --- */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            position: relative;
+            background: var(--white);
+        }
 
         .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 15px 25px;
             border-bottom: 1px solid var(--border-color);
+            background: var(--white);
+            z-index: 10;
         }
 
-        .logo { height: 30px; }
+        .logo { height: 26px; }
 
         .btn-auth {
-            padding: 8px 22px;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
         }
-        .login-btn { color: var(--deep-blue); border: 1px solid var(--deep-blue); margin-right: 10px;}
+        .login-btn { color: var(--deep-blue); border: 1px solid var(--deep-blue); margin-right: 8px; }
         .signup-btn { background: var(--deep-blue); color: var(--white); }
 
-        /* --- CHAT SECTION --- */
-        .chat-container {
+        /* --- CHAT STREAM --- */
+        .chat-messages-stream {
             flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding-bottom: 40px;
+        }
+
+        /* --- INPUT AREA --- */
+        .chat-input-area {
+            padding: 20px 0 35px 0;
             background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
         }
 
         .access-indicator {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: var(--electric-blue);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             background: var(--light-grey);
-            padding: 8px 20px;
+            padding: 6px 18px;
             border-radius: 50px;
         }
 
@@ -128,33 +151,59 @@
             border: 1px solid var(--border-color);
             border-radius: 50px;
             font-family: var(--font-main);
-            font-size: 1rem;
+            font-size: 16px; /* Important: Prevents iOS auto-zoom */
             outline: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .send-btn {
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: var(--electric-blue);
             color: white;
             border-radius: 50%;
             border: none;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* --- MOBILE REFINEMENTS --- */
         @media (max-width: 768px) {
-            .sidebar { position: absolute; left: -280px; height: 100%; }
-            .sidebar.open { transform: translateX(280px); }
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                height: 100vh;
+            }
+            .sidebar.open {
+                transform: translateX(280px);
+            }
+            .auth-buttons { display: none; }
+            .top-header { padding: 12px 15px; }
+            .chat-input-area { padding-bottom: 20px; }
         }
+
+        /* Overlay when sidebar is open on mobile */
+        #sidebarOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1500;
+        }
+        #sidebarOverlay.active { display: block; }
     </style>
 </head>
 <body>
 
+    <div id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="dropdown open" id="modelDropdown">
             <div class="sidebar-item" onclick="toggleDropdown()">
@@ -163,7 +212,7 @@
                 <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
             </div>
             <div class="dropdown-content">
-                <div class="sidebar-item active-model" onclick="selectModel('Quans', this)">
+                <div class="sidebar-item active-model" id="defaultModel" onclick="selectModel('Quans', this)">
                     <i class="fa-solid fa-microchip"></i> Quans
                 </div>
                 <div class="sidebar-item" onclick="selectModel('Quans v2.4bb', this)">
@@ -182,28 +231,32 @@
         <div class="history-section">
             <div class="history-label">History</div>
             <div class="sidebar-item"><i class="fa-regular fa-message"></i> Strategic Overview</div>
+            <div class="sidebar-item"><i class="fa-regular fa-message"></i> Q3 Risk Protocol</div>
         </div>
     </aside>
 
+    <!-- MAIN -->
     <section class="main-content">
         <header class="top-header">
             <div style="display: flex; align-items: center; gap: 15px;">
-                <i class="fa-solid fa-bars" style="cursor:pointer" onclick="toggleSidebar()"></i>
+                <i class="fa-solid fa-bars" style="cursor:pointer; font-size: 1.2rem;" onclick="toggleSidebar()"></i>
                 <img src="quans-logo-dark.png" alt="QUANS" class="logo">
             </div>
-            <div>
+            <div class="auth-buttons">
                 <a href="#" class="btn-auth login-btn">Login</a>
                 <a href="#" class="btn-auth signup-btn">Sign Up</a>
             </div>
         </header>
 
-        <div class="chat-container">
-            <!-- Dynamic Model Display -->
+        <div class="chat-messages-stream" id="chatStream">
+            <!-- Messages render here -->
+        </div>
+
+        <div class="chat-input-area">
             <div class="access-indicator" id="accessTitle">ACCESSING: QUANS</div>
-            
             <div class="input-wrapper">
                 <input type="text" class="chat-input" id="userInput" placeholder="Message Quans...">
-                <button class="send-btn">
+                <button class="send-btn" id="sendBtn">
                     <i class="fa-solid fa-arrow-up"></i>
                 </button>
             </div>
@@ -216,27 +269,41 @@
         }
 
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('open');
+            
+            // Only toggle overlay on mobile
+            if(window.innerWidth <= 768) {
+                overlay.classList.toggle('active');
+            }
         }
 
         function selectModel(modelName, element) {
-            // 1. Update the top indicator
+            // Update Title and Placeholder
             document.getElementById('accessTitle').innerText = `ACCESSING: ${modelName.toUpperCase()}`;
-            
-            // 2. Update the input placeholder
             document.getElementById('userInput').placeholder = `Message ${modelName}...`;
 
-            // 3. Update sidebar highlighting
+            // Active Class Logic
             document.querySelectorAll('.sidebar-item').forEach(item => {
                 item.classList.remove('active-model');
             });
             element.classList.add('active-model');
 
-            // Close sidebar on mobile after selection
+            // Do NOT hide sidebar on PC. Only on mobile.
             if(window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
+                toggleSidebar();
             }
         }
+
+        // Handle window resizing (clean up overlay if user rotates phone)
+        window.addEventListener('resize', () => {
+            if(window.innerWidth > 768) {
+                document.getElementById('sidebarOverlay').classList.remove('active');
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
     </script>
 </body>
 </html>
