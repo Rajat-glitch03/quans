@@ -576,7 +576,8 @@
     <script type="module">
     // 1. Initialize Firebase (Ensure you fill your config)
     const firebaseConfig = {
-        apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
+        // YOUR CONFIG HERE
+         apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
   authDomain: "quans-14b18.firebaseapp.com",
   projectId: "quans-14b18",
   storageBucket: "quans-14b18.firebasestorage.app",
@@ -585,14 +586,13 @@
   measurementId: "G-8KH5DW1SP1"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    let isLoggedIn = false;
-
-    // --- GLOBAL EXPOSURE (Required for type="module") ---
-    
+    // --- GLOBAL EXPOSURE ---
     window.toggleDropdown = () => {
         document.getElementById('modelDropdown').classList.toggle('open');
     };
@@ -652,139 +652,67 @@
     };
 
     // --- AUTH LOGIC ---
-
     window.handleGoogleLogin = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
             .then((result) => updateUIForUser(result.user))
             .catch((err) => {
-                if(err.code !== 'auth/popup-closed-by-user') alert("Google link failed.");
+                if(err.code !== 'auth/popup-closed-by-user') alert("Google link failed: " + err.message);
             });
     };
 
     window.handleEmailLogin = async () => {
-    const emailInput = document.querySelector('#loginForm input[type="email"]');
-    const passInput = document.getElementById('loginPass');
-    const errorHint = document.getElementById('loginError');
+        const emailInput = document.querySelector('#loginForm input[type="email"]');
+        const passInput = document.getElementById('loginPass');
+        const errorHint = document.getElementById('loginError');
 
-    try {
-        const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
-        updateUIForUser(result.user);
-    } catch (error) {
-        errorHint.style.display = 'block';
-        
-        if (error.code === 'auth/missing-password') {
-            errorHint.innerText = "Please enter your password.";
-        } else {
-            errorHint.innerText = "Incorrect email or password.";
+        try {
+            const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
+            updateUIForUser(result.user);
+        } catch (error) {
+            errorHint.style.display = 'block';
+            errorHint.innerText = error.code === 'auth/wrong-password' ? "Incorrect password." : "User not found or invalid email.";
+            passInput.classList.add('input-error');
         }
-        passInput.classList.add('input-error');
-    }
-};
+    };
 
-        // --- FORGOT PASSWORD ---
-    window.handleForgotPassword = async () => {
-    const emailInput = document.querySelector('#loginForm input[type="email"]');
-    const statusBox = document.getElementById('authStatusMsg');
-    
-    if (!emailInput.value) {
-        // Show error in the webpage if email is missing
-        statusBox.style.display = 'block';
-        statusBox.style.background = '#fff4f4'; // Reddish for error
-        statusBox.style.color = '#d32f2f';
-        statusBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Please enter your email first.';
-        return;
-    }
+    window.handleEmailSignup = async () => {
+        const emailInput = document.querySelector('#signupForm input[type="email"]');
+        const passInput = document.getElementById('signupPass');
+        const nameInput = document.querySelector('#signupForm input[type="text"]');
+        const signupError = document.getElementById('signupErrorMain'); // Use unique ID
 
-    try {
-        await auth.sendPasswordResetEmail(emailInput.value);
-        
-        // Success UI Update
-        statusBox.style.display = 'block';
-        statusBox.style.background = '#e8f5e9'; // Greenish for success
-        statusBox.style.color = '#2e7d32';
-        statusBox.style.borderColor = '#c8e6c9';
-        statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox.';
-        
-        // Optional: Hide message after 5 seconds
-        setTimeout(() => {
-            statusBox.style.fadeOut; // If you have fade CSS
-            statusBox.style.display = 'none';
-        }, 5000);
+        if (!passInput.value || passInput.value.length < 6) {
+            signupError.style.display = 'block';
+            signupError.innerText = "Password must be at least 6 characters.";
+            return;
+        }
 
-    } catch (error) {
-        statusBox.style.display = 'block';
-        statusBox.style.background = '#fff4f4';
-        statusBox.style.color = '#d32f2f';
-        statusBox.innerText = "Error: " + error.message;
-    }
-};
-    // --- UPDATED EMAIL SIGNUP ---
-window.handleEmailSignup = async () => {
-    const emailInput = document.querySelector('#signupForm input[type="email"]');
-    const passInput = document.getElementById('signupPass');
-    const signupError = document.getElementById('signupError');
+        try {
+            const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
+            const user = result.user;
 
-    // Basic pre-check to avoid hitting Firebase if empty
-    if (!passInput.value.trim()) {
-        signupError.style.display = 'block';
-        signupError.innerHTML = '<i class="fa-solid fa-key"></i> Please provide a password.';
-        passInput.classList.add('input-error');
-        return;
-    }
+            // Sync with Firestore
+            await db.collection("users").doc(user.uid).set({
+                displayName: nameInput.value,
+                email: user.email,
+                uid: user.uid,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
-    const emailInput = document.querySelector('#signupForm input[type="email"]');
-    const passInput = document.getElementById('signupPass');
-
-    try {
-        const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
-        updateUIForUser(result.user);
-
-        const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
-        const user = result.user;
-
-        // CRITICAL: Use .doc(user.uid).set() to link Auth and Firestore
-        await db.collection("users").doc(user.uid).set({
-            email: user.email,
-            uid: user.uid,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            status: "active"
-        });
-
-        console.log("Document successfully written to Firestore!");
-        updateUIForUser(user);
-
-
-        
-    } catch (error) {
-        signupError.style.display = 'block';
-        console.error("Firestore Error:", error);
-        showSignupError(error.message
-        
-        if (error.code === 'auth/email-already-in-use') {
-            signupError.innerHTML = '<i class="fa-solid fa-circle-info"></i> Already registered. <span onclick="toggleAuthMode(\'login\')" style="text-decoration:underline; cursor:pointer;">Login?</span>';
-        } else if (error.code === 'auth/missing-password') {
-            signupError.innerText = "A non-empty password must be provided.";
-        } else if (error.code === 'auth/weak-password') {
-            signupError.innerText = "Password should be atleast 6 characters long.";
-        } else {
+            updateUIForUser(user);
+        } catch (error) {
+            signupError.style.display = 'block';
             signupError.innerText = error.message;
         }
-        passInput.classList.add('input-error');
-    }
-};
-        
+    };
+
     window.handleLogout = () => {
-        auth.signOut().then(() => {
-            isLoggedIn = false;
-            location.reload(); // Refresh to reset state
-        });
+        auth.signOut().then(() => location.reload());
     };
 
     // --- UI HELPERS ---
-
     function updateUIForUser(user) {
-        isLoggedIn = true;
         const authInterface = document.getElementById('authInterface');
         const userName = user.displayName || user.email.split('@')[0];
 
@@ -812,8 +740,6 @@ window.handleEmailSignup = async () => {
             input.placeholder = "Message Quans...";
             btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
             btn.style.background = "var(--electric-blue)";
-            document.querySelector('.login-btn')?.classList.remove('glow-active');
-            document.querySelector('.signup-btn')?.classList.remove('glow-active');
         }
     }
 
@@ -826,22 +752,12 @@ window.handleEmailSignup = async () => {
             btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
             btn.style.background = "#bdc3c7";
             document.querySelector('.login-btn')?.classList.add('glow-active');
-            document.querySelector('.signup-btn')?.classList.add('glow-active');
         }
     }
 
-    // Observer
     auth.onAuthStateChanged((user) => {
         if (user) updateUIForUser(user);
         else lockInterface();
-    });
-
-    // Close user menu on outside click
-    window.addEventListener('click', (e) => {
-        const wrap = document.querySelector('.user-profile-wrap');
-        if (wrap && !wrap.contains(e.target)) {
-            document.getElementById('userDropdown')?.classList.remove('show');
-        }
     });
 </script>
 
@@ -850,45 +766,32 @@ window.handleEmailSignup = async () => {
 <div id="authModal" class="modal-overlay">
     <div class="modal-card">
         <button class="close-modal" onclick="closeAuth()">&times;</button>
-        
         <div id="authContent">
             <h2 class="modal-title" id="modalMainTitle">Welcome Back</h2>
-            <p class="modal-subtitle" id="modalSubTitle">Continue your session with Quans Intelligence</p>
+            <p class="modal-subtitle" id="modalSubTitle">Continue your session</p>
             
-            <!-- Google Sign-In Button -->
             <button class="google-btn" onclick="handleGoogleLogin()">
                 <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
                 <span>Continue with Google</span>
             </button>
 
-            <div class="separator">
-                <span>or use email</span>
-            </div>
+            <div class="separator"><span>or use email</span></div>
 
             <!-- Login Form -->
-            <form>
             <div id="loginForm">
                 <div class="form-group">
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="loginPass" class="modal-input" placeholder="Password" required >
+                    <input type="password" id="loginPass" class="modal-input" placeholder="Password" required>
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
-                    <div id="loginError" class="error-hint">Incorrect email or password.</div>
+                    <div id="loginError" class="error-hint"></div>
                 </div>
-                <p style="text-align: right; margin-top: -10px; margin-bottom: 15px;">
-                    <span onclick="handleForgotPassword()" style="color: var(--electric-blue); font-size: 0.75rem; cursor: pointer; font-weight: 600;">Forgot Password?</span>
-                </p>
-                <div id="authStatusMsg" class="system-alert" style="display: none; background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; margin-bottom: 15px;">
-        Check Email
-    </div>
-                <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
+                <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
-            </form>
 
-            <!-- Signup Form (Hidden by default) -->
-            <form>
+            <!-- Signup Form -->
             <div id="signupForm" style="display: none;">
                 <div class="form-group">
                     <input type="text" class="modal-input" placeholder="Full Name" required>
@@ -897,16 +800,13 @@ window.handleEmailSignup = async () => {
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required >
+                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required>
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
-                    <div id="signupError" class="error-hint"></div>
-                    <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
-                    <div id="signupError" class="error-hint"></div>
+                    <div id="signupErrorMain" class="error-hint"></div> 
                 </div>
                 <button type="button" class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
                 <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
             </div>
-                </form>
         </div>
     </div>
 </div>
