@@ -30,6 +30,100 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        /* --- AUTH MODAL STYLES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 27, 110, 0.4); /* Deep blue tint */
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-card {
+            background: var(--white);
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--deep-blue);
+            opacity: 0.5;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--deep-blue);
+        }
+        
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        .modal-input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 50px; /* Oval style */
+            border: 1px solid var(--border-color);
+            background: var(--light-grey);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        .modal-input:focus { border-color: var(--electric-blue); }
+        
+        .modal-submit-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background: var(--electric-blue);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .modal-submit-btn:active { transform: scale(0.98); }
+        
+        .toggle-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .toggle-text span {
+            color: var(--electric-blue);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         /* Add these new animation styles to your <style> block */
         @keyframes buttonPulse {
             0% { box-shadow: 0 0 0 0 rgba(0, 157, 255, 0.7); transform: scale(1); }
@@ -408,6 +502,90 @@
         document.getElementById('userInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSendMessage();
         });
+
+                // Add these to your existing script
+        
+        // Connect Header Buttons to Modal
+        document.querySelector('.login-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuth('login');
+        });
+        
+        document.querySelector('.signup-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuth('signup');
+        });
+        
+        function openAuth(mode) {
+            const modal = document.getElementById('authModal');
+            modal.style.display = 'flex';
+            toggleAuthMode(mode);
+        }
+        
+        function closeAuth() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+        
+        function toggleAuthMode(mode) {
+            const loginSec = document.getElementById('loginSection');
+            const signupSec = document.getElementById('signupSection');
+            
+            if (mode === 'login') {
+                loginSec.style.display = 'block';
+                signupSec.style.display = 'none';
+            } else {
+                loginSec.style.display = 'none';
+                signupSec.style.display = 'block';
+            }
+        }
+        
+        // Close modal if user clicks outside of the card
+        window.onclick = function(event) {
+            const modal = document.getElementById('authModal');
+            if (event.target == modal) {
+                closeAuth();
+            }
+        }
     </script>
+
+    <!-- AUTH MODAL -->
+<div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeAuth()">&times;</button>
+        
+        <div id="loginSection">
+            <h2 class="modal-title">Welcome Back</h2>
+            <p class="modal-subtitle">Continue your session with Quans Intelligence</p>
+            
+            <div class="form-group">
+                <input type="email" class="modal-input" placeholder="Email address">
+            </div>
+            <div class="form-group">
+                <input type="password" class="modal-input" placeholder="Password">
+            </div>
+            
+            <button class="modal-submit-btn">Login to Terminal</button>
+            <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
+        </div>
+
+        <div id="signupSection" style="display: none;">
+            <h2 class="modal-title">Create Account</h2>
+            <p class="modal-subtitle">Get full access to premium protocols</p>
+            
+            <div class="form-group">
+                <input type="text" class="modal-input" placeholder="Full Name">
+            </div>
+            <div class="form-group">
+                <input type="email" class="modal-input" placeholder="Email address">
+            </div>
+            <div class="form-group">
+                <input type="password" class="modal-input" placeholder="Choose Password">
+            </div>
+            
+            <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
+            <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
+        </div>
+    </div>
+</div>
 </body>
 </html>
