@@ -851,7 +851,7 @@ window.addEventListener('click', (e) => {
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="loginPass" class="modal-input" placeholder="Password" required oninput="this.classList.remove('input-error'); document.getElementById('loginError').style.display='none'">
+                    <input type="password" id="loginPass" class="modal-input" placeholder="Password" required >
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
@@ -870,7 +870,7 @@ window.addEventListener('click', (e) => {
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required oninput="this.classList.remove('input-error'); document.getElementById('loginError').style.display='none'">
+                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required >
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
