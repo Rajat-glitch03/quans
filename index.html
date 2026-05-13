@@ -34,6 +34,53 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        /* USER PROFILE DROPDOWN */
+        .user-profile-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--deep-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .user-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 150px;
+            z-index: 1000;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .user-menu.show { display: block; }
+        
+        .menu-item {
+            padding: 12px 20px;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-item:hover { background: var(--light-grey); }
+        
+        .logout-item {
+            color: #ff4444; /* Red Logout */
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .logout-item:hover { background: #fff5f5; }
+
         .password-wrapper {
             position: relative;
             width: 100%;
@@ -708,6 +755,73 @@ function toggleVisibility(inputId, icon) {
         icon.classList.replace('fa-eye-slash', 'fa-eye');
     }
 }
+
+        function toggleUserMenu() {
+            document.getElementById('userDropdown').classList.toggle('show');
+        }    
+
+        // 2. Modified Login Success (To show Username)
+function updateUIForUser(user) {
+    const authInterface = document.getElementById('authInterface');
+    const userName = user.displayName || user.email.split('@')[0]; // Fallback to email prefix
+
+    authInterface.innerHTML = `
+        <div class="user-profile-wrap" onclick="toggleUserMenu()">
+            <span>Welcome, <strong>${userName}</strong></span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+            
+            <div class="user-menu" id="userDropdown">
+                <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
+                <div class="menu-item logout-item" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Unlock Chat Interface
+    unlockTerminal();
+}
+
+// 3. Handle Firebase Logout
+function handleLogout() {
+    auth.signOut().then(() => {
+        // Reset Global State
+        isLoggedIn = false;
+        
+        // Reset Header UI
+        document.getElementById('authInterface').innerHTML = `
+            <a href="#" class="btn-auth login-btn" onclick="openAuth('login')">Login</a>
+            <a href="#" class="btn-auth signup-btn" onclick="openAuth('signup')">Sign Up</a>
+        `;
+        
+        // Relock Terminal
+        lockInterface(); 
+        
+        // Optional: Refresh page to clear sensitive data
+        window.location.reload();
+    }).catch((error) => {
+        console.error("Logout Error:", error);
+    });
+}
+
+// 4. Update the onAuthStateChanged listener
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        updateUIForUser(user);
+    } else {
+        isLoggedIn = false;
+        lockInterface();
+    }
+});
+
+// Close dropdown if user clicks outside
+window.addEventListener('click', (e) => {
+    const wrap = document.querySelector('.user-profile-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('userDropdown')?.classList.remove('show');
+    }
+});
     </script>
 
     <!-- AUTH MODAL -->
@@ -737,7 +851,7 @@ function toggleVisibility(inputId, icon) {
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="loginPass" class="modal-input" placeholder="Password">
+                    <input type="password" id="loginPass" class="modal-input" placeholder="Password" required oninput="this.classList.remove('input-error'); document.getElementById('loginError').style.display='none'">
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
@@ -756,7 +870,7 @@ function toggleVisibility(inputId, icon) {
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
                 <div class="form-group password-wrapper">
-                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required>
+                    <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required oninput="this.classList.remove('input-error'); document.getElementById('loginError').style.display='none'">
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
