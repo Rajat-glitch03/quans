@@ -560,264 +560,195 @@
     </main>
 
     <script type="module">
+    // 1. Initialize Firebase (Ensure you fill your config)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
+  authDomain: "quans-14b18.firebaseapp.com",
+  projectId: "quans-14b18",
+  storageBucket: "quans-14b18.firebasestorage.app",
+  messagingSenderId: "309027278772",
+  appId: "1:309027278772:web:7273a0ca9490df3c056ce1",
+  measurementId: "G-8KH5DW1SP1"
+    };
 
-        // Add this at the very top of your <script> section
-        const firebaseConfig = {
-         
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-const db = firebase.firestore();
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-        let isLoggedIn = false; 
+    let isLoggedIn = false;
 
-        window.toggleDropdown() { document.getElementById('modelDropdown').classList.toggle('open'); }
+    // --- GLOBAL EXPOSURE (Required for type="module") ---
+    
+    window.toggleDropdown = () => {
+        document.getElementById('modelDropdown').classList.toggle('open');
+    };
 
-       window.toggleSidebar = () => {
+    window.toggleSidebar = () => {
         const sb = document.getElementById('sidebar');
         const ov = document.getElementById('overlay');
         if (window.innerWidth > 768) sb.classList.toggle('closed');
-        else { sb.classList.toggle('open'); ov.classList.toggle('active'); }
+        else { 
+            sb.classList.toggle('open'); 
+            ov.classList.toggle('active'); 
+        }
     };
-        function handleSendMessage() {
-            const input = document.getElementById('userInput');
-            const stream = document.getElementById('chatStream');
-            const msg = input.value.trim();
-            if(!msg || input.disabled) return;
 
-            document.getElementById('welcomeNote').style.display = 'none';
-            
-            const bubble = document.createElement('div');
-            bubble.className = 'user-msg-bubble';
-            bubble.innerText = msg;
-            stream.appendChild(bubble);
-            input.value = '';
+    window.openAuth = (mode) => {
+        document.getElementById('authModal').style.display = 'flex';
+        window.toggleAuthMode(mode);
+    };
 
-            setTimeout(() => {
-                if(!isLoggedIn) {
-                    const alert = document.createElement('div');
-                    alert.className = 'system-alert';
-                    alert.innerHTML = `<i class="fa-solid fa-lock"></i> Please <strong>Login</strong> to access Quans.`;
-                    stream.appendChild(alert);
-                    lockInterface();
-                }
-                stream.scrollTop = stream.scrollHeight;
-            }, 600);
+    window.closeAuth = () => {
+        document.getElementById('authModal').style.display = 'none';
+    };
+
+    window.toggleAuthMode = (mode) => {
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const mainTitle = document.getElementById('modalMainTitle');
+        const subTitle = document.getElementById('modalSubTitle');
+        
+        if (mode === 'login') {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            mainTitle.innerText = "Welcome Back";
+            subTitle.innerText = "Continue your session with Quans Intelligence";
+        } else {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            mainTitle.innerText = "Create Account";
+            subTitle.innerText = "Get full access to premium protocols";
         }
+    };
 
-        function selectModel(name, el) {
-            if (!isLoggedIn) {
-                const alert = document.createElement('div');
-                alert.className = 'system-alert';
-                alert.innerHTML = `<strong>Access Denied:</strong> ${name} is premium. Please login.`;
-                document.getElementById('chatStream').appendChild(alert);
-                lockInterface();
-                if(window.innerWidth <= 768) toggleSidebar();
-                return;
-            }
-            document.getElementById('accessTitle').innerText = `ACCESSING: ${name.toUpperCase()}`;
-            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active-model'));
-            el.classList.add('active-model');
+    window.toggleVisibility = (inputId, icon) => {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
+    };
 
-        function lockInterface() {
-            const input = document.getElementById('userInput');
-            const btn = document.querySelector('.send-btn');
+    window.toggleUserMenu = () => {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown) dropdown.classList.toggle('show');
+    };
+
+    // --- AUTH LOGIC ---
+
+    window.handleGoogleLogin = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+            .then((result) => updateUIForUser(result.user))
+            .catch((err) => {
+                if(err.code !== 'auth/popup-closed-by-user') alert("Google link failed.");
+            });
+    };
+
+    window.handleEmailLogin = async () => {
+        const emailInput = document.querySelector('#loginForm input[type="email"]');
+        const passInput = document.getElementById('loginPass');
+        const errorHint = document.getElementById('loginError');
+
+        try {
+            const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
+            updateUIForUser(result.user);
+        } catch (error) {
+            errorHint.style.display = 'block';
+            passInput.classList.add('input-error');
+        }
+    };
+
+    window.handleEmailSignup = async () => {
+        const email = document.querySelector('#signupForm input[type="email"]').value;
+        const pass = document.getElementById('signupPass').value;
+
+        try {
+            const result = await auth.createUserWithEmailAndPassword(email, pass);
+            const user = result.user;
+            await db.collection("users").doc(user.uid).set({
+                email: user.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            updateUIForUser(user);
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    window.handleLogout = () => {
+        auth.signOut().then(() => {
+            isLoggedIn = false;
+            location.reload(); // Refresh to reset state
+        });
+    };
+
+    // --- UI HELPERS ---
+
+    function updateUIForUser(user) {
+        isLoggedIn = true;
+        const authInterface = document.getElementById('authInterface');
+        const userName = user.displayName || user.email.split('@')[0];
+
+        authInterface.innerHTML = `
+            <div class="user-profile-wrap" onclick="toggleUserMenu()">
+                <span>Welcome, <strong>${userName}</strong></span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+                <div class="user-menu" id="userDropdown">
+                    <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
+                    <div class="menu-item logout-item" onclick="handleLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </div>
+                </div>
+            </div>
+        `;
+        unlockTerminal();
+        window.closeAuth();
+    }
+
+    function unlockTerminal() {
+        const input = document.getElementById('userInput');
+        const btn = document.querySelector('.send-btn');
+        if (input) {
+            input.disabled = false;
+            input.placeholder = "Message Quans...";
+            btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            btn.style.background = "var(--electric-blue)";
+            document.querySelector('.login-btn')?.classList.remove('glow-active');
+            document.querySelector('.signup-btn')?.classList.remove('glow-active');
+        }
+    }
+
+    function lockInterface() {
+        const input = document.getElementById('userInput');
+        const btn = document.querySelector('.send-btn');
+        if (input) {
             input.disabled = true;
             input.placeholder = "Login to unlock...";
             btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
             btn.style.background = "#bdc3c7";
-            document.querySelector('.login-btn').classList.add('glow-active');
-            document.querySelector('.signup-btn').classList.add('glow-active');
+            document.querySelector('.login-btn')?.classList.add('glow-active');
+            document.querySelector('.signup-btn')?.classList.add('glow-active');
         }
-
-        document.getElementById('userInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSendMessage();
-        });
-
-                // Add these to your existing script
-        
-        // Connect Header Buttons to Modal
-        document.querySelector('.login-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openAuth('login');
-        });
-        
-        document.querySelector('.signup-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openAuth('signup');
-        });
-        
-        window.openAuth(mode) {
-            const modal = document.getElementById('authModal');
-            modal.style.display = 'flex';
-            toggleAuthMode(mode);
-        }
-        
-        window.closeAuth() {
-            document.getElementById('authModal').style.display = 'none';
-        }
-        
-        window.toggleAuthMode(mode) {
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const mainTitle = document.getElementById('modalMainTitle');
-    const subTitle = document.getElementById('modalSubTitle');
-    
-    if (mode === 'login') {
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-        mainTitle.innerText = "Welcome Back";
-        subTitle.innerText = "Continue your session with Quans Intelligence";
-    } else {
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-        mainTitle.innerText = "Create Account";
-        subTitle.innerText = "Get full access to premium protocols";
     }
-}
-        
-        // Close modal if user clicks outside of the card
-        window.onclick = function(event) {
-            const modal = document.getElementById('authModal');
-            if (event.target == modal) {
-                closeAuth();
-            }
-        }
 
-        // 1. Corrected Google Login
-window.handleGoogleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-        .then((result) => updateUIForUser(result.user)) // Pass the user object
-        .catch((err) => {
-            if(err.code !== 'auth/popup-closed-by-user') {
-                alert("Google link failed.");
-            }
-        });
-}
-
-// 2. Corrected Email Signup
-// Initialize Firestore (make sure this is at the top of your script)
-window.handleEmailSignup() {
-    const email = document.querySelector('#signupForm input[type="email"]').value;
-    const pass = document.getElementById('signupPass').value;
-
-    try {
-        const result = await auth.createUserWithEmailAndPassword(email, pass);
-        const user = result.user;
-
-        // Now 'db' is safely initialized and accessible here
-        await db.collection("users").doc(user.uid).set({
-            email: user.email,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        updateUIForUser(user);
-        closeAuth();
-    } catch (error) {
-        console.error("Signup Error:", error);
-        alert(error.message);
-    }
-}
-
-// 3. Corrected Email Login
-window.handleEmailLogin() {
-    const email = document.querySelector('#loginForm input[type="email"]').value;
-    const pass = document.getElementById('loginPass').value;
-    const errorHint = document.getElementById('loginError');
-
-    try {
-        const result = await auth.signInWithEmailAndPassword(email, pass);
-        updateUIForUser(result.user); // Pass the user object
-    } catch (error) {
-        errorHint.style.display = 'block';
-        document.getElementById('loginPass').classList.add('input-error');
-    }
-}
-
-        // 1. Eye Icon Toggle Logic
-window.toggleVisibility(inputId, icon) {
-    const input = document.getElementById(inputId);
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        input.type = "password";
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-}
-
-        window.toggleUserMenu() {
-            document.getElementById('userDropdown').classList.toggle('show');
-        }    
-
-        // 2. Modified Login Success (To show Username)
-function updateUIForUser(user) {
-    const authInterface = document.getElementById('authInterface');
-    const userName = user.displayName || user.email.split('@')[0]; // Fallback to email prefix
-
-    authInterface.innerHTML = `
-        <div class="user-profile-wrap" onclick="toggleUserMenu()">
-            <span>Welcome, <strong>${userName}</strong></span>
-            <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
-            
-            <div class="user-menu" id="userDropdown">
-                <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
-                <div class="menu-item logout-item" onclick="handleLogout()">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Unlock Chat Interface
-    unlockTerminal();
-}
-
-// 3. Handle Firebase Logout
-window.handleLogout() {
-    auth.signOut().then(() => {
-        isLoggedIn = false;
-        document.getElementById('authInterface').innerHTML = `
-            <a href="#" class="btn-auth login-btn" onclick="openAuth('login')">Login</a>
-            <a href="#" class="btn-auth signup-btn" onclick="openAuth('signup')">Sign Up</a>
-        `;
-        lockInterface(); 
-        closeAuth();
-    });
-}
-
-// 4. Update the onAuthStateChanged listener
-auth.onAuthStateChanged((user) => {
+    // Observer
+    auth.onAuthStateChanged((user) => {
         if (user) updateUIForUser(user);
         else lockInterface();
     });
 
-// Close dropdown if user clicks outside
-window.addEventListener('click', (e) => {
-    const wrap = document.querySelector('.user-profile-wrap');
-    if (wrap && !wrap.contains(e.target)) {
-        document.getElementById('userDropdown')?.classList.remove('show');
-    }
-});
-
-        function unlockTerminal() {
-    isLoggedIn = true;
-    const input = document.getElementById('userInput');
-    const btn = document.querySelector('.send-btn');
-    input.disabled = false;
-    input.placeholder = "Message Quans...";
-    btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
-    btn.style.background = "var(--electric-blue)";
-    document.querySelector('.login-btn')?.classList.remove('glow-active');
-    document.querySelector('.signup-btn')?.classList.remove('glow-active');
-    closeAuth();
-}
-
-    </script>
+    // Close user menu on outside click
+    window.addEventListener('click', (e) => {
+        const wrap = document.querySelector('.user-profile-wrap');
+        if (wrap && !wrap.contains(e.target)) {
+            document.getElementById('userDropdown')?.classList.remove('show');
+        }
+    });
+</script>
 
     <!-- AUTH MODAL -->
 <!-- AUTH MODAL WITH GOOGLE -->
