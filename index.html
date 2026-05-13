@@ -671,6 +671,7 @@
             const user = result.user;
             await db.collection("users").doc(user.uid).set({
                 email: user.email,
+                pass: user.pass,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
             updateUIForUser(user);
