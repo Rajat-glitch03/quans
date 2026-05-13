@@ -664,51 +664,62 @@
 
         // --- FORGOT PASSWORD ---
     window.handleForgotPassword = async () => {
-        // Get email from whichever form is currently visible
-        const email = document.querySelector('#loginForm input[type="email"]').value || 
-                      document.querySelector('#signupForm input[type="email"]').value;
+    const emailInput = document.querySelector('#loginForm input[type="email"]');
+    const statusBox = document.getElementById('authStatusMsg');
+    
+    if (!emailInput.value) {
+        // Show error in the webpage if email is missing
+        statusBox.style.display = 'block';
+        statusBox.style.background = '#fff4f4'; // Reddish for error
+        statusBox.style.color = '#d32f2f';
+        statusBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Please enter your email first.';
+        return;
+    }
+
+    try {
+        await auth.sendPasswordResetEmail(emailInput.value);
         
-        if (!email) {
-            alert("Please enter your email address first.");
-            return;
-        }
+        // Success UI Update
+        statusBox.style.display = 'block';
+        statusBox.style.background = '#e8f5e9'; // Greenish for success
+        statusBox.style.color = '#2e7d32';
+        statusBox.style.borderColor = '#c8e6c9';
+        statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox.';
+        
+        // Optional: Hide message after 5 seconds
+        setTimeout(() => {
+            statusBox.style.fadeOut; // If you have fade CSS
+            statusBox.style.display = 'none';
+        }, 5000);
 
-        try {
-            await auth.sendPasswordResetEmail(email);
-            alert("Password reset link sent to your email!");
-        } catch (error) {
-            console.error("Reset Error:", error.message);
-            alert("Error: " + error.message);
-        }
-    };
-
+    } catch (error) {
+        statusBox.style.display = 'block';
+        statusBox.style.background = '#fff4f4';
+        statusBox.style.color = '#d32f2f';
+        statusBox.innerText = "Error: " + error.message;
+    }
+};
     // --- IMPROVED SIGNUP (With "Already Exists" Check) ---
     window.handleEmailSignup = async () => {
-        const email = document.querySelector('#signupForm input[type="email"]').value;
-        const pass = document.getElementById('signupPass').value;
-        const signupError = document.getElementById('signupError');
+    const emailInput = document.querySelector('#signupForm input[type="email"]');
+    const signupError = document.getElementById('signupError');
 
-        try {
-            const result = await auth.createUserWithEmailAndPassword(email, pass);
-            const user = result.user;
-
-            await db.collection("users").doc(user.uid).set({
-                email: user.email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            updateUIForUser(user);
-        } catch (error) {
-            signupError.style.display = 'block';
-            // Specific check for existing user
-            if (error.code === 'auth/email-already-in-use') {
-                signupError.innerText = "This email is already registered. Try logging in.";
-            } else {
-                signupError.innerText = error.message;
-            }
-            document.querySelector('#signupForm input[type="email"]').classList.add('input-error');
+    try {
+        // ... (your existing signup logic) ...
+    } catch (error) {
+        signupError.style.display = 'block';
+        
+        // CHECK FOR EXISTING USER ERROR
+        if (error.code === 'auth/email-already-in-use') {
+            signupError.innerHTML = '<i class="fa-solid fa-circle-info"></i> This email is already registered. <span onclick="toggleAuthMode(\'login\')" style="text-decoration:underline; cursor:pointer;">Login instead?</span>';
+        } else {
+            signupError.innerText = error.message;
         }
-    };
+        
+        emailInput.classList.add('input-error');
+    }
+};
+        
     window.handleLogout = () => {
         auth.signOut().then(() => {
             isLoggedIn = false;
@@ -812,8 +823,11 @@
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
                 <p style="text-align: right; margin-top: -10px; margin-bottom: 15px;">
-        <span onclick="handleForgotPassword()" style="color: var(--electric-blue); font-size: 0.75rem; cursor: pointer; font-weight: 600;">Forgot Password?</span>
-    </p>
+                    <span onclick="handleForgotPassword()" style="color: var(--electric-blue); font-size: 0.75rem; cursor: pointer; font-weight: 600;">Forgot Password?</span>
+                </p>
+                <div id="authStatusMsg" class="system-alert" style="display: none; background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; margin-bottom: 15px;">
+        Check your registered Email for resetting password.
+    </div>
                 <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
