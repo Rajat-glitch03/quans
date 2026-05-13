@@ -662,24 +662,53 @@
         }
     };
 
+        // --- FORGOT PASSWORD ---
+    window.handleForgotPassword = async () => {
+        // Get email from whichever form is currently visible
+        const email = document.querySelector('#loginForm input[type="email"]').value || 
+                      document.querySelector('#signupForm input[type="email"]').value;
+        
+        if (!email) {
+            alert("Please enter your email address first.");
+            return;
+        }
+
+        try {
+            await auth.sendPasswordResetEmail(email);
+            alert("Password reset link sent to your email!");
+        } catch (error) {
+            console.error("Reset Error:", error.message);
+            alert("Error: " + error.message);
+        }
+    };
+
+    // --- IMPROVED SIGNUP (With "Already Exists" Check) ---
     window.handleEmailSignup = async () => {
         const email = document.querySelector('#signupForm input[type="email"]').value;
         const pass = document.getElementById('signupPass').value;
+        const signupError = document.getElementById('signupError');
 
         try {
             const result = await auth.createUserWithEmailAndPassword(email, pass);
             const user = result.user;
+
             await db.collection("users").doc(user.uid).set({
                 email: user.email,
-                pass: user.pass,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
+
             updateUIForUser(user);
         } catch (error) {
-            alert(error.message);
+            signupError.style.display = 'block';
+            // Specific check for existing user
+            if (error.code === 'auth/email-already-in-use') {
+                signupError.innerText = "This email is already registered. Try logging in.";
+            } else {
+                signupError.innerText = error.message;
+            }
+            document.querySelector('#signupForm input[type="email"]').classList.add('input-error');
         }
     };
-
     window.handleLogout = () => {
         auth.signOut().then(() => {
             isLoggedIn = false;
@@ -782,6 +811,9 @@
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
+                <p style="text-align: right; margin-top: -10px; margin-bottom: 15px;">
+        <span onclick="handleForgotPassword()" style="color: var(--electric-blue); font-size: 0.75rem; cursor: pointer; font-weight: 600;">Forgot Password?</span>
+    </p>
                 <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
@@ -799,6 +831,7 @@
                 <div class="form-group password-wrapper">
                     <input type="password" id="signupPass" class="modal-input" placeholder="Create Password" required >
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
+                    <div id="signupError" class="error-hint"></div>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
                 <button type="button" class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
