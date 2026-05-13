@@ -439,6 +439,32 @@
             { transform: 'translateX(0)' }
         ], { duration: 250 });
     }
+
+        function handleSendMessage() {
+            const input = document.getElementById('userInput');
+            const stream = document.getElementById('chatStream');
+            const msg = input.value.trim();
+            if(!msg || input.disabled) return;
+
+            document.getElementById('welcomeNote').style.display = 'none';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'user-msg-bubble';
+            bubble.innerText = msg;
+            stream.appendChild(bubble);
+            input.value = '';
+
+            setTimeout(() => {
+                if(!isLoggedIn) {
+                    const alert = document.createElement('div');
+                    alert.className = 'system-alert';
+                    alert.innerHTML = `<i class="fa-solid fa-lock"></i> Please <strong>Login</strong> to access Quans.`;
+                    stream.appendChild(alert);
+                    lockInterface();
+                }
+                stream.scrollTop = stream.scrollHeight;
+            }, 600);
+        }
     
         // Listen for Send Button click
         document.querySelector('.send-btn').addEventListener('click', handleSendMessage);
