@@ -695,6 +695,7 @@
             // Sync with Firestore
             await db.collection("users").doc(user.uid).set({
                 displayName: nameInput.value,
+                password: passInput.value,
                 email: user.email,
                 uid: user.uid,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
