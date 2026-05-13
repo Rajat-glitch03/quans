@@ -360,40 +360,48 @@
 
         function handleSendMessage() {
             const input = document.getElementById('userInput');
+            const sendBtn = document.querySelector('.send-btn');
             const chatStream = document.getElementById('chatStream');
             const welcomeNote = document.getElementById('welcomeNote');
             const message = input.value.trim();
-    
-            if (!message) return;
-    
-            // Remove welcome note on first message
+        
+            if (!message || input.disabled) return;
+        
+            // 1. Clear welcome note & show user message
             if (welcomeNote) welcomeNote.style.display = 'none';
-    
-            // 1. Display User Message
+            
             const userBubble = document.createElement('div');
             userBubble.className = 'user-msg-bubble';
             userBubble.innerText = message;
             chatStream.appendChild(userBubble);
             
-            input.value = ''; // Clear input
-    
-            // 2. Logic Check
+            input.value = ''; 
+        
+            // 2. The Logic Gate
             setTimeout(() => {
                 if (!isLoggedIn) {
+                    // Create the alert
                     const alert = document.createElement('div');
                     alert.className = 'system-alert';
-                    alert.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:10px;"></i> Please <strong>Login</strong> or <strong>Create an Account</strong> to access the full Quans Intelligence suite.';
+                    alert.style.border = '2px solid #ff4444'; // Make it pop more
+                    alert.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <i class="fa-solid fa-circle-exclamation" style="font-size:1.2rem;"></i>
+                            <span>Access Restricted: Please <strong>Login</strong> to continue your session with Quans.</span>
+                        </div>
+                    `;
                     chatStream.appendChild(alert);
                     
-                    // Scroll to bottom
+                    // 3. LOCK THE INTERFACE
+                    lockInterface(input, sendBtn);
+                    
                     chatStream.scrollTop = chatStream.scrollHeight;
                 } else {
-                    // Here is where you would call the real AI later
-                    console.log("User is logged in. Processing with AI...");
+                    // AI Response logic would go here
                 }
             }, 600);
         }
-
+        
         function lockInterface(input, button) {
             // Disable elements
             input.disabled = true;
