@@ -721,7 +721,7 @@ function toggleVisibility(inputId, icon) {
             <p class="modal-subtitle" id="modalSubTitle">Continue your session with Quans Intelligence</p>
             
             <!-- Google Sign-In Button -->
-            <button class="google-btn">
+            <button class="google-btn" onclick="handleGoogleLogin()">
                 <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
                 <span>Continue with Google</span>
             </button>
@@ -741,7 +741,7 @@ function toggleVisibility(inputId, icon) {
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint">Incorrect email or password.</div>
                 </div>
-                <button class="modal-submit-btn">Login to Terminal</button>
+                <button class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
             </form>
@@ -760,7 +760,7 @@ function toggleVisibility(inputId, icon) {
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
                 </div>
-                <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
+                <button class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
                 <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
             </div>
                 </form>
