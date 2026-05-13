@@ -30,6 +30,50 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        /* --- GOOGLE & SEPARATOR STYLES --- */
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 500;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .google-btn:hover { background: #f8f9fa; }
+        .google-btn img { width: 20px; height: 20px; }
+        
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .separator span { padding: 0 10px; }
+        
+        /* Pulse animation for the modal entrance */
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         /* --- AUTH MODAL STYLES --- */
         .modal-overlay {
             display: none;
@@ -527,17 +571,23 @@
         }
         
         function toggleAuthMode(mode) {
-            const loginSec = document.getElementById('loginSection');
-            const signupSec = document.getElementById('signupSection');
-            
-            if (mode === 'login') {
-                loginSec.style.display = 'block';
-                signupSec.style.display = 'none';
-            } else {
-                loginSec.style.display = 'none';
-                signupSec.style.display = 'block';
-            }
-        }
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const mainTitle = document.getElementById('modalMainTitle');
+    const subTitle = document.getElementById('modalSubTitle');
+    
+    if (mode === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        mainTitle.innerText = "Welcome Back";
+        subTitle.innerText = "Continue your session with Quans Intelligence";
+    } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        mainTitle.innerText = "Create Account";
+        subTitle.innerText = "Get full access to premium protocols";
+    }
+}
         
         // Close modal if user clicks outside of the card
         window.onclick = function(event) {
