@@ -557,34 +557,38 @@
             <h2 class="modal-title">Welcome Back</h2>
             <p class="modal-subtitle">Continue your session with Quans Intelligence</p>
             
+            <form>
             <div class="form-group">
-                <input type="email" class="modal-input" placeholder="Email address">
+                <input type="email" class="modal-input" placeholder="Email address" required>
             </div>
             <div class="form-group">
-                <input type="password" class="modal-input" placeholder="Password">
+                <input type="password" class="modal-input" placeholder="Password" required>
             </div>
             
             <button class="modal-submit-btn">Login to Terminal</button>
             <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
         </div>
+        </form>
 
         <div id="signupSection" style="display: none;">
             <h2 class="modal-title">Create Account</h2>
             <p class="modal-subtitle">Get full access to premium protocols</p>
             
+            <form>
             <div class="form-group">
-                <input type="text" class="modal-input" placeholder="Full Name">
+                <input type="text" class="modal-input" placeholder="Full Name" required>
             </div>
             <div class="form-group">
-                <input type="email" class="modal-input" placeholder="Email address">
+                <input type="email" class="modal-input" placeholder="Email address" required>
             </div>
             <div class="form-group">
-                <input type="password" class="modal-input" placeholder="Choose Password">
+                <input type="password" class="modal-input" placeholder="Choose Password" required>
             </div>
             
             <button class="modal-submit-btn" style="background: var(--deep-blue);">Create Access</button>
             <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
         </div>
+        </form>
     </div>
 </div>
 </body>
