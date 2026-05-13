@@ -695,7 +695,7 @@
         function handleGoogleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then(() => handleLoginSuccess())
+        .then(() => updateUIForUser())
         .catch((err) => {
             if(err.code !== 'auth/popup-closed-by-user') {
                 alert("Google link failed. Check Firebase Console settings.");
@@ -722,7 +722,7 @@ document.querySelector('#signupForm .modal-submit-btn').onclick = handleEmailSig
 
     try {
         await auth.createUserWithEmailAndPassword(email, pass);
-        handleLoginSuccess();
+        updateUIForUser();
     } catch (error) {
         alert(error.message);
     }
@@ -735,7 +735,7 @@ document.querySelector('#signupForm .modal-submit-btn').onclick = handleEmailSig
 
     try {
         await auth.signInWithEmailAndPassword(email, pass);
-        handleLoginSuccess();
+        updateUIForUser();
     } catch (error) {
         // Show the "Wrong Pass" message for any auth error
         errorHint.style.display = 'block';
@@ -835,6 +835,7 @@ window.addEventListener('click', (e) => {
     document.querySelector('.signup-btn')?.classList.remove('glow-active');
     closeAuth();
 }
+
     </script>
 
     <!-- AUTH MODAL -->
