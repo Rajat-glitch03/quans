@@ -3,188 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Intelligence Terminal v2.4</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Quans | Intelligence Interface</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-black: #080a0f;
-            --panel-bg: #0d1117;
+            --deep-blue: #001b6e;
             --electric-blue: #009dff;
-            --accent-purple: #6a35ff;
-            --text-dim: #8b949e;
-            --terminal-green: #00ff41;
-            --border: rgba(255, 255, 255, 0.08);
+            --white: #ffffff;
+            --light-grey: #f4f7f9;
+            --border-color: #e5e7eb;
+            --font-main: 'DM Sans', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
-            background-color: var(--bg-black);
-            color: #ffffff;
-            font-family: 'DM Sans', sans-serif;
+            font-family: var(--font-main);
+            background-color: var(--white);
+            color: var(--deep-blue);
             height: 100vh;
-            display: grid;
-            grid-template-columns: 280px 1fr 320px; /* The 3-Pane Layout */
-            grid-template-rows: 60px 1fr;
+            display: flex;
             overflow: hidden;
         }
 
-        /* --- TOP NAVIGATION BAR --- */
-        header {
-            grid-column: 1 / -1;
-            background: var(--panel-bg);
-            border-bottom: 1px solid var(--border);
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--deep-blue);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 50px; /* Oval Shape */
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .sidebar-item:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* Dropdown Logic */
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            padding-left: 20px;
+            flex-direction: column;
+        }
+        .dropdown.open .dropdown-content { display: flex; }
+        .dropdown-content .sidebar-item { font-size: 0.8rem; opacity: 0.8; }
+
+        .new-chat-btn {
+            background-color: var(--electric-blue);
+            color: var(--white);
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .new-chat-btn:hover { background-color: #008ae0; }
+
+        .history-section {
+            margin-top: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .history-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 15px;
+            padding-left: 15px;
+        }
+
+        /* --- MAIN SCREEN --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--terminal-green);
-        }
+        .logo { height: 30px; }
 
-        .pulse-dot {
-            width: 8px; height: 8px;
-            background: var(--terminal-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--terminal-green);
-            animation: pulse 1.5s infinite;
-        }
-
-        /* --- LEFT SIDEBAR: PROTOCOLS --- */
-        .sidebar-left {
-            background: var(--panel-bg);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .sidebar-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-bottom: 20px;
-        }
-
-        .protocol-item {
-            padding: 15px;
-            border: 1px solid var(--border);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: 0.3s;
+        .auth-buttons { display: flex; gap: 15px; }
+        .btn-auth {
+            padding: 8px 22px;
+            border-radius: 50px; /* Oval */
             font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
         }
+        .login-btn { color: var(--deep-blue); border: 1px solid var(--deep-blue); }
+        .signup-btn { background: var(--deep-blue); color: var(--white); border: 1px solid var(--deep-blue); }
 
-        .protocol-item:hover, .protocol-item.active {
-            border-color: var(--electric-blue);
-            background: rgba(0, 157, 255, 0.05);
-        }
-
-        /* --- CENTER: THE FEED --- */
-        main {
-            padding: 40px;
-            overflow-y: auto;
+        /* --- CHAT SECTION --- */
+        .chat-container {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 40px;
+        }
+
+        .model-indicator {
+            font-size: 0.75rem;
+            color: var(--deep-blue);
+            opacity: 0.5;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-wrapper {
+            width: 90%;
+            max-width: 750px;
+            position: relative;
+            display: flex;
             align-items: center;
         }
 
-        .chat-bubble {
-            max-width: 700px;
+        .chat-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 25px;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            line-height: 1.8;
-            font-weight: 300;
+            padding: 16px 60px 16px 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 50px; /* Oval */
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* --- RIGHT SIDEBAR: GLOBAL HUD --- */
-        .sidebar-right {
-            background: var(--panel-bg);
-            border-left: 1px solid var(--border);
-            padding: 20px;
-            font-family: 'JetBrains Mono', monospace;
+        .send-btn {
+            position: absolute;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--electric-blue);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
         }
+        .send-btn:hover { transform: scale(1.1); }
 
-        .data-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 2px;
-        }
+        /* MOBILE STYLES */
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
 
-        .data-card h4 { font-size: 0.7rem; color: var(--electric-blue); margin-bottom: 10px; }
-
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-
-        /* Hide right panel on small screens */
-        @media (max-width: 1200px) {
-            body { grid-template-columns: 250px 1fr 0px; }
-            .sidebar-right { display: none; }
+        @media (max-width: 768px) {
+            .sidebar { position: absolute; left: -280px; height: 100%; }
+            .sidebar.open { transform: translateX(280px); }
+            .mobile-toggle { display: block; }
+            .auth-buttons { display: none; } /* Simplified for mobile */
+            .top-header { padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">QUANS // SYSTEM_v2.4</div>
-        <div class="status-indicator">
-            <div class="pulse-dot"></div>
-            UPLINK ESTABLISHED
-        </div>
-    </header>
-
-    <aside class="sidebar-left">
-        <div class="sidebar-label">Intelligence Protocols</div>
-        <div class="protocol-item active">
-            <strong>v2.4bb</strong><br>
-            <span style="font-size: 0.7rem; color: var(--text-dim);">Business Warfare</span>
-        </div>
-        <div class="protocol-item">
-            <strong>v2.4bs</strong><br>
-            <span style="font-size: 0.7rem; color: var(--text-dim);">Sentinel Defense</span>
-        </div>
-    </aside>
-
-    <main id="chatFeed">
-        <div class="chat-bubble">
-            <span style="color: var(--electric-blue); font-weight: 700;">[QUANS]:</span> Initializing strategic landscape analysis. Market volatility detected in sector 7-G. Recommend immediate protocol deployment for risk mitigation.
-        </div>
-    </main>
-
-    <aside class="sidebar-right">
-        <div class="sidebar-label">Global Risk Metrics</div>
-        <div class="data-card">
-            <h4>THREAT LEVEL</h4>
-            <div style="font-size: 1.2rem; color: var(--terminal-green);">MINIMAL</div>
-        </div>
-        <div class="data-card">
-            <h4>UPTIME</h4>
-            <div>99.998%</div>
-        </div>
-        <div class="data-card">
-            <h4>SCAN_LOG</h4>
-            <div style="font-size: 0.65rem; color: var(--text-dim);">
-                > Checking Deep Web...<br>
-                > No leaks found.<br>
-                > Monitoring assets...
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Models Dropdown -->
+        <div class="dropdown" id="modelDropdown">
+            <div class="sidebar-item" onclick="toggleDropdown()">
+                <i class="fa-solid fa-layer-group"></i>
+                Models
+                <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+            </div>
+            <div class="dropdown-content">
+                <div class="sidebar-item"><i class="fa-solid fa-microchip"></i> Quans</div>
+                <div class="sidebar-item"><i class="fa-solid fa-bolt"></i> Quans v2.4bb</div>
+                <div class="sidebar-item"><i class="fa-solid fa-shield-halved"></i> Quans v2.4s</div>
             </div>
         </div>
+
+        <div class="sidebar-item new-chat-btn">
+            <i class="fa-solid fa-plus"></i>
+            New Chat
+        </div>
+
+        <div class="history-section">
+            <div class="history-label">History</div>
+            <div class="sidebar-item"><i class="fa-regular fa-message"></i> Strategic Analysis Q1</div>
+            <div class="sidebar-item"><i class="fa-regular fa-message"></i> Risk Mitigation Plan</div>
+            <div class="sidebar-item"><i class="fa-regular fa-message"></i> Market Entry Protocol</div>
+        </div>
     </aside>
 
+    <!-- MAIN SCREEN -->
+    <section class="main-content">
+        <header class="top-header">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="fa-solid fa-bars mobile-toggle" onclick="toggleSidebar()"></i>
+                <img src="quans-logo-dark.png" alt="QUANS" class="logo">
+            </div>
+            <div class="auth-buttons">
+                <a href="#" class="btn-auth login-btn">Login</a>
+                <a href="#" class="btn-auth signup-btn">Create an account</a>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div class="model-indicator" id="currentModel">Accessing: Quans Standard</div>
+            <div class="input-wrapper">
+                <input type="text" class="chat-input" placeholder="Message Quans...">
+                <button class="send-btn">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById('modelDropdown').classList.toggle('open');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Close sidebar when clicking links on mobile
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
