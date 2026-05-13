@@ -743,6 +743,8 @@ window.handleEmailSignup = async () => {
             signupError.innerHTML = '<i class="fa-solid fa-circle-info"></i> Already registered. <span onclick="toggleAuthMode(\'login\')" style="text-decoration:underline; cursor:pointer;">Login?</span>';
         } else if (error.code === 'auth/missing-password') {
             signupError.innerText = "A non-empty password must be provided.";
+        } else if (error.code === 'auth/weak-password') {
+            showSignupError('<i class="fa-solid fa-triangle-exclamation"></i> Weak Password: Minimum 6 characters required.');
         } else {
             signupError.innerText = error.message;
         }
