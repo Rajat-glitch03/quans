@@ -733,9 +733,34 @@ window.handleEmailSignup = async () => {
         return;
     }
 
+    const emailInput = document.querySelector('#signupForm input[type="email"]');
+    const passInput = document.getElementById('signupPass');
+
+    try {
+        const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
+        const user = result.user;
+
+        // CRITICAL: Use .doc(user.uid).set() to link Auth and Firestore
+        await db.collection("users").doc(user.uid).set({
+            email: user.email,
+            uid: user.uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            status: "active"
+        });
+
+        console.log("Document successfully written to Firestore!");
+        updateUIForUser(user);
+
+    } catch (error) {
+        console.error("Firestore Error:", error);
+        showSignupError(error.message);
+    }
+
     try {
         const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
         updateUIForUser(result.user);
+
+        
     } catch (error) {
         signupError.style.display = 'block';
         
