@@ -826,7 +826,7 @@
                     <span onclick="handleForgotPassword()" style="color: var(--electric-blue); font-size: 0.75rem; cursor: pointer; font-weight: 600;">Forgot Password?</span>
                 </p>
                 <div id="authStatusMsg" class="system-alert" style="display: none; background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; margin-bottom: 15px;">
-        Check your registered Email for resetting password.
+        Check Email
     </div>
                 <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login to Terminal</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
@@ -847,6 +847,7 @@
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('signupPass', this)"></i>
                     <div id="signupError" class="error-hint"></div>
                     <div id="signupError" class="error-hint">Password must be at least 6 characters.</div>
+                    <div id="signupError" class="error-hint"></div>
                 </div>
                 <button type="button" class="modal-submit-btn" style="background: var(--deep-blue);" onclick="handleEmailSignup()">Create Access</button>
                 <p class="toggle-text">Already a member? <span onclick="toggleAuthMode('login')">Login</span></p>
