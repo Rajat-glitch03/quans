@@ -707,6 +707,8 @@
         
             if (error.code === 'auth/email-already-in-use') {
                 signupError.innerText = "This email is already registered. Please login instead.";
+            } else if (error.code === 'auth/invalid-email') {
+                signupError.innerText = "Email address not found or badly formatted.";
             } else {
                 // Fallback to the default Firebase message for any other errors
                 signupError.innerText = error.message;
