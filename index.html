@@ -766,6 +766,36 @@
         if (user) updateUIForUser(user);
         else lockInterface();
     });
+
+        window.handleForgotPassword = async () => {
+    // 1. Target the email input from your login form
+    const emailInput = document.querySelector('#loginForm input[type="email"]');
+    const statusBox = document.getElementById('authStatusMsg');
+    
+    // 2. Validate that the email field isn't empty
+    if (!emailInput.value) {
+        statusBox.style.display = 'block';
+        statusBox.style.color = '#ff4444'; // Red for error
+        statusBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email to receive a reset link.';
+        return;
+    }
+
+    try {
+        // 3. Firebase magic: Send the reset email
+        await auth.sendPasswordResetEmail(emailInput.value);
+        
+        // 4. Update UI to show success
+        statusBox.style.display = 'block';
+        statusBox.style.color = 'var(--electric-blue)'; // Blue for success
+        statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox.';
+        
+    } catch (error) {
+        // 5. Handle errors (e.g., user not found)
+        statusBox.style.display = 'block';
+        statusBox.style.color = '#ff4444';
+        statusBox.innerText = "Error: " + error.message;
+    }
+};
 </script>
 
     <!-- AUTH MODAL -->
@@ -794,6 +824,9 @@
                     <i class="fa-solid fa-eye toggle-password" onclick="toggleVisibility('loginPass', this)"></i>
                     <div id="loginError" class="error-hint"></div>
                 </div>
+                <span onclick="handleForgotPassword()" style="cursor: pointer;">
+                    Forgot Password?
+                </span>
                 <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
