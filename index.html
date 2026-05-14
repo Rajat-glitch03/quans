@@ -705,8 +705,8 @@
         } catch (error) {
             signupError.style.display = 'block';
             signupError.innerText = error.message;
-        } if (error.code === 'auth/email-already-in-use') { 
-            signupError.innerText = "This email is already registered. Please login instead."; }
+            errorHint.innerText = error.code === 'auth/email-already-in-use' : "User not found or invalid password.";
+        } 
     };
 
     window.handleLogout = () => {
