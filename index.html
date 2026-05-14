@@ -517,13 +517,13 @@
                 <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
             </div>
             <div class="dropdown-content">
-                <div class="sidebar-item active-model" onclick="selectModel('Quans', this)">
+                <div class="sidebar-item active-model" onclick="selectModel('Quans')">
                     <i class="fa-solid fa-microchip"></i> Quans
                 </div>
-                <div class="sidebar-item" onclick="selectModel('Quans v2.4bb', this)">
+                <div class="sidebar-item" onclick="selectModel('Quans Pro')">
                     <i class="fa-solid fa-bolt"></i> Quans v2.4bb
                 </div>
-                <div class="sidebar-item" onclick="selectModel('Quans v2.4s', this)">
+                <div class="sidebar-item" onclick="selectModel('Llama 3')">
                     <i class="fa-solid fa-shield-halved"></i> Quans v2.4s
                 </div>
             </div>
@@ -800,33 +800,81 @@
         window.closeAuth();
     }
 
-    function unlockTerminal() {
-        const input = document.getElementById('userInput');
-        const btn = document.querySelector('.send-btn');
-        if (input) {
-            input.disabled = false;
-            input.placeholder = "Message Quans...";
-            btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
-            btn.style.background = "var(--electric-blue)";
-        }
-    }
-
     function lockInterface() {
-        const input = document.getElementById('userInput');
-        const btn = document.querySelector('.send-btn');
-        if (input) {
-            input.disabled = true;
-            input.placeholder = "Login to unlock...";
-            btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
-            btn.style.background = "#bdc3c7";
-            document.querySelector('.login-btn')?.classList.add('glow-active');
-        }
+    const input = document.getElementById('userInput');
+    const btn = document.querySelector('.send-btn');
+    
+    if (input) {
+        input.placeholder = "Login to unlock Quans Intelligence...";
+        // We don't necessarily have to disable it if handleSendMessage checks auth,
+        // but disabling it is a clearer visual cue.
+        input.disabled = true; 
+        btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
+        btn.style.background = "#444"; // Dark/Locked color
     }
+}
+
+function unlockTerminal() {
+    const input = document.getElementById('userInput');
+    const btn = document.querySelector('.send-btn');
+    
+    if (input) {
+        input.disabled = false;
+        input.placeholder = "Message Quans...";
+        btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+        btn.style.background = "var(--electric-blue)";
+        btn.setAttribute('onclick', 'handleSendMessage()'); // Ensure click is active
+    }
+}
 
     auth.onAuthStateChanged((user) => {
         if (user) updateUIForUser(user);
         else lockInterface();
     });
+
+        window.selectModel = (modelName) => {
+    const user = auth.currentUser;
+
+    // If the user selects anything other than 'Quans' while logged out
+    if (!user && modelName !== 'Quans') {
+        showLockedWarning("Please login first to access " + modelName);
+        return;
+    }
+
+    // Logic for switching models if logged in or selecting 'Quans'
+    console.log("Switching to:", modelName);
+    document.getElementById('currentModelName').innerText = modelName;
+    window.toggleDropdown(); // Close dropdown
+};
+
+function showLockedWarning(message) {
+    // You can use a simple alert or a dedicated red toast/popup
+    const errorBox = document.getElementById('loginError'); // Reusing your login error box
+    errorBox.style.display = 'block';
+    errorBox.style.color = '#ff4444';
+    errorBox.innerText = message;
+    
+    // Open the auth modal automatically to nudge them to login
+    setTimeout(() => {
+        window.openAuth('login');
+    }, 1000);
+}
+
+        window.handleSendMessage = () => {
+    const user = auth.currentUser;
+    const input = document.getElementById('userInput');
+
+    if (!user) {
+        showLockedWarning("Please login to start a conversation.");
+        return;
+    }
+
+    if (input.value.trim() !== "") {
+        console.log("Sending message:", input.value);
+        // Add your logic here to push message to Firestore or API
+        input.value = ""; // Clear input after sending
+    }
+};
 </script>
 
     <!-- AUTH MODAL -->
