@@ -574,10 +574,10 @@
     </main>
 
     <script type="module">
-    // 1. Initialize Firebase (Ensure you fill your config)
+    // 1. Initialize Firebase
     const firebaseConfig = {
         // YOUR CONFIG HERE
-         apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
+          apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
   authDomain: "quans-14b18.firebaseapp.com",
   projectId: "quans-14b18",
   storageBucket: "quans-14b18.firebasestorage.app",
@@ -652,56 +652,55 @@
     };
 
     // --- AUTH LOGIC ---
-    window.handleGoogleLogin = async (mode) => { // Added 'mode' parameter
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const signupError = document.getElementById('signupErrorMain');
-    const loginError = document.getElementById('loginError');
+    window.handleGoogleLogin = async (mode) => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const signupError = document.getElementById('signupErrorMain');
+        const loginError = document.getElementById('loginError');
 
-    try {
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-        const isNewUser = result.additionalUserInfo.isNewUser;
+        try {
+            const result = await auth.signInWithPopup(provider);
+            const user = result.user;
+            const isNewUser = result.additionalUserInfo.isNewUser;
 
-        if (mode === 'signup') {
-            if (!isNewUser) {
-                // If they tried to "Sign Up" but they already exist
-                signupError.style.display = 'block';
-                signupError.innerText = "Account already exists. Logging you in instead...";
-                // We let them in anyway for better UX, or you can sign them out
-            } else {
-                // NEW USER: Save to Firestore
-                await db.collection("users").doc(user.uid).set({
-                    displayName: user.displayName,
-                    email: user.email,
-                    uid: user.uid,
-                    provider: "google",
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+            // Logic for Signup Mode
+            if (mode === 'signup') {
+                if (!isNewUser) {
+                    signupError.style.display = 'block';
+                    signupError.innerText = "Account already exists. Logged in instead.";
+                } else {
+                    await db.collection("users").doc(user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        uid: user.uid,
+                        provider: "google",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            } 
+            
+            // Logic for Login Mode
+            if (mode === 'login') {
+                if (isNewUser) {
+                    loginError.style.display = 'block';
+                    loginError.innerText = "No account found. Creating a new one for you...";
+                    await db.collection("users").doc(user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        uid: user.uid,
+                        provider: "google",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
             }
-        } 
-        
-        if (mode === 'login' && isNewUser) {
-             // If they tried to "Login" but didn't have an account
-             loginError.style.display = 'block';
-             loginError.innerText = "No account found. Creating a new one for you...";
-             // Save data since they are technically a new user now
-             await db.collection("users").doc(user.uid).set({
-                displayName: user.displayName,
-                email: user.email,
-                uid: user.uid,
-                provider: "google",
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        }
 
-        updateUIForUser(user);
+            updateUIForUser(user);
 
-    } catch (err) {
-        if (err.code !== 'auth/popup-closed-by-user') {
-            alert("Google link failed: " + err.message);
+        } catch (err) {
+            if (err.code !== 'auth/popup-closed-by-user') {
+                alert("Google link failed: " + err.message);
+            }
         }
-    }
-};
+    };
 
     window.handleEmailLogin = async () => {
         const emailInput = document.querySelector('#loginForm input[type="email"]');
@@ -713,7 +712,7 @@
             updateUIForUser(result.user);
         } catch (error) {
             errorHint.style.display = 'block';
-            errorHint.innerText = error.code === 'auth/wrong-password' ? "Incorrect password." : "User not found or invalid password.";
+            errorHint.innerText = "Incorrect credentials or user not found.";
             passInput.classList.add('input-error');
         }
     };
@@ -722,7 +721,7 @@
         const emailInput = document.querySelector('#signupForm input[type="email"]');
         const passInput = document.getElementById('signupPass');
         const nameInput = document.querySelector('#signupForm input[type="text"]');
-        const signupError = document.getElementById('signupErrorMain'); // Use unique ID
+        const signupError = document.getElementById('signupErrorMain');
 
         if (!passInput.value || passInput.value.length < 6) {
             signupError.style.display = 'block';
@@ -734,10 +733,8 @@
             const result = await auth.createUserWithEmailAndPassword(emailInput.value, passInput.value);
             const user = result.user;
 
-            // Sync with Firestore
             await db.collection("users").doc(user.uid).set({
                 displayName: nameInput.value,
-                password: passInput.value,
                 email: user.email,
                 uid: user.uid,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -746,13 +743,9 @@
             updateUIForUser(user);
         } catch (error) {
             signupError.style.display = 'block';
-        
             if (error.code === 'auth/email-already-in-use') {
-                signupError.innerText = "This email is already registered. Please login instead.";
-            } else if (error.code === 'auth/invalid-email') {
-                signupError.innerText = "Email address not found or badly formatted.";
+                signupError.innerText = "This email is already registered. Please login.";
             } else {
-                // Fallback to the default Firebase message for any other errors
                 signupError.innerText = error.message;
             }
         }
@@ -767,18 +760,20 @@
         const authInterface = document.getElementById('authInterface');
         const userName = user.displayName || user.email.split('@')[0];
 
-        authInterface.innerHTML = `
-            <div class="user-profile-wrap" onclick="toggleUserMenu()">
-                <span>Welcome, <strong>${userName}</strong></span>
-                <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
-                <div class="user-menu" id="userDropdown">
-                    <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
-                    <div class="menu-item logout-item" onclick="handleLogout()">
-                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+        if(authInterface) {
+            authInterface.innerHTML = `
+                <div class="user-profile-wrap" onclick="toggleUserMenu()">
+                    <span>Welcome, <strong>${userName}</strong></span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+                    <div class="user-menu" id="userDropdown">
+                        <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
+                        <div class="menu-item logout-item" onclick="handleLogout()">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
         unlockTerminal();
         window.closeAuth();
     }
@@ -802,7 +797,6 @@
             input.placeholder = "Login to unlock...";
             btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
             btn.style.background = "#bdc3c7";
-            document.querySelector('.login-btn')?.classList.add('glow-active');
         }
     }
 
@@ -811,49 +805,32 @@
         else lockInterface();
     });
 
-        window.handleForgotPassword = async () => {
-    // 1. Target the email input from your login form
-    const emailInput = document.querySelector('#loginForm input[type="email"]');
-// Then you MUST use emailInput.value inside the function:
-    await auth.sendPasswordResetEmail(emailInput.value);
-    const statusBox = document.getElementById('authStatusMsg');
-    
-    // 2. Validate that the email field isn't empty
-    if (!emailInput.value) {
-        statusBox.style.display = 'block';
-        statusBox.style.color = '#ff4444'; // Red for error
-        statusBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter your email to receive a reset link.';
-        return;
-    }
-
-    try {
-        // 3. Firebase magic: Send the reset email
-        await auth.sendPasswordResetEmail(emailInput.value);
+    window.handleForgotPassword = async () => {
+        const emailInput = document.querySelector('#loginForm input[type="email"]');
+        const statusBox = document.getElementById('authStatusMsg');
         
-        // 4. Update UI to show success
-        statusBox.style.display = 'block';
-        statusBox.style.color = 'var(--electric-blue)'; // Blue for success
-        statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox.';
-        
-    } catch (error) {
-    // 1. Show the status box
-    statusBox.style.display = 'block';
-    statusBox.style.color = '#ff4444';
+        if (!emailInput || !emailInput.value) {
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            statusBox.innerText = "Please enter your email first.";
+            return;
+        }
 
-    // 2. Check for specific error codes to show custom messages
-    if (error.code === 'auth/invalid-email') {
-        statusBox.innerText = "Email address not found or badly formatted.";
-    } else if (error.code === 'auth/user-not-found') {
-        statusBox.innerText = "User not found.";
-    } else {
-        // Fallback to the default Firebase message for any other errors (like network issues)
-        statusBox.innerText = "Error: " + error.message;
-    }
-}
-
-            console.log("Attempting reset for:", emailInput.value); // Check your browser console (F12)
-await auth.sendPasswordResetEmail(emailInput.value);
-};
+        try {
+            await auth.sendPasswordResetEmail(emailInput.value);
+            statusBox.style.display = 'block';
+            statusBox.style.color = 'var(--electric-blue)';
+            statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox/spam.';
+        } catch (error) {
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            if (error.code === 'auth/user-not-found') {
+                statusBox.innerText = "No account found with this email.";
+            } else {
+                statusBox.innerText = error.message;
+            }
+        }
+    };
 </script>
 
     <!-- AUTH MODAL -->
