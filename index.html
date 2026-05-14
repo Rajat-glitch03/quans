@@ -771,7 +771,7 @@
 
         window.handleForgotPassword = async () => {
     // 1. Target the email input from your login form
-    const emailInput = document.querySelector('#loginForm input[type="email"]');
+    const emailInput = document.querySelector('#loginForm input[type="email"]').value;
     const statusBox = document.getElementById('authStatusMsg');
     
     // 2. Validate that the email field isn't empty
