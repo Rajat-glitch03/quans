@@ -827,6 +827,8 @@
                 <span onclick="handleForgotPassword()" style="cursor: pointer;">
                     Forgot Password?
                 </span>
+                <!-- This is the 'target' that JavaScript is looking for -->
+                <div id="authStatusMsg" style="display: none; padding: 10px; margin-top: 10px;"></div>
                 <button type="button" class="modal-submit-btn" onclick="handleEmailLogin()">Login</button>
                 <p class="toggle-text">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
