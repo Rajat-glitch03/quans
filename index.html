@@ -577,7 +577,7 @@
     // 1. Initialize Firebase
     const firebaseConfig = {
         // YOUR CONFIG HERE
-          apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
+         apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
   authDomain: "quans-14b18.firebaseapp.com",
   projectId: "quans-14b18",
   storageBucket: "quans-14b18.firebasestorage.app",
@@ -651,7 +651,7 @@
         if (dropdown) dropdown.classList.toggle('show');
     };
 
-    // --- AUTH LOGIC ---
+    // --- GOOGLE AUTH LOGIC ---
     window.handleGoogleLogin = async (mode) => {
         const provider = new firebase.auth.GoogleAuthProvider();
         const signupError = document.getElementById('signupErrorMain');
@@ -662,46 +662,30 @@
             const user = result.user;
             const isNewUser = result.additionalUserInfo.isNewUser;
 
-            // Logic for Signup Mode
-            if (mode === 'signup') {
-                if (!isNewUser) {
-                    signupError.style.display = 'block';
-                    signupError.innerText = "Account already exists. Logged in instead.";
-                } else {
-                    await db.collection("users").doc(user.uid).set({
-                        displayName: user.displayName,
-                        email: user.email,
-                        uid: user.uid,
-                        provider: "google",
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
+            if (mode === 'signup' && !isNewUser) {
+                signupError.style.display = 'block';
+                signupError.innerText = "Account already exists. Logging you in...";
             } 
             
-            // Logic for Login Mode
-            if (mode === 'login') {
-                if (isNewUser) {
-                    loginError.style.display = 'block';
-                    loginError.innerText = "No account found. Creating a new one for you...";
-                    await db.collection("users").doc(user.uid).set({
-                        displayName: user.displayName,
-                        email: user.email,
-                        uid: user.uid,
-                        provider: "google",
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
+            if (isNewUser) {
+                await db.collection("users").doc(user.uid).set({
+                    displayName: user.displayName,
+                    email: user.email,
+                    uid: user.uid,
+                    provider: "google",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
             }
 
             updateUIForUser(user);
-
         } catch (err) {
             if (err.code !== 'auth/popup-closed-by-user') {
-                alert("Google link failed: " + err.message);
+                alert("Google Auth Error: " + err.message);
             }
         }
     };
 
+    // --- EMAIL LOGIN ---
     window.handleEmailLogin = async () => {
         const emailInput = document.querySelector('#loginForm input[type="email"]');
         const passInput = document.getElementById('loginPass');
@@ -712,11 +696,18 @@
             updateUIForUser(result.user);
         } catch (error) {
             errorHint.style.display = 'block';
-            errorHint.innerText = "Incorrect credentials or user not found.";
+            switch (error.code) {
+                case 'auth/user-not-found': errorHint.innerText = "No account found with this email."; break;
+                case 'auth/wrong-password': errorHint.innerText = "Incorrect password."; break;
+                case 'auth/invalid-email': errorHint.innerText = "Invalid email format."; break;
+                case 'auth/user-disabled': errorHint.innerText = "This account has been disabled."; break;
+                default: errorHint.innerText = error.message;
+            }
             passInput.classList.add('input-error');
         }
     };
 
+    // --- EMAIL SIGNUP ---
     window.handleEmailSignup = async () => {
         const emailInput = document.querySelector('#signupForm input[type="email"]');
         const passInput = document.getElementById('signupPass');
@@ -743,10 +734,42 @@
             updateUIForUser(user);
         } catch (error) {
             signupError.style.display = 'block';
-            if (error.code === 'auth/email-already-in-use') {
-                signupError.innerText = "This email is already registered. Please login.";
-            } else {
-                signupError.innerText = error.message;
+            switch (error.code) {
+                case 'auth/email-already-in-use': signupError.innerText = "Email already registered. Try logging in."; break;
+                case 'auth/invalid-email': signupError.innerText = "Invalid email address format."; break;
+                case 'auth/weak-password': signupError.innerText = "Password is too weak."; break;
+                case 'auth/operation-not-allowed': signupError.innerText = "Email/Password accounts are not enabled."; break;
+                default: signupError.innerText = error.message;
+            }
+        }
+    };
+
+    // --- FORGOT PASSWORD ---
+    window.handleForgotPassword = async () => {
+        const emailInput = document.querySelector('#loginForm input[type="email"]');
+        const statusBox = document.getElementById('authStatusMsg');
+
+        if (!emailInput.value) {
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            statusBox.innerText = "Enter your email first.";
+            return;
+        }
+
+        try {
+            console.log("Attempting reset for:", emailInput.value);
+            await auth.sendPasswordResetEmail(emailInput.value);
+            statusBox.style.display = 'block';
+            statusBox.style.color = 'var(--electric-blue)';
+            statusBox.innerText = "Reset link sent! Check your inbox (and spam).";
+        } catch (error) {
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            switch (error.code) {
+                case 'auth/user-not-found': statusBox.innerText = "No user found with this email."; break;
+                case 'auth/invalid-email': statusBox.innerText = "Invalid email format."; break;
+                case 'auth/too-many-requests': statusBox.innerText = "Too many requests. Try again later."; break;
+                default: statusBox.innerText = error.message;
             }
         }
     };
@@ -760,20 +783,18 @@
         const authInterface = document.getElementById('authInterface');
         const userName = user.displayName || user.email.split('@')[0];
 
-        if(authInterface) {
-            authInterface.innerHTML = `
-                <div class="user-profile-wrap" onclick="toggleUserMenu()">
-                    <span>Welcome, <strong>${userName}</strong></span>
-                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
-                    <div class="user-menu" id="userDropdown">
-                        <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
-                        <div class="menu-item logout-item" onclick="handleLogout()">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
-                        </div>
+        authInterface.innerHTML = `
+            <div class="user-profile-wrap" onclick="toggleUserMenu()">
+                <span>Welcome, <strong>${userName}</strong></span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+                <div class="user-menu" id="userDropdown">
+                    <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
+                    <div class="menu-item logout-item" onclick="handleLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
         unlockTerminal();
         window.closeAuth();
     }
@@ -797,6 +818,7 @@
             input.placeholder = "Login to unlock...";
             btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
             btn.style.background = "#bdc3c7";
+            document.querySelector('.login-btn')?.classList.add('glow-active');
         }
     }
 
@@ -804,33 +826,6 @@
         if (user) updateUIForUser(user);
         else lockInterface();
     });
-
-    window.handleForgotPassword = async () => {
-        const emailInput = document.querySelector('#loginForm input[type="email"]');
-        const statusBox = document.getElementById('authStatusMsg');
-        
-        if (!emailInput || !emailInput.value) {
-            statusBox.style.display = 'block';
-            statusBox.style.color = '#ff4444';
-            statusBox.innerText = "Please enter your email first.";
-            return;
-        }
-
-        try {
-            await auth.sendPasswordResetEmail(emailInput.value);
-            statusBox.style.display = 'block';
-            statusBox.style.color = 'var(--electric-blue)';
-            statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox/spam.';
-        } catch (error) {
-            statusBox.style.display = 'block';
-            statusBox.style.color = '#ff4444';
-            if (error.code === 'auth/user-not-found') {
-                statusBox.innerText = "No account found with this email.";
-            } else {
-                statusBox.innerText = error.message;
-            }
-        }
-    };
 </script>
 
     <!-- AUTH MODAL -->
