@@ -34,6 +34,23 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        #chatStream {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.user-message-bubble {
+    border-right: 3px solid var(--electric-blue);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
         .error-hint {
             color: #ff4444;
             font-size: 0.8rem;
@@ -830,18 +847,28 @@
         }
     }
 
-    // --- MODEL SELECTION & MESSAGING ---
-    window.selectModel = (modelName) => {
-        const user = auth.currentUser;
-        if (!user && modelName !== 'Quans') {
-            showLockedWarning("Please login first to access " + modelName);
-            return;
-        }
-        console.log("Switching to:", modelName);
-        const label = document.getElementById('currentModelName');
-        if (label) label.innerText = modelName;
-        window.toggleDropdown();
-    };
+   // --- MODEL SELECTION ---
+window.selectModel = (modelName) => {
+    const user = auth.currentUser;
+    if (!user && modelName !== 'Quans') {
+        showLockedWarning("Please login first to access " + modelName);
+        return;
+    }
+
+    // 1. Update the footer text
+    const label = document.getElementById('currentModelName');
+    if (label) label.innerText = modelName;
+
+    // 2. HIGHLIGHT LOGIC: Remove active class from all, add to clicked one
+    const allItems = document.querySelectorAll('.sidebar-item');
+    allItems.forEach(item => item.classList.remove('active-model'));
+    
+    // Find the clicked element by its text content and add the class
+    const clickedItem = Array.from(allItems).find(el => el.innerText.includes(modelName));
+    if (clickedItem) clickedItem.classList.add('active-model');
+
+    window.toggleDropdown();
+};
 
     function showLockedWarning(message) {
         const errorBox = document.getElementById('loginError');
@@ -853,21 +880,37 @@
         setTimeout(() => { window.openAuth('login'); }, 1000);
     }
 
-    window.handleSendMessage = () => {
-        const user = auth.currentUser;
-        const input = document.getElementById('userInput');
+   window.handleSendMessage = () => {
+    const user = auth.currentUser;
+    const input = document.getElementById('userInput');
+    const chatStream = document.getElementById('chatStream');
+    const welcomeNote = document.getElementById('welcomeNote');
 
-        if (!user) {
-            showLockedWarning("Please login to start a conversation.");
-            return;
-        }
+    if (!user) {
+        showLockedWarning("Please login to start a conversation.");
+        return;
+    }
 
-        if (input && input.value.trim() !== "") {
-            console.log("Sending message:", input.value);
-            // Firestore logic would go here
-            input.value = ""; 
-        }
-    };
+    if (input && input.value.trim() !== "") {
+        // 1. Hide the welcome note on the first message
+        if (welcomeNote) welcomeNote.style.display = 'none';
+
+        // 2. DISPLAY LOGIC: Create the message bubble
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'user-message-bubble'; // Make sure to add CSS for this!
+        msgDiv.style.cssText = "background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; align-self: flex-end; color: white; max-width: 80%; margin-left: auto;";
+        msgDiv.innerText = input.value;
+
+        // 3. Append to the chat area
+        chatStream.appendChild(msgDiv);
+
+        // 4. Scroll to bottom
+        chatStream.scrollTop = chatStream.scrollHeight;
+
+        console.log("Message sent to terminal:", input.value);
+        input.value = ""; 
+    }
+};
 
     // --- AUTH OBSERVER ---
     auth.onAuthStateChanged((user) => {
