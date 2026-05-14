@@ -3,396 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quans | Intelligence Terminal</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <title>Quans Intelligence | Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-dark: #171717;
-            --sidebar-dark: #0d0d0d;
-            --text-main: #ececec;
-            --text-dim: #b4b4b4;
-            --electric-blue: #007aff;
-            --error-red: #ff4b4b;
-            --border: rgba(255,255,255,0.1);
+            --deep-blue: #020617;
+            --electric-blue: #3b82f6;
+            --soft-blue: #1e293b;
+            --faint-white: #f8fafc;
+            --text-dim: #94a3b8;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DM Sans', sans-serif; }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        body { background-color: var(--deep-blue); color: var(--faint-white); height: 100vh; overflow: hidden; display: flex; }
 
         /* --- SIDEBAR --- */
         .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-dark);
+            width: 280px;
+            background: #0f172a;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 10px;
-            transition: all 0.3s ease;
-            z-index: 100;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            z-index: 1000;
         }
 
-        .new-chat-btn {
-            border: 1px solid var(--border);
+        .sidebar.closed { transform: translateX(-100%); width: 0; overflow: hidden; }
+
+        .sidebar-header { padding: 20px; }
+        
+        /* Models Dropdown */
+        .model-section { margin-bottom: 20px; }
+        .dropdown {
+            background: var(--soft-blue);
             border-radius: 8px;
             padding: 12px;
-            margin-bottom: 20px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .new-chat-btn:hover { background: rgba(255,255,255,0.05); }
-
-        .history-container { flex: 1; overflow-y: auto; margin-bottom: 20px; }
-        .history-item {
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            cursor: pointer;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 2px;
-        }
-        .history-item:hover { background: rgba(255,255,255,0.05); color: white; }
-
-        .sidebar-footer { border-top: 1px solid var(--border); padding-top: 10px; }
-        .footer-item {
-            padding: 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-radius: 6px;
-        }
-        .footer-item:hover { background: rgba(255,255,255,0.05); }
-
-        /* --- MAIN CONTENT --- */
-        .main-container { flex: 1; display: flex; flex-direction: column; position: relative; }
-
-        header {
-            padding: 15px 20px;
+            position: relative;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .model-selector {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chat-stream {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 10%;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* --- MESSAGES --- */
-        .msg { max-width: 85%; line-height: 1.6; animation: fadeIn 0.4s ease; }
-        .msg.user { align-self: flex-end; background: #2f2f2f; padding: 12px 20px; border-radius: 20px; }
-        .msg.ai { align-self: flex-start; display: flex; gap: 15px; }
-        .ai-icon { width: 30px; height: 30px; border-radius: 4px; background: var(--electric-blue); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-
-        .system-msg { color: var(--error-red); font-family: monospace; font-size: 0.8rem; text-align: center; margin: 10px 0; }
-
-        /* --- INPUT AREA --- */
-        .input-wrapper {
-            padding: 20px 10% 40px;
-            position: relative;
-        }
-
-        .input-box {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 50px 14px 16px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        .input-box:disabled { cursor: not-allowed; background: rgba(255,255,255,0.02); }
-
-        .send-btn {
+        .dropdown-menu {
             position: absolute;
-            right: calc(10% + 10px);
-            top: 28px;
-            background: var(--electric-blue);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            top: 105%; left: 0; width: 100%;
+            background: #1e293b;
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .dropdown-menu.open { display: flex; }
+        .dropdown-item { padding: 12px; font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-item:hover { background: var(--electric-blue); }
+
+        /* History & Actions */
+        .new-chat {
+            padding: 12px; border: 1px dashed var(--electric-blue);
+            border-radius: 8px; text-align: center; cursor: pointer; margin: 10px 20px;
+            transition: 0.2s; color: var(--electric-blue); font-weight: 500;
+        }
+        .new-chat:hover { background: rgba(59, 130, 246, 0.1); }
+
+        .history-list { flex: 1; overflow-y: auto; padding: 0 20px; }
+        .history-item {
+            padding: 10px; border-radius: 6px; font-size: 0.85rem;
+            color: var(--text-dim); cursor: pointer; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px;
+        }
+        .history-item:hover { background: rgba(255,255,255,0.05); color: white; }
+
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-link { display: flex; align-items: center; gap: 10px; padding: 10px 0; color: var(--text-dim); text-decoration: none; font-size: 0.9rem; cursor: pointer; }
+        .footer-link:hover { color: var(--electric-blue); }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+
+        header {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
         }
 
-        .send-btn:disabled { opacity: 0.3; background: #444; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .menu-toggle { font-size: 1.5rem; cursor: pointer; color: var(--electric-blue); }
+        .logo { height: 30px; }
 
-        /* --- MODAL --- */
-        .auth-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000;
+        .header-right { display: flex; gap: 15px; align-items: center; }
+        .btn-auth {
+            padding: 8px 18px; border-radius: 6px; font-size: 0.9rem;
+            cursor: pointer; border: none; font-weight: 600; transition: 0.2s;
+        }
+        .btn-login { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-signup { background: var(--electric-blue); color: white; }
+
+        /* User Profile Dropdown */
+        .user-greet { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-dropdown {
+            position: absolute; top: 60px; right: 25px;
+            background: #1e293b; border-radius: 8px; width: 150px;
+            display: none; flex-direction: column; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .user-dropdown.show { display: flex; }
+
+        /* Chat Area */
+        .chat-container { flex: 1; overflow-y: auto; padding: 40px 15%; display: flex; flex-direction: column; gap: 20px; }
+        .message { max-width: 80%; padding: 15px 20px; border-radius: 12px; line-height: 1.6; animation: fadeIn 0.4s ease; }
+        .message.user { align-self: flex-end; background: var(--electric-blue); color: white; }
+        .message.ai { align-self: flex-start; background: var(--soft-blue); color: var(--faint-white); }
+
+        /* Input Area */
+        .input-area { padding: 20px 15%; background: var(--deep-blue); }
+        .input-wrapper {
+            position: relative; background: var(--soft-blue);
+            border-radius: 12px; padding: 12px 15px; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .model-indicator { font-size: 0.75rem; color: var(--electric-blue); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        .chat-input {
+            width: 100%; background: transparent; border: none;
+            color: white; outline: none; font-size: 1rem;
+        }
+        .send-btn {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--electric-blue); font-size: 1.2rem; cursor: pointer;
         }
 
-        .modal-content { background: #212121; padding: 30px; border-radius: 12px; width: 350px; text-align: center; }
-        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; background: #2f2f2f; border: 1px solid var(--border); color: white; border-radius: 6px; }
-        .modal-content button { width: 100%; padding: 12px; background: var(--electric-blue); border: none; color: white; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+        /* --- MODALS --- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal {
+            background: #0f172a; width: 400px; padding: 30px;
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);
+            position: relative; animation: slideUp 0.3s ease;
+        }
+        .modal h2 { margin-bottom: 20px; font-weight: 700; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-input {
+            width: 100%; padding: 12px; background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            color: white; outline: none;
+        }
+        .toggle-pass { position: absolute; right: 12px; top: 14px; cursor: pointer; color: var(--text-dim); }
+        .modal-btn { width: 100%; padding: 12px; background: var(--electric-blue); border: none; color: white; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        
+        /* Mobile Overlay */
+        #mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } }
 
         @media (max-width: 768px) {
-            .sidebar { position: absolute; left: -260px; height: 100%; }
-            .sidebar.active { left: 0; }
-            .chat-stream, .input-wrapper { padding-left: 20px; padding-right: 20px; }
+            .sidebar { position: fixed; left: 0; height: 100%; transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); width: 280px; }
+            .chat-container { padding: 20px 5%; }
+            .input-area { padding: 15px 5%; }
+            .modal { width: 90%; }
         }
     </style>
 </head>
 <body>
 
+    <div id="mobile-overlay" onclick="toggleSidebar()"></div>
+
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-        <div class="new-chat-btn" onclick="startNewChat()">
+        <div class="sidebar-header">
+            <div class="model-section">
+                <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 8px;">INTELLIGENCE MODEL</p>
+                <div class="dropdown" onclick="toggleModelDropdown()">
+                    <span id="activeModelName">Quans</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <div class="dropdown-menu" id="modelMenu">
+                        <div class="dropdown-item" onclick="selectModel('Quans')">Quans</div>
+                        <div class="dropdown-item" onclick="selectModel('Quans v2.4bb')">Quans v2.4bb</div>
+                        <div class="dropdown-item" onclick="selectModel('Quans v2.4s')">Quans v2.4s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-chat" onclick="startNewChat()">
             <i class="fa-solid fa-plus"></i> New Chat
         </div>
-        
-        <div class="history-container" id="historyContainer">
-            <!-- Saved chats appear here -->
+
+        <div class="history-list" id="historyList">
+            <!-- History Items Inject Here -->
         </div>
 
         <div class="sidebar-footer">
-            <div class="footer-item" onclick="openAbout()"><i class="fa-solid fa-circle-info"></i> About Us</div>
-            <div class="footer-item" onclick="openContact()"><i class="fa-solid fa-envelope"></i> Contact Us</div>
-            <div id="authContainer">
-                <div class="footer-item" onclick="showAuth('login')"><i class="fa-solid fa-right-to-bracket"></i> Login</div>
-            </div>
+            <div class="footer-link"><i class="fa-solid fa-crown"></i> Premium</div>
+            <div class="footer-link"><i class="fa-solid fa-circle-info"></i> About Us</div>
+            <div class="footer-link"><i class="fa-solid fa-paper-plane"></i> Contact Us</div>
         </div>
     </aside>
 
     <!-- MAIN -->
-    <main class="main-container">
+    <main class="main-content">
         <header>
-            <div class="model-selector" onclick="toggleModelMenu()">
-                <span id="currentModel">QUANS</span> <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+            <div class="header-left">
+                <i class="fa-solid fa-bars-staggered menu-toggle" onclick="toggleSidebar()"></i>
+                <img src="https://via.placeholder.com/120x30/007aff/ffffff?text=QUANS+LOGO" alt="Logo" class="logo">
             </div>
-            <img src="YOUR_LOGO_HERE.png" alt="QUANS" style="height: 24px; opacity: 0.8;">
+            <div class="header-right" id="authHeader">
+                <button class="btn-auth btn-login" onclick="openModal('login')">Login</button>
+                <button class="btn-auth btn-signup" onclick="openModal('signup')">Sign Up</button>
+            </div>
         </header>
 
-        <div class="chat-stream" id="chatStream">
-            <div class="system-msg" id="loginPrompt">SECURITY PROTOCOL: LOGIN REQUIRED TO START TERMINAL.</div>
+        <div class="chat-container" id="chatBox">
+            <div class="message ai">Hello! I am Quans Intelligence. Please login to begin your encrypted session.</div>
         </div>
 
-        <div class="input-wrapper">
-            <input type="text" class="input-box" id="userInput" placeholder="Message Quans..." disabled>
-            <button class="send-btn" id="sendBtn" onclick="handleSend()" disabled>
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
+        <div class="input-area">
+            <div class="input-wrapper">
+                <div class="model-indicator" id="inputModelLabel">Current Model: Quans</div>
+                <input type="text" class="chat-input" id="userInput" placeholder="Login to send message..." disabled>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
         </div>
     </main>
 
     <!-- AUTH MODAL -->
-    <div class="auth-modal" id="authModal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Login</h3>
-            <input type="email" id="authEmail" placeholder="Email">
-            <input type="password" id="authPass" placeholder="Password">
-            <button onclick="processAuth()" id="authSubmitBtn">Continue</button>
-            <p style="font-size: 0.8rem; margin-top: 15px; cursor: pointer; color: var(--text-dim);" onclick="toggleAuthMode()">Don't have an account? Sign Up</p>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <i class="fa-solid fa-xmark" style="position:absolute; right:20px; top:20px; cursor:pointer" onclick="closeModal()"></i>
+            <h2 id="modalTitle">Welcome Back</h2>
+            <div class="form-group">
+                <input type="email" class="form-input" id="authEmail" placeholder="Email Address">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" id="authPass" placeholder="Password">
+                <i class="fa-solid fa-eye toggle-pass" onclick="togglePassVisibility()"></i>
+            </div>
+            <p id="forgotLink" style="font-size: 0.8rem; color: var(--electric-blue); cursor: pointer; margin-bottom: 15px;" onclick="handleForgot()">Forgot Password?</p>
+            <button class="modal-btn" onclick="handleAuthSubmit()" id="authBtn">Continue</button>
+            <p id="switchAuth" style="text-align: center; font-size: 0.85rem; margin-top: 20px; cursor: pointer; color: var(--text-dim)"></p>
         </div>
     </div>
 
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // 1. FIREBASE CONFIG (Add your Vercel Env Vars here later)
+        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_DOMAIN",
-            projectId: "YOUR_PROJECT",
-            storageBucket: "YOUR_BUCKET",
-            messagingSenderId: "YOUR_SENDER",
-            appId: "YOUR_APP"
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
+        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let currentChatId = null;
-        let authMode = 'login';
+        // --- STATE MANAGEMENT ---
+        let currentMode = 'login';
+        let currentUser = null;
+
+        // --- UI HELPERS ---
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            if (window.innerWidth <= 768) {
+                sb.classList.toggle('active');
+                overlay.style.display = sb.classList.contains('active') ? 'block' : 'none';
+            } else {
+                sb.classList.toggle('closed');
+            }
+        }
+
+        function toggleModelDropdown() {
+            document.getElementById('modelMenu').classList.toggle('open');
+        }
+
+        function selectModel(name) {
+            if (name !== 'Quans') {
+                alert(`${name} is not available right now. Please upgrade to Premium.`);
+                return;
+            }
+            document.getElementById('activeModelName').innerText = name;
+            document.getElementById('inputModelLabel').innerText = "Current Model: " + name;
+            toggleModelDropdown();
+        }
+
+        function togglePassVisibility() {
+            const passInput = document.getElementById('authPass');
+            const icon = document.querySelector('.toggle-pass');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
 
         // --- AUTH LOGIC ---
-        function showAuth(mode) {
-            authMode = mode;
-            document.getElementById('authModal').style.display = 'flex';
+        function openModal(mode) {
+            currentMode = mode;
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.getElementById('modalTitle').innerText = mode === 'login' ? 'Welcome Back' : 'Create Account';
+            document.getElementById('authBtn').innerText = mode === 'login' ? 'Login' : 'Sign Up';
+            document.getElementById('switchAuth').innerText = mode === 'login' ? "Don't have an account? Sign Up" : "Already have an account? Login";
+            document.getElementById('switchAuth').onclick = () => openModal(mode === 'login' ? 'signup' : 'login');
         }
 
-        function toggleAuthMode() {
-            authMode = authMode === 'login' ? 'signup' : 'login';
-            document.getElementById('modalTitle').innerText = authMode === 'login' ? 'Login' : 'Sign Up';
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
         }
 
-        async function processAuth() {
+        async function handleAuthSubmit() {
             const email = document.getElementById('authEmail').value;
             const pass = document.getElementById('authPass').value;
+            
             try {
-                if (authMode === 'login') {
+                if (currentMode === 'login') {
                     await auth.signInWithEmailAndPassword(email, pass);
                 } else {
                     await auth.createUserWithEmailAndPassword(email, pass);
                 }
-                document.getElementById('authModal').style.display = 'none';
+                closeModal();
             } catch (error) {
-                appendSystemMsg("AUTH ERROR: " + error.code);
+                alert("Firebase Error: " + error.message);
+            }
+        }
+
+        async function handleForgot() {
+            const email = document.getElementById('authEmail').value;
+            if (!email) return alert("Please enter your email address.");
+            try {
+                await auth.sendPasswordResetEmail(email);
+                alert("Reset link sent to your email!");
+            } catch (error) {
+                alert(error.message);
             }
         }
 
         auth.onAuthStateChanged(user => {
+            currentUser = user;
+            const header = document.getElementById('authHeader');
             const input = document.getElementById('userInput');
             const btn = document.getElementById('sendBtn');
-            const authContainer = document.getElementById('authContainer');
-            const prompt = document.getElementById('loginPrompt');
-
+            
             if (user) {
+                header.innerHTML = `
+                    <div class="user-greet" onclick="toggleUserMenu()">
+                        <span>HELLO! ${user.email.split('@')[0].toUpperCase()}</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                        <div class="user-dropdown" id="userMenu">
+                            <div class="dropdown-item">Account</div>
+                            <div class="dropdown-item" onclick="handleLogout()">Logout</div>
+                        </div>
+                    </div>
+                `;
                 input.disabled = false;
+                input.placeholder = "Type your message...";
                 btn.disabled = false;
-                if(prompt) prompt.style.display = 'none';
-                authContainer.innerHTML = `<div class="footer-item" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>`;
                 loadHistory();
             } else {
+                header.innerHTML = `
+                    <button class="btn-auth btn-login" onclick="openModal('login')">Login</button>
+                    <button class="btn-auth btn-signup" onclick="openModal('signup')">Sign Up</button>
+                `;
                 input.disabled = true;
                 btn.disabled = true;
-                authContainer.innerHTML = `<div class="footer-item" onclick="showAuth('login')"><i class="fa-solid fa-right-to-bracket"></i> Login</div>`;
+                document.getElementById('historyList').innerHTML = '';
             }
         });
 
-        function logout() { auth.signOut().then(() => location.reload()); }
-
-        // --- CHAT LOGIC ---
-        function appendSystemMsg(text) {
-            const div = document.createElement('div');
-            div.className = 'system-msg';
-            div.innerText = `> ${text}`;
-            document.getElementById('chatStream').appendChild(div);
+        function toggleUserMenu() {
+            document.getElementById('userMenu').classList.toggle('show');
         }
 
-        function toggleModelMenu() {
-            const model = prompt("Select Model: Quans, Quans Pro, Llama 3");
-            if(model && model.toLowerCase() !== 'quans') {
-                appendSystemMsg(`${model.toUpperCase()} IS CURRENTLY UNAVAILABLE.`);
-            } else {
-                document.getElementById('currentModel').innerText = "QUANS";
-            }
+        function handleLogout() {
+            auth.signOut();
+            location.reload();
         }
 
-        async function handleSend() {
+        // --- MESSAGING & HISTORY ---
+        async function sendMessage() {
             const input = document.getElementById('userInput');
-            const text = input.value.trim();
-            if (!text) return;
+            const msg = input.value.trim();
+            if (!msg || !currentUser) return;
 
-            if (!currentChatId) await createNewChat(text);
+            appendMessage('user', msg);
+            input.value = '';
 
-            appendMessage('user', text);
-            input.value = "";
-
-            // --- API CALL (Ready for Vercel) ---
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    body: JSON.stringify({ message: text, userId: auth.currentUser.uid, chatId: currentChatId })
+            // Simulate AI Response
+            setTimeout(async () => {
+                const response = "Decrypted response: Logic protocol accepted. Analyzing your request in Quans V2.1 kernel.";
+                appendMessage('ai', response);
+                
+                // Save to Firebase
+                await db.collection('users').doc(currentUser.uid).collection('history').add({
+                    text: msg,
+                    response: response,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                const data = await response.json();
-                appendMessage('ai', data.reply);
-                saveMessage(currentChatId, text, data.reply);
-            } catch (e) {
-                appendSystemMsg("CONNECTION ERROR: CHECK TERMINAL UPLINK.");
-            }
+                loadHistory();
+            }, 1000);
         }
 
         function appendMessage(role, text) {
-            const stream = document.getElementById('chatStream');
+            const box = document.getElementById('chatBox');
             const div = document.createElement('div');
-            div.className = `msg ${role}`;
-            div.innerHTML = role === 'ai' 
-                ? `<div class="ai-icon">Q</div><div>${text}</div>`
-                : text;
-            stream.appendChild(div);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        // --- HISTORY & NEW CHAT ---
-        async function createNewChat(firstMsg) {
-            const res = await db.collection('users').doc(auth.currentUser.uid).collection('chats').add({
-                title: firstMsg.substring(0, 30),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            currentChatId = res.id;
-            loadHistory();
-        }
-
-        function startNewChat() {
-            currentChatId = null;
-            document.getElementById('chatStream').innerHTML = "";
-            appendSystemMsg("NEW SESSION INITIALIZED.");
-        }
-
-        async function saveMessage(chatId, userMsg, aiMsg) {
-            await db.collection('users').doc(auth.currentUser.uid).collection('chats').doc(chatId).collection('messages').add({
-                user: userMsg,
-                ai: aiMsg,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            div.className = `message ${role}`;
+            div.innerText = text;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
         }
 
         async function loadHistory() {
-            const container = document.getElementById('historyContainer');
-            const snap = await db.collection('users').doc(auth.currentUser.uid).collection('chats').orderBy('timestamp', 'desc').get();
-            container.innerHTML = "";
-            snap.forEach(doc => {
+            if (!currentUser) return;
+            const snapshot = await db.collection('users').doc(currentUser.uid).collection('history')
+                .orderBy('timestamp', 'desc').limit(10).get();
+            
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const data = doc.data();
                 const item = document.createElement('div');
                 item.className = 'history-item';
-                item.innerText = doc.data().title;
-                item.onclick = () => loadChat(doc.id);
-                container.appendChild(item);
+                item.innerHTML = `<i class="fa-regular fa-message"></i> ${data.text}`;
+                item.onclick = () => {
+                    document.getElementById('chatBox').innerHTML = '';
+                    appendMessage('user', data.text);
+                    appendMessage('ai', data.response);
+                };
+                list.appendChild(item);
             });
         }
 
-        async function loadChat(id) {
-            currentChatId = id;
-            const stream = document.getElementById('chatStream');
-            stream.innerHTML = "";
-            const snap = await db.collection('users').doc(auth.currentUser.uid).collection('chats').doc(id).collection('messages').orderBy('timestamp').get();
-            snap.forEach(doc => {
-                appendMessage('user', doc.data().user);
-                appendMessage('ai', doc.data().ai);
-            });
+        function startNewChat() {
+            document.getElementById('chatBox').innerHTML = '<div class="message ai">New encrypted session started. How can I assist you?</div>';
         }
-
-        function openAbout() { appendSystemMsg("QUANS INTELLIGENCE V1.0. TACTICAL AI SOLUTIONS."); }
-        function openContact() { appendSystemMsg("SUPPORT ENCRYPTED. CONTACT: ADMIN@QUANS.INTEL"); }
     </script>
 </body>
 </html>
