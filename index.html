@@ -652,14 +652,56 @@
     };
 
     // --- AUTH LOGIC ---
-    window.handleGoogleLogin = () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider)
-            .then((result) => updateUIForUser(result.user))
-            .catch((err) => {
-                if(err.code !== 'auth/popup-closed-by-user') alert("Google link failed: " + err.message);
+    window.handleGoogleLogin = async (mode) => { // Added 'mode' parameter
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const signupError = document.getElementById('signupErrorMain');
+    const loginError = document.getElementById('loginError');
+
+    try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const isNewUser = result.additionalUserInfo.isNewUser;
+
+        if (mode === 'signup') {
+            if (!isNewUser) {
+                // If they tried to "Sign Up" but they already exist
+                signupError.style.display = 'block';
+                signupError.innerText = "Account already exists. Logging you in instead...";
+                // We let them in anyway for better UX, or you can sign them out
+            } else {
+                // NEW USER: Save to Firestore
+                await db.collection("users").doc(user.uid).set({
+                    displayName: user.displayName,
+                    email: user.email,
+                    uid: user.uid,
+                    provider: "google",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+        } 
+        
+        if (mode === 'login' && isNewUser) {
+             // If they tried to "Login" but didn't have an account
+             loginError.style.display = 'block';
+             loginError.innerText = "No account found. Creating a new one for you...";
+             // Save data since they are technically a new user now
+             await db.collection("users").doc(user.uid).set({
+                displayName: user.displayName,
+                email: user.email,
+                uid: user.uid,
+                provider: "google",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-    };
+        }
+
+        updateUIForUser(user);
+
+    } catch (err) {
+        if (err.code !== 'auth/popup-closed-by-user') {
+            alert("Google link failed: " + err.message);
+        }
+    }
+};
 
     window.handleEmailLogin = async () => {
         const emailInput = document.querySelector('#loginForm input[type="email"]');
@@ -822,16 +864,16 @@ await auth.sendPasswordResetEmail(emailInput.value);
         <div id="authContent">
             <h2 class="modal-title" id="modalMainTitle">Welcome Back</h2>
             <p class="modal-subtitle" id="modalSubTitle">Continue your session</p>
-            
-            <button class="google-btn" onclick="handleGoogleLogin()">
+
+            <!-- Login Form -->
+            <div id="loginForm">
+
+                <button class="google-btn" onclick="handleGoogleLogin('login)">
                 <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
                 <span>Continue with Google</span>
             </button>
 
             <div class="separator"><span>or use email</span></div>
-
-            <!-- Login Form -->
-            <div id="loginForm">
                 <div class="form-group">
                     <input type="email" class="modal-input" placeholder="Email address" required>
                 </div>
@@ -851,6 +893,13 @@ await auth.sendPasswordResetEmail(emailInput.value);
 
             <!-- Signup Form -->
             <div id="signupForm" style="display: none;">
+
+                <button class="google-btn" onclick="handleGoogleLogin('login)">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
+                <span>Continue with Google</span>
+            </button>
+
+            <div class="separator"><span>or use email</span></div>
                 <div class="form-group">
                     <input type="text" class="modal-input" placeholder="Full Name" required>
                 </div>
