@@ -796,6 +796,13 @@
         statusBox.style.display = 'block';
         statusBox.style.color = '#ff4444';
         statusBox.innerText = "Error: " + error.message;
+
+        if (error.code === 'auth/invalid-email') {
+                signupError.innerText = "Email address not found or badly formatted.";
+            } else {
+                // Fallback to the default Firebase message for any other errors
+                signupError.innerText = error.message;
+            }
     }
 };
 </script>
