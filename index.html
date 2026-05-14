@@ -704,9 +704,14 @@
             updateUIForUser(user);
         } catch (error) {
             signupError.style.display = 'block';
-            signupError.innerText = error.message;
-            errorHint.innerText = error.code === 'auth/email-already-in-use' : "User not found or invalid password.";
-        } 
+        
+            if (error.code === 'auth/email-already-in-use') {
+                signupError.innerText = "This email is already registered. Please login instead.";
+            } else {
+                // Fallback to the default Firebase message for any other errors
+                signupError.innerText = error.message;
+            }
+        }
     };
 
     window.handleLogout = () => {
