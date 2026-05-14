@@ -792,18 +792,20 @@
         statusBox.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Reset link sent! Check your inbox.';
         
     } catch (error) {
-        // 5. Handle errors (e.g., user not found)
-        statusBox.style.display = 'block';
-        statusBox.style.color = '#ff4444';
-        statusBox.innerText = "Error: " + error.message;
+    // 1. Show the status box
+    statusBox.style.display = 'block';
+    statusBox.style.color = '#ff4444';
 
-        if (error.code === 'auth/invalid-email') {
-                signupError.innerText = "Email address not found or badly formatted.";
-            } else {
-                // Fallback to the default Firebase message for any other errors
-                signupError.innerText = error.message;
-            }
+    // 2. Check for specific error codes to show custom messages
+    if (error.code === 'auth/invalid-email') {
+        statusBox.innerText = "Email address not found or badly formatted.";
+    } else if (error.code === 'auth/user-not-found') {
+        statusBox.innerText = "User not found.";
+    } else {
+        // Fallback to the default Firebase message for any other errors (like network issues)
+        statusBox.innerText = "Error: " + error.message;
     }
+}
 };
 </script>
 
