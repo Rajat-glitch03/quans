@@ -592,26 +592,10 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // --- UTILITY FUNCTIONS (Must be defined before usage) ---
-    
-    // We define this globally so other functions can call it immediately
-    window.showLockedWarning = (message) => {
-        const errorBox = document.getElementById('loginError'); 
-        if (errorBox) {
-            errorBox.style.display = 'block';
-            errorBox.style.color = '#ff4444';
-            errorBox.innerText = message;
-        }
-        
-        // Open the auth modal automatically to nudge them to login
-        setTimeout(() => {
-            window.openAuth('login');
-        }, 1000);
-    };
-
     // --- GLOBAL EXPOSURE ---
     window.toggleDropdown = () => {
-        document.getElementById('modelDropdown').classList.toggle('open');
+        const dropdown = document.getElementById('modelDropdown');
+        if (dropdown) dropdown.classList.toggle('open');
     };
 
     window.toggleSidebar = () => {
@@ -625,14 +609,12 @@
     };
 
     window.openAuth = (mode) => {
-        const modal = document.getElementById('authModal');
-        if(modal) modal.style.display = 'flex';
+        document.getElementById('authModal').style.display = 'flex';
         window.toggleAuthMode(mode);
     };
 
     window.closeAuth = () => {
-        const modal = document.getElementById('authModal');
-        if(modal) modal.style.display = 'none';
+        document.getElementById('authModal').style.display = 'none';
     };
 
     window.toggleAuthMode = (mode) => {
@@ -642,15 +624,15 @@
         const subTitle = document.getElementById('modalSubTitle');
         
         if (mode === 'login') {
-            if(loginForm) loginForm.style.display = 'block';
-            if(signupForm) signupForm.style.display = 'none';
-            if(mainTitle) mainTitle.innerText = "Welcome Back";
-            if(subTitle) subTitle.innerText = "Continue your session with Quans Intelligence";
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            mainTitle.innerText = "Welcome Back";
+            subTitle.innerText = "Continue your session with Quans Intelligence";
         } else {
-            if(loginForm) loginForm.style.display = 'none';
-            if(signupForm) signupForm.style.display = 'block';
-            if(mainTitle) mainTitle.innerText = "Create Account";
-            if(subTitle) subTitle.innerText = "Get full access to premium protocols";
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            mainTitle.innerText = "Create Account";
+            subTitle.innerText = "Get full access to premium protocols";
         }
     };
 
@@ -674,13 +656,14 @@
     window.handleGoogleLogin = async (mode) => {
         const provider = new firebase.auth.GoogleAuthProvider();
         const signupError = document.getElementById('signupErrorMain');
+        const loginError = document.getElementById('loginError');
 
         try {
             const result = await auth.signInWithPopup(provider);
             const user = result.user;
             const isNewUser = result.additionalUserInfo.isNewUser;
 
-            if (mode === 'signup' && !isNewUser && signupError) {
+            if (mode === 'signup' && !isNewUser) {
                 signupError.style.display = 'block';
                 signupError.innerText = "Account already exists. Logging you in...";
             } 
@@ -713,17 +696,16 @@
             const result = await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
             updateUIForUser(result.user);
         } catch (error) {
-            if(errorHint) errorHint.style.display = 'block';
-            let msg = error.message;
+            errorHint.style.display = 'block';
             switch (error.code) {
-                case 'auth/invalid-login-credentials': msg = "No account found or invalid password."; break;
-                case 'auth/wrong-password': msg = "Incorrect password."; break;
-                case 'auth/invalid-email': msg = "Invalid email format."; break;
-                case 'auth/user-disabled': msg = "This account has been disabled."; break;
-                case 'auth/missing-password': msg = "Provide a password."; break;
+                case 'auth/invalid-login-credentials': errorHint.innerText = "No account found with this email or invalid password."; break;
+                case 'auth/wrong-password': errorHint.innerText = "Incorrect password."; break;
+                case 'auth/invalid-email': errorHint.innerText = "Invalid email format."; break;
+                case 'auth/user-disabled': errorHint.innerText = "This account has been disabled."; break;
+                case 'auth/missing-password': errorHint.innerText = "Provide a password."; break;
+                default: errorHint.innerText = error.message;
             }
-            if(errorHint) errorHint.innerText = msg;
-            if(passInput) passInput.classList.add('input-error');
+            passInput.classList.add('input-error');
         }
     };
 
@@ -735,10 +717,8 @@
         const signupError = document.getElementById('signupErrorMain');
 
         if (!passInput.value || passInput.value.length < 6) {
-            if(signupError) {
-                signupError.style.display = 'block';
-                signupError.innerText = "Password must be at least 6 characters.";
-            }
+            signupError.style.display = 'block';
+            signupError.innerText = "Password must be at least 6 characters.";
             return;
         }
 
@@ -755,14 +735,14 @@
 
             updateUIForUser(user);
         } catch (error) {
-            if(signupError) signupError.style.display = 'block';
-            let msg = error.message;
+            signupError.style.display = 'block';
             switch (error.code) {
-                case 'auth/email-already-in-use': msg = "Email already registered. Try logging in."; break;
-                case 'auth/invalid-email': msg = "Invalid email address format."; break;
-                case 'auth/weak-password': msg = "Password is too weak."; break;
+                case 'auth/email-already-in-use': signupError.innerText = "Email already registered. Try logging in."; break;
+                case 'auth/invalid-email': signupError.innerText = "Invalid email address format."; break;
+                case 'auth/weak-password': signupError.innerText = "Password is too weak."; break;
+                case 'auth/operation-not-allowed': signupError.innerText = "Email/Password accounts are not enabled."; break;
+                default: signupError.innerText = error.message;
             }
-            if(signupError) signupError.innerText = msg;
         }
     };
 
@@ -772,33 +752,26 @@
         const statusBox = document.getElementById('authStatusMsg');
 
         if (!emailInput.value) {
-            if(statusBox) {
-                statusBox.style.display = 'block';
-                statusBox.style.color = '#ff4444';
-                statusBox.innerText = "Enter your email first.";
-            }
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            statusBox.innerText = "Enter your email first.";
             return;
         }
 
         try {
             console.log("Attempting reset for:", emailInput.value);
             await auth.sendPasswordResetEmail(emailInput.value);
-            if(statusBox) {
-                statusBox.style.display = 'block';
-                statusBox.style.color = 'var(--electric-blue)';
-                statusBox.innerText = "Reset link sent! Check your inbox (and spam).";
-            }
+            statusBox.style.display = 'block';
+            statusBox.style.color = 'var(--electric-blue)';
+            statusBox.innerText = "Reset link sent! Check your inbox (and spam).";
         } catch (error) {
-            if(statusBox) {
-                statusBox.style.display = 'block';
-                statusBox.style.color = '#ff4444';
-                let msg = error.message;
-                switch (error.code) {
-                    case 'auth/user-not-found': msg = "No user found with this email."; break;
-                    case 'auth/invalid-email': msg = "Invalid email format."; break;
-                    case 'auth/too-many-requests': msg = "Too many requests. Try again later."; break;
-                }
-                statusBox.innerText = msg;
+            statusBox.style.display = 'block';
+            statusBox.style.color = '#ff4444';
+            switch (error.code) {
+                case 'auth/user-not-found': statusBox.innerText = "No user found with this email."; break;
+                case 'auth/invalid-email': statusBox.innerText = "Invalid email format."; break;
+                case 'auth/too-many-requests': statusBox.innerText = "Too many requests. Try again later."; break;
+                default: statusBox.innerText = error.message;
             }
         }
     };
@@ -812,20 +785,18 @@
         const authInterface = document.getElementById('authInterface');
         const userName = user.displayName || user.email.split('@')[0];
 
-        if(authInterface) {
-            authInterface.innerHTML = `
-                <div class="user-profile-wrap" onclick="toggleUserMenu()">
-                    <span>Welcome, <strong>${userName}</strong></span>
-                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
-                    <div class="user-menu" id="userDropdown">
-                        <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
-                        <div class="menu-item logout-item" onclick="handleLogout()">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
-                        </div>
+        authInterface.innerHTML = `
+            <div class="user-profile-wrap" onclick="toggleUserMenu()">
+                <span>Welcome, <strong>${userName}</strong></span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+                <div class="user-menu" id="userDropdown">
+                    <div class="menu-item"><i class="fa-solid fa-user-gear"></i> Account</div>
+                    <div class="menu-item logout-item" onclick="handleLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
         unlockTerminal();
         window.closeAuth();
     }
@@ -833,12 +804,9 @@
     function lockInterface() {
         const input = document.getElementById('userInput');
         const btn = document.querySelector('.send-btn');
-        
         if (input) {
             input.placeholder = "Login to unlock Quans Intelligence...";
             input.disabled = true; 
-        }
-        if (btn) {
             btn.innerHTML = '<i class="fa-solid fa-lock"></i>';
             btn.style.background = "#444";
         }
@@ -847,46 +815,55 @@
     function unlockTerminal() {
         const input = document.getElementById('userInput');
         const btn = document.querySelector('.send-btn');
-        
         if (input) {
             input.disabled = false;
             input.placeholder = "Message Quans...";
-        }
-        if (btn) {
             btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
             btn.style.background = "var(--electric-blue)";
-            btn.onclick = () => window.handleSendMessage(); 
+            btn.onclick = window.handleSendMessage; // Set click handler
         }
     }
 
-    // --- NEW INTERACTION LOGIC ---
+    // --- MODEL SELECTION & MESSAGING ---
     window.selectModel = (modelName) => {
         const user = auth.currentUser;
         if (!user && modelName !== 'Quans') {
-            window.showLockedWarning("Please login first to access " + modelName);
+            showLockedWarning("Please login first to access " + modelName);
             return;
         }
         console.log("Switching to:", modelName);
         const label = document.getElementById('currentModelName');
-        if(label) label.innerText = modelName;
+        if (label) label.innerText = modelName;
         window.toggleDropdown();
     };
+
+    function showLockedWarning(message) {
+        const errorBox = document.getElementById('loginError');
+        if (errorBox) {
+            errorBox.style.display = 'block';
+            errorBox.style.color = '#ff4444';
+            errorBox.innerText = message;
+        }
+        setTimeout(() => { window.openAuth('login'); }, 1000);
+    }
 
     window.handleSendMessage = () => {
         const user = auth.currentUser;
         const input = document.getElementById('userInput');
 
         if (!user) {
-            window.showLockedWarning("Please login to start a conversation.");
+            showLockedWarning("Please login to start a conversation.");
             return;
         }
 
         if (input && input.value.trim() !== "") {
             console.log("Sending message:", input.value);
+            // Firestore logic would go here
             input.value = ""; 
         }
     };
 
+    // --- AUTH OBSERVER ---
     auth.onAuthStateChanged((user) => {
         if (user) updateUIForUser(user);
         else lockInterface();
