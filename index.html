@@ -808,6 +808,9 @@
         statusBox.innerText = "Error: " + error.message;
     }
 }
+
+            console.log("Attempting reset for:", emailInput.value); // Check your browser console (F12)
+await auth.sendPasswordResetEmail(emailInput.value);
 };
 </script>
 
