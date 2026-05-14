@@ -97,7 +97,7 @@
 
         .header-left { display: flex; align-items: center; gap: 20px; }
         .menu-toggle { font-size: 1.5rem; cursor: pointer; color: var(--electric-blue); }
-        .logo { height: 30px; }
+        .logo { height: 30px; zoom: 2;}
 
         .header-right { display: flex; gap: 15px; align-items: center; }
         .btn-auth {
@@ -214,7 +214,7 @@
         <header>
             <div class="header-left">
                 <i class="fa-solid fa-bars-staggered menu-toggle" onclick="toggleSidebar()"></i>
-                <img src="https://via.placeholder.com/120x30/007aff/ffffff?text=QUANS+LOGO" alt="Logo" class="logo">
+                <img src="quans.png" alt="Logo" class="logo">
             </div>
             <div class="header-right" id="authHeader">
                 <button class="btn-auth btn-login" onclick="openModal('login')">Login</button>
@@ -263,12 +263,13 @@
     <script>
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+             apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
+  authDomain: "quans-14b18.firebaseapp.com",
+  projectId: "quans-14b18",
+  storageBucket: "quans-14b18.firebasestorage.app",
+  messagingSenderId: "309027278772",
+  appId: "1:309027278772:web:7273a0ca9490df3c056ce1",
+  measurementId: "G-8KH5DW1SP1"
         };
         
         firebase.initializeApp(firebaseConfig);
