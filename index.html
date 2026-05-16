@@ -508,15 +508,24 @@
                 aiDiv.className = 'message ai';
                 box.appendChild(aiDiv);
 
-                const sessionDocRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(currentSessionId);
+                // 6. SAVE WHOLE CHAT TO FIRESTORE: Safely build the payload dynamically
+        const sessionDocRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(currentSessionId);
 
-                await sessionDocRef.update({
-                    title: recentHistory.length <= 2 ? msg.substring(0, 22) + "..." : undefined,
-                    messages: firebase.firestore.FieldValue.arrayUnion(
-                        { sender: 'user', text: msg, timestamp: Date.now() },
-                        { sender: 'ai', text: data.answer, timestamp: Date.now() }
-                    )
-                }, { merge: true });
+        // Define base data update structure
+        const updatePayload = {
+            messages: firebase.firestore.FieldValue.arrayUnion(
+                { sender: 'user', text: msg, timestamp: Date.now() },
+                { sender: 'ai', text: data.answer, timestamp: Date.now() }
+            )
+        };
+
+        // ONLY update or create the title if it's the very beginning of the chat session
+        if (recentHistory.length <= 2) {
+            updatePayload.title = msg.substring(0, 22) + "...";
+        }
+
+        // Execute the safe update payload
+        await sessionDocRef.update(updatePayload, { merge: true });
 
                 let index = 0;
                 const textPayload = data.answer;
