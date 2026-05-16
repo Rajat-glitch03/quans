@@ -439,31 +439,77 @@
 
         // --- MESSAGING & HISTORY ---
         async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const msg = input.value.trim();
-            if (!msg || !currentUser) return;
+    const input = document.getElementById('userInput');
+    const msg = input.value.trim();
+    if (!msg || !currentUser) return;
 
-            appendMessage('user', msg);
-            input.value = '';
+    // UI: Display user message and clear terminal field
+    appendMessage('user', msg);
+    input.value = '';
 
-            // Simulate AI Response
-            setTimeout(async () => {
-                const response = "Decrypted response: Logic protocol accepted. Analyzing your request in Quans v2.1";
-                appendMessage('ai', response);
-                
-                try {
-                    // Save to Firebase
-                    await db.collection('users').doc(currentUser.uid).collection('history').add({
-                        text: msg,
-                        response: response,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    loadHistory();
-                } catch(err) {
-                    showError("Failed to save history: " + err.message);
-                }
-            }, 1000);
+    // UI: Create "Thinking..." indicator
+    const box = document.getElementById('chatBox');
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'message ai';
+    loadingDiv.id = 'quans-thinking';
+    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing matrix...`;
+    box.appendChild(loadingDiv);
+    box.scrollTop = box.scrollHeight;
+
+    try {
+        // CALL VERCEL SERVERLESS ENDPOINT
+        const response = await fetch('/api/askQuans', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: msg })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || "Unknown network error");
+
+        // Remove indicator
+        document.getElementById('quans-thinking').remove();
+
+        // UI: Setup AI Response layout wrapper
+        const aiDiv = document.createElement('div');
+        aiDiv.className = 'message ai';
+        box.appendChild(aiDiv);
+
+        // Optional: Save history to Firebase right here on the client side
+        // since the response successfully came back securely!
+        await firebase.firestore()
+            .collection('users').doc(currentUser.uid)
+            .collection('history').add({
+                text: msg,
+                response: data.answer,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+        // Typewriter effect execution
+        let index = 0;
+        const textPayload = data.answer;
+        function typeWriter() {
+            if (index < textPayload.length) {
+                aiDiv.innerHTML += textPayload.charAt(index);
+                index++;
+                box.scrollTop = box.scrollHeight;
+                setTimeout(typeWriter, 15);
+            } else {
+                loadHistory(); // Refresh sidebar layout
+            }
         }
+        typeWriter();
+
+    } catch (err) {
+        if (document.getElementById('quans-thinking')) {
+            document.getElementById('quans-thinking').remove();
+        }
+        showError("Terminal Link Exception: " + err.message);
+    }
+}
 
         function appendMessage(role, text) {
             const box = document.getElementById('chatBox');
