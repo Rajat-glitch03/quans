@@ -1,70 +1,49 @@
-import { GoogleGenAI } from "@google/genai";
-
-export default async function handler(request) {
-    // 1. Handle CORS Preflight requests
-    if (request.method === 'OPTIONS') {
-        return new Response(null, {
-            status: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type'
-            }
-        });
+export default async function handler(req, res) {
+    // 1. Only allow POST requests for security
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Protocol rejected.' });
     }
 
-    // 2. Only allow POST requests
-    if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method protocol rejected.' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' }
-        });
+    const { prompt } = req.body;
+    if (!prompt) {
+        return res.status(400).json({ error: 'Prompt is missing.' });
     }
 
     try {
-        const { prompt } = await request.json();
-        
-        if (!prompt) {
-            return new Response(JSON.stringify({ error: 'Prompt layer is missing.' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-
+        // 2. Read the hidden API key directly from Vercel's environment variables
         const apiKey = process.env.GEMINI_API_KEY;
+        
         if (!apiKey) {
-            return new Response(JSON.stringify({ error: 'API Key missing on Vercel environment configurations.' }), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' }
-            });
+            return res.status(500).json({ error: 'API Key missing in Vercel settings.' });
         }
 
-        // Initialize the Gemini client wrapper
-        const ai = new GoogleGenAI({ apiKey: apiKey });
-
-        // Trigger Gemini API Request
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-            config: {
-                systemInstruction: "You are Quans Intelligence, a highly professional cybernetic terminal framework. Keep your answers brief, clean, and highly technical."
-            }
+        // 3. Simply use the direct Google API link via standard fetch
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: "You are Quans Intelligence, a highly professional cybernetic terminal framework. Keep answers brief, clean, and highly technical." }]
+                }
+            })
         });
 
-        // Return payload securely
-        return new Response(JSON.stringify({ answer: response.text }), {
-            status: 200,
-            headers: { 
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
+        const data = await googleResponse.json();
+
+        if (!googleResponse.ok) {
+            return res.status(googleResponse.status).json({ error: data.error?.message || "Google API error" });
+        }
+
+        // 4. Extract the clean text reply from Google's data structure
+        const aiAnswer = data.candidates[0].content.parts[0].text;
+
+        // 5. Send it back to your frontend index.html safely
+        return res.status(200).json({ answer: aiAnswer });
 
     } catch (error) {
-        console.error("Vercel Execution Runtime Exception:", error);
-        return new Response(JSON.stringify({ error: 'Matrix exception: ' + error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return res.status(500).json({ error: 'Server Exception: ' + error.message });
     }
 }
