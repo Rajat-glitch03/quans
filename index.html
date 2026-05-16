@@ -482,94 +482,87 @@
 
             try {
                 const recentHistory = [];
-        const messageElements = document.querySelectorAll('#chatBox .message');
-        
-        messageElements.forEach(el => {
-            if (el.id === 'quans-thinking') return;
-            const isUser = el.classList.contains('user');
-            recentHistory.push({
-                role: isUser ? 'user' : 'model',
-                text: el.innerText
-            });
-        });
+                const messageElements = document.querySelectorAll('#chatBox .message');
+                
+                messageElements.forEach(el => {
+                    if (el.id === 'quans-thinking') return;
+                    const isUser = el.classList.contains('user');
+                    recentHistory.push({
+                        role: isUser ? 'user' : 'model',
+                        text: el.innerText
+                    });
+                });
 
-        const contextPayload = recentHistory.slice(-12);
+                const contextPayload = recentHistory.slice(-12);
 
-        // Get the real local live date right now
-        const liveDateTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+                // Get the real local live date right now
+                const liveDateTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
 
                 const response = await fetch('/api/askQuans', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                // We elegantly wrap your message with a system notification of the true current time
-                prompt: `[System Note: The current live date/time is ${liveDateTime}]. User Input: ${msg}`, 
-                history: contextPayload 
-            })
-        });
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        // We elegantly wrap your message with a system notification of the true current time
+                        prompt: `[System Note: The current live date/time is ${liveDateTime}]. User Input: ${msg}`, 
+                        history: contextPayload 
+                    })
+                });
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Uplink handshake rejected.");
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Uplink handshake rejected.");
 
-        document.getElementById('quans-thinking').remove();
+                document.getElementById('quans-thinking').remove();
 
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'message ai';
-        box.appendChild(aiDiv);
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message ai';
+                box.appendChild(aiDiv);
 
-        const sessionDocRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(currentSessionId);
+                const sessionDocRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(currentSessionId);
 
-        await sessionDocRef.update({
-            title: recentHistory.length <= 2 ? msg.substring(0, 22) + "..." : undefined,
-            messages: firebase.firestore.FieldValue.arrayUnion(
-                { sender: 'user', text: msg, timestamp: Date.now() },
-                { sender: 'ai', text: data.answer, timestamp: Date.now() }
-            )
-        }, { merge: true });
+                // Define base data update structure cleanly to avoid undefined validation crashes
+                const updatePayload = {
+                    messages: firebase.firestore.FieldValue.arrayUnion(
+                        { sender: 'user', text: msg, timestamp: Date.now() },
+                        { sender: 'ai', text: data.answer, timestamp: Date.now() }
+                    )
+                };
+
+                // ONLY update or create the title if it's the very beginning of the chat session
+                if (recentHistory.length <= 2) {
+                    updatePayload.title = msg.substring(0, 22) + "...";
+                }
+
+                await sessionDocRef.update(updatePayload, { merge: true });
                 
-        // Define base data update structure
-        const updatePayload = {
-            messages: firebase.firestore.FieldValue.arrayUnion(
-                { sender: 'user', text: msg, timestamp: Date.now() },
-                { sender: 'ai', text: data.answer, timestamp: Date.now() }
-            )
-        };
-
-        // ONLY update or create the title if it's the very beginning of the chat session
-        if (recentHistory.length <= 2) {
-            updatePayload.title = msg.substring(0, 22) + "...";
-        }
-
                 // 7. Execute presentation typewriter formatting engine
-       let index = 0;
-        
-        // RegEx trick: Converts **text** inside the string into <b>text</b> cleanly
-        const cleanBoldPayload = data.answer.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        
-        aiDiv.style.whiteSpace = "pre-wrap"; 
+                let index = 0;
+                
+                // Converts **text** inside the string into <b>text</b> tags cleanly
+                const cleanBoldPayload = data.answer.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                
+                aiDiv.style.whiteSpace = "pre-wrap"; 
 
-        // Because we are using HTML tags now (<b>), the typewriter needs to handle 
-        // the string payload setting using innerHTML instead of appending raw text characters
-        function typeWriter() {
-            if (index < cleanBoldPayload.length) {
-                // If the typewriter hits an HTML tag window, skip index ahead so it prints instantly instead of breaking the layout
-                if (cleanBoldPayload.charAt(index) === '<') {
-                    const tagEnd = cleanBoldPayload.indexOf('>', index);
-                    if (tagEnd !== -1) {
-                        index = tagEnd + 1;
+                // Typewriter loop optimized to read dynamic HTML injection layouts without stuttering
+                function typeWriter() {
+                    if (index < cleanBoldPayload.length) {
+                        // If typewriter encounters an HTML tag bracket, skip index past it instantly to keep bold nodes stable
+                        if (cleanBoldPayload.charAt(index) === '<') {
+                            const tagEnd = cleanBoldPayload.indexOf('>', index);
+                            if (tagEnd !== -1) {
+                                index = tagEnd + 1;
+                            }
+                        }
+                        
+                        aiDiv.innerHTML = cleanBoldPayload.substring(0, index);
+                        index++;
+                        box.scrollTop = box.scrollHeight;
+                        setTimeout(typeWriter, 8); 
+                    } else {
+                        aiDiv.innerHTML = cleanBoldPayload; // Absolute fallback for completion structural parsing
+                        loadHistory(); 
                     }
                 }
-                
-                aiDiv.innerHTML = cleanBoldPayload.substring(0, index);
-                index++;
-                box.scrollTop = box.scrollHeight;
-                setTimeout(typeWriter, 8); // Slightly faster pacing to accommodate HTML parsing loops
-            } else {
-                aiDiv.innerHTML = cleanBoldPayload; // Ensure structural completion safety
-                loadHistory(); 
-            }
-        }
-        typeWriter();
+                typeWriter();
 
             } catch (err) {
                 if (document.getElementById('quans-thinking')) {
@@ -580,19 +573,19 @@
         }
 
         function appendMessage(role, text) {
-    const box = document.getElementById('chatBox');
-    const div = document.createElement('div');
-    div.className = `message ${role}`;
-    
-    div.style.whiteSpace = "pre-wrap"; 
-    
-    // Convert markdown stars to bold elements for historical message nodes too!
-    const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-    div.innerHTML = formattedText; 
-    
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
+            const box = document.getElementById('chatBox');
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            
+            div.style.whiteSpace = "pre-wrap"; 
+            
+            // Convert markdown stars to bold elements for historical message nodes too!
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            div.innerHTML = formattedText; 
+            
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
 
         // Updated Real-time Snapshot engine to map thread sessions cleanly into your historyList container
         function loadHistory() {
