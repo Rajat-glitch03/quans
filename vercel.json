@@ -1,8 +1,10 @@
 {
+  "version": 2,
+  "builds": [
+    { "src": "api/askQuans.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" }
+  ],
   "rewrites": [
-    {
-      "source": "/api/askQuans",
-      "destination": "/api/askQuans.js"
-    }
+    { "source": "/api/askQuans", "destination": "api/askQuans.js" }
   ]
 }
