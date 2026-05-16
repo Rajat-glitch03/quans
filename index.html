@@ -443,43 +443,60 @@
     const msg = input.value.trim();
     if (!msg || !currentUser) return;
 
-    // UI: Display user message and clear terminal field
+    // 1. UI: Append user text and clear field
     appendMessage('user', msg);
     input.value = '';
 
-    // UI: Create "Thinking..." indicator
+    // 2. UI: Set up loader matrix
     const box = document.getElementById('chatBox');
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'message ai';
     loadingDiv.id = 'quans-thinking';
-    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing matrix...`;
+    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing contextual matrix...`;
     box.appendChild(loadingDiv);
     box.scrollTop = box.scrollHeight;
 
     try {
-        // CALL VERCEL SERVERLESS ENDPOINT
+        // 3. GATHER HISTORY: Pull existing conversation entries from the UI/State
+        // (Assuming you have an array tracking the current active session history, 
+        // or you can read the latest 6-8 documents from your Firestore history collection)
+        const recentHistory = [];
+        const messageElements = document.querySelectorAll('#chatBox .message');
+        
+        // Read the last few messages directly from the active chat window
+        // to pass as immediate context to your backend function
+        messageElements.forEach(el => {
+            if (el.id === 'quans-thinking') return;
+            const isUser = el.classList.contains('user');
+            recentHistory.push({
+                role: isUser ? 'user' : 'model',
+                text: el.innerText
+            });
+        });
+
+        // Limit context to the last 10 messages so the payload stays light
+        const contextPayload = recentHistory.slice(-10);
+
+        // 4. Dispatch the payload with the history to Vercel
         const response = await fetch('/api/askQuans', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ prompt: msg })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                prompt: msg, 
+                history: contextPayload // Sending the chat history here!
+            })
         });
 
         const data = await response.json();
-        
-        if (!response.ok) throw new Error(data.error || "Unknown network error");
+        if (!response.ok) throw new Error(data.error || "Uplink validation rejected.");
 
-        // Remove indicator
         document.getElementById('quans-thinking').remove();
 
-        // UI: Setup AI Response layout wrapper
         const aiDiv = document.createElement('div');
         aiDiv.className = 'message ai';
         box.appendChild(aiDiv);
 
-        // Optional: Save history to Firebase right here on the client side
-        // since the response successfully came back securely!
+        // 5. Save the new interaction to Firestore history collection
         await firebase.firestore()
             .collection('users').doc(currentUser.uid)
             .collection('history').add({
@@ -488,7 +505,7 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-        // Typewriter effect execution
+        // 6. Print with typewriter animation
         let index = 0;
         const textPayload = data.answer;
         function typeWriter() {
@@ -496,9 +513,9 @@
                 aiDiv.innerHTML += textPayload.charAt(index);
                 index++;
                 box.scrollTop = box.scrollHeight;
-                setTimeout(typeWriter, 15);
+                setTimeout(typeWriter, 12);
             } else {
-                loadHistory(); // Refresh sidebar layout
+                loadHistory(); 
             }
         }
         typeWriter();
