@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/askQuans",
+      "destination": "/api/askQuans.js"
+    }
+  ]
+}
