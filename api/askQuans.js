@@ -1,37 +1,70 @@
 import { GoogleGenAI } from "@google/genai";
 
-export default async function handler(req, res) {
-    // 1. Enforce POST requests only
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed' });
+export default async function handler(request) {
+    // 1. Handle CORS Preflight requests
+    if (request.method === 'OPTIONS') {
+        return new Response(null, {
+            status: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            }
+        });
     }
 
-    const { prompt } = req.body;
-
-    if (!prompt) {
-        return res.status(400).json({ error: 'Prompt payload is missing.' });
+    // 2. Only allow POST requests
+    if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method protocol rejected.' }), {
+            status: 405,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
     try {
-        // 2. Access the SECRET key securely from Vercel's Environment
-        // Because this variable doesn't start with "NEXT_PUBLIC_", it NEVER leaks to the browser.
+        const { prompt } = await request.json();
+        
+        if (!prompt) {
+            return new Response(JSON.stringify({ error: 'Prompt layer is missing.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
         const apiKey = process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            return new Response(JSON.stringify({ error: 'API Key missing on Vercel environment configurations.' }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        // Initialize the Gemini client wrapper
         const ai = new GoogleGenAI({ apiKey: apiKey });
 
-        // 3. Request intelligence from Gemini
+        // Trigger Gemini API Request
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
             config: {
-                systemInstruction: "You are Quans Intelligence, a high-level terminal interface. Your tone is professional, cybernetic, and highly efficient. Keep answers concise."
+                systemInstruction: "You are Quans Intelligence, a highly professional cybernetic terminal framework. Keep your answers brief, clean, and highly technical."
             }
         });
 
-        // 4. Return the answer safely to your frontend
-        return res.status(200).json({ answer: response.text });
+        // Return payload securely
+        return new Response(JSON.stringify({ answer: response.text }), {
+            status: 200,
+            headers: { 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
 
     } catch (error) {
-        console.error("Vercel AI Engine Error:", error);
-        return res.status(500).json({ error: 'Neural link failed: ' + error.message });
+        console.error("Vercel Execution Runtime Exception:", error);
+        return new Response(JSON.stringify({ error: 'Matrix exception: ' + error.message }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 }
