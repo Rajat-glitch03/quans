@@ -283,7 +283,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <script>
+   <script>
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyAnmQzjObZEF6AQ7PJUrPuuFmuhJq_R23U",
@@ -303,6 +303,7 @@
         let currentMode = 'login';
         let currentUser = null;
         let errorTimeout;
+        let currentSessionId = null; // Locked in for continuous tracking
 
         // --- ERROR HANDLING ---
         function showError(msg) {
@@ -333,8 +334,9 @@
             document.getElementById('modelMenu').classList.toggle('open');
         }
 
+        // Updated selector to sync with Lana persona
         function selectModel(name) {
-            if (name !== 'Quans') {
+            if (name !== 'Quans' && name !== 'Lana') {
                 showError(`${name} is not available right now.`);
                 return;
             }
@@ -416,7 +418,7 @@
                 input.disabled = false;
                 input.placeholder = "Type your message...";
                 btn.disabled = false;
-                loadHistory();
+                loadHistory(); // Binds your unified session snapshot engine
             } else {
                 header.innerHTML = `
                     <button class="btn-auth btn-login" onclick="openModal('login')">Login</button>
@@ -437,130 +439,104 @@
             location.reload();
         }
 
-        // --- MESSAGING & HISTORY ---
-        // Global variable to keep track of the current active chat session
-let currentSessionId = null;
+        // --- MESSAGING & SESSION HISTORY MANAGEMENT ---
+        function initializeNewChatSession() {
+            if (!currentUser) return;
+            
+            const sessionRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(); 
+            currentSessionId = sessionRef.id;
 
-// Call this function when the user starts a fresh chat session 
-// (e.g., when the dashboard finishes loading or a "New Chat" button is clicked)
-function initializeNewChatSession() {
-    if (!currentUser) return;
-    
-    // Generate a fresh session entry inside Firestore
-    const sessionRef = firebase.firestore()
-        .collection('users').doc(currentUser.uid)
-        .collection('conversations').doc(); // Auto-generates a new unique ID
-        
-    currentSessionId = sessionRef.id;
-
-    // Initialize the conversation document structure
-    sessionRef.set({
-        title: "New Chat Matrix",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        messages: [] // This array will hold the whole chat history
-    });
-    
-    // Clear out the physical chat layout box for a fresh screen
-    document.getElementById('chatBox').innerHTML = '';
-}
-
-async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const msg = input.value.trim();
-    if (!msg || !currentUser) return;
-
-    // Ensure a session exists before transmitting
-    if (!currentSessionId) {
-        initializeNewChatSession();
-    }
-
-    // 1. UI: Display user message instantly and wipe field
-    appendMessage('user', msg);
-    input.value = '';
-
-    // 2. UI: Display loader frame
-    const box = document.getElementById('chatBox');
-    const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'message ai';
-    loadingDiv.id = 'quans-thinking';
-    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 🌀 Syncing cybernetic memory loops...`;
-    box.appendChild(loadingDiv);
-    box.scrollTop = box.scrollHeight;
-
-    try {
-        // 3. GATHER HISTORY: Scan the current UI block to build context dynamically
-        const recentHistory = [];
-        const messageElements = document.querySelectorAll('#chatBox .message');
-        
-        messageElements.forEach(el => {
-            if (el.id === 'quans-thinking') return;
-            const isUser = el.classList.contains('user');
-            recentHistory.push({
-                role: isUser ? 'user' : 'model',
-                text: el.innerText
+            sessionRef.set({
+                title: "New Chat Matrix",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                messages: [] 
             });
-        });
+            
+            document.getElementById('chatBox').innerHTML = '<div class="message ai">New encrypted session started. How can I assist you?</div>';
+        }
 
-        const contextPayload = recentHistory.slice(-12);
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const msg = input.value.trim();
+            if (!msg || !currentUser) return;
 
-        // 4. Send request payload to your Vercel serverless script
-        const response = await fetch('/api/askQuans', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                prompt: msg, 
-                history: contextPayload 
-            })
-        });
+            if (!currentSessionId) {
+                initializeNewChatSession();
+            }
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Uplink handshake rejected.");
+            appendMessage('user', msg);
+            input.value = '';
 
-        // Clean loader elements safely
-        document.getElementById('quans-thinking').remove();
+            const box = document.getElementById('chatBox');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message ai';
+            loadingDiv.id = 'quans-thinking';
+            loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 🌀 Syncing cybernetic memory loops...`;
+            box.appendChild(loadingDiv);
+            box.scrollTop = box.scrollHeight;
 
-        // 5. UI: Generate structural AI dialogue layout frame
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'message ai';
-        box.appendChild(aiDiv);
+            try {
+                const recentHistory = [];
+                const messageElements = document.querySelectorAll('#chatBox .message');
+                
+                messageElements.forEach(el => {
+                    if (el.id === 'quans-thinking') return;
+                    const isUser = el.classList.contains('user');
+                    recentHistory.push({
+                        role: isUser ? 'user' : 'model',
+                        text: el.innerText
+                    });
+                });
 
-        // 6. SAVE WHOLE CHAT TO FIRESTORE: Append the text exchanges directly 
-        // into the conversation document's messages array using arrayUnion
-        const sessionDocRef = firebase.firestore()
-            .collection('users').doc(currentUser.uid)
-            .collection('conversations').doc(currentSessionId);
+                const contextPayload = recentHistory.slice(-12);
 
-        await sessionDocRef.update({
-            // Automatically updates the chat name based on your very first prompt string
-            title: recentHistory.length <= 2 ? msg.substring(0, 25) + "..." : undefined,
-            messages: firebase.firestore.FieldValue.arrayUnion(
-                { sender: 'user', text: msg, timestamp: Date.now() },
-                { sender: 'ai', text: data.answer, timestamp: Date.now() }
-            )
-        }, { merge: true });
+                const response = await fetch('/api/askQuans', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: msg, 
+                        history: contextPayload 
+                    })
+                });
 
-        // 7. Execute presentation typewriter formatting engine
-        let index = 0;
-        const textPayload = data.answer;
-        function typeWriter() {
-            if (index < textPayload.length) {
-                aiDiv.innerHTML += textPayload.charAt(index);
-                index++;
-                box.scrollTop = box.scrollHeight;
-                setTimeout(typeWriter, 10);
-            } else {
-                loadSidebarConversations(); // Reload the sidebar list
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Uplink handshake rejected.");
+
+                document.getElementById('quans-thinking').remove();
+
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message ai';
+                box.appendChild(aiDiv);
+
+                const sessionDocRef = db.collection('users').doc(currentUser.uid).collection('conversations').doc(currentSessionId);
+
+                await sessionDocRef.update({
+                    title: recentHistory.length <= 2 ? msg.substring(0, 22) + "..." : undefined,
+                    messages: firebase.firestore.FieldValue.arrayUnion(
+                        { sender: 'user', text: msg, timestamp: Date.now() },
+                        { sender: 'ai', text: data.answer, timestamp: Date.now() }
+                    )
+                }, { merge: true });
+
+                let index = 0;
+                const textPayload = data.answer;
+                function typeWriter() {
+                    if (index < textPayload.length) {
+                        aiDiv.innerHTML += textPayload.charAt(index);
+                        index++;
+                        box.scrollTop = box.scrollHeight;
+                        setTimeout(typeWriter, 10);
+                    }
+                }
+                typeWriter();
+
+            } catch (err) {
+                if (document.getElementById('quans-thinking')) {
+                    document.getElementById('quans-thinking').remove();
+                }
+                showError("Matrix Link Failure: " + err.message);
             }
         }
-        typeWriter();
-
-    } catch (err) {
-        if (document.getElementById('quans-thinking')) {
-            document.getElementById('quans-thinking').remove();
-        }
-        showError("Matrix Link Failure: " + err.message);
-    }
-}
 
         function appendMessage(role, text) {
             const box = document.getElementById('chatBox');
@@ -571,74 +547,84 @@ async function sendMessage() {
             box.scrollTop = box.scrollHeight;
         }
 
-        async function loadHistory() {
+        // Updated Real-time Snapshot engine to map thread sessions cleanly into your historyList container
+        function loadHistory() {
             if (!currentUser) return;
-            try {
-                const snapshot = await db.collection('users').doc(currentUser.uid).collection('history')
-                    .orderBy('timestamp', 'desc').limit(10).get();
-                
-                const list = document.getElementById('historyList');
-                list.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const item = document.createElement('div');
-                    item.className = 'history-item';
+            
+            db.collection('users').doc(currentUser.uid).collection('conversations')
+                .orderBy('createdAt', 'desc').limit(15).onSnapshot(snapshot => {
+                    const list = document.getElementById('historyList');
+                    if (!list) return;
+                    list.innerHTML = '';
                     
-                    item.innerHTML = `
-                        <div class="history-text">
-                            <i class="fa-regular fa-message"></i> ${data.text}
-                        </div>
-                        <i class="fa-solid fa-trash-can delete-history" title="Delete chat"></i>
-                    `;
-                    
-                    // Click the text to view history
-                    item.querySelector('.history-text').onclick = () => {
-                        document.getElementById('chatBox').innerHTML = '';
-                        appendMessage('user', data.text);
-                        appendMessage('ai', data.response);
-                    };
-
-                    // Delete button logic
-                    item.querySelector('.delete-history').onclick = async (e) => {
-                        e.stopPropagation(); // Prevents triggering the text click
-                        if (confirm("Are you sure you want to delete this chat history?")) {
-                            try {
-                                await db.collection('users').doc(currentUser.uid).collection('history').doc(doc.id).delete();
-                                loadHistory(); // Reload UI after deletion
-                            } catch (err) {
-                                showError("Failed to delete chat: " + err.message);
-                            }
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const chatTitle = data.title || "Untitled Session 📂";
+                        const item = document.createElement('div');
+                        item.className = 'history-item';
+                        if (doc.id === currentSessionId) {
+                            item.classList.add('active-session');
                         }
-                    };
+                        
+                        item.innerHTML = `
+                            <div class="history-text">
+                                <i class="fa-regular fa-message"></i> ${chatTitle}
+                            </div>
+                            <i class="fa-solid fa-trash-can delete-history" title="Delete session"></i>
+                        `;
+                        
+                        item.querySelector('.history-text').onclick = () => {
+                            loadSavedChatSession(doc.id);
+                        };
 
-                    list.appendChild(item);
+                        item.querySelector('.delete-history').onclick = async (e) => {
+                            e.stopPropagation();
+                            if (confirm("Are you sure you want to delete this chat session?")) {
+                                try {
+                                    await db.collection('users').doc(currentUser.uid).collection('conversations').doc(doc.id).delete();
+                                    if (currentSessionId === doc.id) {
+                                        startNewChat();
+                                    }
+                                } catch (err) {
+                                    showError("Failed to delete conversation: " + err.message);
+                                }
+                            }
+                        };
+
+                        list.appendChild(item);
+                    });
+                }, err => {
+                    showError("Failed to watch history: " + err.message);
                 });
-            } catch (err) {
-                showError("Failed to load history: " + err.message);
-            }
         }
 
         function startNewChat() {
-            document.getElementById('chatBox').innerHTML = '<div class="message ai">New encrypted session started. How can I assist you?</div>';
+            initializeNewChatSession();
         }
 
         async function loadSavedChatSession(sessionId) {
-    currentSessionId = sessionId;
-    const box = document.getElementById('chatBox');
-    box.innerHTML = ''; // Wipe chat container
+            currentSessionId = sessionId;
+            const box = document.getElementById('chatBox');
+            box.innerHTML = ''; 
 
-    const doc = await firebase.firestore()
-        .collection('users').doc(currentUser.uid)
-        .collection('conversations').doc(sessionId).get();
+            try {
+                const doc = await db.collection('users').doc(currentUser.uid).collection('conversations').doc(sessionId).get();
 
-    if (doc.exists) {
-        const chatData = doc.data();
-        // Loop through the saved history array and display it all cleanly
-        chatData.messages.forEach(msg => {
-            appendMessage(msg.sender, msg.text);
-        });
-    }
-}
+                if (doc.exists) {
+                    const chatData = doc.data();
+                    if (chatData.messages && chatData.messages.length > 0) {
+                        chatData.messages.forEach(msg => {
+                            appendMessage(msg.sender === 'user' ? 'user' : 'ai', msg.text);
+                        });
+                    } else {
+                        box.innerHTML = '<div class="message ai">Session log is empty.</div>';
+                    }
+                    box.scrollTop = box.scrollHeight;
+                }
+            } catch (err) {
+                showError("Session loading exception: " + err.message);
+            }
+        }
     </script>
 </body>
 </html>
