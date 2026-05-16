@@ -22,6 +22,11 @@
         /* Modified height to 100dvh for mobile address bar compatibility */
         body { background-color: var(--deep-blue); color: var(--faint-white); height: 100dvh; overflow: hidden; display: flex; }
 
+        .message {
+            white-space: pre-wrap; /* CRITICAL: Forces HTML to render line breaks as actual paragraphs */
+            word-break: break-word;
+        }
+
         /* --- SIDEBAR --- */
         .sidebar {
             width: 280px;
@@ -527,17 +532,24 @@
         // Execute the safe update payload
         await sessionDocRef.update(updatePayload, { merge: true });
 
-                let index = 0;
-                const textPayload = data.answer;
-                function typeWriter() {
-                    if (index < textPayload.length) {
-                        aiDiv.innerHTML += textPayload.charAt(index);
-                        index++;
-                        box.scrollTop = box.scrollHeight;
-                        setTimeout(typeWriter, 10);
-                    }
-                }
-                typeWriter();
+                // 7. Execute presentation typewriter formatting engine
+        let index = 0;
+        const textPayload = data.answer;
+        
+        // Force pre-wrap right onto the live typing frame
+        aiDiv.style.whiteSpace = "pre-wrap"; 
+
+        function typeWriter() {
+            if (index < textPayload.length) {
+                aiDiv.innerHTML += textPayload.charAt(index);
+                index++;
+                box.scrollTop = box.scrollHeight;
+                setTimeout(typeWriter, 10);
+            } else {
+                loadHistory(); 
+            }
+        }
+        typeWriter();
 
             } catch (err) {
                 if (document.getElementById('quans-thinking')) {
@@ -548,13 +560,17 @@
         }
 
         function appendMessage(role, text) {
-            const box = document.getElementById('chatBox');
-            const div = document.createElement('div');
-            div.className = `message ${role}`;
-            div.innerText = text;
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
-        }
+    const box = document.getElementById('chatBox');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    
+    // Using style fallback to ensure whitespace parsing is absolute
+    div.style.whiteSpace = "pre-wrap"; 
+    div.innerText = text; 
+    
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
 
         // Updated Real-time Snapshot engine to map thread sessions cleanly into your historyList container
         function loadHistory() {
