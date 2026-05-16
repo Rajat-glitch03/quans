@@ -665,6 +665,21 @@
                 showError("Session loading exception: " + err.message);
             }
         }
+
+       function appendMessage(role, text) {
+    const box = document.getElementById('chatBox');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    
+    div.style.whiteSpace = "pre-wrap"; 
+    
+    // Convert markdown stars to bold elements for historical message nodes too!
+    const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+    div.innerHTML = formattedText; 
+    
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
     </script>
 </body>
 </html>
