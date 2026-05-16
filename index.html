@@ -438,33 +438,60 @@
         }
 
         // --- MESSAGING & HISTORY ---
-        async function sendMessage() {
+        // Global variable to keep track of the current active chat session
+let currentSessionId = null;
+
+// Call this function when the user starts a fresh chat session 
+// (e.g., when the dashboard finishes loading or a "New Chat" button is clicked)
+function initializeNewChatSession() {
+    if (!currentUser) return;
+    
+    // Generate a fresh session entry inside Firestore
+    const sessionRef = firebase.firestore()
+        .collection('users').doc(currentUser.uid)
+        .collection('conversations').doc(); // Auto-generates a new unique ID
+        
+    currentSessionId = sessionRef.id;
+
+    // Initialize the conversation document structure
+    sessionRef.set({
+        title: "New Chat Matrix",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        messages: [] // This array will hold the whole chat history
+    });
+    
+    // Clear out the physical chat layout box for a fresh screen
+    document.getElementById('chatBox').innerHTML = '';
+}
+
+async function sendMessage() {
     const input = document.getElementById('userInput');
     const msg = input.value.trim();
     if (!msg || !currentUser) return;
 
-    // 1. UI: Append user text and clear field
+    // Ensure a session exists before transmitting
+    if (!currentSessionId) {
+        initializeNewChatSession();
+    }
+
+    // 1. UI: Display user message instantly and wipe field
     appendMessage('user', msg);
     input.value = '';
 
-    // 2. UI: Set up loader matrix
+    // 2. UI: Display loader frame
     const box = document.getElementById('chatBox');
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'message ai';
     loadingDiv.id = 'quans-thinking';
-    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing contextual matrix...`;
+    loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 🌀 Syncing cybernetic memory loops...`;
     box.appendChild(loadingDiv);
     box.scrollTop = box.scrollHeight;
 
     try {
-        // 3. GATHER HISTORY: Pull existing conversation entries from the UI/State
-        // (Assuming you have an array tracking the current active session history, 
-        // or you can read the latest 6-8 documents from your Firestore history collection)
+        // 3. GATHER HISTORY: Scan the current UI block to build context dynamically
         const recentHistory = [];
         const messageElements = document.querySelectorAll('#chatBox .message');
         
-        // Read the last few messages directly from the active chat window
-        // to pass as immediate context to your backend function
         messageElements.forEach(el => {
             if (el.id === 'quans-thinking') return;
             const isUser = el.classList.contains('user');
@@ -474,38 +501,45 @@
             });
         });
 
-        // Limit context to the last 10 messages so the payload stays light
-        const contextPayload = recentHistory.slice(-10);
+        const contextPayload = recentHistory.slice(-12);
 
-        // 4. Dispatch the payload with the history to Vercel
+        // 4. Send request payload to your Vercel serverless script
         const response = await fetch('/api/askQuans', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 prompt: msg, 
-                history: contextPayload // Sending the chat history here!
+                history: contextPayload 
             })
         });
 
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Uplink validation rejected.");
+        if (!response.ok) throw new Error(data.error || "Uplink handshake rejected.");
 
+        // Clean loader elements safely
         document.getElementById('quans-thinking').remove();
 
+        // 5. UI: Generate structural AI dialogue layout frame
         const aiDiv = document.createElement('div');
         aiDiv.className = 'message ai';
         box.appendChild(aiDiv);
 
-        // 5. Save the new interaction to Firestore history collection
-        await firebase.firestore()
+        // 6. SAVE WHOLE CHAT TO FIRESTORE: Append the text exchanges directly 
+        // into the conversation document's messages array using arrayUnion
+        const sessionDocRef = firebase.firestore()
             .collection('users').doc(currentUser.uid)
-            .collection('history').add({
-                text: msg,
-                response: data.answer,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            .collection('conversations').doc(currentSessionId);
 
-        // 6. Print with typewriter animation
+        await sessionDocRef.update({
+            // Automatically updates the chat name based on your very first prompt string
+            title: recentHistory.length <= 2 ? msg.substring(0, 25) + "..." : undefined,
+            messages: firebase.firestore.FieldValue.arrayUnion(
+                { sender: 'user', text: msg, timestamp: Date.now() },
+                { sender: 'ai', text: data.answer, timestamp: Date.now() }
+            )
+        }, { merge: true });
+
+        // 7. Execute presentation typewriter formatting engine
         let index = 0;
         const textPayload = data.answer;
         function typeWriter() {
@@ -513,9 +547,9 @@
                 aiDiv.innerHTML += textPayload.charAt(index);
                 index++;
                 box.scrollTop = box.scrollHeight;
-                setTimeout(typeWriter, 12);
+                setTimeout(typeWriter, 10);
             } else {
-                loadHistory(); 
+                loadSidebarConversations(); // Reload the sidebar list
             }
         }
         typeWriter();
@@ -524,7 +558,7 @@
         if (document.getElementById('quans-thinking')) {
             document.getElementById('quans-thinking').remove();
         }
-        showError("Terminal Link Exception: " + err.message);
+        showError("Matrix Link Failure: " + err.message);
     }
 }
 
@@ -587,6 +621,24 @@
         function startNewChat() {
             document.getElementById('chatBox').innerHTML = '<div class="message ai">New encrypted session started. How can I assist you?</div>';
         }
+
+        async function loadSavedChatSession(sessionId) {
+    currentSessionId = sessionId;
+    const box = document.getElementById('chatBox');
+    box.innerHTML = ''; // Wipe chat container
+
+    const doc = await firebase.firestore()
+        .collection('users').doc(currentUser.uid)
+        .collection('conversations').doc(sessionId).get();
+
+    if (doc.exists) {
+        const chatData = doc.data();
+        // Loop through the saved history array and display it all cleanly
+        chatData.messages.forEach(msg => {
+            appendMessage(msg.sender, msg.text);
+        });
+    }
+}
     </script>
 </body>
 </html>
