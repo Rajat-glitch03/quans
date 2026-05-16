@@ -211,10 +211,10 @@
             <div class="model-section">
                 <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 8px;">INTELLIGENCE MODEL</p>
                 <div class="dropdown" onclick="toggleModelDropdown()">
-                    <span id="activeModelName">Quans</span>
+                    <span id="activeModelName">Quans v2.1</span>
                     <i class="fa-solid fa-chevron-down"></i>
                     <div class="dropdown-menu" id="modelMenu">
-                        <div class="dropdown-item" onclick="selectModel('Quans')">Quans</div>
+                        <div class="dropdown-item" onclick="selectModel('Quans')">Quans v2.1</div>
                         <div class="dropdown-item" onclick="selectModel('Quans v2.4bb')">Quans v2.4bb</div>
                         <div class="dropdown-item" onclick="selectModel('Quans v2.4s')">Quans v2.4s</div>
                     </div>
@@ -256,7 +256,7 @@
 
         <div class="input-area">
             <div class="input-wrapper">
-                <div class="model-indicator" id="inputModelLabel">Current Model: Quans</div>
+                <div class="model-indicator" id="inputModelLabel">Current Model: Quans v2.1</div>
                 <input type="text" class="chat-input" id="userInput" placeholder="Login to send message..." disabled>
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
                     <i class="fa-solid fa-paper-plane"></i>
@@ -452,7 +452,7 @@
             currentSessionId = sessionRef.id;
 
             sessionRef.set({
-                title: "New Chat Matrix",
+                title: "New Chat",
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 messages: [] 
             });
@@ -476,7 +476,7 @@
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'message ai';
             loadingDiv.id = 'quans-thinking';
-            loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 🌀 Syncing cybernetic memory loops...`;
+            loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 🌀 Thinking.....`;
             box.appendChild(loadingDiv);
             box.scrollTop = box.scrollHeight;
 
@@ -665,21 +665,6 @@
                 showError("Session loading exception: " + err.message);
             }
         }
-
-       function appendMessage(role, text) {
-    const box = document.getElementById('chatBox');
-    const div = document.createElement('div');
-    div.className = `message ${role}`;
-    
-    div.style.whiteSpace = "pre-wrap"; 
-    
-    // Convert markdown stars to bold elements for historical message nodes too!
-    const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-    div.innerHTML = formattedText; 
-    
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
     </script>
 </body>
 </html>
