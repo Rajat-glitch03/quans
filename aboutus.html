@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Matrix Core</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- DESIGN CORE FRAMEWORK --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19; /* Same dark theme color */
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- LAYOUT STRUCTURE --- */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: fadeInMatrix 0.6s ease-out forwards;
+        }
+
+        /* --- HEADER ACCENTS --- */
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-section h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-section h1 i {
+            color: #3b82f6; /* Accent color index */
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        .header-section p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* --- MODEL SECTOR GRID --- */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .model-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 28px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        /* --- BADGES & LABELS --- */
+        .model-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .model-badge.active {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .model-badge.locked {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* --- CARD METRICS --- */
+        .model-card h3 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-card .fa-brain { color: #3b82f6; }
+        .model-card .fa-sparkles { color: #a855f7; }
+        .model-card .fa-microchip { color: #64748b; }
+
+        .model-desc {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .model-specs {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 15px;
+            font-size: 0.82rem;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .model-specs span strong {
+            color: #cbd5e1;
+        }
+
+        /* --- SYSTEM OFFLINE WARNING TEXT --- */
+        .system-warning {
+            color: #ef4444;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: textBlink 1.5s infinite;
+        }
+
+        /* --- BACK HOME NAVIGATION BUTTON --- */
+        .btn-nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 35px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .btn-nav-back:hover {
+            color: #ffffff;
+        }
+
+        /* --- ANIMATION PROCESSING --- */
+        @keyframes fadeInMatrix {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 4px #3b82f6); }
+        }
+
+        @keyframes textBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive Mobile Scaling adjustments */
+        @media (max-width: 768px) {
+            .container { padding: 25px; }
+            .header-section h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-section">
+            <h1><i class="fa-solid fa-circle-nodes"></i> Model Matrix Overview</h1>
+            <p>Explore the active neural core profiles configured inside your network deployment.</p>
+        </div>
+
+        <div class="model-grid">
+            
+            <div class="model-card">
+                <div>
+                    <span class="model-badge active">Active & Free</span>
+                    <h3><i class="fa-solid fa-brain"></i> Quans / Lana</h3>
+                    <p class="model-desc">The primary adaptive intelligence system. Highly optimized for contextual thread tracking, advanced fluid dialogues, complex problem structures, and real-time localized parameter processing.</p>
+                </div>
+                <div class="model-specs">
+                    <span>Speed: <strong>Overclocked</strong></span>
+                    <span>Context: <strong>Continuous</strong></span>
+                </div>
+            </div>
+
+            <div class="model-card" style="opacity: 0.65;">
+                <div>
+                    <span class="model-badge locked">Offline</span>
+                    <h3><i class="fa-solid fa-sparkles"></i> Core v2.4bb</h3>
+                    <p class="model-desc">Experimental ultra-dense dataset cluster. Configured for high-priority heavy parsing operations and dynamic computational script refactoring matrix pipelines.</p>
+                    <div class="system-warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Currently unavailable
+                    </div>
+                </div>
+                <div class="model-specs" style="margin-top: 15px;">
+                    <span>Speed: <strong>Throttled</strong></span>
+                    <span>Context: <strong>Locked</strong></span>
+                </div>
+            </div>
+
+            <div class="model-card" style="opacity: 0.65;">
+                <div>
+                    <span class="model-badge locked">Offline</span>
+                    <h3><i class="fa-solid fa-microchip"></i> Core v2.4s</h3>
+                    <p class="model-desc">High-velocity streaming sub-node variant. Purpose-built for executing fast batch-automation routines and indexing wide multi-database storage systems.</p>
+                    <div class="system-warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Currently unavailable
+                    </div>
+                </div>
+                <div class="model-specs" style="margin-top: 15px;">
+                    <span>Speed: <strong>Throttled</strong></span>
+                    <span>Context: <strong>Locked</strong></span>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="/" class="btn-nav-back">
+            <i class="fa-solid fa-arrow-left"></i> Return to Terminal Console
+        </a>
+    </div>
+
+</body>
+</html>
