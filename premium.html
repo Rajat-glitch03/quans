@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Membership | Matrix Core</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- DESIGN CORE FRAMEWORK --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19; /* Matching main dark theme color */
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- LAYOUT CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 45px 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeInMatrix 0.6s ease-out forwards;
+        }
+
+        /* --- ICON INTERACTION --- */
+        .notice-icon {
+            font-size: 3.5rem;
+            color: #3b82f6; /* Accent color matching Quans branding */
+            margin-bottom: 25px;
+            display: inline-block;
+            animation: floatAnimation 3s ease-in-out infinite;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: #3b82f6;
+            margin: 0 auto 25px auto;
+            border-radius: 2px;
+        }
+
+        .premium-message {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .premium-subtext {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- REALTIME NETWORK INDICATOR --- */
+        .grid-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulseGlow 1.8s infinite ease-in-out;
+        }
+
+        /* --- BACK HOME NAVIGATION LINK --- */
+        .btn-nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 35px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-nav-back:hover {
+            color: #ffffff;
+        }
+
+        /* --- ANIMATIONS PROCESSING --- */
+        @keyframes fadeInMatrix {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3)); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 480px) {
+            .container { padding: 35px 20px; }
+            h1 { font-size: 1.5rem; }
+            .premium-message { font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="notice-icon">
+            <i class="fa-solid fa-bolt-lightning"></i>
+        </div>
+
+        <h1>Neural Elite Tier</h1>
+        <div class="divider"></div>
+
+        <p class="premium-message">
+            "Quans intelligence is available free for now."
+        </p>
+
+        <p class="premium-subtext">
+            All high-priority computation tracks, conversational context buffers, and deep logical inference modules are fully unlocked. Take advantage of the open access grid during this public early deployment frame.
+        </p>
+
+        <div class="grid-status">
+            <span class="status-dot"></span> System Uplink Status: Open Core
+        </div>
+
+        <a href="/" class="btn-nav-back">
+            <i class="fa-solid fa-arrow-left"></i> Return to Terminal Console
+        </a>
+    </div>
+
+</body>
+</html>
