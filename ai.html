@@ -5,27 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUANS | AI Assistant</title>
     
-    <!-- Tailwind CSS CDN (v3 for stable configuration) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: DM Sans (Loaded completely with all weights) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Minimalist Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
                     colors: {
-                        brand: {
-                            blue: '#4A90E2',
-                            hover: '#357ABD',
-                            light: '#F4F8FF'
-                        }
+                        brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' }
                     }
                 }
             }
@@ -33,187 +27,165 @@
     </script>
 
     <style>
-        /* Force DM Sans on absolutely everything */
-        * {
-            font-family: 'DM Sans', sans-serif !important;
-            letter-spacing: -0.01em;
-        }
+        body { font-family: 'DM Sans', sans-serif; }
         
-        /* Premium Subtle Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
+        /* Premium Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
 
-        /* Crisp entry animations */
-        .fade-in { 
-            animation: cleanSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
-        @keyframes cleanSlideUp {
-            from { opacity: 0; transform: translateY(6px); }
+        /* Animations */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Mobile Overlay */
+        .sidebar-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
     </style>
 </head>
-<body class="bg-white text-slate-900 h-screen flex overflow-hidden antialiased">
+<body class="bg-white text-slate-900 h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white">
 
-    <!-- Hidden system file input -->
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
-    <!-- Mobile overlay backshadow -->
-    <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 hidden sm:hidden"></div>
+    <div id="mobileOverlay" class="fixed inset-0 z-40 hidden sidebar-overlay transition-opacity duration-300 sm:hidden"></div>
 
-    <!-- SIDEBAR (Clean, minimal gray background) -->
-    <aside id="sidebar" class="bg-[#F8FAFC] border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transition-all duration-300 ease-in-out translate-x-0 ml-0">
+    <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transform transition-transform duration-300 ease-in-out translate-x-0">
         
-        <!-- Mobile Sidebar Head -->
-        <div class="p-5 flex items-center justify-between sm:hidden border-b border-slate-100">
-            <span class="text-2xl font-black text-brand-blue tracking-tighter">QUANS.</span>
-            <button id="closeSidebarMobile" class="text-slate-400 hover:text-slate-700 cursor-pointer">
-                <i class="fa-solid fa-xmark text-lg"></i>
+        <div class="p-4 flex items-center justify-between sm:hidden border-b border-slate-100">
+            <span class="text-xl font-black text-brand-blue">QUANS.</span>
+            <button id="closeSidebarMobile" class="text-slate-400 hover:text-slate-800 text-xl">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
-        <!-- Action: New Chat -->
         <div class="p-4">
-            <button id="newChatBtn" class="w-full flex items-center justify-center gap-2 bg-brand-blue text-white py-3 px-4 rounded-full font-medium text-sm hover:bg-brand-hover shadow-sm transition-all cursor-pointer">
-                <i class="fa-solid fa-plus text-xs"></i>
-                <span>New Chat</span>
+            <button id="newChatBtn" class="w-full flex items-center justify-center gap-3 bg-brand-blue text-white py-3 px-4 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span class="font-medium">New Chat</span>
             </button>
         </div>
 
-        <!-- Scrollable Chat History -->
-        <div class="flex-1 overflow-y-auto px-4 pb-4">
-            <h3 class="text-[11px] font-bold text-slate-400 mb-3 uppercase tracking-widest pl-2">History</h3>
-            <div id="historyContainer" class="space-y-1">
-                <!-- Active session item card -->
-                <div class="group flex items-center justify-between p-3 rounded-xl bg-white border border-slate-100 cursor-pointer transition-all">
+        <div class="flex-1 overflow-y-auto p-4 pt-0">
+            <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider pl-2">History</h3>
+            <div id="historyList" class="space-y-1">
+                <div class="group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200">
                     <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-xs text-brand-blue"></i>
-                        <span class="text-sm font-medium truncate">Workspace Active</span>
+                        <i class="fa-regular fa-message text-sm"></i>
+                        <span class="text-sm truncate">Landing Page Ideas</span>
                     </div>
-                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Bottom Options Panel -->
-        <div class="p-4 border-t border-slate-100 space-y-1">
-            <button class="w-full flex items-center gap-3 text-slate-600 p-2.5 rounded-xl hover:bg-white hover:text-brand-blue transition-all cursor-pointer text-sm font-medium">
-                <i class="fa-solid fa-headset text-slate-400 w-4"></i>
-                <span>Contact Us</span>
+        <div class="p-4 border-t border-slate-100 space-y-1.5">
+            <button class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200">
+                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
+                    <i class="fa-solid fa-headset text-sm"></i>
+                </div>
+                <span class="font-medium text-sm">Contact Us</span>
             </button>
 
-            <button onclick="window.location.href='index.html'" class="w-full flex items-center gap-3 text-slate-600 p-2.5 rounded-xl hover:bg-white hover:text-brand-blue transition-all cursor-pointer text-sm font-medium">
-                <i class="fa-solid fa-house-chimney text-slate-400 w-4"></i>
-                <span>Return to Homepage</span>
+            <button onclick="window.location.href='index.html'" class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200">
+                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
+                    <i class="fa-solid fa-house-chimney text-xs"></i>
+                </div>
+                <span class="font-medium text-sm">Return to Homepage</span>
             </button>
         </div>
     </aside>
 
-    <!-- MAIN INTERFACE PANEL -->
     <main class="flex-1 flex flex-col relative min-w-0 bg-white">
         
-        <!-- Premium Navigation Header (Matches your landing page exactly) -->
-        <header class="h-16 flex items-center justify-between px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-30 sticky top-0">
+        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-10 sticky top-0">
             <div class="flex items-center gap-4">
-                <button id="sidebarToggle" class="text-slate-400 hover:text-brand-blue transition-colors cursor-pointer">
-                    <i class="fa-solid fa-bars-staggered text-lg"></i>
+                <button id="toggleSidebarBtn" class="text-slate-400 hover:text-brand-blue text-xl transition-colors">
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
-                <span onclick="window.location.href='index.html'" class="text-3xl font-black tracking-tighter text-brand-blue cursor-pointer select-none">QUANS<span class="text-slate-900">.</span></span>
+                <a href="index.html" class="text-2xl font-black tracking-tighter text-brand-blue cursor-pointer">QUANS<span class="text-slate-900">.</span></a>
             </div>
             
-            <div class="flex items-center space-x-6">
-                <button class="text-base font-medium text-slate-600 hover:text-brand-blue transition-colors cursor-pointer">
-                    Login
-                </button>
-                <button class="text-base font-medium bg-brand-blue text-white px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer">
-                    Signup
-                </button>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">Login</button>
+                <button class="text-sm sm:text-base font-medium bg-brand-blue text-white px-4 sm:px-6 py-2 rounded-full hover:bg-brand-hover shadow-md shadow-blue-100 transition-all duration-300 transform hover:-translate-y-0.5">Signup</button>
             </div>
         </header>
 
-        <!-- Conversational Output Container -->
-        <div id="scrollViewport" class="flex-1 overflow-y-auto p-6 pb-36">
-            
-            <!-- Clean Welcome Screen Interface -->
-            <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-200">
-                <div class="w-12 h-12 bg-brand-light text-brand-blue rounded-full flex items-center justify-center text-lg mb-4 shadow-sm">
+        <div id="chatBox" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-32">
+            <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500">
+                <div class="w-16 h-16 bg-brand-light text-brand-blue rounded-full flex items-center justify-center text-2xl mb-4 shadow-sm">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Let's get started</h2>
-                <p class="text-slate-400 text-sm mt-1">Ask a question or attach your system project files.</p>
+                <h2 class="text-3xl font-bold text-slate-800">Let's get started</h2>
+                <p class="text-slate-500 mt-2">What are we building today?</p>
             </div>
 
-            <!-- Chat Output Wrapper -->
-            <div id="messageOutputSpace" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
+            <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
         </div>
 
-        <!-- Luxury Curved Floating Input Box -->
-        <div class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-8 pb-6 px-4 z-20">
-            <div class="max-w-3xl mx-auto relative">
+        <div class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4">
+            <div class="max-w-3xl mx-auto relative flex items-center bg-white border-2 border-slate-100 rounded-full shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300">
                 
-                <!-- Minimal Upload Popup Card -->
-                <div id="attachPopup" class="absolute bottom-full left-2 mb-3 bg-white border border-slate-100 shadow-xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-48">
-                    <button id="triggerMemorySearch" class="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all cursor-pointer">
-                        <i class="fa-solid fa-laptop-file"></i>
+                <div id="attachPopup" class="absolute bottom-full left-2 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
+                    <button id="triggerMemorySearch" class="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all duration-200 cursor-pointer">
+                        <i class="fa-solid fa-laptop-file text-base text-brand-blue"></i>
                         <span>Upload from Device</span>
                     </button>
                     <div class="absolute -bottom-1 left-5 w-2 h-2 bg-white border-b border-r border-slate-100 transform rotate-45"></div>
                 </div>
 
-                <!-- Main Premium Curved Capsule -->
-                <div class="flex items-center bg-white border border-slate-200 rounded-full shadow-sm focus-within:border-brand-blue focus-within:ring-4 focus-within:ring-blue-50/50 transition-all p-1.5 pl-3">
-                    
-                    <button id="plusBtn" class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors cursor-pointer">
-                        <i class="fa-solid fa-plus text-base"></i>
-                    </button>
-                    
-                    <input type="text" id="userInputField" placeholder="Message QUANS..." class="w-full bg-transparent py-2.5 px-3 outline-none text-slate-800 placeholder-slate-400 text-sm font-medium">
-                    
-                    <button id="submitRequestBtn" class="w-9 h-9 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover transition-transform active:scale-95 cursor-pointer">
-                        <i class="fa-solid fa-arrow-up text-xs"></i>
-                    </button>
-                </div>
+                <button id="attachBtn" class="absolute left-2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors">
+                    <i class="fa-solid fa-plus text-xl"></i>
+                </button>
+                
+                <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-14 pr-14 outline-none text-slate-700 placeholder-slate-400">
+                
+                <button id="sendBtn" class="absolute right-2 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50">
+                    <i class="fa-solid fa-arrow-up text-sm"></i>
+                </button>
             </div>
-            <p class="text-center text-[10px] text-slate-400 mt-2 tracking-wide font-medium">Secured Sandbox Environment</p>
+            <p class="text-center text-[10px] text-slate-400 mt-3 font-medium">QUANS AI can make mistakes. Verify important information.</p>
         </div>
 
     </main>
 
-    <!-- REFINED APP INTERACTION SCRIPTS -->
     <script>
+        // DOM Elements
         const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
+        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
         const closeSidebarMobile = document.getElementById('closeSidebarMobile');
         const mobileOverlay = document.getElementById('mobileOverlay');
         
-        const userInputField = document.getElementById('userInputField');
-        const submitRequestBtn = document.getElementById('submitRequestBtn');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
         const welcomeScreen = document.getElementById('welcomeScreen');
-        const messageOutputSpace = document.getElementById('messageOutputSpace');
-        const scrollViewport = document.getElementById('scrollViewport');
+        const messagesArea = document.getElementById('messagesArea');
+        const chatBox = document.getElementById('chatBox');
         
-        const plusBtn = document.getElementById('plusBtn');
+        const attachBtn = document.getElementById('attachBtn');
         const attachPopup = document.getElementById('attachPopup');
         const triggerMemorySearch = document.getElementById('triggerMemorySearch');
         const systemMemoryInput = document.getElementById('systemMemoryInput');
         
         const newChatBtn = document.getElementById('newChatBtn');
-        const historyContainer = document.getElementById('historyContainer');
+        const historyList = document.getElementById('historyList');
 
         let isSidebarOpen = true;
-        let isChatFresh = true;
-        let chatIndex = 1;
+        let isFirstMessage = true;
+        let chatCounter = 1;
 
-        // Toggle rules for both PC and Mobile
-        function handleSidebarToggle() {
-            if (window.innerWidth < 640) {
+        // --- SIDEBAR TOGGLE LOGIC ---
+        function toggleSidebar() {
+            if (window.innerWidth < 640) { // Mobile
                 sidebar.classList.toggle('-translate-x-full');
                 mobileOverlay.classList.toggle('hidden');
-            } else {
-                if (isSidebarOpen) {
+            } else { // PC
+                if(isSidebarOpen) {
                     sidebar.style.marginLeft = `-${sidebar.offsetWidth}px`;
                 } else {
                     sidebar.style.marginLeft = '0px';
@@ -222,104 +194,118 @@
             }
         }
 
+        // Initialize sidebar hidden on mobile
         if (window.innerWidth < 640) {
             sidebar.classList.add('-translate-x-full');
             isSidebarOpen = false;
         }
 
-        sidebarToggle.addEventListener('click', handleSidebarToggle);
-        closeSidebarMobile.addEventListener('click', handleSidebarToggle);
-        mobileOverlay.addEventListener('click', handleSidebarToggle);
+        toggleSidebarBtn.addEventListener('click', toggleSidebar);
+        closeSidebarMobile.addEventListener('click', toggleSidebar);
+        mobileOverlay.addEventListener('click', toggleSidebar);
 
-        // Upload popup logic
-        plusBtn.addEventListener('click', (e) => {
+        // --- ATTACH POPUP & FILES ACCESS LOGIC ---
+        attachBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             attachPopup.classList.toggle('opacity-0');
             attachPopup.classList.toggle('pointer-events-none');
             attachPopup.classList.toggle('translate-y-2');
         });
 
+        // Close Pop-up on outside click area
         document.addEventListener('click', () => {
             attachPopup.classList.add('opacity-0');
             attachPopup.classList.add('pointer-events-none');
             attachPopup.classList.add('translate-y-2');
         });
 
-        triggerMemorySearch.addEventListener('click', () => systemMemoryInput.click());
-        systemMemoryInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) alert(`Attached: ${e.target.files[0].name}`);
+        // Direct systemic internal memory linking trigger
+        triggerMemorySearch.addEventListener('click', () => {
+            systemMemoryInput.click();
         });
 
-        // Chat parsing functions
-        function makeBubble(text, isUser) {
-            const row = document.createElement('div');
-            row.className = `flex w-full fade-in ${isUser ? 'justify-end' : 'justify-start'}`;
+        systemMemoryInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                alert(`File Linked Successfully: ${e.target.files[0].name}`);
+            }
+        });
+
+        // --- CHAT LOGIC ---
+        function createMessageBubble(text, isUser) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex w-full fade-in ${isUser ? 'justify-end' : 'justify-start'}`;
             
-            const box = document.createElement('div');
-            box.className = `max-w-[80%] sm:max-w-[70%] px-4.5 py-3 text-sm leading-relaxed rounded-2xl ${
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
                 isUser 
-                ? 'bg-brand-blue text-white rounded-tr-none font-medium shadow-sm' 
-                : 'bg-slate-100 text-slate-800 rounded-tl-none font-normal'
+                ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' 
+                : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
             }`;
-            box.innerText = text;
+            bubble.innerText = text;
             
-            row.appendChild(box);
-            return row;
+            wrapper.appendChild(bubble);
+            return wrapper;
         }
 
-        function sendMsg() {
-            const val = userInputField.value.trim();
-            if (!val) return;
+        function handleSend() {
+            const text = messageInput.value.trim();
+            if (!text) return;
 
-            if (isChatFresh) {
+            // 1. Hide welcome screen & show message area on first use
+            if (isFirstMessage) {
                 welcomeScreen.style.opacity = '0';
-                setTimeout(() => {
-                    welcomeScreen.classList.add('hidden');
-                    messageOutputSpace.classList.remove('hidden');
-                }, 150);
-                isChatFresh = false;
+                setTimeout(() => { 
+                    welcomeScreen.classList.add('hidden'); 
+                    messagesArea.classList.remove('hidden');
+                }, 300);
+                isFirstMessage = false;
             }
 
-            messageOutputSpace.appendChild(makeBubble(val, true));
-            userInputField.value = '';
-            scrollViewport.scrollTop = scrollViewport.scrollHeight;
+            // 2. Append User Message
+            messagesArea.appendChild(createMessageBubble(text, true));
+            messageInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
 
+            // 3. Simulate AI "Initiated" Response
             setTimeout(() => {
-                messageOutputSpace.appendChild(makeBubble("Initiated.", false));
-                scrollViewport.scrollTop = scrollViewport.scrollHeight;
-            }, 400);
+                messagesArea.appendChild(createMessageBubble("Initiated.", false));
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
         }
 
-        submitRequestBtn.addEventListener('click', sendMsg);
-        userInputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMsg(); });
+        sendBtn.addEventListener('click', handleSend);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
 
-        // Automated Session History Management
+        // --- NEW CHAT & HISTORY LOGIC ---
         newChatBtn.addEventListener('click', () => {
-            if (!isChatFresh) {
-                const firstMsg = messageOutputSpace.querySelector('.justify-end text-sm, div');
-                const title = firstMsg ? firstMsg.innerText : `Session Archive ${chatIndex}`;
-                
-                const card = document.createElement('div');
-                card.className = 'group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all fade-in';
-                card.innerHTML = `
+            if (!isFirstMessage) {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200 fade-in';
+                historyItem.innerHTML = `
                     <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-xs"></i>
-                        <span class="text-sm font-medium truncate">${title}</span>
+                        <i class="fa-regular fa-message text-sm"></i>
+                        <span class="text-sm truncate">Chat Session ${chatCounter++}</span>
                     </div>
-                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-trash-can"></i>
                     </button>
                 `;
-                historyContainer.prepend(card);
-                chatIndex++;
+                historyList.prepend(historyItem);
             }
 
-            messageOutputSpace.innerHTML = '';
-            messageOutputSpace.classList.add('hidden');
+            // Reset UI
+            messagesArea.innerHTML = '';
+            messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
+            
+            void welcomeScreen.offsetWidth; 
             welcomeScreen.style.opacity = '1';
-            isChatFresh = true;
+            
+            isFirstMessage = true;
         });
+
     </script>
 </body>
 </html>
