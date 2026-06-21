@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght=0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Premium Icons -->
+    <!-- FontAwesome for Free Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -30,98 +30,101 @@
     </script>
 
     <style>
-        body { font-family: 'DM Sans', sans-serif; background-color: #FFFFFF; }
+        body { font-family: 'DM Sans', sans-serif; }
         
-        /* Custom Premium Scrollbar for Chat History */
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 99px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
+        /* Premium Custom Scrollbars */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
 
-        /* Animation Keyframes */
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn {
+        /* Animation Transitions */
+        .fade-in { animation: slideUpFade 0.35s ease-out forwards; }
+        @keyframes slideUpFade {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .sidebar-transition { transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="h-screen flex overflow-hidden bg-white text-slate-900 selection:bg-brand-blue/10">
+<body class="bg-white text-slate-900 h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white">
 
-    <!-- Hidden Native File Input to Trigger System Memory -->
-    <input type="file" id="nativeFileInput" class="hidden" multiple>
+    <!-- HIDDEN NATIVE MEMORY ACCESS INPUT -->
+    <input type="file" id="systemMemoryInput" multiple class="hidden">
 
-    <!-- Mobile Navigation Overlay Drawer background shadow -->
-    <div id="mobileOverlay" class="fixed inset-0 z-40 hidden bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 sm:hidden"></div>
+    <!-- MOBILE OVERLAY BACKDROP -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-40 hidden sm:hidden transition-opacity"></div>
 
-    <!-- LEFT COMPACT SIDEBAR -->
-    <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transform transition-transform duration-300 ease-in-out translate-x-0 shrink-0">
+    <!-- LEFT SIDEBAR (Initially Open) -->
+    <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 sidebar-transition translate-x-0 ml-0">
         
-        <!-- Mobile Sidebar Brand Header -->
+        <!-- Mobile Sidebar Head -->
         <div class="p-4 flex items-center justify-between sm:hidden border-b border-slate-100">
-            <span class="text-2xl font-black text-brand-blue tracking-tighter">QUANS.</span>
-            <button id="closeSidebarMobile" class="text-slate-400 hover:text-slate-700 p-1">
-                <i class="fa-solid fa-xmark text-xl"></i>
+            <span class="text-xl font-black text-brand-blue">QUANS.</span>
+            <button id="closeSidebarMobile" class="text-slate-400 hover:text-slate-700 text-lg cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
-        <!-- Action Module: New Chat -->
+        <!-- Action: New Chat -->
         <div class="p-4">
-            <button id="newChatBtn" class="w-full flex items-center justify-center gap-3 bg-brand-blue text-white py-3 px-4 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer font-medium text-sm tracking-wide">
-                <i class="fa-solid fa-plus text-xs"></i>
+            <button id="newChatBtn" class="w-full flex items-center justify-center gap-2.5 bg-brand-blue text-white py-3 px-4 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer font-medium tracking-wide">
+                <i class="fa-solid fa-plus text-sm"></i>
                 <span>New Chat</span>
             </button>
         </div>
 
-        <!-- Session Ledger: Scrollable History -->
-        <div class="flex-1 overflow-y-auto px-4 pb-2 custom-scroll">
+        <!-- History Content Area (Scrollable) -->
+        <div class="flex-1 overflow-y-auto px-4 pb-2">
             <h3 class="text-[11px] font-bold text-slate-400 mb-3 uppercase tracking-widest pl-2">History</h3>
-            <div id="historyList" class="space-y-1">
-                <!-- Fallback entry placeholder -->
-                <div class="group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200">
+            <div id="historyContainer" class="space-y-1.5">
+                <!-- Initial active history container layout -->
+                <div class="group flex items-center justify-between p-3 rounded-2xl bg-white border border-slate-100 cursor-pointer transition-all duration-200">
                     <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-sm text-slate-400"></i>
-                        <span class="text-xs font-medium truncate">Example Interaction Analysis</span>
+                        <i class="fa-regular fa-message text-xs text-brand-blue"></i>
+                        <span class="text-sm font-medium truncate">Workspace Initialization</span>
                     </div>
-                    <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1">
                         <i class="fa-solid fa-trash-can text-xs"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Sidebar Base Navigation Items -->
-        <div class="p-4 border-t border-slate-100 space-y-1 bg-slate-50/80">
-            <button class="w-full flex items-center gap-3 text-slate-600 p-2.5 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200 text-left cursor-pointer">
-                <div class="w-7 h-7 rounded-lg bg-slate-200/60 flex items-center justify-center text-slate-500 text-xs">
-                    <i class="fa-solid fa-headset"></i>
+        <!-- Bottom Actions Panel -->
+        <div class="p-4 border-t border-slate-100 space-y-1">
+            <!-- Contact Us Button -->
+            <button class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-2xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200 cursor-pointer group">
+                <div class="w-8 h-8 rounded-full bg-slate-200/60 flex items-center justify-center text-slate-500 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
+                    <i class="fa-solid fa-headset text-sm"></i>
                 </div>
-                <span class="font-medium text-xs">Contact Us</span>
+                <span class="font-medium text-sm">Contact Us</span>
             </button>
-            
-            <button onclick="window.location.href='index.html'" class="w-full flex items-center gap-3 text-slate-600 p-2.5 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200 text-left cursor-pointer">
-                <div class="w-7 h-7 rounded-lg bg-slate-200/60 flex items-center justify-center text-slate-500 text-xs">
-                    <i class="fa-solid fa-house-chimney"></i>
+
+            <!-- Return To Homepage Button -->
+            <button onclick="window.location.href='index.html'" class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-2xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200 cursor-pointer group">
+                <div class="w-8 h-8 rounded-full bg-slate-200/60 flex items-center justify-center text-slate-500 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
+                    <i class="fa-solid fa-house-chimney text-xs"></i>
                 </div>
-                <span class="font-medium text-xs">Return to Homepage</span>
+                <span class="font-medium text-sm">Return to Homepage</span>
             </button>
         </div>
     </aside>
 
-    <!-- CORE SYSTEM INTERFACE AREA -->
+    <!-- RIGHT MAIN SYSTEM PANEL -->
     <main class="flex-1 flex flex-col relative min-w-0 bg-white">
         
-        <!-- Global Sticky Dashboard Bar Header -->
-        <header class="h-20 flex items-center justify-between px-4 sm:px-8 border-b border-slate-100 bg-white/80 backdrop-blur-md z-30 sticky top-0">
+        <!-- Premium Core Top Sync Bar -->
+        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-30 sticky top-0">
             <div class="flex items-center gap-4">
-                <!-- Layout control switch trigger -->
-                <button id="toggleSidebarBtn" class="text-slate-400 hover:text-brand-blue p-2 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
-                    <i class="fa-solid fa-bars-staggered text-lg"></i>
+                <!-- Open/Close Controller Toggle Icon -->
+                <button id="sidebarToggle" class="text-slate-400 hover:text-brand-blue text-lg transition-colors cursor-pointer">
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
                 <span onclick="window.location.href='index.html'" class="text-2xl font-black tracking-tighter text-brand-blue cursor-pointer select-none">QUANS<span class="text-slate-900">.</span></span>
             </div>
             
-            <!-- Replicated Authentic Matching Authentication Node Layout -->
+            <!-- Auth Buttons: Matching Landing Page Layout Style -->
             <div class="flex items-center space-x-3 sm:space-x-6">
                 <button class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors cursor-pointer">
                     Login
@@ -132,206 +135,216 @@
             </div>
         </header>
 
-        <!-- Message Grid Box Dynamic Layer Viewport -->
-        <div id="chatBox" class="flex-grow overflow-y-auto p-4 sm:p-8 pb-36 relative custom-scroll">
+        <!-- Conversational Output Node Viewport -->
+        <div id="scrollViewport" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-36">
             
-            <!-- Default Initialization Welcoming Layout Display -->
-            <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none transition-all duration-300">
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-4 shadow-sm">
+            <!-- Initial Default Welcome Grid Node -->
+            <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-300">
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-full flex items-center justify-center text-xl mb-4 shadow-sm animate-pulse">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800">Let's get started</h2>
-                <p class="text-sm text-slate-400 mt-1 max-w-xs">Deploy commands and query intelligence files dynamically.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-800">Let's get started</h2>
+                <p class="text-slate-400 text-sm mt-1">Select an item or send an open request payload.</p>
             </div>
 
-            <!-- Dynamic DOM Thread Injector Node Panel -->
-            <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
+            <!-- Dynamic Messages Display Sub-Box -->
+            <div id="messageOutputSpace" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
         </div>
 
-        <!-- Console Entry Fixed Form Base Container Wrapper -->
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white to-transparent pt-8 pb-6 px-4 z-20">
+        <!-- Premium Bottom Fixed Input Module -->
+        <div class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-8 pb-6 px-4 z-20">
             <div class="max-w-3xl mx-auto relative">
                 
-                <!-- Dynamic Attach Action Floating Popup Menu Panel UI -->
-                <div id="attachMenuPopup" class="absolute bottom-full left-2 mb-3 bg-white border border-slate-100 p-2 rounded-2xl shadow-xl shadow-slate-200/80 w-48 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50">
-                    <button id="actionTriggerUpload" class="w-full flex items-center gap-3 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-xs font-semibold transition-colors cursor-pointer">
-                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
-                        <span>Attach files</span>
+                <!-- ATTACH SYSTEM MEMORY POPUP MODAL DIALOG CONTAINER -->
+                <div id="attachPopup" class="absolute bottom-full left-4 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-3 opacity-0 pointer-events-none transform translate-y-3 transition-all duration-200 z-50 w-52">
+                    <button id="triggerMemorySearch" class="w-full flex items-center gap-3 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all cursor-pointer">
+                        <i class="fa-solid fa-laptop-file text-base"></i>
+                        <span>Upload from Device</span>
                     </button>
+                    <div class="absolute -bottom-1.5 left-4 w-3 h-3 bg-white border-b border-r border-slate-100 transform rotate-45"></div>
                 </div>
 
-                <!-- Input Console Wrapper -->
-                <div class="flex items-center bg-white border-2 border-slate-100 rounded-2xl shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300">
+                <!-- Input Field Inner Capsule Wrapper (Curved Shape Design) -->
+                <div class="flex items-center bg-white border-2 border-slate-100 rounded-[32px] shadow-sm focus-within:border-brand-blue focus-within:shadow-md focus-within:shadow-blue-50/50 transition-all duration-300 overflow-hidden p-1.5 pl-3">
                     
-                    <!-- Plus Menu Activator -->
-                    <button id="plusMenuBtn" class="absolute left-3 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-xl transition-colors cursor-pointer">
+                    <!-- Plus Operational Button -->
+                    <button id="plusBtn" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors cursor-pointer">
                         <i class="fa-solid fa-plus text-lg"></i>
                     </button>
                     
-                    <!-- Text Console Node Field -->
-                    <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-14 pr-14 outline-none text-sm text-slate-700 placeholder-slate-400">
+                    <!-- Context Entry Box Textarea/Input element -->
+                    <input type="text" id="userInputField" placeholder="Message QUANS Engine..." class="w-full bg-transparent py-3 px-3 outline-none text-slate-700 placeholder-slate-400 text-[15px]">
                     
-                    <!-- Transmission Action Trigger Button -->
-                    <button id="sendBtn" class="absolute right-3 w-10 h-10 bg-brand-blue text-white rounded-xl flex items-center justify-center hover:bg-brand-hover shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
-                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <!-- Send Interface Icon Button Trigger -->
+                    <button id="submitRequestBtn" class="w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-arrow-up text-sm"></i>
                     </button>
                 </div>
             </div>
-            <p class="text-center text-[10px] text-slate-400 mt-3 font-semibold tracking-wide">QUANS AI Engine Workspace infrastructure &copy; 2026</p>
+            <p class="text-center text-[10px] text-slate-400 mt-3 tracking-wide">Secure Sandbox Engine v1.1 • Enterprise Privacy Infrastructure</p>
         </div>
 
     </main>
 
-    <!-- INTERFACE DRIVER SCRIPT CORE ENGINE -->
+    <!-- OPERATIONAL CLIENT APPLICATION SCRIPT SKELETON -->
     <script>
-        // Core Node Elements Hooks
+        // DOM Nodes Mapping
         const sidebar = document.getElementById('sidebar');
-        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+        const sidebarToggle = document.getElementById('sidebarToggle');
         const closeSidebarMobile = document.getElementById('closeSidebarMobile');
         const mobileOverlay = document.getElementById('mobileOverlay');
         
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
+        const userInputField = document.getElementById('userInputField');
+        const submitRequestBtn = document.getElementById('submitRequestBtn');
         const welcomeScreen = document.getElementById('welcomeScreen');
-        const messagesArea = document.getElementById('messagesArea');
-        const chatBox = document.getElementById('chatBox');
+        const messageOutputSpace = document.getElementById('messageOutputSpace');
+        const scrollViewport = document.getElementById('scrollViewport');
         
-        const plusMenuBtn = document.getElementById('plusMenuBtn');
-        const attachMenuPopup = document.getElementById('attachMenuPopup');
-        const actionTriggerUpload = document.getElementById('actionTriggerUpload');
-        const nativeFileInput = document.getElementById('nativeFileInput');
+        const plusBtn = document.getElementById('plusBtn');
+        const attachPopup = document.getElementById('attachPopup');
+        const triggerMemorySearch = document.getElementById('triggerMemorySearch');
+        const systemMemoryInput = document.getElementById('systemMemoryInput');
         
         const newChatBtn = document.getElementById('newChatBtn');
-        const historyList = document.getElementById('historyList');
+        const historyContainer = document.getElementById('historyContainer');
 
-        let isSidebarOpen = true;
-        let isFirstMessage = true;
-        let sessionCounter = 1;
+        let desktopSidebarVisible = true;
+        let isWorkspaceFresh = true;
+        let runningChatIndex = 1;
 
-        // --- RESPONSIVE SIDEBAR MANIPULATION LOGIC ---
-        function toggleSidebarState() {
-            if (window.innerWidth < 640) { // Mobile Adaptive
+        // --- SIDEBAR MANAGEMENT CAPABILITIES ---
+        function runSidebarToggle() {
+            if (window.innerWidth < 640) { // Mobile Flow Rules
                 sidebar.classList.toggle('-translate-x-full');
                 mobileOverlay.classList.toggle('hidden');
-            } else { // PC Frame Viewport Padding adjustments
-                if(isSidebarOpen) {
+            } else { // High Definition Desktop Layout Rules
+                if (desktopSidebarVisible) {
                     sidebar.style.marginLeft = `-${sidebar.offsetWidth}px`;
+                    sidebar.classList.remove('translate-x-0');
+                    sidebar.classList.add('-translate-x-full');
                 } else {
                     sidebar.style.marginLeft = '0px';
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
                 }
-                isSidebarOpen = !isSidebarOpen;
+                desktopSidebarVisible = !desktopSidebarVisible;
             }
         }
 
-        // Initialize Responsive default breakpoints conditions
+        // Auto-adapt constraints at startup 
         if (window.innerWidth < 640) {
             sidebar.classList.add('-translate-x-full');
-            isSidebarOpen = false;
+            desktopSidebarVisible = false;
         }
 
-        toggleSidebarBtn.addEventListener('click', toggleSidebarState);
-        closeSidebarMobile.addEventListener('click', toggleSidebarState);
-        mobileOverlay.addEventListener('click', toggleSidebarState);
+        sidebarToggle.addEventListener('click', runSidebarToggle);
+        closeSidebarMobile.addEventListener('click', runSidebarToggle);
+        mobileOverlay.addEventListener('click', runSidebarToggle);
 
-        // --- POPUP MENU & NATIVE FILE SYSTEM CONNECTIVITY DRIVER ---
-        plusMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            attachMenuPopup.classList.toggle('opacity-0');
-            attachMenuPopup.classList.toggle('pointer-events-none');
-            attachMenuPopup.classList.toggle('translate-y-2');
+        // --- SYSTEM MEMORY ACCESS & POPUP LOGIC ---
+        plusBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            attachPopup.classList.toggle('opacity-0');
+            attachPopup.classList.toggle('pointer-events-none');
+            attachPopup.classList.toggle('translate-y-3');
         });
 
-        // Close Pop-ups if click occurs outside layout boundary zones
+        // Close Pop-up when clicking anywhere else on document
         document.addEventListener('click', () => {
-            attachMenuPopup.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+            attachPopup.classList.add('opacity-0');
+            attachPopup.classList.add('pointer-events-none');
+            attachPopup.classList.add('translate-y-3');
         });
 
-        // Bridge UI Menu Action item straight to System Local Drive Memory API
-        actionTriggerUpload.addEventListener('click', () => {
-            nativeFileInput.click();
+        // Intercept action context & tap system local hardware directories
+        triggerMemorySearch.addEventListener('click', () => {
+            systemMemoryInput.click();
         });
 
-        nativeFileInput.addEventListener('change', (e) => {
-            const files = e.target.files;
-            if (files.length > 0) {
-                alert(`System Memory Connected successfully.\nSelected File: "${files[0].name}" linked to local console prompt session.`);
+        systemMemoryInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                alert(`System Memory Linked: ${e.target.files.length} file(s) staging ready.`);
             }
         });
 
-        // --- CONSOLE ENGINE LOGIC UTILS ---
-        function createDOMBubbleNode(text, isUserControlled) {
+        // --- CONVERSATIONAL CORE ENGINES ---
+        function renderBubble(payload, userFlag) {
             const rowWrapper = document.createElement('div');
-            rowWrapper.className = `flex w-full fade-in ${isUserControlled ? 'justify-end' : 'justify-start'}`;
+            rowWrapper.className = `flex w-full fade-in ${userFlag ? 'justify-end' : 'justify-start'}`;
             
-            const textCard = document.createElement('div');
-            textCard.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-sm leading-relaxed shadow-sm tracking-wide ${
-                isUserControlled 
-                ? 'bg-brand-blue text-white rounded-2xl rounded-br-none font-medium' 
-                : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-2xl rounded-bl-none'
+            const messageCapsule = document.createElement('div');
+            messageCapsule.className = `max-w-[85%] sm:max-w-[72%] px-5 py-3.5 text-sm leading-relaxed shadow-sm ${
+                userFlag 
+                ? 'bg-brand-blue text-white rounded-[24px] rounded-br-sm font-medium' 
+                : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-[24px] rounded-bl-sm font-normal'
             }`;
-            textCard.innerText = text;
+            messageCapsule.innerText = payload;
             
-            rowWrapper.appendChild(textCard);
+            rowWrapper.appendChild(messageCapsule);
             return rowWrapper;
         }
 
-        function executeMessagePipeline() {
-            const promptValue = messageInput.value.trim();
+        function triggerTransmission() {
+            const promptValue = userInputField.value.trim();
             if (!promptValue) return;
 
-            // Clear splash background layers smoothly on first communication frame
-            if (isFirstMessage) {
+            // Remove welcome view states upon initial transmission interaction
+            if (isWorkspaceFresh) {
                 welcomeScreen.style.opacity = '0';
-                setTimeout(() => { 
-                    welcomeScreen.classList.add('hidden'); 
-                    messagesArea.classList.remove('hidden');
+                setTimeout(() => {
+                    welcomeScreen.classList.add('hidden');
+                    messageOutputSpace.classList.remove('hidden');
                 }, 200);
-                isFirstMessage = false;
+                isWorkspaceFresh = false;
             }
 
-            // Render active user command string input parameters
-            messagesArea.appendChild(createDOMBubbleNode(promptValue, true));
-            messageInput.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
+            // Push User Message Node
+            messageOutputSpace.appendChild(renderBubble(promptValue, true));
+            userInputField.value = '';
+            scrollViewport.scrollTop = scrollViewport.scrollHeight;
 
-            // Deploy mock engine transaction response feedback
+            // Push Target Response Context Variant Array ("Initiated.")
             setTimeout(() => {
-                messagesArea.appendChild(createDOMBubbleNode("Initiated.", false));
-                chatBox.scrollTop = chatBox.scrollHeight;
+                messageOutputSpace.appendChild(renderBubble("Initiated.", false));
+                scrollViewport.scrollTop = scrollViewport.scrollHeight;
             }, 450);
         }
 
-        sendBtn.addEventListener('click', executeMessagePipeline);
-        messageInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                executeMessagePipeline();
-            }
+        submitRequestBtn.addEventListener('click', triggerTransmission);
+        userInputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') triggerTransmission();
         });
 
-        // --- SESSION CONTROL HISTORY CONSOLE GENERATOR ---
+        // --- RECOVERY ARCHIVE LOGS (HISTORY SAVE INTERPRETATION) ---
         newChatBtn.addEventListener('click', () => {
-            if (!isFirstMessage) {
-                const itemNode = document.createElement('div');
-                itemNode.className = 'group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200 fade-in';
-                itemNode.innerHTML = `
+            // Save state context only if conversations were parsed
+            if (!isWorkspaceFresh) {
+                const firstUserBubble = messageOutputSpace.querySelector('.justify-end text-sm, div');
+                const extractedCaption = firstUserBubble ? firstUserBubble.innerText : `Session Module ${runningChatIndex}`;
+                
+                const archivalLogRecord = document.createElement('div');
+                archivalLogRecord.className = 'group flex items-center justify-between p-3 rounded-2xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200 fade-in';
+                archivalLogRecord.innerHTML = `
                     <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-sm text-slate-400"></i>
-                        <span class="text-xs font-semibold truncate">Saved Session Grid ${sessionCounter++}</span>
+                        <i class="fa-regular fa-message text-xs"></i>
+                        <span class="text-sm font-medium truncate">${extractedCaption}</span>
                     </div>
-                    <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1">
                         <i class="fa-solid fa-trash-can text-xs"></i>
                     </button>
                 `;
-                historyList.prepend(itemNode);
+                
+                historyContainer.prepend(archivalLogRecord);
+                runningChatIndex++;
             }
 
-            // Reset dynamic viewport nodes elements states back to fresh initialization
-            messagesArea.innerHTML = '';
-            messagesArea.classList.add('hidden');
+            // Restore Interface Context Viewport Configurations
+            messageOutputSpace.innerHTML = '';
+            messageOutputSpace.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
-            void welcomeScreen.offsetWidth; 
+            void welcomeScreen.offsetWidth; // Force CSS Engine paint sequence
             welcomeScreen.style.opacity = '1';
-            isFirstMessage = true;
+            isWorkspaceFresh = true;
         });
     </script>
 </body>
