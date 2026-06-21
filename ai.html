@@ -46,7 +46,7 @@
         .sidebar-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
     </style>
 </head>
-<body class="bg-white text-slate-900 h-screen h-[100dvh] flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
+<body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
@@ -324,6 +324,38 @@
             
             isFirstMessage = true;
         });
+
+        // --- MOBILE KEYBOARD AUTO-STICK ACCELERATOR ---
+        if (window.visualViewport) {
+            const chatInputWrapper = document.getElementById('chatInputWrapper');
+            const chatBoxEl = document.getElementById('chatBox');
+
+            const adjustMobileLayout = () => {
+                if (window.innerWidth < 640) { // Target mobile viewports exclusively
+                    const keyboardOffset = window.innerHeight - window.visualViewport.height;
+                    
+                    if (keyboardOffset > 0) {
+                        // Keyboard is visible -> push box up exactly above the keys
+                        chatInputWrapper.style.bottom = `${keyboardOffset}px`;
+                    } else {
+                        // Keyboard is hidden -> return to normal state
+                        chatInputWrapper.style.bottom = '0px';
+                    }
+                    // Keep messages anchored to the bottom view
+                    chatBoxEl.scrollTop = chatBoxEl.scrollHeight;
+                } else {
+                    chatInputWrapper.style.bottom = '0px';
+                }
+            };
+
+            window.visualViewport.addEventListener('resize', adjustMobileLayout);
+            window.visualViewport.addEventListener('scroll', adjustMobileLayout);
+            
+            // Re-verify alignment when users tap into the field
+            messageInput.addEventListener('focus', () => {
+                setTimeout(adjustMobileLayout, 50);
+            });
+        }
 
     </script>
 </body>
