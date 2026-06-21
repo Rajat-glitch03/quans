@@ -2,79 +2,84 @@
 
 import { useState } from "react";
 
-export default function WholesaleLandingPage() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Home() {
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <main className="min-h-screen bg-white text-[#333333]">
+    <main className="min-h-screen bg-white text-[#333333] font-sans">
       {/* Hero Section */}
       <section className="relative flex min-h-screen items-center justify-center px-6">
-        <div className="mx-auto max-w-5xl text-center">
-          <div className="mb-6 inline-flex rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600">
-            Trusted Wholesale Network • Pune
+        <div className="max-w-4xl text-center">
+          <div className="mb-8 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm shadow-sm">
+            Verified Wholesale Network • Pune
           </div>
 
-          <h1 className="mx-auto max-w-4xl text-5xl font-bold tracking-tight md:text-7xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
             Pune's Wholesale Market,
-            <span className="block">Digitized.</span>
+            <br />
+            Digitized.
           </h1>
 
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-slate-500 md:text-xl">
-            Connecting you to verified suppliers through a modern,
-            transparent, and trusted B2B wholesale platform.
+          <p className="mx-auto mt-8 max-w-2xl text-lg text-slate-600 md:text-xl">
+            Connecting you to verified suppliers through a trusted,
+            professional wholesale platform built for modern businesses.
           </p>
 
-          <button
-            onClick={() => setIsOpen(true)}
-            className="mt-12 rounded-full bg-[#4A90E2] px-10 py-5 text-lg font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-          >
-            Get Started
-          </button>
+          <div className="mt-12">
+            <button
+              onClick={() => setShowModal(true)}
+              className="rounded-full bg-[#4A90E2] px-10 py-5 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Problem / Solution */}
-      <section className="bg-slate-50 px-6 py-24">
+      <section className="px-6 py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-bold md:text-4xl">
-              Modern Wholesale Procurement
+            <h2 className="text-3xl font-bold md:text-5xl">
+              Built for Modern Trade
             </h2>
-            <p className="mt-4 text-slate-500">
-              Replacing endless phone calls with verified digital connections.
+            <p className="mt-4 text-slate-600">
+              Replace endless phone calls with a trusted digital workflow.
             </p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
+            {/* Problem Card */}
             <div className="rounded-3xl bg-white p-10 shadow-[0_10px_40px_rgba(0,0,0,0.06)]">
-              <div className="mb-4 text-sm font-semibold uppercase tracking-wider text-red-500">
-                Traditional Problem
+              <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                📞
               </div>
 
               <h3 className="mb-4 text-2xl font-semibold">
-                Endless Calling & Searching
+                Traditional Process
               </h3>
 
               <p className="leading-relaxed text-slate-600">
-                Retailers spend hours calling multiple wholesalers, comparing
-                pricing manually, and verifying supplier credibility through
-                fragmented channels.
+                Retailers spend hours calling multiple wholesalers,
+                comparing prices, checking stock availability, and verifying
+                supplier credibility.
               </p>
             </div>
 
+            {/* Solution Card */}
             <div className="rounded-3xl bg-white p-10 shadow-[0_10px_40px_rgba(0,0,0,0.06)]">
-              <div className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#4A90E2]">
-                Our Solution
+              <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
+                ✓
               </div>
 
               <h3 className="mb-4 text-2xl font-semibold">
-                Verified Suppliers, Instantly
+                Digital Marketplace
               </h3>
 
               <p className="leading-relaxed text-slate-600">
-                Access trusted wholesalers, compare offerings efficiently, and
-                connect directly through a secure marketplace designed for
-                serious business relationships.
+                Access verified suppliers instantly, compare options,
+                discover products, and connect confidently through a
+                streamlined wholesale platform.
               </p>
             </div>
           </div>
@@ -82,66 +87,63 @@ export default function WholesaleLandingPage() {
       </section>
 
       {/* Trust Section */}
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold md:text-4xl">
-            Built for Trust
-          </h2>
+      <section className="px-6 pb-28">
+        <div className="mx-auto max-w-5xl rounded-[40px] border border-slate-100 bg-white p-10 shadow-[0_20px_60px_rgba(0,0,0,0.05)] md:p-16">
+          <div className="grid gap-8 text-center md:grid-cols-3">
+            <div>
+              <h3 className="text-4xl font-bold">100%</h3>
+              <p className="mt-2 text-slate-600">
+                Verified Suppliers
+              </p>
+            </div>
 
-          <p className="mt-6 text-lg leading-relaxed text-slate-500">
-            Every connection begins with verification, transparency, and
-            professional standards—creating a wholesale ecosystem businesses
-            can depend on.
-          </p>
+            <div>
+              <h3 className="text-4xl font-bold">Fast</h3>
+              <p className="mt-2 text-slate-600">
+                Supplier Discovery
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-4xl font-bold">Trusted</h3>
+              <p className="mt-2 text-slate-600">
+                B2B Transactions
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-[32px] bg-white p-8 shadow-2xl">
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-[32px] bg-white p-8 shadow-2xl">
             <div className="text-center">
-              <h3 className="text-3xl font-bold">
-                Choose Your Role
+              <h3 className="text-2xl font-bold">
+                Welcome
               </h3>
 
-              <p className="mt-3 text-slate-500">
-                Select how you would like to join the platform.
+              <p className="mt-3 text-slate-600">
+                Select how you'd like to join the platform.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              <button
-                className="rounded-3xl border border-slate-200 bg-white p-8 text-center transition-all duration-300 hover:border-[#4A90E2] hover:shadow-lg"
-              >
-                <div className="text-xl font-semibold">
-                  I am a Retailer
-                </div>
-                <div className="mt-2 text-sm text-slate-500">
-                  Source products from verified suppliers
-                </div>
+            <div className="mt-8 space-y-4">
+              <button className="w-full rounded-full border border-slate-200 bg-white px-6 py-4 text-lg font-semibold transition hover:border-[#4A90E2] hover:shadow-md">
+                I am a Retailer
               </button>
 
-              <button
-                className="rounded-3xl border border-slate-200 bg-white p-8 text-center transition-all duration-300 hover:border-[#4A90E2] hover:shadow-lg"
-              >
-                <div className="text-xl font-semibold">
-                  I am a Wholesaler
-                </div>
-                <div className="mt-2 text-sm text-slate-500">
-                  Reach serious retail buyers
-                </div>
+              <button className="w-full rounded-full bg-[#4A90E2] px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:shadow-xl">
+                I am a Wholesaler
               </button>
             </div>
 
-            <div className="mt-8 text-center">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="rounded-full border border-slate-200 px-6 py-3 text-sm font-medium transition hover:bg-slate-50"
-              >
-                Close
-              </button>
-            </div>
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-6 w-full text-sm text-slate-500 hover:text-slate-700"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
