@@ -231,23 +231,6 @@
             }
         });
 
-        // --- MOBILE KEYBOARD FIX ENGINE ---
-        if (window.visualViewport) {
-            const handleViewportChange = () => {
-                if (window.innerWidth < 640) {
-                    const offset = window.innerHeight - window.visualViewport.height;
-                    // Directly sticks the box perfectly to the top of the soft keyboard
-                    inputWrapper.style.bottom = offset > 0 ? `${offset}px` : '0px';
-                    // Forces chat viewport alignment adjustment
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                } else {
-                    inputWrapper.style.bottom = '0px';
-                }
-            };
-            window.visualViewport.addEventListener('resize', handleViewportChange);
-            window.visualViewport.addEventListener('scroll', handleViewportChange);
-        }
-
         // --- CHAT LOGIC ---
         function createMessageBubble(text, isUser) {
             const wrapper = document.createElement('div');
