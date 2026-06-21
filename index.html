@@ -3,107 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quans</title>
+    <title>QUANS | Free Business Tools</title>
+    
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Google Fonts: DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Premium Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Tailwind Configuration for precise colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#4A90E2',
+                            hover: '#357ABD',
+                            light: '#F0F6FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
             background-color: #FFFFFF;
-            color: #333333;
         }
+        /* Subtle fade-in animation for page load */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-blue-100">
+<body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
 
     <!-- NAVIGATION HEADER -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
-        <!-- Company Logo (Replace src with your asset later) -->
-        <div class="flex items-center space-x-2">
-            <img src="logo.png" alt="Quans" class="h-10 w-auto object-contain transition-transform duration-300 hover:scale-105" style="scale: 2">
+    <header class="w-full w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <!-- Logo -->
+        <div class="flex items-center cursor-pointer">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+        </div>
+        
+        <!-- Auth Buttons -->
+        <div class="flex items-center space-x-3 sm:space-x-6">
+            <button class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
+                Login
+            </button>
+            <button class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                Signup
+            </button>
         </div>
     </header>
 
-    <!-- HERO & ACTION SECTION -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 max-w-4xl mx-auto text-center my-8 sm:my-16">
+    <!-- HERO SECTION -->
+    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
         
-        
-        <!-- Main Premium Headline -->
-        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900 leading-tight mb-6">
-            Trade Without Losing Leads, <span class="text-[#4A90E2]">Digitized.</span>
+        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
+            Explore number of <span class="text-brand-blue">tools.</span>
         </h1>
         
-        <!-- Subtitle -->
-        <p class="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed">
-           Never miss a high-volume buyer again. Stop managing your multi-million rupee business over messy WhatsApp chats and chaotic phone calls. Automate your order capture and capture 100% of your market demand on a single, secure pipeline.
+        <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
+            Use these tools for free. Not the tool you want? 
+            <a href="#" class="text-brand-blue font-semibold hover:underline decoration-2 underline-offset-4">Contact Us</a> 
+            with the idea of a tool. We will generate it.
+        </p>
 
-        <!-- CTAs: NEXT TO EACH OTHER (Mobile Responsive Stack-to-Row) -->
-        <div class="flex flex-row items-center justify-center gap-4 w-full max-w-md mx-auto mb-20">
-            <!-- Retailer Button -->
-            <button onclick="handleSelection('retailer')" class="flex-1 flex items-center justify-center space-x-3 bg-[#4A90E2] hover:bg-blue-600 text-white font-medium py-4 px-6 rounded-full shadow-lg shadow-blue-100 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-                <i class="fa-solid fa-shop text-lg"></i>
-                <span class="text-sm sm:text-base tracking-wide">Retailer</span>
-            </button>
+        <!-- TOOLS GRID -->
+        <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
             
-            <!-- Wholesaler Button -->
-            <button onclick="handleSelection('wholesaler')" class="flex-1 flex items-center justify-center space-x-3 bg-white border-2 border-slate-200 hover:border-[#4A90E2] text-slate-700 hover:text-[#4A90E2] font-medium py-4 px-6 rounded-full shadow-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-                <i class="fa-solid fa-warehouse text-lg"></i>
-                <span class="text-sm sm:text-base tracking-wide">Wholesaler</span>
+            <!-- Tool 1: AI Assistant -->
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
+                <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
             </button>
-        </div>
 
-        <!-- PROBLEM & SOLUTION SECTION -->
-        <div class="w-full border-t border-slate-100 pt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-            <!-- Problem Card -->
-            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 transition-all duration-300 hover:shadow-md">
-                <div class="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center text-red-500 mb-6">
-                    <i class="fa-solid fa-circle-xmark text-xl"></i>
+            <!-- Tool 2: Linkedin Post Generator -->
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-brands fa-linkedin-in"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">The Manual Friction</h3>
-                <p class="text-slate-500 leading-relaxed text-sm sm:text-base">
-                    Retailers lose hours daily driving through traffic or making endless WhatsApp calls just to verify pricing and stock availability. Wholesalers spend crucial operating hours answering redundant inquiries instead of processing high-volume cargo.
-                </p>
-            </div>
-
-            <!-- Solution Card -->
-            <div class="bg-blue-50/50 p-8 rounded-3xl border border-blue-100/50 transition-all duration-300 hover:shadow-md">
-                <div class="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-[#4A90E2] mb-6">
-                    <i class="fa-solid fa-circle-check text-xl"></i>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Linkedin Post Generator</h3>
+                <p class="text-slate-500 font-medium">Craft viral content in seconds.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">The Clean Solution</h3>
-                <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
-                    An ultra-clean, direct digital bridge. Retailers view live inventory schedules and transparent wholesale rates to order in one click. Wholesalers accept structured requests instantly to their digital dashboards, securing verified sales with zero manual overhead.
-                </p>
-            </div>
-        </div>
+            </button>
 
+            <!-- Tool 3: Startup Idea Validator -->
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Startup Idea Validator</h3>
+                <p class="text-slate-500 font-medium">Test market demand before building.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
+
+            <!-- Tool 4: Outreach Personalizer -->
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Outreach Personalizer</h3>
+                <p class="text-slate-500 font-medium">Scale your cold emails effectively.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
+
+        </div>
     </main>
 
-    <!-- PREMIUM FOOTER -->
-    <footer class="w-full border-t border-slate-100 py-8 bg-slate-50/50">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm text-slate-400">
-            <p>&copy; 2026. All rights reserved.</p>
-            <div class="flex space-x-6">
-                <a href="#" class="hover:text-slate-600 transition-colors">Privacy Infrastructure</a>
-                <a href="#" class="hover:text-slate-600 transition-colors">Terms of Trade</a>
-            </div>
-        </div>
+    <!-- FOOTER -->
+    <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
+        <p>&copy; 2026 QUANS. Built for creators and founders.</p>
     </footer>
 
-    <!-- INTERACTION LOGIC CONTAINER -->
-    <script>
-        function handleSelection(role) {
-            alert("Redirecting to the " + role.toUpperCase() + " secure profile configuration...");
-            // Real Logic Setup: 
-            // window.location.href = "/" + role + "-signup.html";
-        }
-    </script>
 </body>
 </html>
