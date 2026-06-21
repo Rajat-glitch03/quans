@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | AI Assistant</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +46,7 @@
         .sidebar-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
     </style>
 </head>
-<body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
+<body class="bg-white text-slate-900 h-screen h-[100dvh] flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
@@ -116,7 +116,7 @@
             </div>
         </header>
 
-        <div id="chatBox" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-32 relative">
+        <div id="chatBox" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-32">
             <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500">
                 <div class="w-16 h-16 bg-brand-light text-brand-blue rounded-full flex items-center justify-center text-2xl mb-4 shadow-sm">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -128,7 +128,7 @@
             <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
         </div>
 
-        <div id="interactiveInputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
+        <div id="inputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
             <div class="max-w-3xl mx-auto relative flex items-center bg-white border-2 border-slate-100 rounded-full shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300">
                 
                 <div id="attachPopup" class="absolute bottom-full left-2 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
@@ -171,7 +171,7 @@
         const attachPopup = document.getElementById('attachPopup');
         const triggerMemorySearch = document.getElementById('triggerMemorySearch');
         const systemMemoryInput = document.getElementById('systemMemoryInput');
-        const interactiveInputWrapper = document.getElementById('interactiveInputWrapper');
+        const inputWrapper = document.getElementById('inputWrapper');
         
         const newChatBtn = document.getElementById('newChatBtn');
         const historyList = document.getElementById('historyList');
@@ -231,26 +231,19 @@
             }
         });
 
-        // --- MOBILE KEYBOARD ADAPTABILITY TRACKER ---
+        // --- MOBILE KEYBOARD FIX ENGINE ---
         if (window.visualViewport) {
             const handleViewportChange = () => {
-                if (window.innerWidth < 640) { 
-                    const heightDifference = window.innerHeight - window.visualViewport.height;
-                    
-                    // Shift input capsule accurately above the mobile layout viewport boundary
-                    if (heightDifference > 0) {
-                        interactiveInputWrapper.style.bottom = `${heightDifference}px`;
-                    } else {
-                        interactiveInputWrapper.style.bottom = '0px';
-                    }
-                    
-                    // Maintain scroll location alignment
+                if (window.innerWidth < 640) {
+                    const offset = window.innerHeight - window.visualViewport.height;
+                    // Directly sticks the box perfectly to the top of the soft keyboard
+                    inputWrapper.style.bottom = offset > 0 ? `${offset}px` : '0px';
+                    // Forces chat viewport alignment adjustment
                     chatBox.scrollTop = chatBox.scrollHeight;
                 } else {
-                    interactiveInputWrapper.style.bottom = '0px';
+                    inputWrapper.style.bottom = '0px';
                 }
             };
-
             window.visualViewport.addEventListener('resize', handleViewportChange);
             window.visualViewport.addEventListener('scroll', handleViewportChange);
         }
@@ -290,7 +283,6 @@
             messagesArea.appendChild(createMessageBubble(text, true));
             messageInput.value = '';
             
-            // Allow DOM to paint before adjusting viewport alignment
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
             // 3. Simulate AI "Initiated" Response
