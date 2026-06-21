@@ -46,7 +46,7 @@
         .sidebar-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
     </style>
 </head>
-<body class="bg-white text-slate-900 h-screen h-[100dvh] flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0 w-full">
+<body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
@@ -100,9 +100,9 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col relative min-w-0 bg-white h-full overflow-hidden">
+    <main class="flex-1 flex flex-col relative min-w-0 bg-white h-full">
         
-        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-10 sticky top-0 flex-shrink-0">
+        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-10 sticky top-0">
             <div class="flex items-center gap-4">
                 <button id="toggleSidebarBtn" class="text-slate-400 hover:text-brand-blue text-xl transition-colors">
                     <i class="fa-solid fa-bars-staggered"></i>
@@ -128,7 +128,7 @@
             <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 hidden"></div>
         </div>
 
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4 z-20">
+        <div id="interactiveInputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
             <div class="max-w-3xl mx-auto relative flex items-center bg-white border-2 border-slate-100 rounded-full shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300">
                 
                 <div id="attachPopup" class="absolute bottom-full left-2 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
@@ -143,13 +143,13 @@
                     <i class="fa-solid fa-plus text-xl"></i>
                 </button>
                 
-                <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-14 pr-14 outline-none text-slate-700 placeholder-slate-400 text-sm sm:text-base">
+                <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-14 pr-14 outline-none text-slate-700 placeholder-slate-400">
                 
                 <button id="sendBtn" class="absolute right-2 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50">
                     <i class="fa-solid fa-arrow-up text-sm"></i>
                 </button>
             </div>
-            <p class="text-center text-[10px] text-slate-400 mt-3 font-medium hidden sm:block">QUANS AI can make mistakes. Verify important information.</p>
+            <p class="text-center text-[10px] text-slate-400 mt-3 font-medium">QUANS AI can make mistakes. Verify important information.</p>
         </div>
 
     </main>
@@ -171,6 +171,7 @@
         const attachPopup = document.getElementById('attachPopup');
         const triggerMemorySearch = document.getElementById('triggerMemorySearch');
         const systemMemoryInput = document.getElementById('systemMemoryInput');
+        const interactiveInputWrapper = document.getElementById('interactiveInputWrapper');
         
         const newChatBtn = document.getElementById('newChatBtn');
         const historyList = document.getElementById('historyList');
@@ -178,16 +179,6 @@
         let isSidebarOpen = true;
         let isFirstMessage = true;
         let chatCounter = 1;
-
-        // --- BULLETPROOF MOBILE KEYBOARD RESIZE ADAPTER ---
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', () => {
-                const viewportHeight = window.visualViewport.height;
-                document.body.style.height = `${viewportHeight}px`;
-                // Force layout recalculation and snap viewport to top
-                window.scrollTo(0, 0);
-            });
-        }
 
         // --- SIDEBAR TOGGLE LOGIC ---
         function toggleSidebar() {
@@ -222,12 +213,14 @@
             attachPopup.classList.toggle('translate-y-2');
         });
 
+        // Close Pop-up on outside click area
         document.addEventListener('click', () => {
             attachPopup.classList.add('opacity-0');
             attachPopup.classList.add('pointer-events-none');
             attachPopup.classList.add('translate-y-2');
         });
 
+        // Direct systemic internal memory linking trigger
         triggerMemorySearch.addEventListener('click', () => {
             systemMemoryInput.click();
         });
@@ -237,6 +230,30 @@
                 alert(`File Linked Successfully: ${e.target.files[0].name}`);
             }
         });
+
+        // --- MOBILE KEYBOARD ADAPTABILITY TRACKER ---
+        if (window.visualViewport) {
+            const handleViewportChange = () => {
+                if (window.innerWidth < 640) { 
+                    const heightDifference = window.innerHeight - window.visualViewport.height;
+                    
+                    // Shift input capsule accurately above the mobile layout viewport boundary
+                    if (heightDifference > 0) {
+                        interactiveInputWrapper.style.bottom = `${heightDifference}px`;
+                    } else {
+                        interactiveInputWrapper.style.bottom = '0px';
+                    }
+                    
+                    // Maintain scroll location alignment
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                } else {
+                    interactiveInputWrapper.style.bottom = '0px';
+                }
+            };
+
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+            window.visualViewport.addEventListener('scroll', handleViewportChange);
+        }
 
         // --- CHAT LOGIC ---
         function createMessageBubble(text, isUser) {
@@ -259,6 +276,7 @@
             const text = messageInput.value.trim();
             if (!text) return;
 
+            // 1. Hide welcome screen & show message area on first use
             if (isFirstMessage) {
                 welcomeScreen.style.opacity = '0';
                 setTimeout(() => { 
@@ -268,10 +286,14 @@
                 isFirstMessage = false;
             }
 
+            // 2. Append User Message
             messagesArea.appendChild(createMessageBubble(text, true));
             messageInput.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Allow DOM to paint before adjusting viewport alignment
+            setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
+            // 3. Simulate AI "Initiated" Response
             setTimeout(() => {
                 messagesArea.appendChild(createMessageBubble("Initiated.", false));
                 chatBox.scrollTop = chatBox.scrollHeight;
@@ -300,6 +322,7 @@
                 historyList.prepend(historyItem);
             }
 
+            // Reset UI
             messagesArea.innerHTML = '';
             messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
@@ -309,6 +332,7 @@
             
             isFirstMessage = true;
         });
+
     </script>
 </body>
 </html>
