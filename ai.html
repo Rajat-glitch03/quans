@@ -310,7 +310,13 @@
             }
 
             // Final push to scrollbar view bounding box
-            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(() => {
+                chatBox.scrollTo({
+                    top: chatBox.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 60);
+        }
         }
 
         sendBtn.addEventListener('click', handleSend);
