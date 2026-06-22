@@ -16,60 +16,6 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Custom Tailwind Configuration for precise colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"DM Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            blue: '#4A90E2',
-                            hover: '#357ABD',
-                            light: '#F0F6FF'
-                        }
-                    }
-                }
-            }
-        }
-
-        // --- AUTHENTICATION WALL POPUP ENGINE ---
-        const authModal = document.getElementById('authModal');
-        const authModalOverlay = document.getElementById('authModalOverlay');
-        const closeAuthModal = document.getElementById('closeAuthModal');
-        
-        // 1. Open Modal Mechanism
-        function openAuthPopup(event) {
-            if(event) event.preventDefault(); // Stop native link navigation
-            
-            authModal.classList.remove('opacity-0', 'pointer-events-none');
-            const modalContent = authModal.querySelector('.relative');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
-        }
-
-        // 2. Close Modal Mechanism
-        function closeAuthPopup() {
-            authModal.classList.add('opacity-0', 'pointer-events-none');
-            const modalContent = authModal.querySelector('.relative');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-        }
-
-        // 3. Attach Event Listeners to the 4 Tool Targets
-        // Make sure your 4 tool buttons have the class "tool-btn"
-        document.querySelectorAll('.tool-btn').forEach(button => {
-            button.addEventListener('click', openAuthPopup);
-        });
-
-        // Close triggers
-        closeAuthModal.addEventListener('click', closeAuthPopup);
-        authModalOverlay.addEventListener('click', closeAuthPopup);
-        
-    </script>
-
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
@@ -221,6 +167,59 @@
             </div>
         </div>
     </div>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#4A90E2',
+                            hover: '#357ABD',
+                            light: '#F0F6FF'
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- AUTHENTICATION WALL POPUP ENGINE ---
+        const authModal = document.getElementById('authModal');
+        const authModalOverlay = document.getElementById('authModalOverlay');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        
+        // 1. Open Modal Mechanism
+        function openAuthPopup(event) {
+            if(event) event.preventDefault(); // Stop native link navigation
+            
+            authModal.classList.remove('opacity-0', 'pointer-events-none');
+            const modalContent = authModal.querySelector('.relative');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }
+
+        // 2. Close Modal Mechanism
+        function closeAuthPopup() {
+            authModal.classList.add('opacity-0', 'pointer-events-none');
+            const modalContent = authModal.querySelector('.relative');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        // 3. Attach Event Listeners to the 4 Tool Targets
+        // Make sure your 4 tool buttons have the class "tool-btn"
+        document.querySelectorAll('.tool-btn').forEach(button => {
+            button.addEventListener('click', openAuthPopup);
+        });
+
+        // Close triggers
+        closeAuthModal.addEventListener('click', closeAuthPopup);
+        authModalOverlay.addEventListener('click', closeAuthPopup);
+        
+    </script>
 
 </body>
 </html>
