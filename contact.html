@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANS | Contact Us</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        /* Page Load Fade Animations */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center cursor-pointer">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+        </a>
+        
+        <!-- Back to Home Action Button -->
+        <div>
+            <a href="index.html" class="text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-100 transition-all duration-300 flex items-center space-x-2">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Home</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTACT CONTENT GRID CONTAINER -->
+    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-12 sm:pt-20 pb-20 max-w-4xl mx-auto w-full text-center">
+        
+        <!-- TOP HEADER LABELS -->
+        <div class="fade-in max-w-2xl mx-auto mb-16">
+            <span class="text-brand-blue font-bold tracking-widest text-xs sm:text-sm uppercase bg-blue-50 px-4 py-1.5 rounded-full">Get In Touch</span>
+            <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900 mt-4 mb-4">
+                Thank you for using<span class="text-brand-blue">.</span>
+            </h1>
+            <p class="text-lg text-slate-500 font-medium leading-relaxed">
+                If you have any query or feedback, please contact us. We'd love to hear from you!
+            </p>
+        </div>
+
+        <!-- CONTACT DIRECTORIES FLEX GRID -->
+        <div class="fade-in delay-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+            
+            <!-- OFFICE CARD ELEMENT -->
+            <div class="group relative flex flex-col items-center p-8 sm:p-10 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-center overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                
+                <!-- Home Address Rounded Icon Component -->
+                <div class="w-16 h-16 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-xs relative z-10">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Our Address</h3>
+                <p class="text-slate-500 font-medium leading-relaxed max-w-xs relative z-10">
+                    Utar Galli, Kadrabad, Jalna,<br>Maharashtra, India
+                </p>
+            </div>
+
+            <!-- EMAIL CARD ELEMENT -->
+            <a href="mailto:wangikarrajat@gmail.com" class="group relative flex flex-col items-center p-8 sm:p-10 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-center overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                
+                <!-- Mail Envelope Rounded Icon Component -->
+                <div class="w-16 h-16 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-xs relative z-10">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Email Address</h3>
+                <p class="text-brand-blue font-bold text-base sm:text-lg tracking-tight hover:underline underline-offset-4 relative z-10 break-all">
+                    wangikarrajat@gmail.com
+                </p>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="fade-in delay-2 w-full py-8 text-center text-slate-400 text-sm mt-auto border-t border-slate-50">
+        <p>&copy; 2026 QUANS. All rights reserved.</p>
+    </footer>
+
+    <!-- INLINE BRAND TAILWIND SCHEME TOKENS CONFIG -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#4A90E2',
+                            hover: '#357ABD',
+                            light: '#F0F6FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
