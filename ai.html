@@ -248,7 +248,8 @@
             return wrapper;
         }
 
-        function handleSend() {
+        // --- SECURE CHAT INTERACTION UTILITY ---
+        async function handleSend() {
             const text = messageInput.value.trim();
             if (!text) return;
 
@@ -266,13 +267,50 @@
             messagesArea.appendChild(createMessageBubble(text, true));
             messageInput.value = '';
             
+            // Adjust scroll immediately after adding user message
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // 3. Simulate AI "Initiated" Response
-            setTimeout(() => {
-                messagesArea.appendChild(createMessageBubble("Initiated.", false));
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 600);
+            // 3. Append temporary "Thinking..." placeholder
+            const aiWrapper = createMessageBubble("Thinking...", false);
+            messagesArea.appendChild(aiWrapper);
+            const aiBubble = aiWrapper.querySelector('div'); // Grab the inner bubble to swap text later
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 4. Fetch live data via our secure Vercel backend endpoint
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: text // Matches the { message } expected by chat.js
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Status Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Extract text response from Gemini's JSON payload structure
+                const aiResponseText = data.candidates[0].content.parts[0].text;
+                
+                // Swap placeholder text with actual AI generation + clean up basic markdown syntax
+                aiBubble.innerHTML = aiResponseText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+
+            } catch (error) {
+                console.error("Gemini Connection Error:", error);
+                aiBubble.innerText = "Error: Failed to fetch a response. Check your Vercel logs and environment variables.";
+                aiBubble.classList.add('text-red-500', 'border-red-200', 'bg-red-50');
+            }
+
+            // Final push to scrollbar view bounding box
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         sendBtn.addEventListener('click', handleSend);
