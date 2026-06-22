@@ -48,7 +48,7 @@
             </a>
         </div>
         
-        <div class="flex items-center space-x-3 sm:space-x-4">
+        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
             <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
                 Login
             </button>
@@ -171,7 +171,7 @@
             <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
             <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
             
-            <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
+            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
                 <i class="fa-brands fa-google text-lg text-red-500"></i>
                 <span>Signup with Google</span>
             </button>
@@ -185,7 +185,7 @@
             <form id="signupForm" class="space-y-4 text-left">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
@@ -219,7 +219,7 @@
             <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
             <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
             
-            <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
+            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
                 <i class="fa-brands fa-google text-lg text-red-500"></i>
                 <span>Sign in with Google</span>
             </button>
@@ -233,7 +233,7 @@
             <form id="loginForm" class="space-y-4 text-left">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
@@ -285,19 +285,23 @@
         const loginModalOverlay = document.getElementById('loginModalOverlay');
         const closeLoginModal = document.getElementById('closeLoginModal');
 
+        // Global flag managing locked tool status depending on whether a true Firebase session profile token exists
+        window.userIsAuthenticated = false;
+
         // SIGNUP POPUP CONTROLLERS
         window.openAuthPopup = function(event) {
             if (event) {
                 event.preventDefault();
                 event.stopPropagation();
             }
-            closeLoginPopup(); // Safety clear
+            if (window.userIsAuthenticated) return; // Completely short circuits popup triggers if user is authenticated
+            closeLoginPopup(); 
             authModal.classList.remove('opacity-0', 'pointer-events-none');
             authModal.querySelector('.relative').classList.remove('scale-95');
             authModal.querySelector('.relative').classList.add('scale-100');
         }
 
-        function closeAuthPopup() {
+        window.closeAuthPopup = function() {
             authModal.classList.add('opacity-0', 'pointer-events-none');
             authModal.querySelector('.relative').classList.remove('scale-100');
             authModal.querySelector('.relative').classList.add('scale-95');
@@ -309,13 +313,14 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            closeAuthPopup(); // Safety clear
+            if (window.userIsAuthenticated) return;
+            closeAuthPopup(); 
             loginModal.classList.remove('opacity-0', 'pointer-events-none');
             loginModal.querySelector('.relative').classList.remove('scale-95');
             loginModal.querySelector('.relative').classList.add('scale-100');
         }
 
-        function closeLoginPopup() {
+        window.closeLoginPopup = function() {
             loginModal.classList.add('opacity-0', 'pointer-events-none');
             loginModal.querySelector('.relative').classList.remove('scale-100');
             loginModal.querySelector('.relative').classList.add('scale-95');
@@ -327,9 +332,16 @@
         closeLoginModal.addEventListener('click', closeLoginPopup);
         loginModalOverlay.addEventListener('click', closeLoginPopup);
 
-        // Bind Tool Grid Cards to Signup Box
+        // Bind Tool Grid Cards to dynamic interception router
         document.querySelectorAll('.tool-btn').forEach(button => {
-            button.addEventListener('click', openAuthPopup);
+            button.addEventListener('click', (e) => {
+                if (window.userIsAuthenticated) {
+                    // Instantly alert success without popping up authentication block requirements
+                    alert("Opening tool workspace engine configuration...");
+                } else {
+                    window.openAuthPopup(e);
+                }
+            });
         });
 
         // --- PASSWORD EYE TOGGLES ---
@@ -385,6 +397,149 @@
         openMobileMenu.addEventListener('click', () => toggleSidebar(true));
         closeMobileMenu.addEventListener('click', () => toggleSidebar(false));
         sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            onAuthStateChanged, 
+            signOut,
+            sendEmailVerification 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 1. Paste your exact configuration items directly inside this block setup tracker:
+        const firebaseConfig = {
+              apiKey: "AIzaSyBHxcXkBgw4bBRBPuoR-H30yb7AKggvAw4",
+              authDomain: "quans-d8800.firebaseapp.com",
+              projectId: "quans-d8800",
+              storageBucket: "quans-d8800.firebasestorage.app",
+              messagingSenderId: "536434503778",
+              appId: "1:536434503778:web:bdfcdb24d2db343cd8a13b",
+              measurementId: "G-944NBD7JYF"
+        };
+
+        // Initialize Firebase instances
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Target Form Reference Elements
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const navAuthGroup = document.getElementById('navAuthGroup');
+
+        // --- PERSISTENT USER SESSION STATE WATCHER ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User state validation logic
+                window.userIsAuthenticated = true;
+                
+                // Close modals automatically on successful operation flows
+                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+
+                // Dynamic UI structural transformations matching requirements without layout changes
+                let displayName = user.displayName ? user.displayName.split(' ')[0].toUpperCase() : 'USER';
+                
+                navAuthGroup.innerHTML = `
+                    <div class="flex items-center space-x-4 fade-in">
+                        <span class="text-sm sm:text-base font-black tracking-wider text-slate-800 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>HELLO, ${displayName}!</span>
+                        </span>
+                        <button id="firebaseLogoutBtn" class="text-sm sm:text-base font-bold text-red-500 hover:text-red-600 hover:underline underline-offset-4 transition-all">
+                            Logout
+                        </button>
+                    </div>
+                    <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
+                        <i class="fa-solid fa-bars-staggered text-lg"></i>
+                    </button>
+                `;
+
+                // Bind Logout trigger dynamically to runtime element
+                document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                    signOut(auth).catch(err => alert(err.message));
+                });
+                
+                // Rebind mobile hamburger trigger logic dynamically
+                document.getElementById('openMobileMenu').addEventListener('click', () => {
+                    const mobileSidebar = document.getElementById('mobileSidebar');
+                    const sidebarPanel = mobileSidebar.querySelector('.transform');
+                    mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                    sidebarPanel.classList.remove('translate-x-full');
+                });
+
+            } else {
+                // Fallback reset configuration state matching natural startup defaults
+                window.userIsAuthenticated = false;
+                navAuthGroup.innerHTML = `
+                    <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
+                        Login
+                    </button>
+                    <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                        Signup
+                    </button>
+                    <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">
+                        <i class="fa-solid fa-bars-staggered text-lg"></i>
+                    </button>
+                `;
+
+                // Rebind mobile hamburger baseline tracking events
+                document.getElementById('openMobileMenu').addEventListener('click', () => {
+                    const mobileSidebar = document.getElementById('mobileSidebar');
+                    const sidebarPanel = mobileSidebar.querySelector('.transform');
+                    mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                    sidebarPanel.classList.remove('translate-x-full');
+                });
+            }
+        });
+
+        // --- SUBMIT HANDLING 1: NATIVE EMAIL/PASSWORD REGISTER SIGNUP ---
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signupEmailInput').value;
+            const password = document.getElementById('signupPasswordInput').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Send Email validation link verification instantly upon structural verification row allocation
+                    sendEmailVerification(userCredential.user)
+                        .then(() => {
+                            alert("Account created successfully! A verification link has been sent to your email address. Please check your inbox.");
+                        });
+                })
+                .catch((error) => {
+                    alert("Signup Error: " + error.message);
+                });
+        });
+
+        // --- SUBMIT HANDLING 2: NATIVE EMAIL/PASSWORD SIGNIN LOGIN ---
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmailInput').value;
+            const password = document.getElementById('loginPasswordInput').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .catch((error) => {
+                    alert("Login Error: " + error.message);
+                });
+        });
+
+        // --- GOOGLE FEDERATION INTERACTIVE AUTH INTEGRATION PAIRING ---
+        const handleGoogleAuthFlow = () => {
+            signInWithPopup(auth, googleProvider)
+                .catch((error) => {
+                    alert("Google Authentication Error: " + error.message);
+                });
+        };
+
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
     </script>
 </body>
 </html>
