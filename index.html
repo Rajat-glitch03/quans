@@ -76,7 +76,7 @@
 
         <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
             
-            <button onclick="openAuthPopup(event)" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -117,7 +117,7 @@
                 <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                     <i class="fa-solid fa-envelope-open-text"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Outreach Personalizer</h3>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Outerach Personalizer</h3>
                 <p class="text-slate-500 font-medium">Scale your cold emails effectively.</p>
                 <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
                     OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -133,7 +133,6 @@
 
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        
         <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-out">
             <div class="flex items-center justify-between pb-6 border-b border-slate-100">
                 <span class="font-black tracking-tight text-slate-900">Navigation</span>
@@ -141,7 +140,6 @@
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
-
             <div class="flex-1 py-8 flex flex-col space-y-3">
                 <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 hover:bg-slate-100/80 active:scale-98 transition-all duration-200 group">
                     <div class="flex items-center space-x-3.5">
@@ -155,7 +153,6 @@
                     </div>
                 </a>
             </div>
-            
             <div class="text-xs text-slate-400 font-medium tracking-tight">
                 &copy; 2026 QUANS Inc.
             </div>
@@ -164,167 +161,99 @@
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        
         <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
             <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-5 shadow-sm">
-                <i class="fa-solid fa-lock animate-pulse"></i>
-            </div>
-
-            <h3 class="text-2xl font-black tracking-tight text-slate-900">Authentication Required</h3>
-            <p class="text-slate-500 mt-2 text-sm leading-relaxed">Please log in or sign up to continue.</p>
-
-            <div class="mt-6 space-y-3">
-                <button onclick="openLoginPopup()" class="w-full bg-brand-blue text-white font-medium py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
-                    Log In
-                </button>
-                <button onclick="openAuthPopup(event)" class="w-full bg-slate-50 border border-slate-200 text-slate-700 font-medium py-3.5 px-6 rounded-full hover:bg-slate-100 transition-all duration-300">
-                    Create Free Account
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- REAL LOGIN POPUP MODAL CONTAINER -->
-    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <!-- Blurred Backdrop Overlay -->
-        <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        
-        <!-- Modal Content Card -->
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
-            <!-- Close Button -->
-            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <!-- Creative Icon Element -->
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-
-            <!-- Header Labels -->
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
-
-            <!-- 1. GOOGLE SIGN IN BUTTON -->
-            <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Sign in with Google</span>
-            </button>
-
-            <!-- 2. MODERN OR DIVIDER -->
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
-            </div>
-
-            <!-- 3. EMAIL & PASSWORD FORM INPUTS -->
-            <form id="loginForm" class="space-y-4 text-left">
-                <!-- Email Field -->
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
-                </div>
-
-                <!-- Password Field with Interactive Eye Toggle -->
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
-                        <!-- Eye toggle button -->
-                        <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors">
-                            <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Forgot Password Trigger Link -->
-                <div class="text-right">
-                    <a href="#" class="text-xs font-bold text-brand-blue hover:text-brand-hover tracking-tight transition-colors">Forgot Password?</a>
-                </div>
-
-                <!-- 4. SUBMIT LOGIN BUTTON -->
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 mt-2">
-                    Log In
-                </button>
-            </form>
-
-            <!-- 5. FOOTER TOGGLE LABEL SWITCHER -->
-            <p class="text-sm text-slate-500 font-medium mt-6">
-                Don't have an account? 
-                <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2 transition-all">Signup</button>
-            </p>
-        </div>
-    </div>
-
-    <!-- REAL SIGNUP POPUP MODAL CONTAINER -->
-    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <!-- Blurred Backdrop Overlay -->
-        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        
-        <!-- Modal Content Card -->
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
-            <!-- Close Button -->
-            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <!-- Creative Icon Element -->
             <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
                 <i class="fa-solid fa-user-plus"></i>
             </div>
-
-            <!-- Header Labels -->
             <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
-
-            <!-- 1. GOOGLE SIGN UP BUTTON -->
+            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join QUANS today to get unlimited free tool access.</p>
+            
             <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
                 <i class="fa-brands fa-google text-lg text-red-500"></i>
                 <span>Signup with Google</span>
             </button>
-
-            <!-- 2. OR DIVIDER -->
+            
             <div class="relative flex py-4 items-center">
                 <div class="flex-grow border-t border-slate-100"></div>
                 <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
                 <div class="flex-grow border-t border-slate-100"></div>
             </div>
-
-            <!-- 3. EMAIL & PASSWORD INPUT FORM -->
+            
             <form id="signupForm" class="space-y-4 text-left">
-                <!-- Email Input -->
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
                     <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
                 </div>
-
-                <!-- Password Input with Eye Toggle -->
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
                     <div class="relative w-full">
                         <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
-                        <!-- Eye toggle button -->
                         <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors">
                             <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
                         </button>
                     </div>
                 </div>
-
-                <!-- SUBMIT REGISTER BUTTON -->
                 <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 mt-4">
                     Sign Up
                 </button>
             </form>
-
-            <!-- 4. FOOTER INTERACTIVE SWITCHER -->
             <p class="text-sm text-slate-500 font-medium mt-6">
                 Already a user? 
                 <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2 transition-all">Login</button>
+            </p>
+        </div>
+    </div>
+
+    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
+            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
+            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials to access your workspace.</p>
+            
+            <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
+                <i class="fa-brands fa-google text-lg text-red-500"></i>
+                <span>Sign in with Google</span>
+            </button>
+            
+            <div class="relative flex py-4 items-center">
+                <div class="flex-grow border-t border-slate-100"></div>
+                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
+                <div class="flex-grow border-t border-slate-100"></div>
+            </div>
+            
+            <form id="loginForm" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
+                    <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                    <div class="relative w-full">
+                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                        <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors">
+                            <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <a href="#" class="text-xs font-bold text-brand-blue hover:text-brand-hover tracking-tight transition-colors">Forgot Password?</a>
+                </div>
+                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 mt-2">
+                    Log In
+                </button>
+            </form>
+            <p class="text-sm text-slate-500 font-medium mt-6">
+                Don't have an account? 
+                <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2 transition-all">Signup</button>
             </p>
         </div>
     </div>
@@ -347,38 +276,96 @@
             }
         }
 
-        // --- AUTHENTICATION WALL POPUP ENGINE ---
+        // --- CORE POPUP ENGINES ---
         const authModal = document.getElementById('authModal');
         const authModalOverlay = document.getElementById('authModalOverlay');
         const closeAuthModal = document.getElementById('closeAuthModal');
         
+        const loginModal = document.getElementById('loginModal');
+        const loginModalOverlay = document.getElementById('loginModalOverlay');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+
+        // SIGNUP POPUP CONTROLLERS
         window.openAuthPopup = function(event) {
             if (event) {
                 event.preventDefault();
                 event.stopPropagation();
             }
+            closeLoginPopup(); // Safety clear
             authModal.classList.remove('opacity-0', 'pointer-events-none');
-            const modalContent = authModal.querySelector('.relative');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
+            authModal.querySelector('.relative').classList.remove('scale-95');
+            authModal.querySelector('.relative').classList.add('scale-100');
         }
 
         function closeAuthPopup() {
             authModal.classList.add('opacity-0', 'pointer-events-none');
-            const modalContent = authModal.querySelector('.relative');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
+            authModal.querySelector('.relative').classList.remove('scale-100');
+            authModal.querySelector('.relative').classList.add('scale-95');
         }
 
+        // LOGIN POPUP CONTROLLERS
+        window.openLoginPopup = function(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            closeAuthPopup(); // Safety clear
+            loginModal.classList.remove('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.remove('scale-95');
+            loginModal.querySelector('.relative').classList.add('scale-100');
+        }
+
+        function closeLoginPopup() {
+            loginModal.classList.add('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.remove('scale-100');
+            loginModal.querySelector('.relative').classList.add('scale-95');
+        }
+
+        // Global Modal Event Triggers
+        closeAuthModal.addEventListener('click', closeAuthPopup);
+        authModalOverlay.addEventListener('click', closeAuthPopup);
+        closeLoginModal.addEventListener('click', closeLoginPopup);
+        loginModalOverlay.addEventListener('click', closeLoginPopup);
+
+        // Bind Tool Grid Cards to Signup Box
         document.querySelectorAll('.tool-btn').forEach(button => {
             button.addEventListener('click', openAuthPopup);
         });
 
-        closeAuthModal.addEventListener('click', closeAuthPopup);
-        authModalOverlay.addEventListener('click', closeAuthPopup);
+        // --- PASSWORD EYE TOGGLES ---
+        const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+        const loginPasswordInput = document.getElementById('loginPasswordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
 
+        toggleLoginPassword.addEventListener('click', () => {
+            if (loginPasswordInput.type === 'password') {
+                loginPasswordInput.type = 'text';
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                loginPasswordInput.type = 'password';
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
 
-        // --- MOBILE RIGHT SIDEBAR ANIMATION CONTROL ---
+        const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+        const signupPasswordInput = document.getElementById('signupPasswordInput');
+        const signupEyeIcon = document.getElementById('signupEyeIcon');
+
+        toggleSignupPassword.addEventListener('click', () => {
+            if (signupPasswordInput.type === 'password') {
+                signupPasswordInput.type = 'text';
+                signupEyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                signupPasswordInput.type = 'password';
+                signupEyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        // --- DIALOG SWITCH LINKS ---
+        document.getElementById('switchToSignup').addEventListener('click', () => openAuthPopup());
+        document.getElementById('switchToLogin').addEventListener('click', () => openLoginPopup());
+
+        // --- MOBILE SIDEBAR SYSTEM ---
         const mobileSidebar = document.getElementById('mobileSidebar');
         const openMobileMenu = document.getElementById('openMobileMenu');
         const closeMobileMenu = document.getElementById('closeMobileMenu');
@@ -395,97 +382,9 @@
             }
         }
 
-        if (openMobileMenu) openMobileMenu.addEventListener('click', () => toggleSidebar(true));
-        if (closeMobileMenu) closeMobileMenu.addEventListener('click', () => toggleSidebar(false));
-        if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
-
-        // --- LOGIN MODAL ENGINE CONTROLLER ---
-        const loginModal = document.getElementById('loginModal');
-        const loginModalOverlay = document.getElementById('loginModalOverlay');
-        const closeLoginModal = document.getElementById('closeLoginModal');
-        const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-        const loginPasswordInput = document.getElementById('loginPasswordInput');
-        const eyeIcon = document.getElementById('eyeIcon');
-        const switchToSignup = document.getElementById('switchToSignup');
-
-        // Helper function to show login popup dynamically
-        window.openLoginPopup = function() {
-            // Close auth required card if open
-            if (typeof closeAuthPopup === 'function') closeAuthPopup();
-            
-            loginModal.classList.remove('opacity-0', 'pointer-events-none');
-            loginModal.querySelector('.relative').classList.remove('scale-95');
-            loginModal.querySelector('.relative').classList.add('scale-100');
-        };
-
-        function closeLoginPopup() {
-            loginModal.classList.add('opacity-0', 'pointer-events-none');
-            loginModal.querySelector('.relative').classList.remove('scale-100');
-            loginModal.querySelector('.relative').classList.add('scale-95');
-        }
-
-        // Attach listeners to trigger closers safely
-        closeLoginModal.addEventListener('click', closeLoginPopup);
-        loginModalOverlay.addEventListener('click', closeLoginPopup);
-
-        // 1. PASSWORD VISIBILITY INTERACTIVE EYE CONTROLLER
-        toggleLoginPassword.addEventListener('click', () => {
-            if (loginPasswordInput.type === 'password') {
-                loginPasswordInput.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                loginPasswordInput.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
-        });
-
-        // 2. MODAL LINK SWITCHER ("Don't have an account? Signup")
-        switchToSignup.addEventListener('click', () => {
-            closeLoginPopup();
-            // Triggers your original signup popup framework instantly
-            if (typeof openAuthPopup === 'function') {
-                openAuthPopup();
-            }
-        });
-
-        // 3. Update the Navbar Login Button to fire this modal
-        // Locate your navbar login element button and append onClick="openLoginPopup()"
-        const navLoginBtn = document.querySelector('header button:nth-of-type(1)');
-        if (navLoginBtn && navLoginBtn.textContent.trim() === 'Login') {
-            navLoginBtn.onclick = openLoginPopup;
-        }
-
-        const toggleSignupPassword = document.getElementById('toggleSignupPassword');
-        const signupPasswordInput = document.getElementById('signupPasswordInput');
-        const signupEyeIcon = document.getElementById('signupEyeIcon');
-        const switchToLogin = document.getElementById('switchToLogin');
-
-        // 1. Password visibility toggle for signup panel
-        if (toggleSignupPassword) {
-            toggleSignupPassword.addEventListener('click', () => {
-                if (signupPasswordInput.type === 'password') {
-                    signupPasswordInput.type = 'text';
-                    signupEyeIcon.classList.remove('fa-eye');
-                    signupEyeIcon.classList.add('fa-eye-slash');
-                } else {
-                    signupPasswordInput.type = 'password';
-                    signupEyeIcon.classList.remove('fa-eye-slash');
-                    signupEyeIcon.classList.add('fa-eye');
-                }
-            });
-        }
-
-        // 2. Switching logic linking "Already a user? Login" back to login card
-        if (switchToLogin) {
-            switchToLogin.addEventListener('click', () => {
-                if (typeof closeAuthPopup === 'function') closeAuthPopup();
-                if (typeof openLoginPopup === 'function') openLoginPopup();
-            });
-        }
-        
+        openMobileMenu.addEventListener('click', () => toggleSidebar(true));
+        closeMobileMenu.addEventListener('click', () => toggleSidebar(false));
+        sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
     </script>
-
 </body>
 </html>
