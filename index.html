@@ -34,6 +34,40 @@
                 }
             }
         }
+
+        // --- AUTHENTICATION WALL POPUP ENGINE ---
+        const authModal = document.getElementById('authModal');
+        const authModalOverlay = document.getElementById('authModalOverlay');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        
+        // 1. Open Modal Mechanism
+        function openAuthPopup(event) {
+            if(event) event.preventDefault(); // Stop native link navigation
+            
+            authModal.classList.remove('opacity-0', 'pointer-events-none');
+            const modalContent = authModal.querySelector('.relative');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }
+
+        // 2. Close Modal Mechanism
+        function closeAuthPopup() {
+            authModal.classList.add('opacity-0', 'pointer-events-none');
+            const modalContent = authModal.querySelector('.relative');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        // 3. Attach Event Listeners to the 4 Tool Targets
+        // Make sure your 4 tool buttons have the class "tool-btn"
+        document.querySelectorAll('.tool-btn').forEach(button => {
+            button.addEventListener('click', openAuthPopup);
+        });
+
+        // Close triggers
+        closeAuthModal.addEventListener('click', closeAuthPopup);
+        authModalOverlay.addEventListener('click', closeAuthPopup);
+        
     </script>
 
     <style>
@@ -95,7 +129,7 @@
         <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             <!-- Tool 1: AI Assistant -->
-        <button onclick="window.location.href='ai.html'" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+        <button onclick="window.location.href='ai.html'" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
             <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
             <!-- FIXED FREE ICON BELOW -->
             <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
@@ -109,7 +143,7 @@
         </button>
 
             <!-- Tool 2: Linkedin Post Generator -->
-            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                     <i class="fa-brands fa-linkedin-in"></i>
@@ -122,7 +156,7 @@
             </button>
 
             <!-- Tool 3: Startup Idea Validator -->
-            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                     <i class="fa-solid fa-rocket"></i>
@@ -135,7 +169,7 @@
             </button>
 
             <!-- Tool 4: Outreach Personalizer -->
-            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden">
+            <button class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-300 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                     <i class="fa-solid fa-envelope-open-text"></i>
@@ -154,6 +188,39 @@
     <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
         <p>&copy; 2026 QUANS. All rights reserved.</p>
     </footer>
+
+    <!-- AUTH WALL MODAL CONTAINER -->
+    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <!-- Blurred Backdrop Overlay -->
+        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+        
+        <!-- Modal Content Card -->
+        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
+            <!-- Close Button -->
+            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Creative Icon Element -->
+            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-5 shadow-sm">
+                <i class="fa-solid fa-lock animate-pulse"></i>
+            </div>
+
+            <!-- Header Labels -->
+            <h3 class="text-2xl font-black tracking-tight text-slate-900">Authentication Required</h3>
+            <p class="text-slate-500 mt-2 text-sm leading-relaxed">Please log in or sign up to continue.</p>
+
+            <!-- Action Interactive Buttons -->
+            <div class="mt-6 space-y-3">
+                <button class="w-full bg-brand-blue text-white font-medium py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                    Log In
+                </button>
+                <button class="w-full bg-slate-50 border border-slate-200 text-slate-700 font-medium py-3.5 px-6 rounded-full hover:bg-slate-100 transition-all duration-300">
+                    Create Free Account
+                </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
