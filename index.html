@@ -207,7 +207,7 @@
 
             <!-- Header Labels -->
             <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials to access your workspace.</p>
+            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
 
             <!-- 1. GOOGLE SIGN IN BUTTON -->
             <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
@@ -257,6 +257,74 @@
             <p class="text-sm text-slate-500 font-medium mt-6">
                 Don't have an account? 
                 <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2 transition-all">Signup</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- REAL SIGNUP POPUP MODAL CONTAINER -->
+    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <!-- Blurred Backdrop Overlay -->
+        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+        
+        <!-- Modal Content Card -->
+        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-300 z-10 text-center">
+            <!-- Close Button -->
+            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Creative Icon Element -->
+            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <!-- Header Labels -->
+            <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
+            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
+
+            <!-- 1. GOOGLE SIGN UP BUTTON -->
+            <button class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-98">
+                <i class="fa-brands fa-google text-lg text-red-500"></i>
+                <span>Signup with Google</span>
+            </button>
+
+            <!-- 2. OR DIVIDER -->
+            <div class="relative flex py-4 items-center">
+                <div class="flex-grow border-t border-slate-100"></div>
+                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
+                <div class="flex-grow border-t border-slate-100"></div>
+            </div>
+
+            <!-- 3. EMAIL & PASSWORD INPUT FORM -->
+            <form id="signupForm" class="space-y-4 text-left">
+                <!-- Email Input -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
+                    <input type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                </div>
+
+                <!-- Password Input with Eye Toggle -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                    <div class="relative w-full">
+                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400">
+                        <!-- Eye toggle button -->
+                        <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors">
+                            <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUBMIT REGISTER BUTTON -->
+                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 mt-4">
+                    Sign Up
+                </button>
+            </form>
+
+            <!-- 4. FOOTER INTERACTIVE SWITCHER -->
+            <p class="text-sm text-slate-500 font-medium mt-6">
+                Already a user? 
+                <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2 transition-all">Login</button>
             </p>
         </div>
     </div>
@@ -387,6 +455,34 @@
         const navLoginBtn = document.querySelector('header button:nth-of-type(1)');
         if (navLoginBtn && navLoginBtn.textContent.trim() === 'Login') {
             navLoginBtn.onclick = openLoginPopup;
+        }
+
+        const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+        const signupPasswordInput = document.getElementById('signupPasswordInput');
+        const signupEyeIcon = document.getElementById('signupEyeIcon');
+        const switchToLogin = document.getElementById('switchToLogin');
+
+        // 1. Password visibility toggle for signup panel
+        if (toggleSignupPassword) {
+            toggleSignupPassword.addEventListener('click', () => {
+                if (signupPasswordInput.type === 'password') {
+                    signupPasswordInput.type = 'text';
+                    signupEyeIcon.classList.remove('fa-eye');
+                    signupEyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    signupPasswordInput.type = 'password';
+                    signupEyeIcon.classList.remove('fa-eye-slash');
+                    signupEyeIcon.classList.add('fa-eye');
+                }
+            });
+        }
+
+        // 2. Switching logic linking "Already a user? Login" back to login card
+        if (switchToLogin) {
+            switchToLogin.addEventListener('click', () => {
+                if (typeof closeAuthPopup === 'function') closeAuthPopup();
+                if (typeof openLoginPopup === 'function') openLoginPopup();
+            });
         }
         
     </script>
