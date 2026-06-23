@@ -552,13 +552,28 @@
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('loginErrorMsg');
+            
+            // Reset message container styles back to hidden first
             errDiv.classList.add('hidden');
 
-            signInWithEmailAndPassword(auth, document.getElementById('loginEmailInput').value, document.getElementById('loginPasswordInput').value)
+            const emailInput = document.getElementById('loginEmailInput').value;
+            const passwordInput = document.getElementById('loginPasswordInput').value;
+
+            signInWithEmailAndPassword(auth, emailInput, passwordInput)
                 .then((userCredential) => {
                     // Check if email is verified
                     if (!userCredential.user.emailVerified) {
-                        errDiv.querySelector('.error-text').innerText = "Your email is not verified yet. Please check your inbox for the link.";
+                        // Transform the error box style to an amber/yellow warning style
+                        errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.add('bg-amber-50', 'text-amber-700', 'border-amber-200');
+
+                        // Inject your beautiful custom layout message text
+                        errDiv.querySelector('.error-text').innerHTML = `
+                            <div class="text-left py-1">
+                                <strong class="block font-bold text-amber-800 text-sm mb-1">⚠️ Email Not Verified</strong>
+                                You haven't verified your account yet. Please check your inbox at <span class="font-semibold text-slate-800">${emailInput}</span> for the verification link.
+                            </div>
+                        `;
                         errDiv.classList.remove('hidden');
                         
                         // Force sign out so the state doesn't switch to logged-in
@@ -566,6 +581,10 @@
                     }
                 })
                 .catch((error) => {
+                    // Revert background color back to red for general auth errors
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    errDiv.classList.remove('bg-amber-50', 'text-amber-700', 'border-amber-200');
+
                     let customMsg = "Authentication error: " + error.message;
                     if (error.code === 'auth/invalid-credential') { customMsg = "Incorrect email address or password credentials."; }
                     else if (error.code === 'auth/user-disabled') { customMsg = "This user account profile has been suspended."; }
