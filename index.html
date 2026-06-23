@@ -32,6 +32,30 @@
         .delay-1 { animation-delay: 0.05s; }
         .delay-2 { animation-delay: 0.1s; }
         .delay-3 { animation-delay: 0.15s; }
+
+        /* Custom Scrollbar for login and signup modals only */
+        #authModal .relative::-webkit-scrollbar,
+        #loginModal .relative::-webkit-scrollbar {
+            width: 6px;
+        }
+        #authModal .relative::-webkit-scrollbar-track,
+        #loginModal .relative::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb,
+        #loginModal .relative::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb:hover,
+        #loginModal .relative::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        #authModal .relative,
+        #loginModal .relative {
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E1 transparent;
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
@@ -136,8 +160,7 @@
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
         <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-between pb-6 border-b border-slate-100">
-                <span class="font-black tracking-tight text-slate-900">Navigation</span>
+            <div class="flex items-center justify-end pb-6 border-b border-slate-100">
                 <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
@@ -375,9 +398,13 @@
         const mobileSidebar = document.getElementById('mobileSidebar');
         const sidebarPanel = mobileSidebar.querySelector('.transform');
         const toggleSidebar = (open) => {
-            mobileSidebar.classList.toggle('opacity-0', !open);
-            mobileSidebar.classList.toggle('pointer-events-none', !open);
-            sidebarPanel.classList.toggle('translate-x-full', !open);
+            if (open) {
+                mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                sidebarPanel.classList.remove('translate-x-full');
+            } else {
+                mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                sidebarPanel.classList.add('translate-x-full');
+            }
         };
         document.getElementById('openMobileMenu').addEventListener('click', () => toggleSidebar(true));
         document.getElementById('closeMobileMenu').addEventListener('click', () => toggleSidebar(false));
