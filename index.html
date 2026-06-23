@@ -441,7 +441,8 @@
             signInWithPopup, 
             GoogleAuthProvider, 
             onAuthStateChanged,
-            signOut
+            signOut,
+            sendEmailVerification
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -499,7 +500,31 @@
             errDiv.classList.add('hidden');
 
             createUserWithEmailAndPassword(auth, document.getElementById('signupEmailInput').value, document.getElementById('signupPasswordInput').value)
+                .then((userCredential) => {
+                    // Send verification email to the newly created user
+                    sendEmailVerification(userCredential.user)
+                        .then(() => {
+                            // Turn the error box into a green success box temporarily to inform them
+                            errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            errDiv.classList.add('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
+                            errDiv.querySelector('.error-text').innerText = "Verification email sent! Please check your inbox and verify your email before logging in.";
+                            errDiv.classList.remove('hidden');
+                            
+                            // Clear form inputs
+                            document.getElementById('signupForm').reset();
+
+                            // Force sign out immediately so they can't access tools yet
+                            signOut(auth);
+                        })
+                        .catch((mailError) => {
+                            alert(`Error sending verification email: ${mailError.message}`);
+                        });
+                })
                 .catch((error) => {
+                    // Revert background color to rose red if it was success before
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    errDiv.classList.remove('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
+
                     let customMsg = "Registration failed: " + error.message;
                     if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
                     else if (error.code === 'auth/weak-password') { customMsg = "Password must be at least 6 characters long."; }
@@ -516,6 +541,16 @@
             errDiv.classList.add('hidden');
 
             signInWithEmailAndPassword(auth, document.getElementById('loginEmailInput').value, document.getElementById('loginPasswordInput').value)
+                .then((userCredential) => {
+                    // Check if email is verified
+                    if (!userCredential.user.emailVerified) {
+                        errDiv.querySelector('.error-text').innerText = "Your email is not verified yet. Please check your inbox for the link.";
+                        errDiv.classList.remove('hidden');
+                        
+                        // Force sign out so the state doesn't switch to logged-in
+                        signOut(auth);
+                    }
+                })
                 .catch((error) => {
                     let customMsg = "Authentication error: " + error.message;
                     if (error.code === 'auth/invalid-credential') { customMsg = "Incorrect email address or password credentials."; }
