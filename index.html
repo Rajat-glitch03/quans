@@ -509,24 +509,26 @@
                     // Send verification email to the newly created user
                     sendEmailVerification(userCredential.user)
                         .then(() => {
-                            // 1. Clear form inputs safely
+                            // 1. Clear form inputs safely so they don't click register again
                             document.getElementById('signupForm').reset();
 
                             // 2. Change the error red box into a beautiful custom green success box
                             errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
                             errDiv.classList.add('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
                             
-                            // 3. Inject your clean custom message text
+                            // 3. Inject your clean custom message text with an easy action link
                             errDiv.querySelector('.error-text').innerHTML = `
                                 <div class="text-left py-1">
                                     <strong class="block font-bold text-emerald-800 text-sm mb-1">📩 Verification Sent!</strong>
                                     We sent a link to <span class="font-semibold text-slate-800">${emailInput}</span>. 
-                                    Please verify your inbox (and check spam) before trying to log in.
+                                    Please verify your inbox (and check spam). After verifying, you can click 
+                                    <a href="javascript:void(0)" onclick="window.openLoginPopup()" class="underline font-bold text-emerald-900 hover:text-emerald-950">here to Login</a>.
                                 </div>
                             `;
                             errDiv.classList.remove('hidden');
 
-                            // 4. Force sign out immediately so they can't access tools yet
+                            // 4. Force sign out immediately so they can't access tools yet,
+                            // but we do NOT close the modal window.
                             signOut(auth);
                         })
                         .catch((mailError) => {
@@ -563,11 +565,14 @@
                 .then((userCredential) => {
                     // Check if email is verified
                     if (!userCredential.user.emailVerified) {
-                        // Transform the error box style to an amber/yellow warning style
+                        // 1. Clear only the password field for security, leaving the email
+                        document.getElementById('loginPasswordInput').value = '';
+
+                        // 2. Transform the error box style to an amber/yellow warning style
                         errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
                         errDiv.classList.add('bg-amber-50', 'text-amber-700', 'border-amber-200');
 
-                        // Inject your beautiful custom layout message text
+                        // 3. Inject your beautiful custom layout message text
                         errDiv.querySelector('.error-text').innerHTML = `
                             <div class="text-left py-1">
                                 <strong class="block font-bold text-amber-800 text-sm mb-1">⚠️ Email Not Verified</strong>
@@ -576,7 +581,8 @@
                         `;
                         errDiv.classList.remove('hidden');
                         
-                        // Force sign out so the state doesn't switch to logged-in
+                        // 4. Force sign out immediately so they can't access tools yet,
+                        // without letting the global auth state listener close the popup.
                         signOut(auth);
                     }
                 })
@@ -594,7 +600,6 @@
                     errDiv.classList.remove('hidden');
                 });
         });
-
         const handleGoogleAuthFlow = () => {
             signInWithPopup(auth, googleProvider)
                 .catch((error) => {
