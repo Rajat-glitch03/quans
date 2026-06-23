@@ -397,6 +397,7 @@
 
         const mobileSidebar = document.getElementById('mobileSidebar');
         const sidebarPanel = mobileSidebar.querySelector('.transform');
+        
         const toggleSidebar = (open) => {
             if (open) {
                 mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
@@ -406,9 +407,6 @@
                 sidebarPanel.classList.add('translate-x-full');
             }
         };
-        document.getElementById('openMobileMenu').addEventListener('click', () => toggleSidebar(true));
-        document.getElementById('closeMobileMenu').addEventListener('click', () => toggleSidebar(false));
-        document.getElementById('sidebarOverlay').addEventListener('click', () => toggleSidebar(false));
 
         // Global dropdown toggle handler
         window.toggleUserDropdown = function(e) {
@@ -416,9 +414,21 @@
             const menu = document.getElementById('userDropdownMenu');
             if(menu) menu.classList.toggle('hidden');
         }
-        document.addEventListener('click', () => {
+
+        // Single global click handler managing sidebar delegation and user dropdown closing
+        document.addEventListener('click', (e) => {
+            // Sidebar logic: works even if Firebase rerenders the parent container
+            if (e.target.closest('#openMobileMenu')) {
+                toggleSidebar(true);
+            } else if (e.target.closest('#closeMobileMenu') || e.target.closest('#sidebarOverlay')) {
+                toggleSidebar(false);
+            }
+
+            // Dropdown logic: closes user dropdown menu when clicking outside
             const menu = document.getElementById('userDropdownMenu');
-            if (menu && !menu.classList.contains('hidden')) menu.classList.add('hidden');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
         });
     </script>
 
