@@ -499,32 +499,36 @@
             const errDiv = document.getElementById('signupErrorMsg');
             errDiv.classList.add('hidden');
 
-            createUserWithEmailAndPassword(auth, document.getElementById('signupEmailInput').value, document.getElementById('signupPasswordInput').value)
+            const emailInput = document.getElementById('signupEmailInput').value;
+            const passwordInput = document.getElementById('signupPasswordInput').value;
+
+            createUserWithEmailAndPassword(auth, emailInput, passwordInput)
                 .then((userCredential) => {
                     // Send verification email to the newly created user
                     sendEmailVerification(userCredential.user)
                         .then(() => {
-                            // Turn the error box into a green success box temporarily to inform them
-                            errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                            errDiv.classList.add('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
-                            errDiv.querySelector('.error-text').innerText = "Verification email sent! Please check your inbox and verify your email before logging in.";
-                            errDiv.classList.remove('hidden');
-                            
-                            // Clear form inputs
+                            // 1. Clear form inputs safely
                             document.getElementById('signupForm').reset();
 
-                            // Force sign out immediately so they can't access tools yet
-                            signOut(auth);
+                            // 2. Clear out any errors
+                            errDiv.classList.add('hidden');
+
+                            // 3. Force sign out immediately so they can't access tools yet
+                            signOut(auth).then(() => {
+                                // 4. Alert the user with clear instructions
+                                alert(`📩 Verification email sent to ${emailInput}!\n\nPlease check your inbox (and spam folder) to verify your email address. Once verified, you can log in to access your tools!`);
+                                
+                                // 5. Smoothly redirect them to the Login modal automatically
+                                window.openLoginPopup();
+                            });
                         })
                         .catch((mailError) => {
                             alert(`Error sending verification email: ${mailError.message}`);
                         });
                 })
                 .catch((error) => {
-                    // Revert background color to rose red if it was success before
                     errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                    errDiv.classList.remove('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
-
+                    
                     let customMsg = "Registration failed: " + error.message;
                     if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
                     else if (error.code === 'auth/weak-password') { customMsg = "Password must be at least 6 characters long."; }
