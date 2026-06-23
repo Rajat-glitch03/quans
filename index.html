@@ -497,6 +497,8 @@
         document.getElementById('signupForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('signupErrorMsg');
+            
+            // Reset message container styles back to hidden first
             errDiv.classList.add('hidden');
 
             const emailInput = document.getElementById('signupEmailInput').value;
@@ -510,25 +512,33 @@
                             // 1. Clear form inputs safely
                             document.getElementById('signupForm').reset();
 
-                            // 2. Clear out any errors
-                            errDiv.classList.add('hidden');
+                            // 2. Change the error red box into a beautiful custom green success box
+                            errDiv.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            errDiv.classList.add('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
+                            
+                            // 3. Inject your clean custom message text
+                            errDiv.querySelector('.error-text').innerHTML = `
+                                <div class="text-left py-1">
+                                    <strong class="block font-bold text-emerald-800 text-sm mb-1">📩 Verification Sent!</strong>
+                                    We sent a link to <span class="font-semibold text-slate-800">${emailInput}</span>. 
+                                    Please verify your inbox (and check spam) before trying to log in.
+                                </div>
+                            `;
+                            errDiv.classList.remove('hidden');
 
-                            // 3. Force sign out immediately so they can't access tools yet
-                            signOut(auth).then(() => {
-                                // 4. Alert the user with clear instructions
-                                alert(`📩 Verification email sent to ${emailInput}!\n\nPlease check your inbox (and spam folder) to verify your email address. Once verified, you can log in to access your tools!`);
-                                
-                                // 5. Smoothly redirect them to the Login modal automatically
-                                window.openLoginPopup();
-                            });
+                            // 4. Force sign out immediately so they can't access tools yet
+                            signOut(auth);
                         })
                         .catch((mailError) => {
-                            alert(`Error sending verification email: ${mailError.message}`);
+                            errDiv.querySelector('.error-text').innerText = `Error sending verification email: ${mailError.message}`;
+                            errDiv.classList.remove('hidden');
                         });
                 })
                 .catch((error) => {
+                    // Revert background color back to red if it was success before
                     errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                    
+                    errDiv.classList.remove('bg-emerald-50', 'text-emerald-600', 'border-emerald-100');
+
                     let customMsg = "Registration failed: " + error.message;
                     if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
                     else if (error.code === 'auth/weak-password') { customMsg = "Password must be at least 6 characters long."; }
