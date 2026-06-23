@@ -41,9 +41,12 @@
             <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
         </div>
 
-        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none">
+        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
             <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Contact Us
+            </a>
+            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                Pricing
             </a>
         </div>
         
@@ -151,6 +154,17 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
+                <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-tag"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800">Pricing</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
             </div>
             <div class="text-xs text-slate-400 font-medium tracking-tight">
                 &copy; 2026 QUANS Inc.
@@ -160,7 +174,7 @@
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center">
+        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
             <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
@@ -212,7 +226,7 @@
 
     <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center">
+        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
             <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
@@ -286,10 +300,18 @@
             if (signupErr) signupErr.classList.add('hidden');
         }
 
+        function resetFormInputs() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            if (loginForm) loginForm.reset();
+            if (signupForm) signupForm.reset();
+        }
+
         window.openAuthPopup = function(e) {
             if (e) { e.preventDefault(); e.stopPropagation(); }
             if (window.userIsAuthenticated) return;
             clearAllErrors();
+            resetFormInputs();
             window.closeLoginPopup();
             authModal.classList.remove('opacity-0', 'pointer-events-none');
             authModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
@@ -298,11 +320,14 @@
         window.closeAuthPopup = function() {
             authModal.classList.add('opacity-0', 'pointer-events-none');
             authModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
         }
 
         window.openLoginPopup = function(e) {
             if (e) { e.preventDefault(); e.stopPropagation(); }
             if (window.userIsAuthenticated) return;
+            clearAllErrors();
+            resetFormInputs();
             window.closeAuthPopup();
             loginModal.classList.remove('opacity-0', 'pointer-events-none');
             loginModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
@@ -311,6 +336,7 @@
         window.closeLoginPopup = function() {
             loginModal.classList.add('opacity-0', 'pointer-events-none');
             loginModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
         }
 
         document.getElementById('closeAuthModal').addEventListener('click', window.closeAuthPopup);
@@ -382,13 +408,13 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
-                  apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
-                  authDomain: "quans-175a2.firebaseapp.com",
-                  projectId: "quans-175a2",
-                  storageBucket: "quans-175a2.firebasestorage.app",
-                  messagingSenderId: "221298439204",
-                  appId: "1:221298439204:web:47b39c005411c979ca54b1",
-                  measurementId: "G-J6EZ37W65Y"
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
         };
 
         const app = initializeApp(firebaseConfig);
