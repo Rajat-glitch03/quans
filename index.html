@@ -494,6 +494,7 @@
             }
         });
 
+        // --- SIGNUP FORM EVENT LISTENER ---
         document.getElementById('signupForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('signupErrorMsg');
@@ -551,6 +552,7 @@
                 });
         });
 
+        // --- LOGIN FORM EVENT LISTENER ---
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const errDiv = document.getElementById('loginErrorMsg');
@@ -584,6 +586,12 @@
                         // 4. Force sign out immediately so they can't access tools yet,
                         // without letting the global auth state listener close the popup.
                         signOut(auth);
+                    } else {
+                        // FIX: If verified, clear form and close your authentication modal safely!
+                        document.getElementById('loginForm').reset();
+                        if (typeof window.closeAuthPopup === 'function') {
+                            window.closeAuthPopup();
+                        }
                     }
                 })
                 .catch((error) => {
@@ -600,6 +608,7 @@
                     errDiv.classList.remove('hidden');
                 });
         });
+        
         const handleGoogleAuthFlow = () => {
             signInWithPopup(auth, googleProvider)
                 .catch((error) => {
