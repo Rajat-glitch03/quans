@@ -114,9 +114,9 @@
             </div>
             
             <div class="relative">
-                <button id="userMenuBtn" class="flex items-center space-x-1.5 transition-all duration-200">
-                    <span class="text-sm font-medium text-slate-700" id="userGreeting">Hello!</span>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                <button id="userMenuBtn" class="flex items-center space-x-2 transition-all duration-200 group">
+                    <span class="text-sm font-semibold text-slate-900 hover:text-black cursor-pointer transition-colors duration-150" id="userGreeting">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:text-slate-600 transition-colors"></i>
                 </button>
 
                 <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50">
@@ -173,8 +173,13 @@
     <script>
         // --- INITIALIZE REAL-TIME CONFIG ---
         const firebaseConfig = {
-            // Paste your exact working config block from index.html here!
-             
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
         };
         
         if (!firebase.apps.length) {
@@ -218,6 +223,7 @@
         let activeChatId = null;
         let localChatsCache = [];
         let uploadedFilesList = [];
+        let currentChatMessages = []; // Persistent active synchronization matrix array
         let isFirstMessage = true;
         let isSidebarOpen = true;
 
@@ -225,7 +231,7 @@
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
-                userGreeting.innerText = "Hello!";
+                userGreeting.innerText = `Hello!`;
                 subscribeToChatHistory();
             } else {
                 console.log("No authenticated state detected by Firebase. Redirecting...");
@@ -289,7 +295,7 @@
         closeSidebarMobile.addEventListener('click', toggleSidebar);
         mobileOverlay.addEventListener('click', toggleSidebar);
 
-        // --- ATTACH POPUP & TRUE VISUAL ASSET RENDERING PREVIEWS ---
+        // --- ATTACH POPUP & INLINE MULTIMEDIA FILE PREVIEW ENGINE ---
         attachBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             attachPopup.classList.toggle('opacity-0');
@@ -318,8 +324,12 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    uploadedFilesList.push({ id: fileId, name: file.name, type: 'doc', dataUrl: null });
-                    renderPreviewThumbnail(fileId, file.name, null, false);
+                    // Extract full internal content value mapping arrays for non-image doc models
+                    reader.onload = function(event) {
+                        uploadedFilesList.push({ id: fileId, name: file.name, type: 'doc', content: event.target.result });
+                        renderPreviewThumbnail(fileId, file.name, null, false);
+                    };
+                    reader.readAsText(file);
                 }
             });
             systemMemoryInput.value = '';
@@ -361,7 +371,7 @@
             fileUploadPreviewArea.innerHTML = '';
         }
 
-        // --- FIRESTORE HISTORY SUBSCRIPTION MANAGEMENT ---
+        // --- FIRESTORE HISTORY STREAM SUBSCRIPTION CONTROLS ---
         function subscribeToChatHistory() {
             if (!currentUser) return;
             
@@ -371,7 +381,7 @@
                   localChatsCache = [];
                   snapshot.forEach(doc => { localChatsCache.push({ id: doc.id, ...doc.data() }); });
                   renderHistoryItems(localChatsCache);
-              }, err => { console.error("Firestore snapshot sync error:", err); });
+              }, err => { console.error("Firestore sync link broken:", err); });
         }
 
         function renderHistoryItems(chats) {
@@ -460,7 +470,7 @@
             try {
                 await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).delete();
                 if(activeChatId === chatId) { resetWorkspaceUI(); }
-            } catch(e) { console.error("Deletion failure:", e); }
+            } catch(e) { console.error("Deletion lifecycle failure:", e); }
         };
 
         window.loadConversation = async function(chatId) {
@@ -474,14 +484,15 @@
 
                 const data = snapshot.data();
                 messagesArea.innerHTML = '';
+                currentChatMessages = data.messages || [];
                 
-                if (data.messages && data.messages.length > 0) {
+                if (currentChatMessages.length > 0) {
                     welcomeScreen.classList.add('hidden');
                     welcomeScreen.style.opacity = '0';
                     messagesArea.classList.remove('hidden');
                     isFirstMessage = false;
 
-                    data.messages.forEach(msg => {
+                    currentChatMessages.forEach(msg => {
                         appendCustomStaticMessageBubble(msg.text, msg.role === 'user');
                     });
                 } else {
@@ -489,7 +500,7 @@
                 }
                 setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 50);
                 if(window.innerWidth < 640) toggleSidebar();
-            } catch (err) { console.error("Load conversation error:", err); }
+            } catch (err) { console.error("Payload sync error:", err); }
         };
 
         function appendCustomStaticMessageBubble(htmlContent, isUser) {
@@ -509,6 +520,7 @@
         function resetWorkspaceUI() {
             activeChatId = null;
             isFirstMessage = true;
+            currentChatMessages = [];
             messagesArea.innerHTML = '';
             messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
@@ -520,6 +532,7 @@
         function resetWorkspaceUIKeepId(chatId) {
             activeChatId = chatId;
             isFirstMessage = true;
+            currentChatMessages = [];
             messagesArea.innerHTML = '';
             messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
@@ -529,7 +542,7 @@
 
         newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
 
-        // --- TYPEWRITER CHARACTER STREAM ENGINE ---
+        // --- TYPEWRITER STREAM INTERACTION COMPLETION LAYER ---
         function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
             bubbleTargetElement.innerHTML = ''; 
             let i = 0;
@@ -557,7 +570,14 @@
 
             function renderNextToken() {
                 if(i >= flatTokens.length) {
-                    commitActiveSessionToFirestore();
+                    // Commit structural data layout into cloud datastore directly on stream completion
+                    currentChatMessages.push({ role: 'model', text: rawHtmlText });
+                    if (currentUser && activeChatId) {
+                        db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            messages: currentChatMessages
+                        });
+                    }
                     return;
                 }
 
@@ -583,7 +603,7 @@
             renderNextToken();
         }
 
-        // --- DISPATCH TRANSACTION SUBMISSION ENGINE (SEPARATES PREVIEW HTML FROM API STRINGS) ---
+        // --- TRANSACTION CONTROL DISPATCH LOOP ---
         async function handleSend() {
             let typedText = messageInput.value.trim();
             if (!typedText && uploadedFilesList.length === 0) return;
@@ -597,54 +617,53 @@
                 isFirstMessage = false;
             }
 
+            // Read internal content logs and compile into API prompt string context blocks
             let userBubbleHTML = '';
-            let payloadTextContext = ''; 
+            let payloadTextContext = typedText;
 
             if (uploadedFilesList.length > 0) {
                 let visualRowHTML = '<div class="flex flex-wrap gap-2 mb-2">';
-                let attachmentsText = '';
-
                 uploadedFilesList.forEach(f => {
                     if(f.type === 'image') {
-                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-slate-200/50 shadow-sm">`;
-                        attachmentsText += `[Uploaded Image: ${f.name}] `;
+                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-white/20 shadow-sm">`;
+                        payloadTextContext = `[Uploaded Image Asset: ${f.name}]\n` + payloadTextContext;
                     } else {
-                        visualRowHTML += `<div class="flex items-center gap-2 bg-slate-100 text-slate-700 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200"><i class="fa-solid fa-file-lines text-brand-blue"></i><span>${f.name}</span></div>`;
-                        attachmentsText += `[Uploaded Document: ${f.name}] `;
+                        visualRowHTML += `<div class="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl text-xs font-medium"><i class="fa-solid fa-file-lines"></i><span>${f.name}</span></div>`;
+                        payloadTextContext = `[Document File Context inside ${f.name}]:\n${f.content || ''}\n\n` + payloadTextContext;
                     }
                 });
-                
                 visualRowHTML += '</div>';
                 userBubbleHTML = visualRowHTML + (typedText ? `<div>${typedText}</div>` : '');
-                payloadTextContext = (attachmentsText + ' ' + typedText).trim();
             } else {
                 userBubbleHTML = `<div>${typedText}</div>`;
-                payloadTextContext = typedText;
             }
 
+            // Immediately append element frame locally to clear dynamic responsiveness latencies
             appendCustomStaticMessageBubble(userBubbleHTML, true);
+            currentChatMessages.push({ role: 'user', text: userBubbleHTML });
             messageInput.value = '';
-            
             clearFilesList();
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // Instant Firestore Base Persistence Allocation Hook
-            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Image Interaction";
+            // Establish active tracking database record directly on interaction trigger point
+            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Document Interaction";
             if (!activeChatId && currentUser) {
-                try {
-                    const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
-                    activeChatId = freshDocRef.id;
-                    await freshDocRef.set({
-                        title: deducedTitle,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        messages: [{ role: 'user', text: userBubbleHTML }]
-                    });
-                } catch (e) {
-                    console.error("Initial history save fail:", e);
-                }
+                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
+                activeChatId = freshDocRef.id;
+                await freshDocRef.set({
+                    title: deducedTitle,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: currentChatMessages
+                });
+            } else if (currentUser && activeChatId) {
+                await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: currentChatMessages
+                });
             }
 
+            // Placeholder generation row 
             const aiWrapper = document.createElement('div');
             aiWrapper.className = `flex w-full fade-in justify-start`;
             const aiBubble = document.createElement('div');
@@ -658,7 +677,7 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: payloadTextContext }) // Sends clean text representation to backend
+                    body: JSON.stringify({ message: payloadTextContext })
                 });
 
                 if (!response.ok) throw new Error(`API Error: ${response.status}`);
@@ -675,32 +694,18 @@
 
             } catch (error) {
                 console.error("Gemini Failure:", error);
-                aiBubble.innerText = "Error fetching response. Verify server links.";
-                aiBubble.classList.add('text-red-500', 'border-red-200', 'bg-red-50');
-            }
-        }
-
-        async function commitActiveSessionToFirestore() {
-            if(!currentUser || !activeChatId) return;
-
-            const msgBubbles = messagesArea.children;
-            const messagesPayloadArray = [];
-            
-            for(let k=0; k<msgBubbles.length; k++) {
-                const bubbleElement = msgBubbles[k].querySelector('div');
-                if(bubbleElement) {
-                    const isUserNode = msgBubbles[k].classList.contains('justify-end');
-                    messagesPayloadArray.push({
-                        role: isUserNode ? 'user' : 'model',
-                        text: bubbleElement.innerHTML
+                const errHtml = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
+                aiBubble.innerHTML = errHtml;
+                aiBubble.classList.add('border-red-200', 'bg-red-50');
+                
+                currentChatMessages.push({ role: 'model', text: errHtml });
+                if (currentUser && activeChatId) {
+                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        messages: currentChatMessages
                     });
                 }
             }
-
-            await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                messages: messagesPayloadArray
-            });
         }
 
         sendBtn.addEventListener('click', handleSend);
