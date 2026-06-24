@@ -781,15 +781,44 @@
                 });
         });
 
+        // 🛠️ 1. SAFE RECORDING: Save the clean login form layout right now if it hasn't been saved yet
+        let initialLoginFormHTML = initialLoginFormHTML || "";
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginFormEl = document.getElementById('loginForm');
+            if (loginFormEl && !initialLoginFormHTML) {
+                initialLoginFormHTML = loginFormEl.innerHTML;
+            }
+        });
+
+        // 🛠️ 2. BACKUP RESETTER: Direct fallback function to ensure fields are cleared and layout is restored
+        function forceResetLoginPopup() {
+            const loginFormEl = document.getElementById('loginForm');
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            if (errDiv) errDiv.classList.add('hidden');
+            
+            if (loginFormEl) {
+                if (initialLoginFormHTML) {
+                    loginFormEl.innerHTML = initialLoginFormHTML;
+                }
+                loginFormEl.reset(); // Wipes email & password input boxes
+            }
+        }
+
         // --- FORGOT PASSWORD TEXT CLICK LISTENER ---
         document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
-            e.preventDefault(); // Stop it from trying to redirect
+            e.preventDefault();
             
             const loginFormEl = document.getElementById('loginForm');
             const errDiv = document.getElementById('loginErrorMsg');
             const emailInput = document.getElementById('loginEmailInput').value.trim();
 
-            // 1. Validation check: Ensure they actually typed an email first
+            // Make sure initial layout is captured just in case DOMContentLoaded fired early
+            if (loginFormEl && !initialLoginFormHTML) {
+                initialLoginFormHTML = loginFormEl.innerHTML;
+            }
+
+            // Validation check: Ensure they actually typed an email first
             if (!emailInput) {
                 if (errDiv) {
                     errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
@@ -806,7 +835,7 @@
                 return; 
             }
 
-            // 2. Send the Firebase Password Reset Email immediately
+            // Send the Firebase Password Reset Email immediately
             sendPasswordResetEmail(auth, emailInput)
                 .then(() => {
                     // SUCCESS PHASE: Swap out the login popup content cleanly!
@@ -830,23 +859,22 @@
                     `;
 
                     // Handle closing the modal when they click the confirmation button
-                    document.getElementById('closeForgotSuccessBtn').addEventListener('click', () => {
-                        // Close the modal layout
+                    document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
+                        btnEvent.preventDefault();
+
+                        // 1. Close the modal layout cleanly
                         if (typeof window.closeAuthPopup === 'function') {
                             window.closeAuthPopup();
                         } else {
                             const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
-                            if(modal) modal.classList.add('hidden');
+                            if (modal) modal.classList.add('hidden');
                         }
 
-                        // 🛠️ FIX: Instantly restore the clean, empty email/password form state right as it closes!
-                        if (typeof window.resetLoginFormToInitialState === 'function') {
-                            window.resetLoginFormToInitialState();
-                        }
+                        // 2. 🛠️ FORCE RESET RIGHT HERE: Restore the clean email/password fields instantly!
+                        forceResetLoginPopup();
                     });
                 })
                 .catch((error) => {
-                    // FAILURE PHASE: Let them know if the email doesn't exist in Firebase
                     if (errDiv) {
                         errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
                         
