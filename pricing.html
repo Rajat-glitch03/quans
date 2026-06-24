@@ -3,65 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing - Beta Access</title>
+    <title>Pricing</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#0052FF', // Matches your login/signup branding style
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col justify-center items-center relative px-4 selection:bg-brand-blue selection:text-white">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col justify-center items-center relative px-4">
 
-    <a href="index.html" class="absolute top-6 left-6 flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-black transition-all bg-white py-2 px-4 rounded-full shadow-sm border border-slate-100 group">
-        <i class="fa-solid fa-house text-slate-400 group-hover:text-brand-blue transition-colors"></i>
+    <a href="index.html" class="absolute top-6 right-6 flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-black transition-all bg-white py-2 px-4 rounded-full shadow-sm border border-slate-100">
+        <i class="fa-solid fa-arrow-left text-slate-400"></i>
         <span>Home</span>
     </a>
 
-    <main class="max-w-xl w-full text-center bg-white border border-slate-100 shadow-xl rounded-3xl p-8 md:p-12 transition-all hover:shadow-2xl">
+    <main class="max-w-xl w-full text-center p-6 md:p-8">
+        <h1 class="text-3xl font-bold tracking-tight mb-6">Pricing</h1>
         
-        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-6 border border-emerald-100">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Beta Phase Active
-        </span>
-
-        <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">
-            Simple, Transparent <span class="text-brand-blue">Pricing</span>
-        </h1>
-        
-        <hr class="w-12 h-1 bg-brand-blue border-none rounded-full mx-auto mb-8">
-
-        <div class="space-y-4 text-base md:text-lg text-slate-600 leading-relaxed max-w-md mx-auto">
+        <div class="text-base md:text-lg text-slate-600 space-y-4 leading-relaxed">
             <p>
-                We're currently offering <strong class="text-slate-900 font-bold">free access to all tools</strong> while we're in beta.
+                We're currently offering free access to all tools while we're in beta. We're focused on gathering feedback, improving the platform, and building features that users truly need.
             </p>
             <p>
-                We're focused on gathering feedback, improving the platform, and building features that users truly need.
+                Enjoy free access while it lasts.
             </p>
-            <p class="text-brand-blue font-semibold bg-blue-50/50 py-3 px-4 rounded-2xl border border-blue-100/50 inline-block w-full mt-2">
-                🚀 Enjoy free access while it lasts.
-            </p>
-        </div>
-
-        <div class="mt-8">
-            <a href="index.html" class="inline-block bg-slate-900 hover:bg-black text-white font-bold text-sm py-4 px-8 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
-                Explore the Tools Now
-            </a>
         </div>
     </main>
-
-    <footer class="absolute bottom-6 text-xs text-slate-400">
-        © 2026 QUANS. All rights reserved.
-    </footer>
 
 </body>
 </html>
