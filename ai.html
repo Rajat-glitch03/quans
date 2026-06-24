@@ -188,12 +188,13 @@
         // --- INITIALIZE REAL-TIME CONFIG ---
         // Copy initialized firebase instances config cleanly from index context environment
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
         };
         
         if (!firebase.apps.length) {
@@ -241,28 +242,18 @@
         let isFirstMessage = true;
         let isSidebarOpen = true;
 
-        // --- BULLETPROOF AUTH GUARD ---
-        // Give Firebase up to 2 seconds to fetch the user token from local storage cache.
-        // If it finds a user, it clears the timer. If it definitely doesn't, it redirects.
-        let authRedirectTimeout = setTimeout(() => {
-            if (!auth.currentUser) {
-                console.log("No authenticated session found. Redirecting...");
-                window.location.href = 'index.html';
-            }
-        }, 2000);
-
+        // --- CLEAN AUTH GUARD STATE ENGINE ---
         auth.onAuthStateChanged((user) => {
             if (user) {
-                clearTimeout(authRedirectTimeout); // Stop the redirect timer immediately!
+                // User is authenticated! Keep them on the page.
                 currentUser = user;
                 userGreeting.innerText = user.displayName ? `Hello, ${user.displayName.split(' ')[0]}` : 'Hello';
                 userAvatar.innerText = user.email ? user.email.charAt(0).toUpperCase() : 'U';
                 subscribeToChatHistory();
             } else {
-                // If Firebase explicitly signs out or has initialized with nothing
-                if (!authRedirectTimeout) {
-                    window.location.href = 'index.html';
-                }
+                // Firebase checked local cache and explicitly confirmed NO session exists.
+                console.log("No authenticated state detected by Firebase. Redirecting...");
+                window.location.href = 'index.html';
             }
         });
 
