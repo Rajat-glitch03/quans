@@ -806,97 +806,145 @@
         }
 
         // --- FORGOT PASSWORD TEXT CLICK LISTENER ---
-        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
-            e.preventDefault();
+        // --- FORGOT PASSWORD MODULE (FULLY SELF-CONTAINED) ---
+
+// 1. Declare the layout state variable safely (fixes the crash)
+if (typeof window.initialLoginFormHTML === 'undefined') {
+    window.initialLoginFormHTML = "";
+}
+
+// 2. Dedicated fallback layout recovery function
+function forceResetLoginPopup() {
+    const loginFormEl = document.getElementById('loginForm');
+    const errDiv = document.getElementById('loginErrorMsg');
+    
+    if (errDiv) {
+        errDiv.classList.add('hidden');
+    }
+    
+    if (loginFormEl) {
+        if (window.initialLoginFormHTML) {
+            loginFormEl.innerHTML = window.initialLoginFormHTML;
+        }
+        // Wipes out typed characters inside input boxes cleanly
+        if (typeof loginFormEl.reset === 'function') {
+            loginFormEl.reset();
+        }
+    }
+}
+
+// 3. Save layout automatically if DOM loads late
+document.addEventListener("DOMContentLoaded", () => {
+    const loginFormEl = document.getElementById('loginForm');
+    if (loginFormEl && !window.initialLoginFormHTML) {
+        window.initialLoginFormHTML = loginFormEl.innerHTML;
+    }
+});
+
+// 4. THE FORGOT PASSWORD LINK CLICK EVENT LISTENER
+document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    const loginFormEl = document.getElementById('loginForm');
+    const errDiv = document.getElementById('loginErrorMsg');
+    
+    // Safety Fallback: Capture current inner HTML template structure state if not set yet
+    if (loginFormEl && !window.initialLoginFormHTML) {
+        window.initialLoginFormHTML = loginFormEl.innerHTML;
+    }
+
+    // Safely check if the input field actually exists in the DOM right now
+    const emailField = document.getElementById('loginEmailInput');
+    const emailInput = emailField ? emailField.value.trim() : "";
+
+    // 🚨 FIXED: Bulletproof Empty Validation Check Phase
+    if (!emailInput) {
+        if (errDiv) {
+            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+            errDiv.classList.remove('hidden');
             
-            const loginFormEl = document.getElementById('loginForm');
-            const errDiv = document.getElementById('loginErrorMsg');
-            const emailInput = document.getElementById('loginEmailInput').value.trim();
-
-            // Make sure initial layout is captured just in case DOMContentLoaded fired early
-            if (loginFormEl && !initialLoginFormHTML) {
-                initialLoginFormHTML = loginFormEl.innerHTML;
+            const errorTextContainer = errDiv.querySelector('.error-text');
+            if (errorTextContainer) {
+                errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
+            } else {
+                errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
             }
+        } else {
+            alert("Please enter your email address first to get a reset link.");
+        }
+        return; // 🛑 Halt execution immediately
+    }
 
-            // Validation check: Ensure they actually typed an email first
-            if (!emailInput) {
-                if (errDiv) {
-                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                    const errorTextContainer = errDiv.querySelector('.error-text');
-                    if (errorTextContainer) {
-                        errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
-                    } else {
-                        errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
-                    }
-                    errDiv.classList.remove('hidden');
+    // Reset error display cleanly before triggering the Firebase network request
+    if (errDiv) {
+        errDiv.classList.add('hidden');
+    }
+
+    // 🚀 Send the Firebase Password Reset Email immediately
+    sendPasswordResetEmail(auth, emailInput)
+        .then(() => {
+            // SUCCESS PHASE: Render the response success window layout cleanly
+            loginFormEl.innerHTML = `
+                <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm">
+                    <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                        📩
+                    </div>
+                    <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
+                    <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
+                        We have sent a secure password reset link to:<br>
+                        <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
+                    </p>
+                    <p class="text-xs text-slate-500 mb-5">
+                        Please check your inbox or spam folder to recover access.
+                    </p>
+                    <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                        Close Window
+                    </button>
+                </div>
+            `;
+
+            // Handle modal teardown actions when close confirmation layout button is clicked
+            document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
+                btnEvent.preventDefault();
+
+                // 1. Dismiss popup layer window cleanly
+                if (typeof window.closeAuthPopup === 'function') {
+                    window.closeAuthPopup();
                 } else {
-                    alert("Please enter your email address first.");
-                }
-                return; 
-            }
-
-            // Send the Firebase Password Reset Email immediately
-            sendPasswordResetEmail(auth, emailInput)
-                .then(() => {
-                    // SUCCESS PHASE: Swap out the login popup content cleanly!
-                    loginFormEl.innerHTML = `
-                        <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm">
-                            <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
-                                📩
-                            </div>
-                            <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
-                            <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
-                                We have sent a secure password reset link to:<br>
-                                <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
-                            </p>
-                            <p class="text-xs text-slate-500 mb-5">
-                                Please check your inbox or spam folder to recover access.
-                            </p>
-                            <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
-                                Close Window
-                            </button>
-                        </div>
-                    `;
-
-                    // Handle closing the modal when they click the confirmation button
-                    document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
-                        btnEvent.preventDefault();
-
-                        // 1. Close the modal layout cleanly
-                        if (typeof window.closeAuthPopup === 'function') {
-                            window.closeAuthPopup();
-                        } else {
-                            const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
-                            if (modal) modal.classList.add('hidden');
-                        }
-
-                        // 2. 🛠️ FORCE RESET RIGHT HERE: Restore the clean email/password fields instantly!
-                        forceResetLoginPopup();
-                    });
-                })
-                .catch((error) => {
-                    if (errDiv) {
-                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        
-                        let customMsg = "Error sending reset link: " + error.message;
-                        if (error.code === 'auth/user-not-found') {
-                            customMsg = "No account found matching this email address.";
-                        } else if (error.code === 'auth/invalid-email') {
-                            customMsg = "The email address layout is invalid.";
-                        }
-
-                        const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = customMsg;
-                        } else {
-                            errDiv.innerText = "⚠️ " + customMsg;
-                        }
-                        errDiv.classList.remove('hidden');
-                    } else {
-                        alert("Reset Error: " + error.message);
+                    const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
+                    if (modal) {
+                        modal.classList.add('hidden');
                     }
-                });
+                }
+
+                // 2. Force input field values to clear out back to initial empty layout state
+                forceResetLoginPopup();
+            });
+        })
+        .catch((error) => {
+            // FAILURE PHASE: Handle non-existent users or syntax error structures smoothly
+            if (errDiv) {
+                errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                errDiv.classList.remove('hidden');
+                
+                let customMsg = "Error sending reset link: " + error.message;
+                if (error.code === 'auth/user-not-found') {
+                    customMsg = "No account found matching this email address.";
+                } else if (error.code === 'auth/invalid-email') {
+                    customMsg = "The email address layout structure is invalid.";
+                }
+
+                const errorTextContainer = errDiv.querySelector('.error-text');
+                if (errorTextContainer) {
+                    errorTextContainer.innerText = customMsg;
+                } else {
+                    errDiv.innerText = "⚠️ " + customMsg;
+                }
+            } else {
+                alert("Reset Error: " + error.message);
+            }
         });
+});
         
         const handleGoogleAuthFlow = () => {
             signInWithPopup(auth, googleProvider)
