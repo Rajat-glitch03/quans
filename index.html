@@ -508,6 +508,27 @@
         let resendCooldownTimer = null;
         let cooldownSecondsLeft = 0;
 
+        // 🛠️ FIX: Store the original layout state of the signup form right when the page loads
+        let initialSignupFormHTML = "";
+        document.addEventListener("DOMContentLoaded", () => {
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl) {
+                initialSignupFormHTML = signupFormEl.innerHTML;
+            }
+        });
+
+        // 🛠️ GLOBAL UTILITY: Call this function whenever a user logs out or closes the popup!
+        window.resetSignupFormToInitialState = function() {
+            if (resendCooldownTimer) clearInterval(resendCooldownTimer);
+            cooldownSecondsLeft = 0;
+            generatedOTP = "";
+            
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl && initialSignupFormHTML) {
+                signupFormEl.innerHTML = initialSignupFormHTML;
+            }
+        };
+
         // Isolated function helper to dispatch EmailJS requests cleanly
         function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
             // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
@@ -647,14 +668,16 @@
                                         window.updateUIForLoggedInUser(userCredential.user);
                                     }
 
-                                    // 🛠️ REDIRECT DIRECTLY & CLOSE POPUP INSTANTLY
+                                    // 🛠️ CLOSE POPUP INSTANTLY
                                     if (typeof window.closeAuthPopup === 'function') {
                                         window.closeAuthPopup();
                                     } else {
-                                        // Fallback layout close if needed
                                         const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
                                         if(modal) modal.classList.add('hidden');
                                     }
+
+                                    // 🛠️ RESET THE FORM FOR THE NEXT TIME THEY SEE IT
+                                    window.resetSignupFormToInitialState();
                                 })
                                 .catch((error) => {
                                     let customMsg = "Registration failed: " + error.message;
