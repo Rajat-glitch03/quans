@@ -781,30 +781,6 @@
                 });
         });
 
-        // 🛠️ 1. SAFE RECORDING: Save the clean login form layout right now if it hasn't been saved yet
-        let initialLoginFormHTML = initialLoginFormHTML || "";
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginFormEl = document.getElementById('loginForm');
-            if (loginFormEl && !initialLoginFormHTML) {
-                initialLoginFormHTML = loginFormEl.innerHTML;
-            }
-        });
-
-        // 🛠️ 2. BACKUP RESETTER: Direct fallback function to ensure fields are cleared and layout is restored
-        function forceResetLoginPopup() {
-            const loginFormEl = document.getElementById('loginForm');
-            const errDiv = document.getElementById('loginErrorMsg');
-            
-            if (errDiv) errDiv.classList.add('hidden');
-            
-            if (loginFormEl) {
-                if (initialLoginFormHTML) {
-                    loginFormEl.innerHTML = initialLoginFormHTML;
-                }
-                loginFormEl.reset(); // Wipes email & password input boxes
-            }
-        }
-
         // --- COMPLETE FORGOT PASSWORD SYSTEM ---
 
         // 1. Declare the template container structure state safely on the global window object
@@ -822,11 +798,13 @@
             }
             
             if (loginFormEl) {
+                // Restore the original raw form HTML (inputs, buttons, links)
                 if (window.initialLoginFormHTML) {
                     loginFormEl.innerHTML = window.initialLoginFormHTML;
                 }
+                // Wipes out typed characters inside input boxes cleanly
                 if (typeof loginFormEl.reset === 'function') {
-                    loginFormEl.reset(); // Clear typed characters
+                    loginFormEl.reset(); 
                 }
             }
         };
@@ -864,7 +842,7 @@
                 const emailField = document.getElementById('loginEmailInput');
                 const emailInput = emailField ? emailField.value.trim() : "";
         
-                // 🚨 VALIDATION CHECK: If the email address input box field is empty
+                // 🚨 CHECK 1: If the email address input box field is empty
                 if (!emailInput) {
                     if (errDiv) {
                         errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
@@ -878,6 +856,25 @@
                         }
                     } else {
                         alert("Please enter your email address first to get a reset link.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // 🚨 CHECK 2: Strict email format validation via Regular Expression
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput)) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "The email address layout structure is invalid.";
+                        } else {
+                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
+                        }
+                    } else {
+                        alert("The email address layout structure is invalid.");
                     }
                     return; // Stop right here!
                 }
@@ -925,7 +922,7 @@
                         });
                     })
                     .catch((error) => {
-                        // FAILURE PHASE: Handle invalid formatting or non-existent accounts safely
+                        // FAILURE PHASE: Handle non-existent accounts safely from Firebase response
                         if (errDiv) {
                             errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
                             errDiv.classList.remove('hidden');
