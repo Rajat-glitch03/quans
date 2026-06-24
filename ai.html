@@ -114,7 +114,7 @@
             </div>
             
             <div class="relative">
-                <button id="userMenuBtn" class="flex items-center space-x-2 transition-all duration-200 group">
+                <button id="userMenuBtn" class="flex items-center space-x-1.5 transition-all duration-200 group">
                     <span class="text-sm font-semibold text-slate-900 hover:text-black cursor-pointer transition-colors duration-150" id="userGreeting">Hello!</span>
                     <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:text-slate-600 transition-colors"></i>
                 </button>
@@ -223,7 +223,7 @@
         let activeChatId = null;
         let localChatsCache = [];
         let uploadedFilesList = [];
-        let currentChatMessages = []; // Persistent active synchronization matrix array
+        let currentChatMessages = []; // Reliable State Mirror
         let isFirstMessage = true;
         let isSidebarOpen = true;
 
@@ -324,7 +324,6 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    // Extract full internal content value mapping arrays for non-image doc models
                     reader.onload = function(event) {
                         uploadedFilesList.push({ id: fileId, name: file.name, type: 'doc', content: event.target.result });
                         renderPreviewThumbnail(fileId, file.name, null, false);
@@ -542,7 +541,7 @@
 
         newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
 
-        // --- TYPEWRITER STREAM INTERACTION COMPLETION LAYER ---
+        // --- TYPEWRITER ENGINE ---
         function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
             bubbleTargetElement.innerHTML = ''; 
             let i = 0;
@@ -568,12 +567,12 @@
             let activeContainer = bubbleTargetElement;
             const elementStack = [];
 
-            function renderNextToken() {
+            async function renderNextToken() {
                 if(i >= flatTokens.length) {
-                    // Commit structural data layout into cloud datastore directly on stream completion
+                    // Commit active state directly on message finish loop token
                     currentChatMessages.push({ role: 'model', text: rawHtmlText });
-                    if (currentUser && activeChatId) {
-                        db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                    if(currentUser && activeChatId) {
+                        await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                             messages: currentChatMessages
                         });
@@ -617,7 +616,6 @@
                 isFirstMessage = false;
             }
 
-            // Read internal content logs and compile into API prompt string context blocks
             let userBubbleHTML = '';
             let payloadTextContext = typedText;
 
@@ -626,10 +624,10 @@
                 uploadedFilesList.forEach(f => {
                     if(f.type === 'image') {
                         visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-white/20 shadow-sm">`;
-                        payloadTextContext = `[Uploaded Image Asset: ${f.name}]\n` + payloadTextContext;
+                        payloadTextContext = `[Uploaded Image Context: ${f.name}]\n` + payloadTextContext;
                     } else {
                         visualRowHTML += `<div class="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl text-xs font-medium"><i class="fa-solid fa-file-lines"></i><span>${f.name}</span></div>`;
-                        payloadTextContext = `[Document File Context inside ${f.name}]:\n${f.content || ''}\n\n` + payloadTextContext;
+                        payloadTextContext = `[Uploaded Document Context in ${f.name}]:\n${f.content || ''}\n\n` + payloadTextContext;
                     }
                 });
                 visualRowHTML += '</div>';
@@ -638,15 +636,15 @@
                 userBubbleHTML = `<div>${typedText}</div>`;
             }
 
-            // Immediately append element frame locally to clear dynamic responsiveness latencies
+            // Immediately push into tracking array
             appendCustomStaticMessageBubble(userBubbleHTML, true);
             currentChatMessages.push({ role: 'user', text: userBubbleHTML });
             messageInput.value = '';
             clearFilesList();
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // Establish active tracking database record directly on interaction trigger point
-            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Document Interaction";
+            // Establish active tracking record cleanly BEFORE the fetch promise
+            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Document Message";
             if (!activeChatId && currentUser) {
                 const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
                 activeChatId = freshDocRef.id;
@@ -694,12 +692,12 @@
 
             } catch (error) {
                 console.error("Gemini Failure:", error);
-                const errHtml = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
-                aiBubble.innerHTML = errHtml;
+                const errorMarkup = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
+                aiBubble.innerHTML = errorMarkup;
                 aiBubble.classList.add('border-red-200', 'bg-red-50');
                 
-                currentChatMessages.push({ role: 'model', text: errHtml });
-                if (currentUser && activeChatId) {
+                currentChatMessages.push({ role: 'model', text: errorMarkup });
+                if(currentUser && activeChatId) {
                     await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                         messages: currentChatMessages
