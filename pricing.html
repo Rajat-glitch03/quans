@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Beta Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0052FF', // Matches your login/signup branding style
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col justify-center items-center relative px-4 selection:bg-brand-blue selection:text-white">
+
+    <a href="index.html" class="absolute top-6 left-6 flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-black transition-all bg-white py-2 px-4 rounded-full shadow-sm border border-slate-100 group">
+        <i class="fa-solid fa-house text-slate-400 group-hover:text-brand-blue transition-colors"></i>
+        <span>Home</span>
+    </a>
+
+    <main class="max-w-xl w-full text-center bg-white border border-slate-100 shadow-xl rounded-3xl p-8 md:p-12 transition-all hover:shadow-2xl">
+        
+        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-6 border border-emerald-100">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Beta Phase Active
+        </span>
+
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">
+            Simple, Transparent <span class="text-brand-blue">Pricing</span>
+        </h1>
+        
+        <hr class="w-12 h-1 bg-brand-blue border-none rounded-full mx-auto mb-8">
+
+        <div class="space-y-4 text-base md:text-lg text-slate-600 leading-relaxed max-w-md mx-auto">
+            <p>
+                We're currently offering <strong class="text-slate-900 font-bold">free access to all tools</strong> while we're in beta.
+            </p>
+            <p>
+                We're focused on gathering feedback, improving the platform, and building features that users truly need.
+            </p>
+            <p class="text-brand-blue font-semibold bg-blue-50/50 py-3 px-4 rounded-2xl border border-blue-100/50 inline-block w-full mt-2">
+                🚀 Enjoy free access while it lasts.
+            </p>
+        </div>
+
+        <div class="mt-8">
+            <a href="index.html" class="inline-block bg-slate-900 hover:bg-black text-white font-bold text-sm py-4 px-8 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                Explore the Tools Now
+            </a>
+        </div>
+    </main>
+
+    <footer class="absolute bottom-6 text-xs text-slate-400">
+        © 2026 QUANS. All rights reserved.
+    </footer>
+
+</body>
+</html>
