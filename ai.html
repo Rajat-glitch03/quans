@@ -241,8 +241,12 @@
         let isFirstMessage = true;
         let isSidebarOpen = true;
 
-        // --- AUTH SESSION PROTECTION SECURITY GUARD ---
+        // --- AUTH SESSION PROTECTION SECURITY GUARD WITH INITIALIZATION CHECK ---
+        let isAuthInitialized = false;
+
         auth.onAuthStateChanged((user) => {
+            isAuthInitialized = true; // Firebase has now answered!
+            
             if (user) {
                 currentUser = user;
                 userGreeting.innerText = user.displayName ? `Hello, ${user.displayName.split(' ')[0]}` : 'Hello';
@@ -250,7 +254,7 @@
                 // Trigger live system listeners for personalized historical documents updates
                 subscribeToChatHistory();
             } else {
-                // Instantly bounce user out if session tracking key drops
+                // ONLY redirect if Firebase finished loading AND there is definitely no user
                 window.location.href = 'index.html';
             }
         });
