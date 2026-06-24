@@ -511,7 +511,7 @@
         // Isolated function helper to dispatch EmailJS requests cleanly
         function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
             // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
-            return emailjs.send("service_72k9plm", "template_2ku6o4k", {
+            return emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
                 to_email: emailAddress,
                 verification_code: otpCode
             })
@@ -605,20 +605,17 @@
                         otpErrorLabel.classList.add('hidden');
 
                         if (userEnteredOTP === generatedOTP) {
-                            // 4. Code is correct! NOW we create the actual account in Firebase & auto-login
+                            // 4. Code is correct! NOW we attempt to create the account in Firebase
                             createUserWithEmailAndPassword(auth, emailInput, passwordInput)
                                 .then((userCredential) => {
                                     if(resendCooldownTimer) clearInterval(resendCooldownTimer);
 
-                                    // 5. UPDATE BACKGROUND HTML 
-                                    // This triggers your app's main page to update to the signed-in/logged-in dashboard layout
+                                    // 5. UPDATE BACKGROUND HTML
                                     if (typeof window.updateUIForLoggedInUser === 'function') {
                                         window.updateUIForLoggedInUser(userCredential.user);
                                     }
 
-                                    // 6. SHOW COMPLETED POPUP & FREEZE IT
-                                    // We replace the form with a completion card that DOES NOT close automatically. 
-                                    // The user must explicitly hit the button to dismiss it.
+                                    // 6. SHOW COMPLETED POPUP & FREEZE IT (User must close manually)
                                     signupFormEl.innerHTML = `
                                         <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md">
                                             <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md mb-4 animate-bounce">
@@ -634,10 +631,14 @@
                                         </div>
                                     `;
                                 })
-                                .catch((fbError) => {
-                                    let fbMsg = fbError.message;
-                                    if (fbError.code === 'auth/email-already-in-use') { fbMsg = "This email address is already registered."; }
-                                    otpErrorLabel.innerText = `Sign up error: ${fbMsg}`;
+                                .catch((error) => {
+                                    // 🛠️ ALL YOUR CUSTOM FIREBASE ERRORS RESTORED RIGHT HERE:
+                                    let customMsg = "Registration failed: " + error.message;
+                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
+                                    else if (error.code === 'auth/weak-password') { customMsg = "Password must be at least 6 characters long."; }
+                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
+                                    
+                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
                                     otpErrorLabel.classList.remove('hidden');
                                 });
                         } else {
