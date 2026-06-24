@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <a href="#" class="text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
+                    <a href="#" id="forgotPasswordLink" class="text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
                 </div>
                 <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
                     Log In
@@ -770,6 +770,89 @@
                         errDiv.classList.remove('hidden');
                     } else {
                         alert("Authentication failure: " + error.message);
+                    }
+                });
+        });
+
+        // --- FORGOT PASSWORD TEXT CLICK LISTENER ---
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault(); // Stop it from trying to redirect
+            
+            const loginFormEl = document.getElementById('loginForm');
+            const errDiv = document.getElementById('loginErrorMsg');
+            const emailInput = document.getElementById('loginEmailInput').value.trim();
+
+            // 🛠️ 1. Validation check: Ensure they actually typed an email first
+            if (!emailInput) {
+                if (errDiv) {
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    const errorTextContainer = errDiv.querySelector('.error-text');
+                    if (errorTextContainer) {
+                        errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
+                    } else {
+                        errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
+                    }
+                    errDiv.classList.remove('hidden');
+                } else {
+                    alert("Please enter your email address first.");
+                }
+                return; // Stop here if email field is empty
+            }
+
+            // 🛠️ 2. Send the Firebase Password Reset Email immediately
+            sendPasswordResetEmail(auth, emailInput)
+                .then(() => {
+                    // 🛠️ SUCCESS PHASE: Swap out the login popup content cleanly!
+                    loginFormEl.innerHTML = `
+                        <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm">
+                            <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                📩
+                            </div>
+                            <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
+                            <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
+                                We have sent a secure password reset link to:<br>
+                                <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
+                            </p>
+                            <p class="text-xs text-slate-500 mb-5">
+                                Please check your inbox or spam folder to recover access.
+                            </p>
+                            <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                Close Window
+                            </button>
+                        </div>
+                    `;
+
+                    // Handle closing the modal when they click the confirmation button
+                    document.getElementById('closeForgotSuccessBtn').addEventListener('click', () => {
+                        if (typeof window.closeAuthPopup === 'function') {
+                            window.closeAuthPopup();
+                        } else {
+                            const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
+                            if(modal) modal.classList.add('hidden');
+                        }
+                    });
+                })
+                .catch((error) => {
+                    // 🛠️ FAILURE PHASE: Let them know if the email doesn't exist in Firebase
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        
+                        let customMsg = "Error sending reset link: " + error.message;
+                        if (error.code === 'auth/user-not-found') {
+                            customMsg = "No account found matching this email address.";
+                        } else if (error.code === 'auth/invalid-email') {
+                            customMsg = "The email address layout is invalid.";
+                        }
+
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = customMsg;
+                        } else {
+                            errDiv.innerText = "⚠️ " + customMsg;
+                        }
+                        errDiv.classList.remove('hidden');
+                    } else {
+                        alert("Reset Error: " + error.message);
                     }
                 });
         });
