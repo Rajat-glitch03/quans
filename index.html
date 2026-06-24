@@ -511,7 +511,7 @@
         // Isolated function helper to dispatch EmailJS requests cleanly
         function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
             // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
-            return emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            return emailjs.send("service_72k9plm", "template_2ku6o4k", {
                 to_email: emailAddress,
                 verification_code: otpCode
             })
@@ -559,13 +559,21 @@
             const passwordInput = document.getElementById('signupPasswordInput').value;
             const signupFormEl = document.getElementById('signupForm');
 
-            // 1. Initialize a secure random 6-digit numeric verification sequence string
+            // 🛠️ 1. INSTANT WEBSITE PASSWORD VALIDATION (Prevents Chrome defaults)
+            if (passwordInput.length < 6) {
+                errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                errDiv.querySelector('.error-text').innerText = "⚠️ Password must be at least 6 characters long.";
+                errDiv.classList.remove('hidden');
+                return; // 🛑 Stops execution instantly right here! No EmailJS fired, no Firebase hit.
+            }
+
+            // 2. Initialize a secure random 6-digit numeric verification sequence string
             generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-            // 2. Fire the first verification email sequence via EmailJS (No account created yet!)
+            // 3. Fire the first verification email sequence via EmailJS (No account created yet!)
             sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
                 .then(() => {
-                    // 3. Keep the signup wrapper open but slide a dynamic overlay view inside it
+                    // 4. Keep the signup wrapper open but slide a dynamic overlay view inside it
                     signupFormEl.innerHTML = `
                         <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
                             <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
@@ -605,17 +613,17 @@
                         otpErrorLabel.classList.add('hidden');
 
                         if (userEnteredOTP === generatedOTP) {
-                            // 4. Code is correct! NOW we attempt to create the account in Firebase
+                            // 5. Code is correct! NOW we attempt to create the account in Firebase
                             createUserWithEmailAndPassword(auth, emailInput, passwordInput)
                                 .then((userCredential) => {
                                     if(resendCooldownTimer) clearInterval(resendCooldownTimer);
 
-                                    // 5. UPDATE BACKGROUND HTML
+                                    // 6. UPDATE BACKGROUND HTML (User logined view renders behind popup)
                                     if (typeof window.updateUIForLoggedInUser === 'function') {
                                         window.updateUIForLoggedInUser(userCredential.user);
                                     }
 
-                                    // 6. SHOW COMPLETED POPUP & FREEZE IT (User must close manually)
+                                    // 7. SHOW COMPLETED POPUP & FREEZE IT (User must close manually)
                                     signupFormEl.innerHTML = `
                                         <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md">
                                             <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md mb-4 animate-bounce">
@@ -632,10 +640,8 @@
                                     `;
                                 })
                                 .catch((error) => {
-                                    // 🛠️ ALL YOUR CUSTOM FIREBASE ERRORS RESTORED RIGHT HERE:
                                     let customMsg = "Registration failed: " + error.message;
                                     if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
-                                    else if (error.code === 'auth/weak-password') { customMsg = "Password must be at least 6 characters long."; }
                                     else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
                                     
                                     otpErrorLabel.innerText = "⚠️ " + customMsg;
