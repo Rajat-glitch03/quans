@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <span id="forgotPasswordLink" class="text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</span>
+                    <a id="forgotPasswordLink" class="text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
                 </div>
                 <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
                     Log In
@@ -817,21 +817,8 @@
                             <p class="text-xs text-slate-500 mb-5">
                                 Please check your inbox or spam folder to recover access.
                             </p>
-                            <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
-                                Close Window
-                            </button>
                         </div>
                     `;
-
-                    // Handle closing the modal when they click the confirmation button
-                    document.getElementById('closeForgotSuccessBtn').addEventListener('click', () => {
-                        if (typeof window.closeAuthPopup === 'function') {
-                            window.closeAuthPopup();
-                        } else {
-                            const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
-                            if(modal) modal.classList.add('hidden');
-                        }
-                    });
                 })
                 .catch((error) => {
                     // 🛠️ FAILURE PHASE: Let them know if the email doesn't exist in Firebase
