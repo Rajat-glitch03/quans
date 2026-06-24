@@ -520,7 +520,7 @@
                 errorDivElement.querySelector('.error-text').innerText = "Technical failure delivering OTP. Please try again.";
                 errorDivElement.classList.remove('hidden');
                 console.error("EmailJS sending error log:", err);
-                throw err; // propagates error up the chain
+                throw err;
             });
         }
 
@@ -559,15 +559,15 @@
             const passwordInput = document.getElementById('signupPasswordInput').value;
             const signupFormEl = document.getElementById('signupForm');
 
-            // 1. Initialise a secure random 6-digit numeric verification sequence string
+            // 1. Initialize a secure random 6-digit numeric verification sequence string
             generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-            // 2. Fire the first verification email sequence via EmailJS
+            // 2. Fire the first verification email sequence via EmailJS (No account created yet!)
             sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
                 .then(() => {
                     // 3. Keep the signup wrapper open but slide a dynamic overlay view inside it
                     signupFormEl.innerHTML = `
-                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner animate-fadeIn">
+                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
                             <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
                                 🛡️
                             </div>
@@ -596,7 +596,6 @@
                         </div>
                     `;
 
-                    // Trigger the 30-second security cooldown countdown instantly
                     startResendCooldownClock();
 
                     // --- ACTION SUB-HANDLER A: VALIDATING ENTERED OTP ---
@@ -606,34 +605,42 @@
                         otpErrorLabel.classList.add('hidden');
 
                         if (userEnteredOTP === generatedOTP) {
-                            // If code is correct, create the active account directly into Firebase
+                            // 4. Code is correct! NOW we create the actual account in Firebase & auto-login
                             createUserWithEmailAndPassword(auth, emailInput, passwordInput)
                                 .then((userCredential) => {
-                                    // Clean up active timers safely
                                     if(resendCooldownTimer) clearInterval(resendCooldownTimer);
 
-                                    // Display success card configuration state inside the container box
+                                    // 5. UPDATE BACKGROUND HTML 
+                                    // This triggers your app's main page to update to the signed-in/logged-in dashboard layout
+                                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                                        window.updateUIForLoggedInUser(userCredential.user);
+                                    }
+
+                                    // 6. SHOW COMPLETED POPUP & FREEZE IT
+                                    // We replace the form with a completion card that DOES NOT close automatically. 
+                                    // The user must explicitly hit the button to dismiss it.
                                     signupFormEl.innerHTML = `
-                                        <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                        <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md">
                                             <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md mb-4 animate-bounce">
                                                 🎉
                                             </div>
-                                            <h3 class="text-xl font-bold text-emerald-900 mb-1">Registration Complete!</h3>
-                                            <p class="text-sm text-emerald-700 mb-4">Account verified successfully. Welcome onboard!</p>
+                                            <h3 class="text-xl font-bold text-emerald-900 mb-1">Verification Completed!</h3>
+                                            <p class="text-sm text-emerald-700 mb-6 leading-relaxed">
+                                                Your email has been successfully verified and your secure profile has been created.
+                                            </p>
+                                            <button type="button" onclick="window.closeAuthPopup()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                                Let's Get Started
+                                            </button>
                                         </div>
                                     `;
-
-                                    // Redirect them straight onto your dashboard/landing application view automatically after 1.5 seconds
-                                    setTimeout(() => {
-                                        window.location.href = "/landing.html"; // ⚠️ Update this string path to match your landing file name structure
-                                    }, 1500);
                                 })
                                 .catch((fbError) => {
-                                    otpErrorLabel.innerText = `Firebase creation error: ${fbError.message}`;
+                                    let fbMsg = fbError.message;
+                                    if (fbError.code === 'auth/email-already-in-use') { fbMsg = "This email address is already registered."; }
+                                    otpErrorLabel.innerText = `Sign up error: ${fbMsg}`;
                                     otpErrorLabel.classList.remove('hidden');
                                 });
                         } else {
-                            // Code did not match, trigger wrong layout error notification
                             otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
                             otpErrorLabel.classList.remove('hidden');
                         }
@@ -641,15 +648,12 @@
 
                     // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
                     document.getElementById('resendOtpBtn').addEventListener('click', () => {
-                        if (cooldownSecondsLeft > 0) return; // double-check lock guard
+                        if (cooldownSecondsLeft > 0) return;
 
-                        // Generate a brand new independent code number sequence
                         generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                        
                         const otpErrorLabel = document.getElementById('otpInlineError');
                         otpErrorLabel.classList.add('hidden');
 
-                        // Re-run dispatch utility call
                         sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
                             .then(() => {
                                 startResendCooldownClock();
