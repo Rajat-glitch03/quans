@@ -607,7 +607,9 @@
                     startResendCooldownClock();
 
                     // --- ACTION SUB-HANDLER A: VALIDATING ENTERED OTP ---
-                    document.getElementById('verifyOtpBtn').addEventListener('click', () => {
+                    document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
+                        otpEvent.preventDefault(); // Prevents layout bubbling
+                        
                         const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
                         const otpErrorLabel = document.getElementById('otpInlineError');
                         otpErrorLabel.classList.add('hidden');
@@ -624,9 +626,9 @@
                                     }
 
                                     // 🛠️ CREATE A HARD OVERLAY LOCK 
-                                    // This completely replaces the form content and blocks external scripts from closing it early.
+                                    // Modified data handling attributes below prevent global auth observer scripts from closing this block layout automatically.
                                     signupFormEl.innerHTML = `
-                                        <div id="successCardLock" class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md animate-fadeIn">
+                                        <div id="successCardLock" data-auth-lock="true" class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md animate-fadeIn">
                                             <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md mb-4 animate-bounce">
                                                 🎉
                                             </div>
@@ -641,7 +643,8 @@
                                     `;
 
                                     // 🛠️ ATTACH MANUAL EVENT LISTENER DIRECTLY TO THE NEW BUTTON
-                                    document.getElementById('manualCloseSuccessBtn').addEventListener('click', () => {
+                                    document.getElementById('manualCloseSuccessBtn').addEventListener('click', (closeEvent) => {
+                                        closeEvent.stopPropagation(); // Stops any background close triggers from running
                                         if (typeof window.closeAuthPopup === 'function') {
                                             window.closeAuthPopup();
                                         } else {
@@ -651,7 +654,35 @@
                                         }
                                     });
                                 })
+                                .catch((error) => {
+                                    let customMsg = "Registration failed: " + error.message;
+                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
+                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
+                                    
+                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
+                                    otpErrorLabel.classList.remove('hidden');
+                                });
+                        } else {
+                            otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
+                            otpErrorLabel.classList.remove('hidden');
+                        }
                     });
+
+                    // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
+                    document.getElementById('resendOtpBtn').addEventListener('click', () => {
+                        if (cooldownSecondsLeft > 0) return;
+
+                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                        const otpErrorLabel = document.getElementById('otpInlineError');
+                        otpErrorLabel.classList.add('hidden');
+
+                        sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                            .then(() => {
+                                startResendCooldownClock();
+                            });
+                    });
+                });
+        });
 
                     // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
                     document.getElementById('resendOtpBtn').addEventListener('click', () => {
