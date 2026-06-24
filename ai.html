@@ -13,6 +13,11 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDK Modules Compatibility Layer -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -48,10 +53,12 @@
 </head>
 <body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
+    <!-- File Input Layer -->
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
     <div id="mobileOverlay" class="fixed inset-0 z-40 hidden sidebar-overlay transition-opacity duration-300 sm:hidden"></div>
 
+    <!-- SIDEBAR WITH SLIDE MOTION EFFECTS -->
     <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transform transition-transform duration-300 ease-in-out translate-x-0">
         
         <div class="p-4 flex items-center justify-between sm:hidden border-b border-slate-100">
@@ -61,30 +68,32 @@
             </button>
         </div>
 
-        <div class="p-4">
+        <div class="p-4 space-y-3">
             <button id="newChatBtn" class="w-full flex items-center justify-center gap-3 bg-brand-blue text-white py-3 px-4 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span class="font-medium">New Chat</span>
             </button>
+
+            <!-- Search History Input Block -->
+            <div class="relative flex items-center w-full bg-white border border-slate-200 rounded-full px-3.5 py-2 group focus-within:border-brand-blue transition-all duration-200">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs mr-2"></i>
+                <input type="text" id="historySearch" placeholder="Search chats..." class="w-full bg-transparent text-xs outline-none text-slate-700 placeholder-slate-400">
+                <button id="clearSearchBtn" class="hidden text-slate-300 hover:text-slate-500 transition-colors ml-1">
+                    <i class="fa-solid fa-circle-xmark text-xs"></i>
+                </button>
+            </div>
         </div>
 
+        <!-- SCROLLABLE HISTORY PANEL CONTAINER -->
         <div class="flex-1 overflow-y-auto p-4 pt-0">
             <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider pl-2">History</h3>
-            <div id="historyList" class="space-y-1">
-                <div class="group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200">
-                    <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-sm"></i>
-                        <span class="text-sm truncate">Landing Page Ideas</span>
-                    </div>
-                    <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </div>
+            <div id="historyList" class="space-y-1 max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+                <!-- Items are populated dynamically by Firestore stream listener loops -->
             </div>
         </div>
 
         <div class="p-4 border-t border-slate-100 space-y-1.5">
-            <button class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200">
+            <button onclick="window.location.href='contact.html'" class="w-full flex items-center gap-3 text-slate-600 p-3 rounded-xl hover:bg-white hover:text-brand-blue border border-transparent hover:border-slate-100 transition-all duration-200">
                 <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
                     <i class="fa-solid fa-headset text-sm"></i>
                 </div>
@@ -102,7 +111,8 @@
 
     <main class="flex-1 flex flex-col relative min-w-0 bg-white h-full">
         
-        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-10 sticky top-0">
+        <!-- HEADER WITH IDENTITY ACCOUNT ACTION CONTROL DROPDOWN -->
+        <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-40 sticky top-0">
             <div class="flex items-center gap-4">
                 <button id="toggleSidebarBtn" class="text-slate-400 hover:text-brand-blue text-xl transition-colors">
                     <i class="fa-solid fa-bars-staggered"></i>
@@ -110,13 +120,27 @@
                 <a href="index.html" class="text-2xl font-black tracking-tighter text-brand-blue cursor-pointer">QUANS<span class="text-slate-900">.</span></a>
             </div>
             
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                <button class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">Login</button>
-                <button class="text-sm sm:text-base font-medium bg-brand-blue text-white px-4 sm:px-6 py-2 rounded-full hover:bg-brand-hover shadow-md shadow-blue-100 transition-all duration-300 transform hover:-translate-y-0.5">Signup</button>
+            <!-- Dynamic Authenticated Dropdown (Mirrors Index View Layer) -->
+            <div class="relative">
+                <button id="userMenuBtn" class="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 hover:bg-slate-100 transition-all duration-200">
+                    <div class="w-6 h-6 rounded-full bg-brand-blue text-white flex items-center justify-center text-xs font-bold" id="userAvatar">
+                        U
+                    </div>
+                    <span class="text-sm font-medium text-slate-700 hidden sm:inline" id="userGreeting">Hello</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                </button>
+
+                <!-- Dropdown Menu Box -->
+                <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50">
+                    <button id="logoutBtn" class="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 text-left transition-colors font-medium">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
             </div>
         </header>
 
-        <div id="chatBox" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-48 sm:pb-36">
+        <div id="chatBox" class="flex-1 overflow-y-auto p-4 sm:p-6 pb-48 sm:pb-36 relative">
             <div id="welcomeScreen" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500">
                 <div class="w-16 h-16 bg-brand-light text-brand-blue rounded-full flex items-center justify-center text-2xl mb-4 shadow-sm">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -128,26 +152,32 @@
             <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 mb-6 hidden"></div>
         </div>
 
+        <!-- INPUT ACTION PACK COMBINED BOX -->
         <div id="inputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
-            <div class="max-w-3xl mx-auto relative flex items-center bg-white border-2 border-slate-100 rounded-full shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300">
+            <div class="max-w-3xl mx-auto relative flex flex-col bg-white border-2 border-slate-100 rounded-3xl shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300 px-4 py-2">
                 
-                <div id="attachPopup" class="absolute bottom-full left-2 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
-                    <button id="triggerMemorySearch" class="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all duration-200 cursor-pointer">
-                        <i class="fa-solid fa-laptop-file text-base text-brand-blue"></i>
-                        <span>Upload from Device</span>
-                    </button>
-                    <div class="absolute -bottom-1 left-5 w-2 h-2 bg-white border-b border-r border-slate-100 transform rotate-45"></div>
-                </div>
+                <!-- Dynamic Local Document Upload Previews Panel -->
+                <div id="fileUploadPreviewArea" class="w-full flex flex-wrap gap-2 mb-1.5 empty:hidden"></div>
 
-                <button id="attachBtn" class="absolute left-2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors">
-                    <i class="fa-solid fa-plus text-xl"></i>
-                </button>
-                
-                <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-14 pr-14 outline-none text-slate-700 placeholder-slate-400">
-                
-                <button id="sendBtn" class="absolute right-2 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50">
-                    <i class="fa-solid fa-arrow-up text-sm"></i>
-                </button>
+                <div class="flex items-center w-full relative">
+                    <div id="attachPopup" class="absolute bottom-full left-0 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
+                        <button id="triggerMemorySearch" class="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all duration-200 cursor-pointer">
+                            <i class="fa-solid fa-laptop-file text-base text-brand-blue"></i>
+                            <span>Upload from Device</span>
+                        </button>
+                        <div class="absolute -bottom-1 left-5 w-2 h-2 bg-white border-b border-r border-slate-100 transform rotate-45"></div>
+                    </div>
+
+                    <button id="attachBtn" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors shrink-0">
+                        <i class="fa-solid fa-plus text-xl"></i>
+                    </button>
+                    
+                    <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-3 pr-14 outline-none text-slate-700 placeholder-slate-400 text-base">
+                    
+                    <button id="sendBtn" class="absolute right-0 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 shrink-0">
+                        <i class="fa-solid fa-arrow-up text-sm"></i>
+                    </button>
+                </div>
             </div>
             <p class="text-center text-[10px] text-slate-400 mt-3 font-medium">QUANS AI can make mistakes. Verify important information.</p>
         </div>
@@ -155,6 +185,24 @@
     </main>
 
     <script>
+        // --- INITIALIZE REAL-TIME CONFIG ---
+        // Copy initialized firebase instances config cleanly from index context environment
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
         // DOM Elements
         const sidebar = document.getElementById('sidebar');
         const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
@@ -171,31 +219,90 @@
         const attachPopup = document.getElementById('attachPopup');
         const triggerMemorySearch = document.getElementById('triggerMemorySearch');
         const systemMemoryInput = document.getElementById('systemMemoryInput');
+        const fileUploadPreviewArea = document.getElementById('fileUploadPreviewArea');
         const inputWrapper = document.getElementById('inputWrapper');
         
         const newChatBtn = document.getElementById('newChatBtn');
         const historyList = document.getElementById('historyList');
+        const historySearch = document.getElementById('historySearch');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
 
-        let isSidebarOpen = true;
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userGreeting = document.getElementById('userGreeting');
+        const userAvatar = document.getElementById('userAvatar');
+
+        // Global Application Context States
+        let currentUser = null;
+        let activeChatId = null;
+        let localChatsCache = [];
+        let uploadedFilesList = [];
         let isFirstMessage = true;
-        let chatCounter = 1;
+        let isSidebarOpen = true;
 
-        // --- SIDEBAR TOGGLE LOGIC ---
+        // --- AUTH SESSION PROTECTION SECURITY GUARD ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                userGreeting.innerText = user.displayName ? `Hello, ${user.displayName.split(' ')[0]}` : 'Hello';
+                userAvatar.innerText = user.email ? user.email.charAt(0).toUpperCase() : 'U';
+                // Trigger live system listeners for personalized historical documents updates
+                subscribeToChatHistory();
+            } else {
+                // Instantly bounce user out if session tracking key drops
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Dropdown Toggle Utility
+        userMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('opacity-0');
+            userDropdown.classList.toggle('pointer-events-none');
+            userDropdown.classList.toggle('translate-y-2');
+        });
+
+        document.addEventListener('click', () => {
+            userDropdown.classList.add('opacity-0');
+            userDropdown.classList.add('pointer-events-none');
+            userDropdown.classList.add('translate-y-2');
+        });
+
+        // Account Logout Trigger Action
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                window.location.href = 'index.html';
+            } catch (err) {
+                console.error("Logout runtime context conflict:", err);
+            }
+        });
+
+        // --- SIDEBAR SLIDE ANIMATION ENGINE ---
         function toggleSidebar() {
-            if (window.innerWidth < 640) { // Mobile
-                sidebar.classList.toggle('-translate-x-full');
-                mobileOverlay.classList.toggle('hidden');
-            } else { // PC
-                if(isSidebarOpen) {
-                    sidebar.style.marginLeft = `-${sidebar.offsetWidth}px`;
+            if (window.innerWidth < 640) { // Mobile Viewports
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    mobileOverlay.classList.remove('hidden');
                 } else {
-                    sidebar.style.marginLeft = '0px';
+                    sidebar.classList.remove('translate-x-0');
+                    sidebar.classList.add('-translate-x-full');
+                    mobileOverlay.classList.add('hidden');
+                }
+            } else { // Desktop Framework Systems
+                if(isSidebarOpen) {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    sidebar.style.marginRight = `-${sidebar.offsetWidth}px`;
+                } else {
+                    sidebar.style.transform = 'translateX(0)';
+                    sidebar.style.marginRight = '0px';
                 }
                 isSidebarOpen = !isSidebarOpen;
             }
         }
 
-        // Initialize sidebar hidden on mobile
         if (window.innerWidth < 640) {
             sidebar.classList.add('-translate-x-full');
             isSidebarOpen = false;
@@ -205,7 +312,7 @@
         closeSidebarMobile.addEventListener('click', toggleSidebar);
         mobileOverlay.addEventListener('click', toggleSidebar);
 
-        // --- ATTACH POPUP & FILES ACCESS LOGIC ---
+        // --- ATTACH POPUP & LOCAL FILE PREVIEW TRACKER ---
         attachBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             attachPopup.classList.toggle('opacity-0');
@@ -213,26 +320,206 @@
             attachPopup.classList.toggle('translate-y-2');
         });
 
-        // Close Pop-up on outside click area
         document.addEventListener('click', () => {
             attachPopup.classList.add('opacity-0');
             attachPopup.classList.add('pointer-events-none');
             attachPopup.classList.add('translate-y-2');
         });
 
-        // Direct systemic internal memory linking trigger
-        triggerMemorySearch.addEventListener('click', () => {
-            systemMemoryInput.click();
-        });
+        triggerMemorySearch.addEventListener('click', () => { systemMemoryInput.click(); });
 
         systemMemoryInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                alert(`File Linked Successfully: ${e.target.files[0].name}`);
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                uploadedFilesList.push({ id: fileId, name: file.name, fileObj: file });
+                
+                // Append file notification card visually into input stack view 
+                const fileCard = document.createElement('div');
+                fileCard.id = fileId;
+                fileCard.className = 'flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium fade-in animate-[fadeIn_0.2s_ease-out]';
+                fileCard.innerHTML = `
+                    <i class="fa-solid fa-file-lines text-brand-blue"></i>
+                    <span class="max-w-[120px] truncate">${file.name}</span>
+                    <button type="button" onclick="removeUploadedFile('${fileId}')" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+                fileUploadPreviewArea.appendChild(fileCard);
+            });
+            systemMemoryInput.value = ''; // Reset core file pointer cache
+        });
+
+        window.removeUploadedFile = function(fileId) {
+            uploadedFilesList = uploadedFilesList.filter(f => f.id !== fileId);
+            const cardElement = document.getElementById(fileId);
+            if(cardElement) cardElement.remove();
+        };
+
+        function clearFilesList() {
+            uploadedFilesList = [];
+            fileUploadPreviewArea.innerHTML = '';
+        }
+
+        // --- FIRESTORE HISTORY STREAM SUBSCRIPTION CONTROLS ---
+        function subscribeToChatHistory() {
+            if (!currentUser) return;
+            
+            db.collection('users').doc(currentUser.uid).collection('chats')
+              .orderBy('updatedAt', 'desc')
+              .onSnapshot((snapshot) => {
+                  localChatsCache = [];
+                  snapshot.forEach(doc => {
+                      localChatsCache.push({ id: doc.id, ...doc.data() });
+                  });
+                  renderHistoryItems(localChatsCache);
+              }, err => {
+                  console.error("Firestore sync link broken:", err);
+              });
+        }
+
+        function renderHistoryItems(chats) {
+            historyList.innerHTML = '';
+            if(chats.length === 0) {
+                historyList.innerHTML = `<p class="text-xs text-slate-400 italic pl-2 py-2">No conversations found</p>`;
+                return;
+            }
+
+            chats.forEach(chat => {
+                const isActive = chat.id === activeChatId;
+                const historyItem = document.createElement('div');
+                historyItem.className = `group flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 ${
+                    isActive ? 'bg-white border-slate-200/80 shadow-xs' : 'border-transparent hover:bg-white hover:border-slate-100'
+                } cursor-pointer`;
+                
+                historyItem.setAttribute('onclick', `loadConversation('${chat.id}')`);
+
+                historyItem.innerHTML = `
+                    <div class="flex items-center gap-2.5 text-slate-600 overflow-hidden flex-1 mr-2">
+                        <i class="fa-regular fa-message text-xs shrink-0 ${isActive ? 'text-brand-blue' : ''}"></i>
+                        <span id="title_text_${chat.id}" class="text-sm truncate font-medium text-slate-700">${chat.title || 'Untitled Chat'}</span>
+                        <input id="title_input_${chat.id}" type="text" class="hidden text-sm bg-white border border-brand-blue px-1.5 py-0.5 rounded outline-none w-full font-medium text-slate-800" value="${chat.title || ''}" onclick="event.stopPropagation()">
+                    </div>
+                    <div class="flex items-center space-x-1 shrink-0">
+                        <button onclick="event.stopPropagation(); triggerRenameInline('${chat.id}')" class="text-slate-400 hover:text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                            <i class="fa-solid fa-pencil text-[11px]"></i>
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteConversation('${chat.id}')" class="text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                            <i class="fa-solid fa-trash-can text-[11px]"></i>
+                        </button>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // --- HISTORY REAL-TIME SEARCH INDEX FILTER ---
+        historySearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+                const filtered = localChatsCache.filter(chat => 
+                    (chat.title && chat.title.toLowerCase().includes(query))
+                );
+                renderHistoryItems(filtered);
+            } else {
+                clearSearchBtn.classList.add('hidden');
+                renderHistoryItems(localChatsCache);
             }
         });
 
-        // --- CHAT LOGIC ---
-        function createMessageBubble(text, isUser) {
+        clearSearchBtn.addEventListener('click', () => {
+            historySearch.value = '';
+            clearSearchBtn.classList.add('hidden');
+            renderHistoryItems(localChatsCache);
+        });
+
+        // --- IN-LINE RENAMING INTERACTION CHAIN ---
+        window.triggerRenameInline = function(chatId) {
+            const labelSpan = document.getElementById(`title_text_${chatId}`);
+            const editInput = document.getElementById(`title_input_${chatId}`);
+            
+            if(!labelSpan || !editInput) return;
+
+            labelSpan.classList.add('hidden');
+            editInput.classList.remove('hidden');
+            editInput.focus();
+            editInput.select();
+
+            const saveBlock = async () => {
+                const nextTitle = editInput.value.trim();
+                if(nextTitle && nextTitle !== labelSpan.innerText) {
+                    labelSpan.innerText = nextTitle;
+                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).update({
+                        title: nextTitle
+                    });
+                }
+                labelSpan.classList.remove('hidden');
+                editInput.classList.add('hidden');
+            };
+
+            editInput.onkeydown = (ev) => {
+                if(ev.key === 'Enter') { ev.preventDefault(); saveBlock(); }
+                if(ev.key === 'Escape') {
+                    editInput.value = labelSpan.innerText;
+                    labelSpan.removeProperty ? labelSpan.removeProperty('class') : labelSpan.classList.remove('hidden');
+                    editInput.classList.add('hidden');
+                }
+            };
+            
+            editInput.onblur = saveBlock;
+        };
+
+        // --- DELETE ROUTINE CONTEXT ---
+        window.deleteConversation = async function(chatId) {
+            if(!currentUser) return;
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).delete();
+                if(activeChatId === chatId) {
+                    resetWorkspaceUI();
+                }
+            } catch(e) {
+                console.error("Deletion lifecycle failure error:", e);
+            }
+        };
+
+        // --- CONVERSATION VIEW PORTAL SYNC LAYERS ---
+        window.loadConversation = async function(chatId) {
+            if(!currentUser) return;
+            activeChatId = chatId;
+            
+            // Re-render items mapping tracking active selection borders
+            renderHistoryItems(localChatsCache);
+
+            try {
+                const snapshot = await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).get();
+                if(!snapshot.exists) return;
+
+                const data = snapshot.data();
+                messagesArea.innerHTML = '';
+                
+                if (data.messages && data.messages.length > 0) {
+                    welcomeScreen.classList.add('hidden');
+                    welcomeScreen.style.opacity = '0';
+                    messagesArea.classList.remove('hidden');
+                    isFirstMessage = false;
+
+                    data.messages.forEach(msg => {
+                        appendStaticMessageBubble(msg.text, msg.role === 'user');
+                    });
+                } else {
+                    resetWorkspaceUIKeepId(chatId);
+                }
+                
+                setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 50);
+                if(window.innerWidth < 640) toggleSidebar(); // auto dismiss mobile bars
+
+            } catch (err) {
+                console.error("Payload streaming failure trace:", err);
+            }
+        };
+
+        function appendStaticMessageBubble(text, isUser) {
             const wrapper = document.createElement('div');
             wrapper.className = `flex w-full fade-in ${isUser ? 'justify-end' : 'justify-start'}`;
             
@@ -242,18 +529,115 @@
                 ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' 
                 : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
             }`;
-            bubble.innerText = text;
+            
+            if(isUser) {
+                bubble.innerText = text;
+            } else {
+                bubble.innerHTML = text;
+            }
             
             wrapper.appendChild(bubble);
-            return wrapper;
+            messagesArea.appendChild(wrapper);
         }
 
-        // --- SECURE CHAT INTERACTION UTILITY ---
-        async function handleSend() {
-            const text = messageInput.value.trim();
-            if (!text) return;
+        function resetWorkspaceUI() {
+            activeChatId = null;
+            isFirstMessage = true;
+            messagesArea.innerHTML = '';
+            messagesArea.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.style.opacity = '1';
+            clearFilesList();
+            renderHistoryItems(localChatsCache);
+        }
 
-            // 1. Hide welcome screen & show message area on first use
+        function resetWorkspaceUIKeepId(chatId) {
+            activeChatId = chatId;
+            isFirstMessage = true;
+            messagesArea.innerHTML = '';
+            messagesArea.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.style.opacity = '1';
+            clearFilesList();
+        }
+
+        newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
+
+        // --- TYPEWRITER CHARACTER STREAMING OUTPUT ENGINE ---
+        function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
+            bubbleTargetElement.innerHTML = ''; 
+            
+            // Parsing loop to split string text token layers smoothly
+            let i = 0;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = rawHtmlText;
+            const flatTokens = [];
+            
+            // Extract DOM fragments safely to retain structure properties
+            function segmentNode(node) {
+                if(node.nodeType === Node.TEXT_NODE) {
+                    const chars = node.nodeValue.split('');
+                    chars.forEach(c => flatTokens.push({ type: 'text', value: c }));
+                } else if(node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'BR') {
+                        flatTokens.push({ type: 'br' });
+                    } else {
+                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        Array.from(node.childNodes).forEach(segmentNode);
+                        flatTokens.push({ type: 'tag-end', tag: node.tagName.toLowerCase() });
+                    }
+                }
+            }
+            
+            Array.from(tempDiv.childNodes).forEach(segmentNode);
+
+            // Sequential intervals framework execution simulation layer
+            let activeContainer = bubbleTargetElement;
+            const elementStack = [];
+
+            function renderNextToken() {
+                if(i >= flatTokens.length) {
+                    // Completed execution cycle stream -> commit tracking state to DB backend
+                    commitActiveSessionToFirestore();
+                    return;
+                }
+
+                const token = flatTokens[i];
+                if(token.type === 'text') {
+                    activeContainer.appendChild(document.createTextNode(token.value));
+                } else if(token.type === 'br') {
+                    activeContainer.appendChild(document.createElement('br'));
+                } else if(token.type === 'tag-start') {
+                    const el = document.createElement(token.tag);
+                    activeContainer.appendChild(el);
+                    elementStack.push(activeContainer);
+                    activeContainer = el;
+                } else if(token.type === 'tag-end') {
+                    if(elementStack.length > 0) {
+                        activeContainer = elementStack.pop();
+                    }
+                }
+
+                i++;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                // Controls response speed profile metrics (12ms increments)
+                setTimeout(renderNextToken, 12);
+            }
+
+            renderNextToken();
+        }
+
+        // --- SUBMIT COMPILATION CAPTURE LOGIC ---
+        async function handleSend() {
+            let text = messageInput.value.trim();
+            if (!text && uploadedFilesList.length === 0) return;
+
+            // Handle Context Construction if document items are present
+            if(uploadedFilesList.length > 0) {
+                const attachmentsString = uploadedFilesList.map(f => `[Attached Document/Image Asset Context Reference: ${f.name}]`).join(' ');
+                text = `${attachmentsString} ${text}`.trim();
+            }
+
             if (isFirstMessage) {
                 welcomeScreen.style.opacity = '0';
                 setTimeout(() => { 
@@ -263,128 +647,123 @@
                 isFirstMessage = false;
             }
 
-            // 2. Append User Message
-            messagesArea.appendChild(createMessageBubble(text, true));
+            // Append User Message bubble directly inside display row
+            appendStaticMessageBubble(text, true);
             messageInput.value = '';
+            clearFilesList(); // Clear active processing stack visually
             
-            // Adjust scroll immediately after adding user message
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // 3. Append temporary "Thinking..." placeholder
-            const aiWrapper = createMessageBubble("Thinking...", false);
+            // Construct Thinking dynamic placeholder system components
+            const aiWrapper = document.createElement('div');
+            aiWrapper.className = `flex w-full fade-in justify-start`;
+            const aiBubble = document.createElement('div');
+            aiBubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm`;
+            aiBubble.innerText = "Thinking...";
+            aiWrapper.appendChild(aiBubble);
             messagesArea.appendChild(aiWrapper);
-            const aiBubble = aiWrapper.querySelector('div'); // Grab the inner bubble to swap text later
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 4. Fetch live data via our secure Vercel backend endpoint
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: text // Matches the { message } expected by chat.js
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`API Status Error: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`API Status Error: ${response.status}`);
 
                 const data = await response.json();
-                
-                // Extract text response from Gemini's JSON payload structure
                 const aiResponseText = data.candidates[0].content.parts[0].text;
                 
-                // Swap placeholder text with actual AI generation + clean up basic markdown syntax
-                aiBubble.innerHTML = aiResponseText
+                // Formulate target styles elements strings
+                const processedHtml = aiResponseText
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/\n/g, '<br>');
 
+                // Handover directly to character streaming compiler animation routine
+                streamAIResponseText(processedHtml, aiBubble);
+
             } catch (error) {
-                console.error("Gemini Connection Error:", error);
-                aiBubble.innerText = "Error: Failed to fetch a response. Check your Vercel logs and environment variables.";
+                console.error("Gemini Endpoint Mapping Error:", error);
+                aiBubble.innerText = "Error: Failed to fetch a response. Check your configurations.";
                 aiBubble.classList.add('text-red-500', 'border-red-200', 'bg-red-50');
             }
-
-            // Final push to scrollbar view bounding box
-            setTimeout(() => {
-                chatBox.scrollTo({
-                    top: chatBox.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 60);
         }
-        
+
+        // --- FIRESTORE PERSISTENCE DATA MATRIX SYNCHRONIZER ---
+        async function commitActiveSessionToFirestore() {
+            if(!currentUser) return;
+
+            // Deep extract actual structured message items array directly out of standard DOM DOM nodes arrays
+            const msgBubbles = messagesArea.children;
+            const messagesPayloadArray = [];
+            
+            let deducedTitle = "Untitled Session";
+
+            for(let k=0; k<msgBubbles.length; k++) {
+                const bubbleElement = msgBubbles[k].querySelector('div');
+                if(bubbleElement) {
+                    const isUserNode = msgBubbles[k].classList.contains('justify-end');
+                    const textVal = isUserNode ? bubbleElement.innerText : bubbleElement.innerHTML;
+                    
+                    messagesPayloadArray.push({
+                        role: isUserNode ? 'user' : 'model',
+                        text: textVal
+                    });
+
+                    if(isUserNode && deducedTitle === "Untitled Session") {
+                        deducedTitle = textVal.length > 26 ? textVal.substring(0, 25) + "..." : textVal;
+                    }
+                }
+            }
+
+            if(!activeChatId) {
+                // Initialize clean active collection session base document instance node reference mapping parameters
+                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
+                activeChatId = freshDocRef.id;
+                
+                await freshDocRef.set({
+                    title: deducedTitle,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: messagesPayloadArray
+                });
+            } else {
+                // Update downstream collection elements instances trace pointers tracking structural modifications maps
+                await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: messagesPayloadArray
+                });
+            }
+        }
 
         sendBtn.addEventListener('click', handleSend);
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSend();
         });
 
-        // --- NEW CHAT & HISTORY LOGIC ---
-        newChatBtn.addEventListener('click', () => {
-            if (!isFirstMessage) {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'group flex items-center justify-between p-3 rounded-xl hover:bg-white border border-transparent hover:border-slate-100 cursor-pointer transition-all duration-200 fade-in';
-                historyItem.innerHTML = `
-                    <div class="flex items-center gap-3 text-slate-600 overflow-hidden">
-                        <i class="fa-regular fa-message text-sm"></i>
-                        <span class="text-sm truncate">Chat Session ${chatCounter++}</span>
-                    </div>
-                    <button onclick="event.stopPropagation(); this.parentElement.remove()" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                `;
-                historyList.prepend(historyItem);
-            }
-
-            // Reset UI
-            messagesArea.innerHTML = '';
-            messagesArea.classList.add('hidden');
-            welcomeScreen.classList.remove('hidden');
-            
-            void welcomeScreen.offsetWidth; 
-            welcomeScreen.style.opacity = '1';
-            
-            isFirstMessage = true;
-        });
-
-        // --- MOBILE KEYBOARD AUTO-STICK ACCELERATOR ---
+        // --- MOBILE KEYBOARD VIEWPORT VISUAL ADJUSTER ---
         if (window.visualViewport) {
-            const chatInputWrapper = document.getElementById('chatInputWrapper');
-            const chatBoxEl = document.getElementById('chatBox');
-
             const adjustMobileLayout = () => {
-                if (window.innerWidth < 640) { // Target mobile viewports exclusively
+                if (window.innerWidth < 640) {
                     const keyboardOffset = window.innerHeight - window.visualViewport.height;
-                    
                     if (keyboardOffset > 0) {
-                        // Keyboard is visible -> push box up exactly above the keys
-                        chatInputWrapper.style.bottom = `${keyboardOffset}px`;
+                        inputWrapper.style.bottom = `${keyboardOffset}px`;
                     } else {
-                        // Keyboard is hidden -> return to normal state
-                        chatInputWrapper.style.bottom = '0px';
+                        inputWrapper.style.bottom = '0px';
                     }
-                    // Keep messages anchored to the bottom view
-                    chatBoxEl.scrollTop = chatBoxEl.scrollHeight;
+                    chatBox.scrollTop = chatBox.scrollHeight;
                 } else {
-                    chatInputWrapper.style.bottom = '0px';
+                    inputWrapper.style.bottom = '0px';
                 }
             };
 
             window.visualViewport.addEventListener('resize', adjustMobileLayout);
             window.visualViewport.addEventListener('scroll', adjustMobileLayout);
-            
-            // Re-verify alignment when users tap into the field
-            messageInput.addEventListener('focus', () => {
-                setTimeout(adjustMobileLayout, 50);
-            });
+            messageInput.addEventListener('focus', () => { setTimeout(adjustMobileLayout, 50); });
         }
-
     </script>
-    
 </body>
 </html>
