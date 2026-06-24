@@ -241,21 +241,28 @@
         let isFirstMessage = true;
         let isSidebarOpen = true;
 
-        // --- AUTH SESSION PROTECTION SECURITY GUARD WITH INITIALIZATION CHECK ---
-        let isAuthInitialized = false;
+        // --- BULLETPROOF AUTH GUARD ---
+        // Give Firebase up to 2 seconds to fetch the user token from local storage cache.
+        // If it finds a user, it clears the timer. If it definitely doesn't, it redirects.
+        let authRedirectTimeout = setTimeout(() => {
+            if (!auth.currentUser) {
+                console.log("No authenticated session found. Redirecting...");
+                window.location.href = 'index.html';
+            }
+        }, 2000);
 
         auth.onAuthStateChanged((user) => {
-            isAuthInitialized = true; // Firebase has now answered!
-            
             if (user) {
+                clearTimeout(authRedirectTimeout); // Stop the redirect timer immediately!
                 currentUser = user;
                 userGreeting.innerText = user.displayName ? `Hello, ${user.displayName.split(' ')[0]}` : 'Hello';
                 userAvatar.innerText = user.email ? user.email.charAt(0).toUpperCase() : 'U';
-                // Trigger live system listeners for personalized historical documents updates
                 subscribeToChatHistory();
             } else {
-                // ONLY redirect if Firebase finished loading AND there is definitely no user
-                window.location.href = 'index.html';
+                // If Firebase explicitly signs out or has initialized with nothing
+                if (!authRedirectTimeout) {
+                    window.location.href = 'index.html';
+                }
             }
         });
 
