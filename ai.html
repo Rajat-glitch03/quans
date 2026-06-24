@@ -13,7 +13,6 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase SDK Modules Compatibility Layer -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -53,12 +52,10 @@
 </head>
 <body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
-    <!-- File Input Layer -->
     <input type="file" id="systemMemoryInput" multiple class="hidden">
 
     <div id="mobileOverlay" class="fixed inset-0 z-40 hidden sidebar-overlay transition-opacity duration-300 sm:hidden"></div>
 
-    <!-- SIDEBAR WITH SLIDE MOTION EFFECTS -->
     <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transform transition-transform duration-300 ease-in-out translate-x-0">
         
         <div class="p-4 flex items-center justify-between sm:hidden border-b border-slate-100">
@@ -74,7 +71,6 @@
                 <span class="font-medium">New Chat</span>
             </button>
 
-            <!-- Search History Input Block -->
             <div class="relative flex items-center w-full bg-white border border-slate-200 rounded-full px-3.5 py-2 group focus-within:border-brand-blue transition-all duration-200">
                 <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs mr-2"></i>
                 <input type="text" id="historySearch" placeholder="Search chats..." class="w-full bg-transparent text-xs outline-none text-slate-700 placeholder-slate-400">
@@ -84,12 +80,10 @@
             </div>
         </div>
 
-        <!-- SCROLLABLE HISTORY PANEL CONTAINER -->
         <div class="flex-1 overflow-y-auto p-4 pt-0">
             <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider pl-2">History</h3>
             <div id="historyList" class="space-y-1 max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
-                <!-- Items are populated dynamically by Firestore stream listener loops -->
-            </div>
+                </div>
         </div>
 
         <div class="p-4 border-t border-slate-100 space-y-1.5">
@@ -111,7 +105,6 @@
 
     <main class="flex-1 flex flex-col relative min-w-0 bg-white h-full">
         
-        <!-- HEADER WITH IDENTITY ACCOUNT ACTION CONTROL DROPDOWN -->
         <header class="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-slate-100 bg-white/80 backdrop-blur-md z-40 sticky top-0">
             <div class="flex items-center gap-4">
                 <button id="toggleSidebarBtn" class="text-slate-400 hover:text-brand-blue text-xl transition-colors">
@@ -120,14 +113,12 @@
                 <a href="index.html" class="text-2xl font-black tracking-tighter text-brand-blue cursor-pointer">QUANS<span class="text-slate-900">.</span></a>
             </div>
             
-            <!-- Minimal Identity Account Row Layout -->
             <div class="relative">
                 <button id="userMenuBtn" class="flex items-center space-x-1.5 transition-all duration-200">
                     <span class="text-sm font-medium text-slate-700" id="userGreeting">Hello!</span>
                     <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                 </button>
 
-                <!-- Dropdown Menu Box -->
                 <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50">
                     <button id="logoutBtn" class="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 text-left transition-colors font-medium">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -149,11 +140,9 @@
             <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 mb-6 hidden"></div>
         </div>
 
-        <!-- FULLY PILL-CURVED INPUT WRAPPER BOX -->
         <div id="inputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
             <div class="max-w-3xl mx-auto relative flex flex-col bg-white border border-slate-200 rounded-full shadow-md focus-within:border-brand-blue focus-within:shadow-lg transition-all duration-300 px-6 py-1.5">
                 
-                <!-- Dynamic Local Document Upload Previews Panel -->
                 <div id="fileUploadPreviewArea" class="w-full flex flex-wrap gap-2 px-2 mt-2 empty:mt-0 empty:hidden"></div>
 
                 <div class="flex items-center w-full relative">
@@ -184,8 +173,8 @@
     <script>
         // --- INITIALIZE REAL-TIME CONFIG ---
         const firebaseConfig = {
-            // Replace with your exact working keys from index.html
-              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+            // Paste your exact working config block from index.html here!
+             apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
               authDomain: "quans-175a2.firebaseapp.com",
               projectId: "quans-175a2",
               storageBucket: "quans-175a2.firebasestorage.app",
@@ -242,7 +231,7 @@
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
-                userGreeting.innerText = `Hello!`;
+                userGreeting.innerText = "Hello!";
                 subscribeToChatHistory();
             } else {
                 console.log("No authenticated state detected by Firebase. Redirecting...");
@@ -306,7 +295,7 @@
         closeSidebarMobile.addEventListener('click', toggleSidebar);
         mobileOverlay.addEventListener('click', toggleSidebar);
 
-        // --- ATTACH POPUP & INLINE MULTIMEDIA FILE PREVIEW ENGINE ---
+        // --- ATTACH POPUP & TRUE VISUAL ASSET RENDERING PREVIEWS ---
         attachBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             attachPopup.classList.toggle('opacity-0');
@@ -328,7 +317,6 @@
                 const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                 const reader = new FileReader();
 
-                // Differentiate logic handling based on asset formats 
                 if (file.type.startsWith('image/')) {
                     reader.onload = function(event) {
                         uploadedFilesList.push({ id: fileId, name: file.name, type: 'image', dataUrl: event.target.result });
@@ -379,7 +367,7 @@
             fileUploadPreviewArea.innerHTML = '';
         }
 
-        // --- FIRESTORE HISTORY STREAM SUBSCRIPTION CONTROLS ---
+        // --- FIRESTORE HISTORY SUBSCRIPTION MANAGEMENT ---
         function subscribeToChatHistory() {
             if (!currentUser) return;
             
@@ -389,7 +377,7 @@
                   localChatsCache = [];
                   snapshot.forEach(doc => { localChatsCache.push({ id: doc.id, ...doc.data() }); });
                   renderHistoryItems(localChatsCache);
-              }, err => { console.error("Firestore sync link broken:", err); });
+              }, err => { console.error("Firestore snapshot sync error:", err); });
         }
 
         function renderHistoryItems(chats) {
@@ -478,7 +466,7 @@
             try {
                 await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).delete();
                 if(activeChatId === chatId) { resetWorkspaceUI(); }
-            } catch(e) { console.error("Deletion lifecycle failure:", e); }
+            } catch(e) { console.error("Deletion failure:", e); }
         };
 
         window.loadConversation = async function(chatId) {
@@ -507,7 +495,7 @@
                 }
                 setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 50);
                 if(window.innerWidth < 640) toggleSidebar();
-            } catch (err) { console.error("Payload sync error:", err); }
+            } catch (err) { console.error("Load conversation error:", err); }
         };
 
         function appendCustomStaticMessageBubble(htmlContent, isUser) {
@@ -547,7 +535,7 @@
 
         newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
 
-        // --- TYPEWRITER ENGINE ---
+        // --- TYPEWRITER CHARACTER STREAM ENGINE ---
         function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
             bubbleTargetElement.innerHTML = ''; 
             let i = 0;
@@ -601,7 +589,7 @@
             renderNextToken();
         }
 
-        // --- TRANSACTION CONTROL DISPATCH LOOP ---
+        // --- DISPATCH TRANSACTION SUBMISSION ENGINE (SEPARATES PREVIEW HTML FROM API STRINGS) ---
         async function handleSend() {
             let typedText = messageInput.value.trim();
             if (!typedText && uploadedFilesList.length === 0) return;
@@ -615,49 +603,54 @@
                 isFirstMessage = false;
             }
 
-            // Construct rendering HTML containing dynamic image preview frames inside the bubble row stream
             let userBubbleHTML = '';
-            let payloadTextContext = typedText;
+            let payloadTextContext = ''; 
 
             if (uploadedFilesList.length > 0) {
                 let visualRowHTML = '<div class="flex flex-wrap gap-2 mb-2">';
+                let attachmentsText = '';
+
                 uploadedFilesList.forEach(f => {
                     if(f.type === 'image') {
-                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-white/20 shadow-sm">`;
-                        payloadTextContext = `[Uploaded Image: ${f.name}] ` + payloadTextContext;
+                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-slate-200/50 shadow-sm">`;
+                        attachmentsText += `[Uploaded Image: ${f.name}] `;
                     } else {
-                        visualRowHTML += `<div class="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl text-xs font-medium"><i class="fa-solid fa-file-lines"></i><span>${f.name}</span></div>`;
-                        payloadTextContext = `[Uploaded Document: ${f.name}] ` + payloadTextContext;
+                        visualRowHTML += `<div class="flex items-center gap-2 bg-slate-100 text-slate-700 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200"><i class="fa-solid fa-file-lines text-brand-blue"></i><span>${f.name}</span></div>`;
+                        attachmentsText += `[Uploaded Document: ${f.name}] `;
                     }
                 });
+                
                 visualRowHTML += '</div>';
                 userBubbleHTML = visualRowHTML + (typedText ? `<div>${typedText}</div>` : '');
+                payloadTextContext = (attachmentsText + ' ' + typedText).trim();
             } else {
                 userBubbleHTML = `<div>${typedText}</div>`;
+                payloadTextContext = typedText;
             }
 
             appendCustomStaticMessageBubble(userBubbleHTML, true);
             messageInput.value = '';
             
-            // Clear current working files array reference
-            const operationalFilesCopy = [...uploadedFilesList];
             clearFilesList();
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // Establish active tracking record directly on first interaction point
+            // Instant Firestore Base Persistence Allocation Hook
             let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Image Interaction";
             if (!activeChatId && currentUser) {
-                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
-                activeChatId = freshDocRef.id;
-                await freshDocRef.set({
-                    title: deducedTitle,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    messages: [{ role: 'user', text: userBubbleHTML }]
-                });
+                try {
+                    const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
+                    activeChatId = freshDocRef.id;
+                    await freshDocRef.set({
+                        title: deducedTitle,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        messages: [{ role: 'user', text: userBubbleHTML }]
+                    });
+                } catch (e) {
+                    console.error("Initial history save fail:", e);
+                }
             }
 
-            // Placeholder generation row 
             const aiWrapper = document.createElement('div');
             aiWrapper.className = `flex w-full fade-in justify-start`;
             const aiBubble = document.createElement('div');
@@ -671,7 +664,7 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: payloadTextContext })
+                    body: JSON.stringify({ message: payloadTextContext }) // Sends clean text representation to backend
                 });
 
                 if (!response.ok) throw new Error(`API Error: ${response.status}`);
