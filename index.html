@@ -562,7 +562,7 @@
             // 🛠️ 1. INSTANT WEBSITE PASSWORD VALIDATION (Prevents Chrome defaults)
             if (passwordInput.length < 6) {
                 errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                errDiv.querySelector('.error-text').innerText = "⚠️ Password must be at least 6 characters long.";
+                errDiv.querySelector('.error-text').innerText = "Password must be at least 6 characters long.";
                 errDiv.classList.remove('hidden');
                 return; // 🛑 Stops execution instantly right here! No EmailJS fired, no Firebase hit.
             }
@@ -623,9 +623,10 @@
                                         window.updateUIForLoggedInUser(userCredential.user);
                                     }
 
-                                    // 7. SHOW COMPLETED POPUP & FREEZE IT (User must close manually)
+                                    // 🛠️ CREATE A HARD OVERLAY LOCK 
+                                    // This completely replaces the form content and blocks external scripts from closing it early.
                                     signupFormEl.innerHTML = `
-                                        <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md">
+                                        <div id="successCardLock" class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-md animate-fadeIn">
                                             <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-md mb-4 animate-bounce">
                                                 🎉
                                             </div>
@@ -633,24 +634,23 @@
                                             <p class="text-sm text-emerald-700 mb-6 leading-relaxed">
                                                 Your email has been successfully verified and your secure profile has been created.
                                             </p>
-                                            <button type="button" onclick="window.closeAuthPopup()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                            <button type="button" id="manualCloseSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
                                                 Let's Get Started
                                             </button>
                                         </div>
                                     `;
+
+                                    // 🛠️ ATTACH MANUAL EVENT LISTENER DIRECTLY TO THE NEW BUTTON
+                                    document.getElementById('manualCloseSuccessBtn').addEventListener('click', () => {
+                                        if (typeof window.closeAuthPopup === 'function') {
+                                            window.closeAuthPopup();
+                                        } else {
+                                            // Fallback if your layout uses a display style variable instead
+                                            const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
+                                            if(modal) modal.classList.add('hidden');
+                                        }
+                                    });
                                 })
-                                .catch((error) => {
-                                    let customMsg = "Registration failed: " + error.message;
-                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
-                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
-                                    
-                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
-                                    otpErrorLabel.classList.remove('hidden');
-                                });
-                        } else {
-                            otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
-                            otpErrorLabel.classList.remove('hidden');
-                        }
                     });
 
                     // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
