@@ -120,14 +120,11 @@
                 <a href="index.html" class="text-2xl font-black tracking-tighter text-brand-blue cursor-pointer">QUANS<span class="text-slate-900">.</span></a>
             </div>
             
-            <!-- Dynamic Authenticated Dropdown (Mirrors Index View Layer) -->
+            <!-- Minimal Identity Account Row Layout -->
             <div class="relative">
-                <button id="userMenuBtn" class="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 hover:bg-slate-100 transition-all duration-200">
-                    <div class="w-6 h-6 rounded-full bg-brand-blue text-white flex items-center justify-center text-xs font-bold" id="userAvatar">
-                        U
-                    </div>
-                    <span class="text-sm font-medium text-slate-700 hidden sm:inline" id="userGreeting">Hello</span>
-                    <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                <button id="userMenuBtn" class="flex items-center space-x-1.5 transition-all duration-200">
+                    <span class="text-sm font-medium text-slate-700" id="userGreeting">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                 </button>
 
                 <!-- Dropdown Menu Box -->
@@ -152,12 +149,12 @@
             <div id="messagesArea" class="max-w-3xl mx-auto flex flex-col space-y-6 mb-6 hidden"></div>
         </div>
 
-        <!-- INPUT ACTION PACK COMBINED BOX -->
+        <!-- FULLY PILL-CURVED INPUT WRAPPER BOX -->
         <div id="inputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-6 px-4 transition-[bottom] duration-100 ease-out z-30">
-            <div class="max-w-3xl mx-auto relative flex flex-col bg-white border-2 border-slate-100 rounded-3xl shadow-sm focus-within:border-brand-blue focus-within:shadow-md transition-all duration-300 px-4 py-2">
+            <div class="max-w-3xl mx-auto relative flex flex-col bg-white border border-slate-200 rounded-full shadow-md focus-within:border-brand-blue focus-within:shadow-lg transition-all duration-300 px-6 py-1.5">
                 
                 <!-- Dynamic Local Document Upload Previews Panel -->
-                <div id="fileUploadPreviewArea" class="w-full flex flex-wrap gap-2 mb-1.5 empty:hidden"></div>
+                <div id="fileUploadPreviewArea" class="w-full flex flex-wrap gap-2 px-2 mt-2 empty:mt-0 empty:hidden"></div>
 
                 <div class="flex items-center w-full relative">
                     <div id="attachPopup" class="absolute bottom-full left-0 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
@@ -172,7 +169,7 @@
                         <i class="fa-solid fa-plus text-xl"></i>
                     </button>
                     
-                    <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-4 pl-3 pr-14 outline-none text-slate-700 placeholder-slate-400 text-base">
+                    <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-3.5 pl-3 pr-14 outline-none text-slate-700 placeholder-slate-400 text-base">
                     
                     <button id="sendBtn" class="absolute right-0 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 shrink-0">
                         <i class="fa-solid fa-arrow-up text-sm"></i>
@@ -186,9 +183,15 @@
 
     <script>
         // --- INITIALIZE REAL-TIME CONFIG ---
-        // Copy initialized firebase instances config cleanly from index context environment
         const firebaseConfig = {
-              
+            // Replace with your exact working keys from index.html
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
         };
         
         if (!firebase.apps.length) {
@@ -226,7 +229,6 @@
         const userDropdown = document.getElementById('userDropdown');
         const logoutBtn = document.getElementById('logoutBtn');
         const userGreeting = document.getElementById('userGreeting');
-        const userAvatar = document.getElementById('userAvatar');
 
         // Global Application Context States
         let currentUser = null;
@@ -239,13 +241,10 @@
         // --- CLEAN AUTH GUARD STATE ENGINE ---
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // User is authenticated! Keep them on the page.
                 currentUser = user;
-                userGreeting.innerText = user.displayName ? `Hello, ${user.displayName.split(' ')[0]}` : 'Hello';
-                userAvatar.innerText = user.email ? user.email.charAt(0).toUpperCase() : 'U';
+                userGreeting.innerText = `Hello!`;
                 subscribeToChatHistory();
             } else {
-                // Firebase checked local cache and explicitly confirmed NO session exists.
                 console.log("No authenticated state detected by Firebase. Redirecting...");
                 window.location.href = 'index.html';
             }
@@ -265,7 +264,6 @@
             userDropdown.classList.add('translate-y-2');
         });
 
-        // Account Logout Trigger Action
         logoutBtn.addEventListener('click', async () => {
             try {
                 await auth.signOut();
@@ -277,7 +275,7 @@
 
         // --- SIDEBAR SLIDE ANIMATION ENGINE ---
         function toggleSidebar() {
-            if (window.innerWidth < 640) { // Mobile Viewports
+            if (window.innerWidth < 640) {
                 if (sidebar.classList.contains('-translate-x-full')) {
                     sidebar.classList.remove('-translate-x-full');
                     sidebar.classList.add('translate-x-0');
@@ -287,7 +285,7 @@
                     sidebar.classList.add('-translate-x-full');
                     mobileOverlay.classList.add('hidden');
                 }
-            } else { // Desktop Framework Systems
+            } else {
                 if(isSidebarOpen) {
                     sidebar.style.transform = 'translateX(-100%)';
                     sidebar.style.marginRight = `-${sidebar.offsetWidth}px`;
@@ -308,7 +306,7 @@
         closeSidebarMobile.addEventListener('click', toggleSidebar);
         mobileOverlay.addEventListener('click', toggleSidebar);
 
-        // --- ATTACH POPUP & LOCAL FILE PREVIEW TRACKER ---
+        // --- ATTACH POPUP & INLINE MULTIMEDIA FILE PREVIEW ENGINE ---
         attachBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             attachPopup.classList.toggle('opacity-0');
@@ -328,23 +326,47 @@
             const files = Array.from(e.target.files);
             files.forEach(file => {
                 const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                uploadedFilesList.push({ id: fileId, name: file.name, fileObj: file });
-                
-                // Append file notification card visually into input stack view 
-                const fileCard = document.createElement('div');
-                fileCard.id = fileId;
-                fileCard.className = 'flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium fade-in animate-[fadeIn_0.2s_ease-out]';
+                const reader = new FileReader();
+
+                // Differentiate logic handling based on asset formats 
+                if (file.type.startsWith('image/')) {
+                    reader.onload = function(event) {
+                        uploadedFilesList.push({ id: fileId, name: file.name, type: 'image', dataUrl: event.target.result });
+                        renderPreviewThumbnail(fileId, file.name, event.target.result, true);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    uploadedFilesList.push({ id: fileId, name: file.name, type: 'doc', dataUrl: null });
+                    renderPreviewThumbnail(fileId, file.name, null, false);
+                }
+            });
+            systemMemoryInput.value = '';
+        });
+
+        function renderPreviewThumbnail(id, name, dataUrl, isImage) {
+            const fileCard = document.createElement('div');
+            fileCard.id = id;
+            fileCard.className = 'relative flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 p-1.5 pr-8 rounded-xl text-xs font-medium fade-in';
+            
+            if (isImage) {
                 fileCard.innerHTML = `
-                    <i class="fa-solid fa-file-lines text-brand-blue"></i>
-                    <span class="max-w-[120px] truncate">${file.name}</span>
-                    <button type="button" onclick="removeUploadedFile('${fileId}')" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <img src="${dataUrl}" class="w-7 h-7 object-cover rounded-md border border-slate-200">
+                    <span class="max-w-[100px] truncate">${name}</span>
+                    <button type="button" onclick="removeUploadedFile('${id}')" class="absolute right-2 text-slate-400 hover:text-slate-600 transition-colors">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 `;
-                fileUploadPreviewArea.appendChild(fileCard);
-            });
-            systemMemoryInput.value = ''; // Reset core file pointer cache
-        });
+            } else {
+                fileCard.innerHTML = `
+                    <div class="w-7 h-7 bg-brand-light text-brand-blue rounded-md flex items-center justify-center shrink-0"><i class="fa-solid fa-file-lines"></i></div>
+                    <span class="max-w-[100px] truncate">${name}</span>
+                    <button type="button" onclick="removeUploadedFile('${id}')" class="absolute right-2 text-slate-400 hover:text-slate-600 transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+            }
+            fileUploadPreviewArea.appendChild(fileCard);
+        }
 
         window.removeUploadedFile = function(fileId) {
             uploadedFilesList = uploadedFilesList.filter(f => f.id !== fileId);
@@ -365,13 +387,9 @@
               .orderBy('updatedAt', 'desc')
               .onSnapshot((snapshot) => {
                   localChatsCache = [];
-                  snapshot.forEach(doc => {
-                      localChatsCache.push({ id: doc.id, ...doc.data() });
-                  });
+                  snapshot.forEach(doc => { localChatsCache.push({ id: doc.id, ...doc.data() }); });
                   renderHistoryItems(localChatsCache);
-              }, err => {
-                  console.error("Firestore sync link broken:", err);
-              });
+              }, err => { console.error("Firestore sync link broken:", err); });
         }
 
         function renderHistoryItems(chats) {
@@ -409,14 +427,11 @@
             });
         }
 
-        // --- HISTORY REAL-TIME SEARCH INDEX FILTER ---
         historySearch.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
             if (query.length > 0) {
                 clearSearchBtn.classList.remove('hidden');
-                const filtered = localChatsCache.filter(chat => 
-                    (chat.title && chat.title.toLowerCase().includes(query))
-                );
+                const filtered = localChatsCache.filter(chat => (chat.title && chat.title.toLowerCase().includes(query)));
                 renderHistoryItems(filtered);
             } else {
                 clearSearchBtn.classList.add('hidden');
@@ -430,61 +445,45 @@
             renderHistoryItems(localChatsCache);
         });
 
-        // --- IN-LINE RENAMING INTERACTION CHAIN ---
         window.triggerRenameInline = function(chatId) {
             const labelSpan = document.getElementById(`title_text_${chatId}`);
             const editInput = document.getElementById(`title_input_${chatId}`);
-            
             if(!labelSpan || !editInput) return;
 
             labelSpan.classList.add('hidden');
             editInput.classList.remove('hidden');
-            editInput.focus();
-            editInput.select();
+            editInput.focus(); editInput.select();
 
             const saveBlock = async () => {
                 const nextTitle = editInput.value.trim();
                 if(nextTitle && nextTitle !== labelSpan.innerText) {
                     labelSpan.innerText = nextTitle;
-                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).update({
-                        title: nextTitle
-                    });
+                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).update({ title: nextTitle });
                 }
-                labelSpan.classList.remove('hidden');
-                editInput.classList.add('hidden');
+                labelSpan.classList.remove('hidden'); editInput.classList.add('hidden');
             };
 
             editInput.onkeydown = (ev) => {
                 if(ev.key === 'Enter') { ev.preventDefault(); saveBlock(); }
                 if(ev.key === 'Escape') {
                     editInput.value = labelSpan.innerText;
-                    labelSpan.removeProperty ? labelSpan.removeProperty('class') : labelSpan.classList.remove('hidden');
-                    editInput.classList.add('hidden');
+                    labelSpan.classList.remove('hidden'); editInput.classList.add('hidden');
                 }
             };
-            
             editInput.onblur = saveBlock;
         };
 
-        // --- DELETE ROUTINE CONTEXT ---
         window.deleteConversation = async function(chatId) {
             if(!currentUser) return;
             try {
                 await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).delete();
-                if(activeChatId === chatId) {
-                    resetWorkspaceUI();
-                }
-            } catch(e) {
-                console.error("Deletion lifecycle failure error:", e);
-            }
+                if(activeChatId === chatId) { resetWorkspaceUI(); }
+            } catch(e) { console.error("Deletion lifecycle failure:", e); }
         };
 
-        // --- CONVERSATION VIEW PORTAL SYNC LAYERS ---
         window.loadConversation = async function(chatId) {
             if(!currentUser) return;
             activeChatId = chatId;
-            
-            // Re-render items mapping tracking active selection borders
             renderHistoryItems(localChatsCache);
 
             try {
@@ -501,37 +500,26 @@
                     isFirstMessage = false;
 
                     data.messages.forEach(msg => {
-                        appendStaticMessageBubble(msg.text, msg.role === 'user');
+                        appendCustomStaticMessageBubble(msg.text, msg.role === 'user');
                     });
                 } else {
                     resetWorkspaceUIKeepId(chatId);
                 }
-                
                 setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 50);
-                if(window.innerWidth < 640) toggleSidebar(); // auto dismiss mobile bars
-
-            } catch (err) {
-                console.error("Payload streaming failure trace:", err);
-            }
+                if(window.innerWidth < 640) toggleSidebar();
+            } catch (err) { console.error("Payload sync error:", err); }
         };
 
-        function appendStaticMessageBubble(text, isUser) {
+        function appendCustomStaticMessageBubble(htmlContent, isUser) {
             const wrapper = document.createElement('div');
             wrapper.className = `flex w-full fade-in ${isUser ? 'justify-end' : 'justify-start'}`;
             
             const bubble = document.createElement('div');
             bubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
-                isUser 
-                ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' 
-                : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
+                isUser ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
             }`;
             
-            if(isUser) {
-                bubble.innerText = text;
-            } else {
-                bubble.innerHTML = text;
-            }
-            
+            bubble.innerHTML = htmlContent;
             wrapper.appendChild(bubble);
             messagesArea.appendChild(wrapper);
         }
@@ -559,41 +547,34 @@
 
         newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
 
-        // --- TYPEWRITER CHARACTER STREAMING OUTPUT ENGINE ---
+        // --- TYPEWRITER ENGINE ---
         function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
             bubbleTargetElement.innerHTML = ''; 
-            
-            // Parsing loop to split string text token layers smoothly
             let i = 0;
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = rawHtmlText;
             const flatTokens = [];
             
-            // Extract DOM fragments safely to retain structure properties
             function segmentNode(node) {
                 if(node.nodeType === Node.TEXT_NODE) {
-                    const chars = node.nodeValue.split('');
-                    chars.forEach(c => flatTokens.push({ type: 'text', value: c }));
+                    node.nodeValue.split('').forEach(c => flatTokens.push({ type: 'text', value: c }));
                 } else if(node.nodeType === Node.ELEMENT_NODE) {
                     if(node.tagName === 'BR') {
                         flatTokens.push({ type: 'br' });
                     } else {
-                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase(), attrs: Array.from(node.attributes) });
                         Array.from(node.childNodes).forEach(segmentNode);
-                        flatTokens.push({ type: 'tag-end', tag: node.tagName.toLowerCase() });
+                        flatTokens.push({ type: 'tag-end' });
                     }
                 }
             }
-            
             Array.from(tempDiv.childNodes).forEach(segmentNode);
 
-            // Sequential intervals framework execution simulation layer
             let activeContainer = bubbleTargetElement;
             const elementStack = [];
 
             function renderNextToken() {
                 if(i >= flatTokens.length) {
-                    // Completed execution cycle stream -> commit tracking state to DB backend
                     commitActiveSessionToFirestore();
                     return;
                 }
@@ -605,34 +586,25 @@
                     activeContainer.appendChild(document.createElement('br'));
                 } else if(token.type === 'tag-start') {
                     const el = document.createElement(token.tag);
+                    token.attrs.forEach(attr => el.setAttribute(attr.name, attr.value));
                     activeContainer.appendChild(el);
                     elementStack.push(activeContainer);
                     activeContainer = el;
                 } else if(token.type === 'tag-end') {
-                    if(elementStack.length > 0) {
-                        activeContainer = elementStack.pop();
-                    }
+                    if(elementStack.length > 0) activeContainer = elementStack.pop();
                 }
 
                 i++;
                 chatBox.scrollTop = chatBox.scrollHeight;
-                // Controls response speed profile metrics (12ms increments)
-                setTimeout(renderNextToken, 12);
+                setTimeout(renderNextToken, 8);
             }
-
             renderNextToken();
         }
 
-        // --- SUBMIT COMPILATION CAPTURE LOGIC ---
+        // --- TRANSACTION CONTROL DISPATCH LOOP ---
         async function handleSend() {
-            let text = messageInput.value.trim();
-            if (!text && uploadedFilesList.length === 0) return;
-
-            // Handle Context Construction if document items are present
-            if(uploadedFilesList.length > 0) {
-                const attachmentsString = uploadedFilesList.map(f => `[Attached Document/Image Asset Context Reference: ${f.name}]`).join(' ');
-                text = `${attachmentsString} ${text}`.trim();
-            }
+            let typedText = messageInput.value.trim();
+            if (!typedText && uploadedFilesList.length === 0) return;
 
             if (isFirstMessage) {
                 welcomeScreen.style.opacity = '0';
@@ -643,14 +615,49 @@
                 isFirstMessage = false;
             }
 
-            // Append User Message bubble directly inside display row
-            appendStaticMessageBubble(text, true);
+            // Construct rendering HTML containing dynamic image preview frames inside the bubble row stream
+            let userBubbleHTML = '';
+            let payloadTextContext = typedText;
+
+            if (uploadedFilesList.length > 0) {
+                let visualRowHTML = '<div class="flex flex-wrap gap-2 mb-2">';
+                uploadedFilesList.forEach(f => {
+                    if(f.type === 'image') {
+                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-white/20 shadow-sm">`;
+                        payloadTextContext = `[Uploaded Image: ${f.name}] ` + payloadTextContext;
+                    } else {
+                        visualRowHTML += `<div class="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl text-xs font-medium"><i class="fa-solid fa-file-lines"></i><span>${f.name}</span></div>`;
+                        payloadTextContext = `[Uploaded Document: ${f.name}] ` + payloadTextContext;
+                    }
+                });
+                visualRowHTML += '</div>';
+                userBubbleHTML = visualRowHTML + (typedText ? `<div>${typedText}</div>` : '');
+            } else {
+                userBubbleHTML = `<div>${typedText}</div>`;
+            }
+
+            appendCustomStaticMessageBubble(userBubbleHTML, true);
             messageInput.value = '';
-            clearFilesList(); // Clear active processing stack visually
             
+            // Clear current working files array reference
+            const operationalFilesCopy = [...uploadedFilesList];
+            clearFilesList();
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            // Construct Thinking dynamic placeholder system components
+            // Establish active tracking record directly on first interaction point
+            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Image Interaction";
+            if (!activeChatId && currentUser) {
+                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
+                activeChatId = freshDocRef.id;
+                await freshDocRef.set({
+                    title: deducedTitle,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: [{ role: 'user', text: userBubbleHTML }]
+                });
+            }
+
+            // Placeholder generation row 
             const aiWrapper = document.createElement('div');
             aiWrapper.className = `flex w-full fade-in justify-start`;
             const aiBubble = document.createElement('div');
@@ -664,100 +671,65 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
+                    body: JSON.stringify({ message: payloadTextContext })
                 });
 
-                if (!response.ok) throw new Error(`API Status Error: ${response.status}`);
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
 
                 const data = await response.json();
                 const aiResponseText = data.candidates[0].content.parts[0].text;
                 
-                // Formulate target styles elements strings
                 const processedHtml = aiResponseText
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/\n/g, '<br>');
 
-                // Handover directly to character streaming compiler animation routine
                 streamAIResponseText(processedHtml, aiBubble);
 
             } catch (error) {
-                console.error("Gemini Endpoint Mapping Error:", error);
-                aiBubble.innerText = "Error: Failed to fetch a response. Check your configurations.";
+                console.error("Gemini Failure:", error);
+                aiBubble.innerText = "Error fetching response. Verify server links.";
                 aiBubble.classList.add('text-red-500', 'border-red-200', 'bg-red-50');
             }
         }
 
-        // --- FIRESTORE PERSISTENCE DATA MATRIX SYNCHRONIZER ---
         async function commitActiveSessionToFirestore() {
-            if(!currentUser) return;
+            if(!currentUser || !activeChatId) return;
 
-            // Deep extract actual structured message items array directly out of standard DOM DOM nodes arrays
             const msgBubbles = messagesArea.children;
             const messagesPayloadArray = [];
             
-            let deducedTitle = "Untitled Session";
-
             for(let k=0; k<msgBubbles.length; k++) {
                 const bubbleElement = msgBubbles[k].querySelector('div');
                 if(bubbleElement) {
                     const isUserNode = msgBubbles[k].classList.contains('justify-end');
-                    const textVal = isUserNode ? bubbleElement.innerText : bubbleElement.innerHTML;
-                    
                     messagesPayloadArray.push({
                         role: isUserNode ? 'user' : 'model',
-                        text: textVal
+                        text: bubbleElement.innerHTML
                     });
-
-                    if(isUserNode && deducedTitle === "Untitled Session") {
-                        deducedTitle = textVal.length > 26 ? textVal.substring(0, 25) + "..." : textVal;
-                    }
                 }
             }
 
-            if(!activeChatId) {
-                // Initialize clean active collection session base document instance node reference mapping parameters
-                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
-                activeChatId = freshDocRef.id;
-                
-                await freshDocRef.set({
-                    title: deducedTitle,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    messages: messagesPayloadArray
-                });
-            } else {
-                // Update downstream collection elements instances trace pointers tracking structural modifications maps
-                await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    messages: messagesPayloadArray
-                });
-            }
+            await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                messages: messagesPayloadArray
+            });
         }
 
         sendBtn.addEventListener('click', handleSend);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSend();
-        });
+        messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
 
-        // --- MOBILE KEYBOARD VIEWPORT VISUAL ADJUSTER ---
         if (window.visualViewport) {
             const adjustMobileLayout = () => {
                 if (window.innerWidth < 640) {
                     const keyboardOffset = window.innerHeight - window.visualViewport.height;
-                    if (keyboardOffset > 0) {
-                        inputWrapper.style.bottom = `${keyboardOffset}px`;
-                    } else {
-                        inputWrapper.style.bottom = '0px';
-                    }
+                    inputWrapper.style.bottom = keyboardOffset > 0 ? `${keyboardOffset}px` : '0px';
                     chatBox.scrollTop = chatBox.scrollHeight;
                 } else {
                     inputWrapper.style.bottom = '0px';
                 }
             };
-
             window.visualViewport.addEventListener('resize', adjustMobileLayout);
-            window.visualViewport.addEventListener('scroll', adjustMobileLayout);
             messageInput.addEventListener('focus', () => { setTimeout(adjustMobileLayout, 50); });
         }
     </script>
