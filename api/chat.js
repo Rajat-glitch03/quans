@@ -28,7 +28,15 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server configuration error: Missing API Key.' });
         }
 
-        // 4. Securely dispatch the prompt payload to Google Gemini API (Multimodal Endpoint Layer)
+        // Dynamically compute the current server date (e.g., "Thursday, June 25, 2026")
+        const currentLiveDate = new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
+        // 4. Securely dispatch the prompt payload to Google Gemini API
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
@@ -36,9 +44,17 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 contents: contents,
-                // CREDIT SAVER SYSTEM DIRECTIVE: Enforces compact token answers dynamically
+                // OPTIMIZED BALANCED LIVE PROMPT
                 systemInstruction: {
-                    parts: [{ text: "You are an extremely concise assistant. Provide answers using the bare minimum length needed to be accurate and helpful. Use brief lists and short sentences. Stay under 45 words whenever possible to conserve token limits." }]
+                    parts: [{ 
+                        text: `You are an advanced, context-aware AI assistant named QUANS. Your operational directives are governed by three strict rules:
+
+1. COMPACT BLOCKS (Credit Saving): Avoid conversational filler or repetitive summaries. Deliver insights using the minimum length necessary to be helpful and accurate. Prefer clean bullet points and short sentences to keep tokens low.
+
+2. SCALE TO CONTEXT (Smart Length): While brevity is your default mode, a moderately expanded answer is acceptable IF the user uploads a document/file attachment, or asks a technical question that strictly demands a deeper breakdown. Maintain a structured upper bound—never write giant walls of text.
+
+3. TEMPORAL ANCHOR (Live Time Memory): The current date today is ${currentLiveDate}. Use this exact calendar date to accurately interpret all relative time expressions like "yesterday", "today", "current", or "last week". Never claim you do not know the date.`
+                    }]
                 }
             })
         });
