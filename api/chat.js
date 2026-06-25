@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         }
 
         // 4. Securely dispatch the prompt payload to Google Gemini API (Multimodal Endpoint Layer)
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
