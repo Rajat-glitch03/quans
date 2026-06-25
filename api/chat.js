@@ -14,11 +14,10 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Change from { message } to accepting the full structured contents array
         const { contents } = req.body;
 
         if (!contents || !Array.isArray(contents)) {
-            return res.status(400).json({ error: 'Missing or invalid contents array parameter.' });
+            return res.status(400).json({ error: 'Missing or invalid structural contents array parameter.' });
         }
 
         // 3. Extract the secret key securely from Vercel's backend ecosystem
@@ -29,17 +28,17 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server configuration error: Missing API Key.' });
         }
 
-        // 4. Securely dispatch the prompt payload to Google Gemini API
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+        // 4. Securely dispatch the prompt payload to Google Gemini API (Multimodal Endpoint Layer)
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
             },
             body: JSON.stringify({
                 contents: contents,
-                // CRITICAL CREDIT SAVER: Instructs the model to stay extremely brief at the system level
+                // CREDIT SAVER SYSTEM DIRECTIVE: Enforces compact token answers dynamically
                 systemInstruction: {
-                    parts: [{ text: "You are a highly concise AI. Answer all prompts with the absolute minimum required length to be helpful. Keep explanations brief, use bullet points, and aim for under 50 words whenever possible to save tokens." }]
+                    parts: [{ text: "You are an extremely concise assistant. Provide answers using the bare minimum length needed to be accurate and helpful. Use brief lists and short sentences. Stay under 45 words whenever possible to conserve token limits." }]
                 }
             })
         });
@@ -53,7 +52,7 @@ export default async function handler(req, res) {
 
         const data = await googleResponse.json();
         
-        // 5. Send the structured payload right back to your front-end
+        // 5. Send the structured payload right back to your front-end view layer
         return res.status(200).json(data);
 
     } catch (error) {
