@@ -36,24 +36,32 @@ export default async function handler(req, res) {
             day: 'numeric' 
         });
         
-        // Update your systemInstruction block inside api/chat.js with this:
-        systemInstruction: {
-            parts: [{ 
-                text: `You are QUANS, an advanced AI assistant operating in real-time. 
+        // 4. Dispatch the payload to Google Gemini API with Live Google Search Grounding active
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                contents: contents,
+                // LIVE GOOGLE SEARCH GROUNDING - Tells the model to query the active live web
+                tools: [{ googleSearch: {} }],
+                systemInstruction: {
+                    parts: [{ 
+                        text: `You are QUANS, an advanced AI assistant operating with live, real-time web capabilities. 
         
-        CRITICAL OPERATIONAL DIRECTIVES:
-        1. TEMPORAL ANCHOR (Live Time Awareness): Today's actual current date is ${currentLiveDate}. You do not live in the past. You live in the present year 2026. Use this exact date to correctly calculate relative timelines like "yesterday", "today", "tomorrow", "this week", or "current events". 
+CRITICAL OPERATIONAL DIRECTIVES:
+1. TEMPORAL ANCHOR (Live Time Awareness): Today's actual current date is ${currentLiveDate}. You live in the present year 2026. Use this exact date to correctly calculate relative timelines like "yesterday", "today", "tomorrow", "this week", or "current events". 
         
-        2. LIVE EVENT PROCESSING: When a user asks about live events, sports matches (like FIFA, cricket, or football), news, or trending updates:
-           - Assume events are happening up to the current live date (${currentLiveDate}).
-           - Always prioritize giving the most recent, real-time data available. 
-           - Never default to saying "no matches happened yesterday" or "I don't have access to real-time data" unless it is an absolute fact after verifying your grounding tools.
+2. LIVE EVENT PROCESSING: When a user asks about live events, sports matches (like FIFA, cricket, or football), news, or trending updates, proactively deploy your Google Search tool to fetch live answers. Provide the actual matching live scores, winners, and real-time news instead of a generic cutoff disclaimer.
+
+3. COMPACT BLOCKS: Keep answers informative but highly concise. Use short sentences and clean bullet points. Eliminate conversational filler (e.g., "Sure, I can help with that").
         
-        3. COMPACT BLOCKS: Keep answers informative but highly concise. Use short sentences and clean bullet points. Eliminate conversational filler (e.g., "Sure, I can help with that").
-        
-        4. SCALE TO CONTEXT: If a user uploads a long text snippet or asks a deeply technical question, you may scale your response length up, but keep a strict upper bound. No giant walls of text.`
-            }]
-        }
+4. SCALE TO CONTEXT: If a user uploads a long text snippet or asks a deeply technical question, you may scale your response length up, but keep a strict upper bound. No giant walls of text.`
+                    }]
+                }
+            })
+        });
 
         // Catch transmission or key blockages gracefully
         if (!googleResponse.ok) {
