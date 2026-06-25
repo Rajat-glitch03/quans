@@ -602,7 +602,7 @@
             renderNextToken();
         }
 
-        // --- SAFE CONTEXT DISPATCH LOOP WITH STABLE ROW HEIGHT MATRIX ---
+        // --- TRANSACTION CONTROL DISPATCH LOOP ---
         async function handleSend() {
             let typedText = messageInput.value.trim();
             if (!typedText && uploadedFilesList.length === 0) return;
@@ -617,35 +617,50 @@
             }
 
             let userBubbleHTML = '';
-            let payloadTextContext = typedText;
+            
+            // Build the structured parts array for Gemini API compatibility
+            let apiParts = [];
+            if (typedText) {
+                apiParts.push({ text: typedText });
+            }
 
             if (uploadedFilesList.length > 0) {
                 let visualRowHTML = '<div class="flex flex-wrap gap-2 mb-2">';
-                let contextHeaderString = "";
-                
                 uploadedFilesList.forEach(f => {
                     if(f.type === 'image') {
-                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-slate-100 shadow-xs">`;
-                        contextHeaderString += `[Uploaded Image Content Asset Reference: ${f.name}]\n`;
+                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-white/20 shadow-sm">`;
+                        
+                        // Extract raw base64 data and pass as a true media block part
+                        const base64Data = f.dataUrl.split(',')[1];
+                        apiParts.push({
+                            inlineData: {
+                                mimeType: "image/jpeg", // Works universally for standard web image uploads
+                                data: base64Data
+                            }
+                        });
                     } else {
-                        visualRowHTML += `<div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl text-xs font-medium text-slate-700"><i class="fa-solid fa-file-lines text-brand-blue"></i><span>${f.name}</span></div>`;
-                        contextHeaderString += `[Uploaded Document Text Content context in filename: ${f.name}]:\n${f.content || ''}\n\n`;
+                        visualRowHTML += `<div class="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl text-xs font-medium"><i class="fa-solid fa-file-lines"></i><span>${f.name}</span></div>`;
+                        
+                        // Inject document text content as a strict text block context part
+                        apiParts.push({ text: `[Context Document: ${f.name}]\n${f.content || ''}` });
                     }
                 });
-                
                 visualRowHTML += '</div>';
                 userBubbleHTML = visualRowHTML + (typedText ? `<div>${typedText}</div>` : '');
-                payloadTextContext = contextHeaderString + typedText;
             } else {
                 userBubbleHTML = `<div>${typedText}</div>`;
             }
 
+            // Immediately push into tracking UI array
             appendCustomStaticMessageBubble(userBubbleHTML, true);
-            currentChatMessages.push({ role: 'user', text: userBubbleHTML });
+            
+            // Mirror the API structure to database logs
+            currentChatMessages.push({ role: 'user', parts: apiParts });
             messageInput.value = '';
             clearFilesList();
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
+            // Establish active tracking record cleanly BEFORE the fetch promise
             let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Document Message";
             if (!activeChatId && currentUser) {
                 const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
@@ -663,6 +678,7 @@
                 });
             }
 
+            // Placeholder generation row 
             const aiWrapper = document.createElement('div');
             aiWrapper.className = `flex w-full fade-in justify-start`;
             const aiBubble = document.createElement('div');
@@ -676,7 +692,8 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: payloadTextContext })
+                    // Send the full structural chat history setup natively
+                    body: JSON.stringify({ contents: currentChatMessages })
                 });
 
                 if (!response.ok) throw new Error(`API Error: ${response.status}`);
