@@ -53,10 +53,7 @@ CRITICAL OPERATIONAL DIRECTIVES:
 
 2. REAL-TIME TASKS & SPORTS: If a user asks about dynamic topics, real-time sports updates, or news (e.g., recent matches or live scores), provide the most accurate details available within your internal knowledge limits. Since you do not have external live tools active, do not say you don't know the date—instead, respond helpfully based on the 2026 timeline.
 
-3. COMPACT BLOCKS: Keep answers informative but highly concise. Use short sentences and clean bullet points. Eliminate conversational filler.
-
-4. MANDATORY DISCLAIMER NOTE: At the very end of your response, if you are answering questions about real-time events, sports, or live news, you MUST append this exact notice text line on a separate newline paragraph paragraph format exactly:
-*Note: If AI responses are not correct then visit google.*`
+3. COMPACT BLOCKS: Keep answers informative but highly concise. Use short sentences and clean bullet points. Eliminate conversational filler.`
                     }]
                 }
             })
