@@ -476,7 +476,21 @@
 
                 const data = snapshot.data();
                 messagesArea.innerHTML = '';
-                currentChatMessages = data.messages || [];
+                
+                // Raw history from database
+                const rawMessages = data.messages || [];
+                
+                // FIX: Standardize history messages into valid Gemini parts structure
+                currentChatMessages = rawMessages.map(msg => {
+                    if (msg.parts && Array.isArray(msg.parts)) {
+                        return msg; // Already in new format
+                    }
+                    // Convert old legacy text format on the fly
+                    return {
+                        role: msg.role === 'model' ? 'model' : 'user',
+                        parts: [{ text: msg.text || "" }]
+                    };
+                });
                 
                 if (currentChatMessages.length > 0) {
                     welcomeScreen.classList.add('hidden');
