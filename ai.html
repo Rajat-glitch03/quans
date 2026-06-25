@@ -52,8 +52,6 @@
 </head>
 <body class="bg-white text-slate-900 h-screen h-[100dvh] w-full flex overflow-hidden selection:bg-brand-blue selection:text-white fixed inset-0">
 
-    <input type="file" id="systemMemoryInput" multiple class="hidden">
-
     <div id="mobileOverlay" class="fixed inset-0 z-40 hidden sidebar-overlay transition-opacity duration-300 sm:hidden"></div>
 
     <aside id="sidebar" class="bg-slate-50 border-r border-slate-100 w-72 h-full flex flex-col fixed sm:relative z-50 transform transition-transform duration-300 ease-in-out translate-x-0">
@@ -140,29 +138,13 @@
         </div>
 
         <div id="inputWrapper" class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pt-4 pb-[calc(5rem+env(safe-area-inset-bottom))] sm:pb-5 px-4 transition-[bottom] duration-100 ease-out z-30">
-            <div class="max-w-3xl mx-auto relative flex flex-col bg-white border border-slate-200 rounded-2xl sm:rounded-full shadow-md focus-within:border-brand-blue focus-within:shadow-lg transition-all duration-300 px-4 sm:px-6 py-2">
+            <div class="max-w-3xl mx-auto relative flex items-center bg-white border border-slate-200 rounded-3xl shadow-md focus-within:border-brand-blue focus-within:shadow-lg transition-all duration-300 px-4 sm:px-6 py-2.5">
                 
-                <div id="fileUploadPreviewArea" class="w-full flex flex-wrap gap-2 max-h-24 overflow-y-auto px-1 mb-1.5 empty:mb-0 empty:hidden"></div>
-
-                <div class="flex items-center w-full relative">
-                    <div id="attachPopup" class="absolute bottom-full left-0 mb-4 bg-white border border-slate-100 shadow-2xl rounded-2xl p-1.5 opacity-0 pointer-events-none transform translate-y-2 transition-all duration-200 z-50 w-52">
-                        <button id="triggerMemorySearch" class="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl text-slate-600 hover:bg-brand-light hover:text-brand-blue text-sm font-medium transition-all duration-200 cursor-pointer">
-                            <i class="fa-solid fa-laptop-file text-base text-brand-blue"></i>
-                            <span>Upload from Device</span>
-                        </button>
-                        <div class="absolute -bottom-1 left-5 w-2 h-2 bg-white border-b border-r border-slate-100 transform rotate-45"></div>
-                    </div>
-
-                    <button id="attachBtn" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brand-blue hover:bg-brand-light rounded-full transition-colors shrink-0">
-                        <i class="fa-solid fa-plus text-xl"></i>
-                    </button>
-                    
-                    <input type="text" id="messageInput" placeholder="Message QUANS..." class="w-full bg-transparent py-2.5 pl-2 pr-12 outline-none text-slate-700 placeholder-slate-400 text-base">
-                    
-                    <button id="sendBtn" class="absolute right-0 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 shrink-0">
-                        <i class="fa-solid fa-arrow-up text-sm"></i>
-                    </button>
-                </div>
+                <textarea id="messageInput" placeholder="Message QUANS..." rows="1" class="w-full bg-transparent max-h-36 py-1 pl-1 pr-14 outline-none text-slate-700 placeholder-slate-400 text-base resize-none overflow-y-auto scrollbar-thin"></textarea>
+                
+                <button id="sendBtn" class="absolute right-3 bottom-2.5 w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center hover:bg-brand-hover shadow-sm transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shrink-0">
+                    <i id="sendBtnIcon" class="fa-solid fa-arrow-up text-sm"></i>
+                </button>
             </div>
             <p class="text-center text-[10px] text-slate-400 mt-2 font-medium">QUANS AI can make mistakes. Verify important information.</p>
         </div>
@@ -195,15 +177,10 @@
         
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
+        const sendBtnIcon = document.getElementById('sendBtnIcon');
         const welcomeScreen = document.getElementById('welcomeScreen');
         const messagesArea = document.getElementById('messagesArea');
         const chatBox = document.getElementById('chatBox');
-        
-        const attachBtn = document.getElementById('attachBtn');
-        const attachPopup = document.getElementById('attachPopup');
-        const triggerMemorySearch = document.getElementById('triggerMemorySearch');
-        const systemMemoryInput = document.getElementById('systemMemoryInput');
-        const fileUploadPreviewArea = document.getElementById('fileUploadPreviewArea');
         const inputWrapper = document.getElementById('inputWrapper');
         
         const newChatBtn = document.getElementById('newChatBtn');
@@ -220,10 +197,13 @@
         let currentUser = null;
         let activeChatId = null;
         let localChatsCache = [];
-        let uploadedFilesList = [];
         let currentChatMessages = []; 
         let isFirstMessage = true;
         let isSidebarOpen = true;
+
+        // Streaming Cancellation Interruption Token Control Flag
+        let isGenerationActive = false;
+        let shouldAbortCurrentStream = false;
 
         // --- CLEAN AUTH GUARD STATE ENGINE ---
         auth.onAuthStateChanged((user) => {
@@ -290,79 +270,11 @@
         closeSidebarMobile.addEventListener('click', toggleSidebar);
         mobileOverlay.addEventListener('click', toggleSidebar);
 
-        attachBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            attachPopup.classList.toggle('opacity-0');
-            attachPopup.classList.toggle('pointer-events-none');
-            attachPopup.classList.toggle('translate-y-2');
+        // Auto-Expanding Height Matrix Engine logic for elastic Textarea control
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
         });
-
-        document.addEventListener('click', () => {
-            attachPopup.classList.add('opacity-0');
-            attachPopup.classList.add('pointer-events-none');
-            attachPopup.classList.add('translate-y-2');
-        });
-
-        triggerMemorySearch.addEventListener('click', () => { systemMemoryInput.click(); });
-
-        systemMemoryInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            files.forEach(file => {
-                const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                const reader = new FileReader();
-
-                if (file.type.startsWith('image/')) {
-                    reader.onload = function(event) {
-                        uploadedFilesList.push({ id: fileId, name: file.name, type: 'image', dataUrl: event.target.result, mimeType: file.type });
-                        renderPreviewThumbnail(fileId, file.name, event.target.result, true);
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    reader.onload = function(event) {
-                        uploadedFilesList.push({ id: fileId, name: file.name, type: 'doc', content: event.target.result });
-                        renderPreviewThumbnail(fileId, file.name, null, false);
-                    };
-                    reader.readAsText(file);
-                }
-            });
-            systemMemoryInput.value = '';
-        });
-
-        function renderPreviewThumbnail(id, name, dataUrl, isImage) {
-            const fileCard = document.createElement('div');
-            fileCard.id = id;
-            fileCard.className = 'relative flex items-center gap-2 bg-slate-100 text-slate-700 p-1.5 pr-7 rounded-xl text-xs font-medium fade-in shrink-0';
-            
-            if (isImage) {
-                fileCard.innerHTML = `
-                    <img src="${dataUrl}" class="w-6 h-6 object-cover rounded border border-slate-200">
-                    <span class="max-w-[80px] truncate">${name}</span>
-                    <button type="button" onclick="removeUploadedFile('${id}')" class="absolute right-1.5 text-slate-400 hover:text-slate-600 transition-colors">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
-            } else {
-                fileCard.innerHTML = `
-                    <div class="w-6 h-6 bg-brand-light text-brand-blue rounded flex items-center justify-center shrink-0"><i class="fa-solid fa-file-lines text-[10px]"></i></div>
-                    <span class="max-w-[80px] truncate">${name}</span>
-                    <button type="button" onclick="removeUploadedFile('${id}')" class="absolute right-1.5 text-slate-400 hover:text-slate-600 transition-colors">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
-            }
-            fileUploadPreviewArea.appendChild(fileCard);
-        }
-
-        window.removeUploadedFile = function(fileId) {
-            uploadedFilesList = uploadedFilesList.filter(f => f.id !== fileId);
-            const cardElement = document.getElementById(fileId);
-            if(cardElement) cardElement.remove();
-        };
-
-        function clearFilesList() {
-            uploadedFilesList = [];
-            fileUploadPreviewArea.innerHTML = '';
-        }
 
         function subscribeToChatHistory() {
             if (!currentUser) return;
@@ -477,15 +389,9 @@
                 const data = snapshot.data();
                 messagesArea.innerHTML = '';
                 
-                // Raw history from database
                 const rawMessages = data.messages || [];
-                
-                // FIX: Standardize history messages into valid Gemini parts structure
                 currentChatMessages = rawMessages.map(msg => {
-                    if (msg.parts && Array.isArray(msg.parts)) {
-                        return msg; // Already in new format
-                    }
-                    // Convert old legacy text format on the fly
+                    if (msg.parts && Array.isArray(msg.parts)) return msg;
                     return {
                         role: msg.role === 'model' ? 'model' : 'user',
                         parts: [{ text: msg.text || "" }]
@@ -516,19 +422,90 @@
             } catch (err) { console.error(err); }
         };
 
+        // Static append wrapper with custom feedback tracking capability bindings
         function appendCustomStaticMessageBubble(htmlContent, isUser) {
             const wrapper = document.createElement('div');
-            wrapper.className = `flex w-full fade-in ${isUser ? 'justify-end' : 'justify-start'}`;
+            wrapper.className = `flex w-full fade-in flex-col ${isUser ? 'items-end' : 'items-start'}`;
             
+            const row = document.createElement('div');
+            row.className = `flex w-full ${isUser ? 'justify-end' : 'justify-start'}`;
+
             const bubble = document.createElement('div');
             bubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
                 isUser ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
             }`;
             
             bubble.innerHTML = htmlContent;
-            wrapper.appendChild(bubble);
+            row.appendChild(bubble);
+            wrapper.appendChild(row);
+
+            // Append Utility Feedback Toolbar Node for completed Model responses seamlessly
+            if (!isUser && !htmlContent.includes("Thinking...") && !htmlContent.includes("stopped by user") && !htmlContent.includes("Error fetching response")) {
+                const actionToolbar = document.createElement('div');
+                actionToolbar.className = 'flex items-center gap-3 mt-1.5 ml-3 text-slate-400 text-xs';
+                
+                // Pure clean text rendering parser computation for local clipboard integration
+                const cleanExtractText = bubble.innerText || bubble.textContent;
+
+                actionToolbar.innerHTML = `
+                    <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                    </button>
+                    <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                    </button>
+                    <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
+                        <i class="fa-regular fa-copy"></i>
+                        <span class="text-[10px] hidden font-medium">Copied!</span>
+                    </button>
+                `;
+                wrapper.appendChild(actionToolbar);
+            }
+
             messagesArea.appendChild(wrapper);
         }
+
+        // Action Feedback Element Handler Utility Controls
+        window.handleFeedbackClick = function(btnElement, feedbackType) {
+            const parent = btnElement.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            
+            if (feedbackType === 'like') {
+                const icon = btnElement.querySelector('i');
+                if (icon.classList.contains('fa-regular')) {
+                    icon.className = 'fa-solid fa-thumbs-up text-emerald-600';
+                    const dislikeIcon = buttons[1].querySelector('i');
+                    dislikeIcon.className = 'fa-regular fa-thumbs-down';
+                } else {
+                    icon.className = 'fa-regular fa-thumbs-up';
+                }
+            } else if (feedbackType === 'dislike') {
+                const icon = btnElement.querySelector('i');
+                if (icon.classList.contains('fa-regular')) {
+                    icon.className = 'fa-solid fa-thumbs-down text-rose-600';
+                    const likeIcon = buttons[0].querySelector('i');
+                    likeIcon.className = 'fa-regular fa-thumbs-up';
+                } else {
+                    icon.className = 'fa-regular fa-thumbs-down';
+                }
+            }
+        };
+
+        window.handleCopyClick = function(btnElement, textToCopy) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const statusSpan = btnElement.querySelector('span');
+                const copyIcon = btnElement.querySelector('i');
+                
+                if (statusSpan) {
+                    statusSpan.classList.remove('hidden');
+                    copyIcon.className = 'fa-solid fa-check text-brand-blue';
+                    setTimeout(() => {
+                        statusSpan.classList.add('hidden');
+                        copyIcon.className = 'fa-regular fa-copy';
+                    }, 2000);
+                }
+            }).catch(err => { console.error('Clipboard fault:', err); });
+        };
 
         function resetWorkspaceUI() {
             activeChatId = null;
@@ -538,7 +515,6 @@
             messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
             welcomeScreen.style.opacity = '1';
-            clearFilesList();
             renderHistoryItems(localChatsCache);
         }
 
@@ -550,7 +526,6 @@
             messagesArea.classList.add('hidden');
             welcomeScreen.classList.remove('hidden');
             welcomeScreen.style.opacity = '1';
-            clearFilesList();
         }
 
         newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
@@ -581,6 +556,12 @@
             const elementStack = [];
 
             async function renderNextToken() {
+                // If cancellation request intercepts loop cycle, interrupt execution immediately
+                if (shouldAbortCurrentStream) {
+                    finalizeGenerationControlUI();
+                    return;
+                }
+
                 if(i >= flatTokens.length) {
                     currentChatMessages.push({ role: 'model', parts: [{ text: rawHtmlText }] });
                     if(currentUser && activeChatId) {
@@ -588,6 +569,30 @@
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                             messages: currentChatMessages
                         });
+                    }
+                    
+                    // Injection of active feedback action items dynamically on successful loop completion
+                    finalizeGenerationControlUI();
+                    
+                    // Render action panel below model container wrapper node elements row
+                    const wrapperNode = bubbleTargetElement.closest('.flex-col');
+                    if (wrapperNode) {
+                        const cleanExtractText = bubbleTargetElement.innerText || bubbleTargetElement.textContent;
+                        const actionToolbar = document.createElement('div');
+                        actionToolbar.className = 'flex items-center gap-3 mt-1.5 ml-3 text-slate-400 text-xs';
+                        actionToolbar.innerHTML = `
+                            <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
+                                <i class="fa-regular fa-thumbs-up"></i>
+                            </button>
+                            <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
+                                <i class="fa-regular fa-thumbs-down"></i>
+                            </button>
+                            <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
+                                <i class="fa-regular fa-copy"></i>
+                                <span class="text-[10px] hidden font-medium">Copied!</span>
+                            </button>
+                        `;
+                        wrapperNode.appendChild(actionToolbar);
                     }
                     return;
                 }
@@ -614,9 +619,34 @@
             renderNextToken();
         }
 
+        // Toggle dispatch control wrapper setup layer resets 
+        function setGenerationUIVisualState(activeState) {
+            isGenerationActive = activeState;
+            if (activeState) {
+                sendBtn.classList.remove('bg-brand-blue', 'hover:bg-brand-hover');
+                sendBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                sendBtnIcon.className = 'fa-solid fa-square text-xs'; // Transition send arrow to square stop icon
+            } else {
+                sendBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                sendBtn.classList.add('bg-brand-blue', 'hover:bg-brand-hover');
+                sendBtnIcon.className = 'fa-solid fa-arrow-up text-sm';
+            }
+        }
+
+        function finalizeGenerationControlUI() {
+            setGenerationUIVisualState(false);
+            shouldAbortCurrentStream = false;
+        }
+
         async function handleSend() {
+            // Handle active execution loop interrupt requests safely
+            if (isGenerationActive) {
+                shouldAbortCurrentStream = true;
+                return;
+            }
+
             let typedText = messageInput.value.trim();
-            if (!typedText && uploadedFilesList.length === 0) return;
+            if (!typedText) return;
 
             if (isFirstMessage) {
                 welcomeScreen.style.opacity = '0';
@@ -627,43 +657,19 @@
                 isFirstMessage = false;
             }
 
-            let userBubbleHTML = '';
-            let apiParts = [];
-            
-            if (typedText) {
-                apiParts.push({ text: typedText });
-            }
-
-            if (uploadedFilesList.length > 0) {
-                let visualRowHTML = '<div class="flex flex-wrap gap-2 mb-2">';
-                uploadedFilesList.forEach(f => {
-                    if(f.type === 'image') {
-                        visualRowHTML += `<img src="${f.dataUrl}" class="max-w-[180px] max-h-[140px] object-cover rounded-xl border border-slate-100 shadow-xs">`;
-                        const base64Data = f.dataUrl.split(',')[1];
-                        apiParts.push({
-                            inlineData: {
-                                mimeType: f.mimeType || "image/jpeg",
-                                data: base64Data
-                            }
-                        });
-                    } else {
-                        visualRowHTML += `<div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl text-xs font-medium text-slate-700"><i class="fa-solid fa-file-lines text-brand-blue"></i><span>${f.name}</span></div>`;
-                        apiParts.push({ text: `[Context Document Attachment: ${f.name}]\n${f.content || ''}` });
-                    }
-                });
-                visualRowHTML += '</div>';
-                userBubbleHTML = visualRowHTML + (typedText ? `<div>${typedText}</div>` : '');
-            } else {
-                userBubbleHTML = `<div>${typedText}</div>`;
-            }
+            let userBubbleHTML = `<div>${typedText}</div>`;
+            let apiParts = [{ text: typedText }];
 
             appendCustomStaticMessageBubble(userBubbleHTML, true);
             currentChatMessages.push({ role: 'user', parts: apiParts });
+            
+            // Clear input metrics and revert elastic row height properties back to baseline state
             messageInput.value = '';
-            clearFilesList();
+            messageInput.style.height = 'auto';
+            
             setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
 
-            let deducedTitle = typedText ? (typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText) : "Document Attachment";
+            let deducedTitle = typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText;
             if (!activeChatId && currentUser) {
                 const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
                 activeChatId = freshDocRef.id;
@@ -681,20 +687,38 @@
             }
 
             const aiWrapper = document.createElement('div');
-            aiWrapper.className = `flex w-full fade-in justify-start`;
+            aiWrapper.className = `flex w-full fade-in flex-col items-start`;
+            
+            const aiRow = document.createElement('div');
+            aiRow.className = `flex w-full justify-start`;
+
             const aiBubble = document.createElement('div');
             aiBubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm`;
             aiBubble.innerText = "Thinking...";
-            aiWrapper.appendChild(aiBubble);
+            
+            aiRow.appendChild(aiBubble);
+            aiWrapper.appendChild(aiRow);
             messagesArea.appendChild(aiWrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
 
+            // Trigger generation sequence locks
+            setGenerationUIVisualState(true);
+
             try {
+                // Return immediate break checkpoint verification check
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
+
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: currentChatMessages })
                 });
+
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
 
                 if (!response.ok) throw new Error(`API Error: ${response.status}`);
 
@@ -706,15 +730,29 @@
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/\n/g, '<br>');
 
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
+
                 streamAIResponseText(processedHtml, aiBubble);
 
             } catch (error) {
                 console.error(error);
-                const errorMarkup = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
-                aiBubble.innerHTML = errorMarkup;
-                aiBubble.classList.add('border-red-200', 'bg-red-50');
-                
-                currentChatMessages.push({ role: 'model', parts: [{ text: errorMarkup }] });
+                finalizeGenerationControlUI();
+
+                if (error.name === 'AbortError' || shouldAbortCurrentStream) {
+                    const cancellationMarkup = `<span class="text-rose-500 font-medium"><i class="fa-solid fa-circle-stop mr-1.5"></i>response stopped by user</span>`;
+                    aiBubble.innerHTML = cancellationMarkup;
+                    aiBubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm border border-rose-100 bg-rose-50 rounded-3xl rounded-bl-sm`;
+                    
+                    currentChatMessages.push({ role: 'model', parts: [{ text: "response stopped by user" }] });
+                } else {
+                    const errorMarkup = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
+                    aiBubble.innerHTML = errorMarkup;
+                    aiBubble.classList.add('border-red-200', 'bg-red-50');
+                    currentChatMessages.push({ role: 'model', parts: [{ text: errorMarkup }] });
+                }
+
                 if(currentUser && activeChatId) {
                     await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -725,7 +763,14 @@
         }
 
         sendBtn.addEventListener('click', handleSend);
-        messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        
+        // Prevent multi-row newline processing breaking keydown submit actions on Desktop layouts
+        messageInput.addEventListener('keydown', (e) => { 
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                handleSend(); 
+            } 
+        });
 
         // --- PASSWORD VISIBILITY TOGGLE ENGINE ---
         const togglePasswordBtn = document.getElementById('togglePasswordBtn');
