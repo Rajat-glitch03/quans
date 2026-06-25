@@ -14,10 +14,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message } = req.body;
+        // Change from { message } to accepting the full structured contents array
+        const { contents } = req.body;
 
-        if (!message) {
-            return res.status(400).json({ error: 'Missing message body parameter.' });
+        if (!contents || !Array.isArray(contents)) {
+            return res.status(400).json({ error: 'Missing or invalid contents array parameter.' });
         }
 
         // 3. Extract the secret key securely from Vercel's backend ecosystem
@@ -35,9 +36,11 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json' 
             },
             body: JSON.stringify({
-                contents: [{ 
-                    parts: [{ text: message }] 
-                }]
+                contents: contents,
+                // CRITICAL CREDIT SAVER: Instructs the model to stay extremely brief at the system level
+                systemInstruction: {
+                    parts: [{ text: "You are a highly concise AI. Answer all prompts with the absolute minimum required length to be helpful. Keep explanations brief, use bullet points, and aim for under 50 words whenever possible to save tokens." }]
+                }
             })
         });
 
@@ -50,7 +53,7 @@ export default async function handler(req, res) {
 
         const data = await googleResponse.json();
         
-        // 5. Send the structured payload right back to your index.html front-end
+        // 5. Send the structured payload right back to your front-end
         return res.status(200).json(data);
 
     } catch (error) {
