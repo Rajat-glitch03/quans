@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | Social Content Generator</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dist/output.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,24 +16,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-    <style>
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: #FFFFFF;
-        }
-        .scrollbar-none::-webkit-scrollbar { display: none; }
-        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Smooth Mobile Sidebar Animation Transitions */
-        .sidebar-overlay-active {
-            opacity: 1 !important;
-            pointer-events: auto !important;
-        }
-        .sidebar-panel-active {
-            transform: translateX(0) !important;
-        }
-    </style>
 </head>
 <body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
@@ -232,16 +214,6 @@
     </div>
 
     <script>
-        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
-                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
-                }
-            }
-        };
-
         // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
               apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
@@ -313,17 +285,14 @@
                 const optionItems = root.querySelectorAll('.option-item');
                 const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
 
-                // Toggle menu on click
                 triggerBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    // Close all other dropdown menus first
                     document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
                         if (menu !== optionsMenu) menu.classList.add('hidden');
                     });
                     optionsMenu.classList.toggle('hidden');
                 });
 
-                // Option selection handler logic
                 optionItems.forEach(item => {
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -335,13 +304,11 @@
                 });
             });
 
-            // Global click capture hook layer to dismiss floating dropdown elements instantly
             document.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
             });
         }
 
-        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
         function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
             const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
             if (rootTargetNode) {
@@ -368,7 +335,6 @@
             }
         });
 
-        // Dropdown User profile overlay interaction handlers
         profileTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileDropdownMenu.classList.toggle('hidden');
@@ -379,7 +345,6 @@
             auth.signOut().catch(err => console.error("Signout error:", err));
         });
 
-        // Desktop Dropup Component Event Layout Toggles handlers
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
@@ -391,7 +356,6 @@
             desktopDropupIcon.style.transform = "rotate(0deg)";
         });
 
-        // Mobile Sidebar Drawer Actions Controls Interface Implementations
         mobileDrawerOpenBtn.addEventListener('click', () => {
             mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
             mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
@@ -404,7 +368,6 @@
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
             const rawCopyStringContextValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
             navigator.clipboard.writeText(rawCopyStringContextValueText).then(() => {
@@ -413,7 +376,6 @@
             }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
         });
 
-        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
         function syncGenerationsRealtimeDatabaseStack() {
             if (!currentUserObject) return;
 
@@ -428,7 +390,6 @@
               }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
-        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
         function renderGenerationsListCanvasDOM() {
             const filteredArray = generationLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
@@ -473,7 +434,6 @@
             mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
-        // Interactive Key Ingestion Stream Handlers
         desktopHistorySearchBox.addEventListener('input', (e) => {
             globalActiveSearchQueryToken = e.target.value;
             renderGenerationsListCanvasDOM();
@@ -483,7 +443,6 @@
             renderGenerationsListCanvasDOM();
         });
 
-        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
         async function renameGenerationDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
             try {
@@ -500,12 +459,10 @@
             } catch(err) { console.error("Deletion transaction execution rollback:", err); }
         }
 
-        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
         function loadArchivedItemToWorkspace(docId) {
             const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
             if (!targetingMatchNode) return;
 
-            // Fluid state synchronizations over our custom dropdown components
             topicInputField.value = targetingMatchNode.promptInput || "";
             updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
             updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
@@ -634,7 +591,6 @@
                 
                 const rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
                 
-                // Write generated content record down to Firestore instantly if signed in
                 if(currentUserObject) {
                     const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
                     await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
