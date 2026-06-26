@@ -1,316 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Free Business Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>QUANS | Social Content Generator</title>
     
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          // paste your real public key string here
-          emailjs.init("XsUxpZC5-ZTRy_7bd");
-       })();
-    </script>
+    <!-- Firebase Compatibility SDK Matrix -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
             background-color: #FFFFFF;
         }
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-            opacity: 0;
-            transform: translateY(10px);
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth Mobile Sidebar Animation Transitions */
+        .sidebar-overlay-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
         }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .delay-1 { animation-delay: 0.05s; }
-        .delay-2 { animation-delay: 0.1s; }
-        .delay-3 { animation-delay: 0.15s; }
-
-        /* Custom Scrollbar for login and signup modals only */
-        #authModal .relative::-webkit-scrollbar,
-        #loginModal .relative::-webkit-scrollbar {
-            width: 6px;
-        }
-        #authModal .relative::-webkit-scrollbar-track,
-        #loginModal .relative::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        #authModal .relative::-webkit-scrollbar-thumb,
-        #loginModal .relative::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
-            border-radius: 10px;
-        }
-        #authModal .relative::-webkit-scrollbar-thumb:hover,
-        #loginModal .relative::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8;
-        }
-        #authModal .relative,
-        #loginModal .relative {
-            scrollbar-width: thin;
-            scrollbar-color: #CBD5E1 transparent;
+        .sidebar-panel-active {
+            transform: translateX(0) !important;
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
+<body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+    <!-- NAVIGATION HEADER BAR -->
+    <header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
+        <!-- Left Wing: Home Redirect Element -->
         <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+            <a href="index.html" class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                <span class="hidden sm:inline">Home</span>
+            </a>
         </div>
 
-        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                Contact Us
-            </a>
-            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                Pricing
-            </a>
+        <!-- Center Wing: Main Title Context -->
+        <div class="text-center">
+            <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">Content Generator</h1>
         </div>
-        
-        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
-            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
-                Login
-            </button>
-            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
-                Signup
-            </button>
-            
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
+
+        <!-- Right Wing: Clean Action Target Intersections -->
+        <div class="flex items-center gap-2">
+            <!-- Profile Identity Card Container -->
+            <div class="relative" id="profileDropdownRoot">
+                <button id="profileTriggerBtn" class="flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-full hover:bg-slate-50 transition-all cursor-pointer bg-white shadow-xs">
+                    <span id="userHelloDisplay" class="text-xs font-bold text-slate-700">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
+                </button>
+                
+                <!-- Account Profile Dropdown Container -->
+                <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-xl py-1 z-50">
+                    <button id="logoutActionBtn" class="w-full px-3 py-2 text-left text-xs text-rose-500 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout Account</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile History Toggle Trigger Button (Placed cleanly AFTER the profile button) -->
+            <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                <i class="fa-solid fa-clock-history text-xs"></i>
             </button>
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
+    <!-- MAIN CORE CONTENT ENGINE FRAME WORKSPACE CONTAINER -->
+    <main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
         
-        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
-            Explore number of <span class="text-brand-blue">tools.</span>
-        </h1>
-        
-        <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
-            Use these tools for free. Not the tool you want? 
-            <a href="contact.html" class="text-brand-blue font-semibold hover:underline decoration-2 underline-offset-4">Contact Us</a> 
-            with the idea of a tool. We will generate it. We need your feedback!
-        </p>
+        <!-- MODULE COLUMN 1: INTERACTIVE SELECTION INTERFACE PANEL -->
+        <section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 max-h-[45vh] md:max-h-full">
+            <div class="space-y-4 flex-1">
+                <!-- User Entry Text Block -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
+                    <textarea id="topicInputField" rows="3" placeholder="Paste structural text details, blogs, ideas, or brief notes here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                </div>
 
-        <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 1 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Config Menu Block: Platform Target Selection -->
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">LinkedIn</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
+                        </div>
+                    </div>
+                    <!-- Config Menu Block: Tone Profiles Setup -->
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Professional</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
-                <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 2 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Config Menu Block: Target Audience Selection Profile -->
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Developers</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
+                        </div>
+                    </div>
+                    <!-- Config Menu Block: Campaign Goal Metric Core Profile -->
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Get comments</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 3 -->
+                <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+                    <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                        <span class="selected-display-value truncate">Short</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                    </button>
+                    <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
+                    </div>
+                </div>
+
+                <!-- Interactive Call-To-Action Custom Toggle Switch Element -->
+                <div class="flex items-center gap-2.5 pt-1">
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
+                        <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Main Generation Dispatch Submit Trigger Button -->
+            <button id="generationTriggerBtn" class="w-full mt-4 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm">
+                <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
+                <span>Generate Content</span>
             </button>
+        </section>
 
-            <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-brands fa-linkedin-in"></i>
+        <!-- MODULE COLUMN 2: WORKSPACE RUNTIME CODE TEXT DISPLAY SCREEN -->
+        <section class="flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[40vh] md:min-h-0">
+            <!-- Dynamic Subheader Status Bar Navigation Interface -->
+            <div class="h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
+                    <span id="statusLabelIndicator" class="text-[10px] font-bold text-slate-500 truncate">Workspace idle. Awaiting configuration input variables.</span>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Social Media Content Generator</h3>
-                <p class="text-slate-500 font-medium">Generate content in seconds.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
+                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
+                    <i class="fa-regular fa-copy"></i>
+                    <span id="copyBtnLabelText">Copy Post</span>
+                </button>
+            </div>
 
-            <button data-tool="idea-validator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-rocket"></i>
+            <!-- Core Canvas Rendering Frame -->
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
+                <!-- Static Fallback Instruction View Block -->
+                <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
+                    <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-base text-slate-400 border border-slate-100 mb-2.5">
+                        <i class="fa-solid fa-rectangle-list"></i>
+                    </div>
+                    <p class="text-[11px] font-medium leading-relaxed">Your generated social blueprint will render inside this interactive scroll block container frame in real-time.</p>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Content Repurposer</h3>
-                <p class="text-slate-500 font-medium">Turn blogs, video, etc in multiplt platform format.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
+                <!-- Dynamic Content Insertion Box Targeting -->
+                <div id="contentRendererDisplayBlock" class="hidden w-full h-full text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
+            </div>
 
-            <button data-tool="outreach-personalizer" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-envelope-open-text"></i>
+            <!-- DESKTOP FLOATING HISTORY DRAWER BLOCK INTERFACE ANCHOR NODE -->
+            <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
+                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
+                    <i class="fa-solid fa-folder-open text-[11px]"></i>
+                    <span>Your Generations</span>
+                    <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
+                </button>
+                
+                <!-- Expanded Desktop Log Container Element Drawer Frame -->
+                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
+                    <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
+                        <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
+                        <div class="relative">
+                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive logs..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+                    <!-- Iterative Render Mount Block Node Target Box -->
+                    <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Landing Page Analyzer</h3>
-                <p class="text-slate-500 font-medium">Paste website → get feedback..</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
-
-        </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
-        <p>&copy; 2026 QUANS. All rights reserved.</p>
-    </footer>
-
-    <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
-                    <i class="fa-solid fa-xmark text-base"></i>
+    <!-- MOBILE DRAWER MODAL OVERLAY WRAPPER LAYER (SLIDES CLEANLY FROM THE RIGHT SIDE) -->
+    <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
+        <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
+            <!-- Sidebar Navigation Node Element Header Context -->
+            <div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
+                <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
+                    <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Contact Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Pricing</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
+            <!-- Search Text Field Node Injection Container Component -->
+            <div class="p-3 bg-white border-b border-slate-100 shrink-0">
+                <div class="relative">
+                    <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+                </div>
             </div>
-            <div class="text-xs text-slate-400 font-medium tracking-tight">
-                &copy; 2026 QUANS Inc.
-            </div>
+            <!-- Interactive Collection Target Mount Wrapper View Node Frame -->
+            <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
         </div>
     </div>
 
-    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
-            
-            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Signup with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
-            </div>
-            
-            <form id="signupForm" class="space-y-4 text-left">
-                <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                        <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
-                    Sign Up
-                </button>
-            </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
-                Already a user? 
-                <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2">Login</button>
-            </p>
-        </div>
-    </div>
-
-    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
-            
-            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Sign in with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
-            </div>
-            
-            <form id="loginForm" class="space-y-4 text-left">
-                <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                        <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <a id="forgotPasswordLink" class="cursor-pointer text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
-                    Log In
-                </button>
-            </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
-                Don't have an account? 
-                <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2">Signup</button>
-            </p>
-        </div>
-    </div>
-
+    <!-- MAIN CONTROL CORE BUSINESS INFRASTRUCTURE APP LOGIC EXECUTIONS -->
     <script>
+        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
                 extend: {
@@ -318,656 +276,424 @@
                     colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
                 }
             }
-        }
-
-        const authModal = document.getElementById('authModal');
-        const loginModal = document.getElementById('loginModal');
-        window.userIsAuthenticated = false;
-
-        function clearAllErrors() {
-            const loginErr = document.getElementById('loginErrorMsg');
-            const signupErr = document.getElementById('signupErrorMsg');
-            if (loginErr) loginErr.classList.add('hidden');
-            if (signupErr) signupErr.classList.add('hidden');
-        }
-
-        function resetFormInputs() {
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
-            if (loginForm) loginForm.reset();
-            if (signupForm) signupForm.reset();
-        }
-
-        window.openAuthPopup = function(e) {
-            if (e) { e.preventDefault(); e.stopPropagation(); }
-            if (window.userIsAuthenticated) return;
-            clearAllErrors();
-            resetFormInputs();
-            window.closeLoginPopup();
-            authModal.classList.remove('opacity-0', 'pointer-events-none');
-            authModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
-        }
-
-        window.closeAuthPopup = function() {
-            authModal.classList.add('opacity-0', 'pointer-events-none');
-            authModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
-            resetFormInputs();
-        }
-
-        window.openLoginPopup = function(e) {
-            if (e) { e.preventDefault(); e.stopPropagation(); }
-            if (window.userIsAuthenticated) return;
-            clearAllErrors();
-            resetFormInputs();
-            window.closeAuthPopup();
-            loginModal.classList.remove('opacity-0', 'pointer-events-none');
-            loginModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
-        }
-
-        window.closeLoginPopup = function() {
-            loginModal.classList.add('opacity-0', 'pointer-events-none');
-            loginModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
-            resetFormInputs();
-        }
-
-        document.getElementById('closeAuthModal').addEventListener('click', window.closeAuthPopup);
-        document.getElementById('authModalOverlay').addEventListener('click', window.closeAuthPopup);
-        document.getElementById('closeLoginModal').addEventListener('click', window.closeLoginPopup);
-        document.getElementById('loginModalOverlay').addEventListener('click', window.closeLoginPopup);
-
-        document.querySelectorAll('.tool-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                if (window.userIsAuthenticated) {
-                    const tool = button.getAttribute('data-tool');
-                    if (tool === 'ai-assistant') {
-                        window.location.href = 'ai.html';
-                    } else if (tool === 'social-generator'){
-                        window.location.href = 'social.html'
-                    } else {
-                        window.location.href = `tools/${tool}.html`;
-                    }
-                } else {
-                    window.openAuthPopup(e);
-                }
-            });
-        });
-
-        const setupToggle = (btn, input, icon) => {
-            btn.addEventListener('click', () => {
-                const isPass = input.type === 'password';
-                input.type = isPass ? 'text' : 'password';
-                icon.classList.replace(isPass ? 'fa-eye' : 'fa-eye-slash', isPass ? 'fa-eye-slash' : 'fa-eye');
-            });
-        };
-        setupToggle(document.getElementById('toggleLoginPassword'), document.getElementById('loginPasswordInput'), document.getElementById('eyeIcon'));
-        setupToggle(document.getElementById('toggleSignupPassword'), document.getElementById('signupPasswordInput'), document.getElementById('signupEyeIcon'));
-
-        document.getElementById('switchToSignup').addEventListener('click', () => window.openAuthPopup());
-        document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
-
-        const mobileSidebar = document.getElementById('mobileSidebar');
-        const sidebarPanel = mobileSidebar.querySelector('.transform');
-        
-        const toggleSidebar = (open) => {
-            if (open) {
-                mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
-                sidebarPanel.classList.remove('translate-x-full');
-            } else {
-                mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
-                sidebarPanel.classList.add('translate-x-full');
-            }
         };
 
-        // Global dropdown toggle handler
-        window.toggleUserDropdown = function(e) {
-            if (e) { e.stopPropagation(); }
-            const menu = document.getElementById('userDropdownMenu');
-            if(menu) menu.classList.toggle('hidden');
-        }
-
-        // Single global click handler managing sidebar delegation and user dropdown closing
-        document.addEventListener('click', (e) => {
-            // Sidebar logic: works even if Firebase rerenders the parent container
-            if (e.target.closest('#openMobileMenu')) {
-                toggleSidebar(true);
-            } else if (e.target.closest('#closeMobileMenu') || e.target.closest('#sidebarOverlay')) {
-                toggleSidebar(false);
-            }
-
-            // Dropdown logic: closes user dropdown menu when clicking outside
-            const menu = document.getElementById('userDropdownMenu');
-            if (menu && !menu.classList.contains('hidden')) {
-                menu.classList.add('hidden');
-            }
-        });
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            signInWithPopup, 
-            GoogleAuthProvider, 
-            onAuthStateChanged,
-            signOut,
-            sendEmailVerification,
-            sendPasswordResetEmail
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
-              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
-              authDomain: "quans-175a2.firebaseapp.com",
-              projectId: "quans-175a2",
-              storageBucket: "quans-175a2.firebasestorage.app",
-              messagingSenderId: "221298439204",
-              appId: "1:221298439204:web:47b39c005411c979ca54b1",
-              measurementId: "G-J6EZ37W65Y"
+            apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+            authDomain: "quans-175a2.firebaseapp.com",
+            projectId: "quans-175a2",
+            storageBucket: "quans-175a2.firebasestorage.app",
+            messagingSenderId: "221298439204",
+            appId: "1:221298439204:web:47b39c005411c979ca54b1"
+        };
+        
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Runtime Global Variable Registration Parameter State Mapping Objects
+        let currentUserObject = null;
+        let generationLogsCacheArray = [];
+        let globalActiveSearchQueryToken = "";
+
+        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
+        const activeFormStateModel = {
+            platform: "LinkedIn",
+            tone: "Professional",
+            audience: "Developers",
+            goal: "Get comments",
+            length: "Short"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const googleProvider = new GoogleAuthProvider();
+        // DOM Elements Map Pointer Directory Configuration Objects
+        const profileTriggerBtn = document.getElementById('profileTriggerBtn');
+        const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+        const logoutActionBtn = document.getElementById('logoutActionBtn');
+        const userHelloDisplay = document.getElementById('userHelloDisplay');
+        
+        const topicInputField = document.getElementById('topicInputField');
+        const addCtaCheckbox = document.getElementById('addCtaCheckbox');
+        const generationTriggerBtn = document.getElementById('generationTriggerBtn');
+        
+        const statusDotIndicator = document.getElementById('statusDotIndicator');
+        const statusLabelIndicator = document.getElementById('statusLabelIndicator');
+        const fallbackEmptyStatePanel = document.getElementById('fallbackEmptyStatePanel');
+        const contentRendererDisplayBlock = document.getElementById('contentRendererDisplayBlock');
+        const copyToClipboardBtn = document.getElementById('copyToClipboardBtn');
+        const copyBtnLabelText = document.getElementById('copyBtnLabelText');
+        const outputDisplayScreenFrame = document.getElementById('outputDisplayScreenFrame');
 
-        const navAuthGroup = document.getElementById('navAuthGroup');
-        const initialNavHTML = navAuthGroup.innerHTML;
+        const desktopDropupTriggerBtn = document.getElementById('desktopDropupTriggerBtn');
+        const desktopDropupPanel = document.getElementById('desktopDropupPanel');
+        const desktopDropupIcon = document.getElementById('desktopDropupIcon');
+        const desktopHistorySearchBox = document.getElementById('desktopHistorySearchBox');
+        const desktopGenerationsScrollList = document.getElementById('desktopGenerationsScrollList');
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.userIsAuthenticated = true;
-                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
-                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+        const mobileDrawerOpenBtn = document.getElementById('mobileDrawerOpenBtn');
+        const mobileDrawerCloseBtn = document.getElementById('mobileDrawerCloseBtn');
+        const mobileSidebarDrawerOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+        const mobileSidebarDrawerPanel = document.getElementById('mobileSidebarDrawerPanel');
+        const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
+        const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
-                navAuthGroup.innerHTML = `
-                    <div class="relative inline-block text-left fade-in">
-                        <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
-                            <span>Hello!</span>
-                            <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
-                        </button>
-                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
-                            <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
-                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                                <span>Log out</span>
+        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
+        function initializeCustomDropdownModules() {
+            const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
+            
+            dropdownRoots.forEach(root => {
+                const triggerBtn = root.querySelector('.dropdown-trigger');
+                const optionsMenu = root.querySelector('.dropdown-menu-options');
+                const displaySpan = root.querySelector('.selected-display-value');
+                const optionItems = root.querySelectorAll('.option-item');
+                const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
+
+                // Toggle menu on click
+                triggerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Close all other dropdown menus first
+                    document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
+                        if (menu !== optionsMenu) menu.classList.add('hidden');
+                    });
+                    optionsMenu.classList.toggle('hidden');
+                });
+
+                // Option selection handler logic
+                optionItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const chosenVal = item.getAttribute('data-value');
+                        displaySpan.innerText = chosenVal;
+                        activeFormStateModel[stateKey] = chosenVal;
+                        optionsMenu.classList.add('hidden');
+                    });
+                });
+            });
+
+            // Global click capture hook layer to dismiss floating dropdown elements instantly
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
+            });
+        }
+
+        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
+        function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
+            const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
+            if (rootTargetNode) {
+                const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
+                if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
+                activeFormStateModel[componentNameKey] = absoluteTargetValue;
+            }
+        }
+
+        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+            } else {
+                currentUserObject = user;
+                if (user.displayName) {
+                    const primaryFirstNameName = user.displayName.split(' ')[0];
+                    userHelloDisplay.innerText = `Hello, ${primaryFirstNameName}!`;
+                } else {
+                    userHelloDisplay.innerText = "Hello!";
+                }
+                initializeCustomDropdownModules();
+                syncGenerationsRealtimeDatabaseStack();
+            }
+        });
+
+        // Dropdown User profile overlay interaction handlers
+        profileTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdownMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
+        logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+
+        // Desktop Dropup Component Event Layout Toggles handlers
+        desktopDropupTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
+            desktopDropupIcon.style.transform = !isMenuClosed ? "rotate(180deg)" : "rotate(0deg)";
+        });
+        desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', () => {
+            desktopDropupPanel.classList.add('hidden');
+            desktopDropupIcon.style.transform = "rotate(0deg)";
+        });
+
+        // Mobile Sidebar Drawer Actions Controls Interface Implementations
+        mobileDrawerOpenBtn.addEventListener('click', () => {
+            mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
+        });
+        const closeMobileDrawerHandler = () => {
+            mobileSidebarDrawerOverlay.classList.remove('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.remove('sidebar-panel-active');
+        };
+        mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
+
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
+        copyToClipboardBtn.addEventListener('click', () => {
+            const rawCopyStringContextValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
+            navigator.clipboard.writeText(rawCopyStringContextValueText).then(() => {
+                copyBtnLabelText.innerText = "Copied!";
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Post", 1500);
+            }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
+        });
+
+        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
+        function syncGenerationsRealtimeDatabaseStack() {
+            if (!currentUserObject) return;
+
+            db.collection('users').doc(currentUserObject.uid).collection('generations')
+              .orderBy('timestamp', 'desc')
+              .onSnapshot((snapshot) => {
+                  generationLogsCacheArray = [];
+                  snapshot.forEach(doc => {
+                      generationLogsCacheArray.push({ id: doc.id, ...doc.data() });
+                  });
+                  renderGenerationsListCanvasDOM();
+              }, faultError => console.error("Firestore sync fault:", faultError));
+        }
+
+        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
+        function renderGenerationsListCanvasDOM() {
+            const filteredArray = generationLogsCacheArray.filter(item => {
+                if(!globalActiveSearchQueryToken.trim()) return true;
+                const activeMatchTokenValue = globalActiveSearchQueryToken.toLowerCase();
+                return (item.title && item.title.toLowerCase().includes(activeMatchTokenValue)) || 
+                       (item.promptInput && item.promptInput.toLowerCase().includes(activeMatchTokenValue)) ||
+                       (item.platform && item.platform.toLowerCase().includes(activeMatchTokenValue));
+            });
+
+            const renderBlockFactoryHtml = (item) => `
+                <div class="p-2.5 bg-white border border-slate-100 rounded-xl hover:border-brand-blue shadow-xs transition-all flex flex-col gap-1.5 group/item relative cursor-pointer" onclick="loadArchivedItemToWorkspace('${item.id}')">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-1.5 min-w-0 flex-1">
+                            <i class="fa-regular fa-file-lines text-slate-400 text-xs shrink-0"></i>
+                            <input type="text" value="${item.title || 'Untitled Generation'}" 
+                                class="text-xs font-bold text-slate-700 bg-transparent border-b border-transparent focus:border-brand-blue outline-none min-w-0 flex-1 cursor-text"
+                                onclick="event.stopPropagation()" 
+                                onchange="renameGenerationDocRecord('${item.id}', this.value)" 
+                                id="titleInputNode-${item.id}">
+                        </div>
+                        <div class="flex items-center gap-1 shrink-0 opacity-100 md:opacity-0 group-hover/item:opacity-100 transition-opacity">
+                            <button onclick="event.stopPropagation(); document.getElementById('titleInputNode-${item.id}').focus();" class="w-6 h-6 rounded-md hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-blue text-[10px]">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteGenerationDocRecord('${item.id}')" class="w-6 h-6 rounded-md hover:bg-rose-50 flex items-center justify-center text-slate-400 hover:text-rose-500 text-[10px]">
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
-                `;
+                    <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone}</span>
+                    </div>
+                </div>
+            `;
 
-                document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
-                    signOut(auth).catch((error) => {
-                        alert(`Sign-out error: ${error.message}`);
-                    });
-                });
-            } else {
-                window.userIsAuthenticated = false;
-                navAuthGroup.innerHTML = initialNavHTML;
-            }
-        });
+            const finalCompiledHtmlMarkup = filteredArray.length ? filteredArray.map(renderBlockFactoryHtml).join('') : `
+                <div class="text-center py-8 text-slate-400 text-xs font-medium">No configuration matches located.</div>
+            `;
 
-        // --- SIGNUP FORM EVENT LISTENER ---
-        // Global utility state holders for your OTP operational system
-        let generatedOTP = "";
-        let resendCooldownTimer = null;
-        let cooldownSecondsLeft = 0;
-
-        // 🛠️ FIX: Store the original layout state of the signup form right when the page loads
-        let initialSignupFormHTML = "";
-        document.addEventListener("DOMContentLoaded", () => {
-            const signupFormEl = document.getElementById('signupForm');
-            if (signupFormEl) {
-                initialSignupFormHTML = signupFormEl.innerHTML;
-            }
-        });
-
-        // 🛠️ GLOBAL UTILITY: Call this function whenever a user logs out or closes the popup!
-        window.resetSignupFormToInitialState = function() {
-            if (resendCooldownTimer) clearInterval(resendCooldownTimer);
-            cooldownSecondsLeft = 0;
-            generatedOTP = "";
-            
-            const signupFormEl = document.getElementById('signupForm');
-            if (signupFormEl && initialSignupFormHTML) {
-                signupFormEl.innerHTML = initialSignupFormHTML;
-            }
-        };
-
-        // Isolated function helper to dispatch EmailJS requests cleanly
-        function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
-            // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
-            return emailjs.send("service_72k9plm", "template_2ku6o4k", {
-                to_email: emailAddress,
-                verification_code: otpCode
-            })
-            .catch((err) => {
-                errorDivElement.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                const textNode = errorDivElement.querySelector('.error-text');
-                if (textNode) {
-                    textNode.innerText = "Technical failure delivering OTP. Please try again.";
-                } else {
-                    errorDivElement.innerText = "⚠️ Technical failure delivering OTP. Please try again.";
-                }
-                errorDivElement.classList.remove('hidden');
-                console.error("EmailJS sending error log:", err);
-                throw err;
-            });
+            desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+            mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
-        // Functional control handler to run your resend button visual counter mechanics
-        function startResendCooldownClock() {
-            const resendBtn = document.getElementById('resendOtpBtn');
-            if (!resendBtn) return;
-
-            cooldownSecondsLeft = 30;
-            resendBtn.disabled = true;
-            resendBtn.classList.remove('text-blue-600', 'hover:underline', 'cursor-pointer');
-            resendBtn.classList.add('text-slate-400', 'cursor-not-allowed');
-            resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
-
-            resendCooldownTimer = setInterval(() => {
-                cooldownSecondsLeft--;
-                if (cooldownSecondsLeft <= 0) {
-                    clearInterval(resendCooldownTimer);
-                    resendBtn.disabled = false;
-                    resendBtn.classList.add('text-blue-600', 'hover:underline', 'cursor-pointer');
-                    resendBtn.classList.remove('text-slate-400', 'cursor-not-allowed');
-                    resendBtn.innerText = "Resend Code";
-                } else {
-                    resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
-                }
-            }, 1000);
-        }
-
-        // --- THE COMPLETE SIGNUP FORM INTERACTION LISTENER ---
-        document.getElementById('signupForm').addEventListener('submit', (e) => {
-            // 🛠️ FIX: THIS MUST RUN FIRST! Prevents HTML from redirecting/reloading the page immediately
-            e.preventDefault(); 
-
-            const errDiv = document.getElementById('signupErrorMsg');
-            if (errDiv) {
-                errDiv.classList.add('hidden');
-            }
-
-            const emailInput = document.getElementById('signupEmailInput').value.trim();
-            const passwordInput = document.getElementById('signupPasswordInput').value;
-            const signupFormEl = document.getElementById('signupForm');
-
-            // 🛠️ 1. INSTANT WEBSITE PASSWORD VALIDATION (Bulletproof check against internal null crashes)
-            if (passwordInput.length < 6) {
-                if (errDiv) {
-                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                    
-                    // Safe selector check to prevent script crashes
-                    const errorTextContainer = errDiv.querySelector('.error-text');
-                    if (errorTextContainer) {
-                        errorTextContainer.innerText = "Password must be at least 6 characters long.";
-                    } else {
-                        errDiv.innerText = "⚠️ Password must be at least 6 characters long.";
-                    }
-                    
-                    errDiv.classList.remove('hidden');
-                } else {
-                    // Fallback alert box if your DOM container element doesn't exist at all
-                    alert("Password must be at least 6 characters long.");
-                }
-                return; // 🛑 Stops execution instantly right here! No redirect, no reload.
-            }
-
-            // 2. Initialize a secure random 6-digit numeric verification sequence string
-            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-            // 3. Fire the first verification email sequence via EmailJS (No account created yet!)
-            sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
-                .then(() => {
-                    // 4. Keep the signup wrapper open but slide a dynamic overlay view inside it
-                    signupFormEl.innerHTML = `
-                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
-                            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
-                                🛡️
-                            </div>
-                            <h3 class="text-xl font-bold text-slate-800 mb-1">Verify Your Email</h3>
-                            <p class="text-sm text-slate-600 mb-5 leading-relaxed">
-                                We sent a 6-digit verification code security token to:<br>
-                                <strong class="text-slate-900 font-semibold">${emailInput}</strong>
-                            </p>
-                            
-                            <div class="mb-5">
-                                <input id="otpCodeInput" type="text" maxlength="6" required placeholder="000000" 
-                                    class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none font-bold text-slate-800 transition-all">
-                                <p id="otpInlineError" class="text-xs text-rose-600 mt-2 font-semibold hidden">⚠️ Incorrect verification code. Please check again.</p>
-                            </div>
-
-                            <button type="button" id="verifyOtpBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all mb-4">
-                                Confirm & Sign Up
-                            </button>
-
-                            <div class="text-xs text-slate-500">
-                                Didn't receive the email? 
-                                <button type="button" id="resendOtpBtn" class="font-bold text-blue-600 hover:underline outline-none bg-transparent border-none p-0 transition-all">
-                                    Resend Code
-                                </button>
-                            </div>
-                        </div>
-                    `;
-
-                    startResendCooldownClock();
-
-                    // --- ACTION SUB-HANDLER A: VALIDATING ENTERED OTP ---
-                    document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
-                        otpEvent.preventDefault(); // Prevents layout bubbling
-                        
-                        const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
-                        const otpErrorLabel = document.getElementById('otpInlineError');
-                        otpErrorLabel.classList.add('hidden');
-
-                        if (userEnteredOTP === generatedOTP) {
-                            // 5. Code is correct! NOW we attempt to create the account in Firebase
-                            createUserWithEmailAndPassword(auth, emailInput, passwordInput)
-                                .then((userCredential) => {
-                                    if(resendCooldownTimer) clearInterval(resendCooldownTimer);
-
-                                    // 6. UPDATE BACKGROUND HTML (User logged-in view renders behind popup)
-                                    if (typeof window.updateUIForLoggedInUser === 'function') {
-                                        window.updateUIForLoggedInUser(userCredential.user);
-                                    }
-
-                                    // 🛠️ CLOSE POPUP INSTANTLY
-                                    if (typeof window.closeAuthPopup === 'function') {
-                                        window.closeAuthPopup();
-                                    } else {
-                                        const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
-                                        if(modal) modal.classList.add('hidden');
-                                    }
-
-                                    // 🛠️ RESET THE FORM FOR THE NEXT TIME THEY SEE IT
-                                    window.resetSignupFormToInitialState();
-                                })
-                                .catch((error) => {
-                                    let customMsg = "Registration failed: " + error.message;
-                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
-                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
-                                    
-                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
-                                    otpErrorLabel.classList.remove('hidden');
-                                });
-                        } else {
-                            otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
-                            otpErrorLabel.classList.remove('hidden');
-                        }
-                    });
-
-                    // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
-                    document.getElementById('resendOtpBtn').addEventListener('click', () => {
-                        if (cooldownSecondsLeft > 0) return;
-
-                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                        const otpErrorLabel = document.getElementById('otpInlineError');
-                        otpErrorLabel.classList.add('hidden');
-
-                        sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
-                            .then(() => {
-                                startResendCooldownClock();
-                            });
-                    });
-                });
+        // Interactive Key Ingestion Stream Handlers
+        desktopHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
+        });
+        mobileHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
         });
 
-      
-        // --- LOGIN FORM EVENT LISTENER ---
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const errDiv = document.getElementById('loginErrorMsg');
-            
-            // Reset message container styles back to hidden first
-            if (errDiv) {
-                errDiv.classList.add('hidden');
-            }
-
-            const emailInput = document.getElementById('loginEmailInput').value.trim();
-            const passwordInput = document.getElementById('loginPasswordInput').value;
-
-            // Save a reference to the main login form element container
-            const loginFormEl = document.getElementById('loginForm');
-
-            signInWithEmailAndPassword(auth, emailInput, passwordInput)
-                .then((userCredential) => {
-                    // 🛠️ SUCCESS PHASE: Account exists and matches!
-                    // Clear form values out completely
-                    loginFormEl.reset();
-
-                    // Update background HTML for the newly authenticated user
-                    if (typeof window.updateUIForLoggedInUser === 'function') {
-                        window.updateUIForLoggedInUser(userCredential.user);
-                    }
-                    
-                    // Close the authentication modal wrapper view instantly
-                    if (typeof window.closeAuthPopup === 'function') {
-                        window.closeAuthPopup();
-                    } else {
-                        const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
-                        if(modal) modal.classList.add('hidden');
-                    }
-
-                    // 🛠️ FIX: Wipe out fields and reset to original state automatically right after closing!
-                    if (typeof window.resetLoginFormToInitialState === 'function') {
-                        window.resetLoginFormToInitialState();
-                    }
-                })
-                .catch((error) => {
-                    // 🛠️ FAILURE PHASE: Pass Firebase error codes clean straight to the view text container
-                    if (errDiv) {
-                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        errDiv.classList.remove('bg-amber-50', 'text-amber-700', 'border-amber-200');
-
-                        let customMsg = "Authentication error: " + error.message;
-                        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
-                            customMsg = "Incorrect email address or password credentials."; 
-                        } else if (error.code === 'auth/user-disabled') { 
-                            customMsg = "This user account profile has been suspended."; 
-                        } else if (error.code === 'auth/invalid-email') {
-                            customMsg = "The email address structure is invalid.";
-                        }
-                        
-                        // Safe selector assignment check to prevent script crashes
-                        const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = customMsg;
-                        } else {
-                            errDiv.innerText = "⚠️ " + customMsg;
-                        }
-                        
-                        errDiv.classList.remove('hidden');
-                    } else {
-                        alert("Authentication failure: " + error.message);
-                    }
+        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
+        async function renameGenerationDocRecord(docId, nextTitleValue) {
+            if(!currentUserObject || !nextTitleValue.trim()) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).update({
+                    title: nextTitleValue.trim()
                 });
-        });
-
-        // --- COMPLETE FORGOT PASSWORD SYSTEM ---
-
-        // 1. Declare the template container structure state safely on the global window object
-        if (typeof window.initialLoginFormHTML === 'undefined') {
-            window.initialLoginFormHTML = "";
+            } catch(err) { console.error("Operational update abort:", err); }
         }
-        
-        // 2. Expose the resetting function globally so your "X" close icons can use it too!
-        window.forceResetLoginPopup = function() {
-            const loginFormEl = document.getElementById('loginForm');
-            const errDiv = document.getElementById('loginErrorMsg');
+
+        async function deleteGenerationDocRecord(docId) {
+            if(!currentUserObject || !confirm("Are you sure you want to delete this generation?")) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).delete();
+            } catch(err) { console.error("Deletion transaction execution rollback:", err); }
+        }
+
+        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
+        function loadArchivedItemToWorkspace(docId) {
+            const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
+            if (!targetingMatchNode) return;
+
+            // Fluid state synchronizations over our custom dropdown components
+            topicInputField.value = targetingMatchNode.promptInput || "";
+            updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
+            updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
+            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "Developers");
+            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Get comments");
+            updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
+            addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
+
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform}].`;
             
-            if (errDiv) {
-                errDiv.classList.add('hidden');
-            }
-            
-            if (loginFormEl) {
-                // Restore the original raw form HTML (inputs, buttons, links)
-                if (window.initialLoginFormHTML) {
-                    loginFormEl.innerHTML = window.initialLoginFormHTML;
-                }
-                // Wipes out typed characters inside input boxes cleanly
-                if (typeof loginFormEl.reset === 'function') {
-                    loginFormEl.reset(); 
-                }
-            }
-        };
-        
-        // 3. Wrap everything in an initializer that waits for the DOM to be completely ready
-        function initializeForgotPasswordSystem() {
-            const forgotLink = document.getElementById('forgotPasswordLink');
-            const loginFormEl = document.getElementById('loginForm');
-        
-            // Save the clean, initial inner state template of your login window form right now
-            if (loginFormEl && !window.initialLoginFormHTML) {
-                window.initialLoginFormHTML = loginFormEl.innerHTML;
-            }
-        
-            // Stop execution safely if the forgot password link isn't rendered on this specific page view
-            if (!forgotLink) return;
-        
-            // Remove any older duplicate event listeners to prevent double-firing bugs
-            forgotLink.replaceWith(forgotLink.cloneNode(true));
-            
-            // Re-select the freshly cleared clean element node link
-            const activeForgotLink = document.getElementById('forgotPasswordLink');
-        
-            activeForgotLink.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                
-                const currentLoginFormEl = document.getElementById('loginForm');
-                const errDiv = document.getElementById('loginErrorMsg');
-                
-                // Safety checkpoint check: Ensure the backup string exists
-                if (currentLoginFormEl && !window.initialLoginFormHTML) {
-                    window.initialLoginFormHTML = currentLoginFormEl.innerHTML;
-                }
-        
-                const emailField = document.getElementById('loginEmailInput');
-                const emailInput = emailField ? emailField.value.trim() : "";
-        
-                // 🚨 CHECK 1: If the email address input box field is empty
-                if (!emailInput) {
-                    if (errDiv) {
-                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        errDiv.classList.remove('hidden');
-                        
-                        const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
-                        } else {
-                            errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
-                        }
+            contentRendererDisplayBlock.innerText = targetingMatchNode.generatedOutput || "";
+            closeMobileDrawerHandler();
+        }
+
+        // CHAR STREAM RENDERING SYSTEM 
+        function streamPostContentText(rawContentStringContext) {
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+            contentRendererDisplayBlock.innerHTML = '';
+
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-brand-blue animate-pulse";
+            statusLabelIndicator.innerText = "Copywriting models active. Building structural assets stream...";
+
+            let index = 0;
+            const cleanHtmlStructurePayload = rawContentStringContext
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+
+            const wrapperParseContainerNode = document.createElement('div');
+            wrapperParseContainerNode.innerHTML = cleanHtmlStructurePayload;
+            const executionTokensArray = [];
+
+            function contextualHTMLTraversalParser(node) {
+                if(node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue.split('').forEach(char => executionTokensArray.push({ type: 'text', value: char }));
+                } else if(node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'BR') {
+                        executionTokensArray.push({ type: 'br' });
                     } else {
-                        alert("Please enter your email address first to get a reset link.");
+                        executionTokensArray.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        Array.from(node.childNodes).forEach(contextualHTMLTraversalParser);
+                        executionTokensArray.push({ type: 'tag-end' });
                     }
-                    return; // Stop right here!
                 }
-        
-                // 🚨 CHECK 2: Strict email format validation via Regular Expression
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(emailInput)) {
-                    if (errDiv) {
-                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        errDiv.classList.remove('hidden');
-                        
-                        const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = "The email address layout structure is invalid.";
-                        } else {
-                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
-                        }
-                    } else {
-                        alert("The email address layout structure is invalid.");
-                    }
-                    return; // Stop right here!
+            }
+            Array.from(wrapperParseContainerNode.childNodes).forEach(contextualHTMLTraversalParser);
+
+            let operationalInsertionPointerNode = contentRendererDisplayBlock;
+            const executionContextStack = [];
+
+            function processingCharTokenTick() {
+                if(index >= executionTokensArray.length) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+                    statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
+                    generationTriggerBtn.disabled = false;
+                    generationTriggerBtn.style.opacity = "1";
+                    return;
                 }
-        
-                // Clean slate: Clear past error frames out before making the network request API call
-                if (errDiv) errDiv.classList.add('hidden');
-        
-                // 🚀 FIRE FIREBASE NETWORK REQUEST LINK DELIVERER
-                sendPasswordResetEmail(auth, emailInput)
-                    .then(() => {
-                        // SUCCESS PHASE: Render response interface success confirmation frame template inside the popup box
-                        currentLoginFormEl.innerHTML = `
-                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm animate-fadeIn">
-                                <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
-                                    📩
-                                </div>
-                                <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
-                                <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
-                                    We have sent a secure password reset link to:<br>
-                                    <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
-                                </p>
-                                <p class="text-xs text-slate-500 mb-5">
-                                    Please check your inbox or spam folder to recover access.
-                                </p>
-                                <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
-                                    Close Window
-                                </button>
-                            </div>
-                        `;
-        
-                        // Handle closing and wiping out components
-                        document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
-                            btnEvent.preventDefault();
-        
-                            // Close the popup window layer modal cleanly
-                            if (typeof window.closeAuthPopup === 'function') {
-                                window.closeAuthPopup();
-                            } else {
-                                const modal = currentLoginFormEl.closest('.modal') || currentLoginFormEl.parentElement;
-                                if (modal) modal.classList.add('hidden');
-                            }
-        
-                            // Wipes fields and resets the template instantly as it closes!
-                            window.forceResetLoginPopup();
-                        });
+
+                const currentToken = executionTokensArray[index];
+                if(currentToken.type === 'text') {
+                    operationalInsertionPointerNode.appendChild(document.createTextNode(currentToken.value));
+                } else if(currentToken.type === 'br') {
+                    operationalInsertionPointerNode.appendChild(document.createElement('br'));
+                } else if(currentToken.type === 'tag-start') {
+                    const generatedTagElementNode = document.createElement(currentToken.tag);
+                    operationalInsertionPointerNode.appendChild(generatedTagElementNode);
+                    executionContextStack.push(operationalInsertionPointerNode);
+                    operationalInsertionPointerNode = generatedTagElementNode;
+                } else if(currentToken.type === 'tag-end') {
+                    if(executionContextStack.length > 0) operationalInsertionPointerNode = executionContextStack.pop();
+                }
+
+                index++;
+                setTimeout(processingCharTokenTick, 4);
+            }
+            processingCharTokenTick();
+        }
+
+        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
+        generationTriggerBtn.addEventListener('click', async () => {
+            const promptValueInputString = topicInputField.value.trim();
+            if(!promptValueInputString) {
+                alert("Please write your core text topic configuration parameter rules first before generating content.");
+                return;
+            }
+
+            generationTriggerBtn.disabled = true;
+            generationTriggerBtn.style.opacity = "0.6";
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
+            statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
+
+            const platformToken = activeFormStateModel.platform;
+            const toneToken = activeFormStateModel.tone;
+            const audienceToken = activeFormStateModel.audience;
+            const goalToken = activeFormStateModel.goal;
+            const lengthToken = activeFormStateModel.length;
+            const ctaActiveFlag = addCtaCheckbox.checked;
+
+            try {
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag
                     })
-                    .catch((error) => {
-                        // FAILURE PHASE: Handle non-existent accounts safely from Firebase response
-                        if (errDiv) {
-                            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                            errDiv.classList.remove('hidden');
-                            
-                            let customMsg = "Error sending reset link: " + error.message;
-                            if (error.code === 'auth/user-not-found') {
-                                customMsg = "No account found matching this email address.";
-                            } else if (error.code === 'auth/invalid-email') {
-                                customMsg = "The email address structure layout is invalid.";
-                            }
-        
-                            const errorTextContainer = errDiv.querySelector('.error-text');
-                            if (errorTextContainer) {
-                                errorTextContainer.innerText = customMsg;
-                            } else {
-                                errDiv.innerText = "⚠️ " + customMsg;
-                            }
-                        } else {
-                            alert("Reset Error: " + error.message);
-                        }
-                    });
-            });
-        }
-        
-        // 4. Run the code safely whether the browser window loaded early or late!
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", initializeForgotPasswordSystem);
-        } else {
-            initializeForgotPasswordSystem();
-        }
-        
-        const handleGoogleAuthFlow = () => {
-            signInWithPopup(auth, googleProvider)
-                .catch((error) => {
-                    if (error.code === 'auth/popup-closed-by-user') { alert("Sign-in popup closed before completion."); }
-                    else if (error.code === 'auth/cancelled-popup-request') { alert("Authentication operation conflict detected."); }
-                    else if (error.code === 'auth/popup-blocked') { alert("Authentication popup blocked by browser settings."); }
-                    else { alert(`Google sign-in error: ${error.message}`); }
                 });
-        };
 
-        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
-        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
+                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+                const parsedJSONDataPayload = await apiPayloadResponse.json();
+                
+                const rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
+                
+                // Write generated content record down to Firestore instantly if signed in
+                if(currentUserObject) {
+                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
+                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                        title: formattedTruncatedTitle,
+                        promptInput: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        generatedOutput: rawModelOutputText,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                streamPostContentText(rawModelOutputText);
+
+            } catch (err) {
+                console.error("Upstream communication breakdown fault:", err);
+                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
+                generationTriggerBtn.disabled = false;
+                generationTriggerBtn.style.opacity = "1";
+                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+            }
+        });
     </script>
 </body>
 </html>
