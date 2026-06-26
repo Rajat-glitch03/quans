@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | Social Content Generator</title>
     
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase Compatibility SDK Matrix -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -28,210 +24,215 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth Mobile Sidebar Animation Transitions */
+        .sidebar-overlay-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .sidebar-panel-active {
+            transform: translateX(0) !important;
+        }
     </style>
 </head>
-<body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50">
+<body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
-    <!-- NAVIGATION HEADER BAR -->
-    <header class="w-full h-16 border-b border-slate-100 bg-white px-4 sm:px-6 flex items-center justify-between sticky top-0 z-50 shrink-0">
-        <!-- Left Wing: Home Redirection Button -->
-        <div class="flex items-center gap-3">
-            <a href="index.html" class="text-sm font-bold border border-slate-200 text-slate-600 px-4 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-house text-xs"></i>
+    <header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
+        <div class="flex items-center">
+            <a href="index.html" class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
                 <span class="hidden sm:inline">Home</span>
             </a>
         </div>
 
-        <!-- Center Wing: Content Generator Core Identity -->
-        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-            <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-slate-900">Content Generator</h1>
+        <div class="text-center">
+            <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">Content Generator</h1>
         </div>
 
-        <!-- Right Wing: Mobile Trigger + Identity Profile Interface Dropdown -->
-        <div class="flex items-center gap-2 sm:gap-3">
-            <!-- Mobile Sidebar Generations Drawer Trigger Toggle -->
-            <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors">
-                <i class="fa-solid fa-clock-history text-sm"></i>
-            </button>
-
-            <!-- Profile Menu Container Dropdown Group -->
+        <div class="flex items-center gap-2">
             <div class="relative" id="profileDropdownRoot">
-                <button id="profileTriggerBtn" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 border border-slate-200 rounded-full hover:bg-slate-50 transition-all cursor-pointer bg-white">
-                    <span id="userHelloDisplay" class="text-xs sm:text-sm font-bold text-slate-700">Hello!</span>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 mt-0.5"></i>
+                <button id="profileTriggerBtn" class="flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-full hover:bg-slate-50 transition-all cursor-pointer bg-white shadow-xs">
+                    <span id="userHelloDisplay" class="text-xs font-bold text-slate-700">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
                 </button>
                 
-                <!-- Dropdown Menu Box Panel -->
-                <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 z-50">
-                    <button id="logoutActionBtn" class="w-full px-4 py-2.5 text-left text-sm text-rose-500 hover:bg-rose-50/50 font-semibold flex items-center gap-2 transition-colors">
+                <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-xl py-1 z-50">
+                    <button id="logoutActionBtn" class="w-full px-3 py-2 text-left text-xs text-rose-500 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         <span>Logout Account</span>
                     </button>
                 </div>
             </div>
+
+            <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+            </button>
         </div>
     </header>
 
-    <!-- WORKSPACE CANVAS GRID FRAMEWORK -->
-    <main class="flex-1 w-full max-w-[1440px] mx-auto flex overflow-hidden relative p-4 gap-4">
+    <main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
         
-        <!-- COLUMN 1: LEFT CONFIGURATION ENGINE LAYOUT COMPONENT -->
-        <section class="w-full md:w-[400px] bg-white border border-slate-100 rounded-3xl shadow-sm flex flex-col p-5 overflow-y-auto shrink-0 z-10">
-            <div class="space-y-4 flex-1">
-                <!-- Field Input Module: Topic Header -->
+        <section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-[45vh] md:h-full">
+            <div class="space-y-4 pb-28">
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Paste or enter a topic you want</label>
-                    <textarea id="topicInputField" rows="3" placeholder="Type your core idea, or paste internal workflows/articles here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-2xl p-3 outline-none text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
+                    <textarea id="topicInputField" rows="3" placeholder="Paste structural text details, blogs, ideas, or brief notes here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
                 </div>
 
-                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 1 -->
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Platform</label>
-                        <select id="platformSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
-                            <option value="LinkedIn">LinkedIn</option>
-                            <option value="Instagram">Instagram</option>
-                            <option value="Facebook">Facebook</option>
-                            <option value="X (Twitter)">X (Twitter)</option>
-                        </select>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">LinkedIn</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tone</label>
-                        <select id="toneSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
-                            <option value="Professional">Professional</option>
-                            <option value="Funny">Funny</option>
-                            <option value="Storytelling">Storytelling</option>
-                            <option value="Motivational">Motivational</option>
-                            <option value="Educational">Educational</option>
-                            <option value="Casual">Casual</option>
-                        </select>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Professional</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 2 -->
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Audience</label>
-                        <select id="audienceSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
-                            <option value="Developers">Developers</option>
-                            <option value="Founders">Founders</option>
-                            <option value="Students">Students</option>
-                            <option value="Creators">Creators</option>
-                            <option value="Business Owners">Business Owners</option>
-                            <option value="General">General</option>
-                        </select>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Developers</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Goal</label>
-                        <select id="goalSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
-                            <option value="Get comments">Get comments</option>
-                            <option value="Go viral">Go viral</option>
-                            <option value="Build authority">Build authority</option>
-                            <option value="Sell a product">Sell a product</option>
-                            <option value="Educate">Educate</option>
-                        </select>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Get comments</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 3 -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
-                    <select id="lengthSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
-                        <option value="Short">Short</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Long">Long</option>
-                    </select>
+                <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+                    <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                        <span class="selected-display-value truncate">Short</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                    </button>
+                    <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
+                    </div>
                 </div>
 
-                <!-- CTA Engine Activation Flag Checkbox Layer Box -->
-                <div class="flex items-center gap-2.5 pt-1.5">
-                    <input type="checkbox" id="addCtaCheckbox" class="w-4 h-4 text-brand-blue border-slate-300 rounded focus:ring-brand-blue cursor-pointer">
-                    <label for="addCtaCheckbox" class="text-sm font-bold text-slate-600 cursor-pointer select-none">Add CTA</label>
+                <div class="flex items-center gap-2.5 pt-1">
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
+                        <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
+                    </label>
                 </div>
             </div>
 
-            <!-- Primary Workspace Dispatch Submission Operation Trigger Button -->
-            <button id="generationTriggerBtn" class="w-full mt-5 bg-brand-blue text-white font-bold py-3 px-4 rounded-2xl shadow-md shadow-blue-100 hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group">
-                <i class="fa-solid fa-wand-magic-sparkles text-sm group-hover:rotate-12 transition-transform"></i>
-                <span>Generate</span>
+            <button id="generationTriggerBtn" class="w-full mt-4 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0">
+                <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
+                <span>Generate Content</span>
             </button>
         </section>
 
-        <!-- COLUMN 2: RIGHT GENERATION WORKSPACE RUNTIME SCREEN VIEWER -->
-        <section class="flex-1 bg-white border border-slate-100 rounded-3xl shadow-sm flex flex-col overflow-hidden relative">
-            <!-- Workspace Output Subheader Status Info Context Navbar -->
-            <div class="h-14 border-b border-slate-100 px-5 flex items-center justify-between bg-slate-50/40 shrink-0">
-                <div class="flex items-center gap-2">
-                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300"></div>
-                    <span id="statusLabelIndicator" class="text-xs font-bold text-slate-500">Workspace ready. Ready for input specifications.</span>
+        <section class="flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[40vh] md:min-h-0">
+            <div class="h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
+                    <span id="statusLabelIndicator" class="text-[10px] font-bold text-slate-500 truncate">Workspace idle. Awaiting configuration input variables.</span>
                 </div>
-                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-xs font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-colors">
+                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
                     <i class="fa-regular fa-copy"></i>
-                    <span id="copyBtnLabelText">Copy Copy</span>
+                    <span id="copyBtnLabelText">Copy Post</span>
                 </button>
             </div>
 
-            <!-- Display Frame Shell Block Interface Engine -->
-            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-6 flex flex-col justify-center">
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
                 <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
-                    <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto text-xl text-slate-400 border border-slate-100 mb-3">
+                    <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-base text-slate-400 border border-slate-100 mb-2.5">
                         <i class="fa-solid fa-rectangle-list"></i>
                     </div>
-                    <p class="text-xs font-medium leading-relaxed">Your generated social blueprint will render inside this container module viewport canvas workspace in real-time.</p>
+                    <p class="text-[11px] font-medium leading-relaxed">Your generated social blueprint will render inside this interactive scroll block container frame in real-time.</p>
                 </div>
-                <div id="contentRendererDisplayBlock" class="hidden w-full h-full text-slate-700 text-base leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
+                <div id="contentRendererDisplayBlock" class="hidden w-full h-auto text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
             </div>
 
-            <!-- DESKTOP FLOATING DROPUP VIEW MODULE DESIGN ANCHOR LINK -->
             <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
-                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg hover:bg-slate-800 transition-all cursor-pointer">
-                    <i class="fa-solid fa-clock-history"></i>
+                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
+                    <i class="fa-solid fa-folder-open text-[11px]"></i>
                     <span>Your Generations</span>
-                    <i class="fa-solid fa-chevron-up text-[10px] text-slate-400 ml-1 transition-transform duration-300" id="desktopDropupIcon"></i>
+                    <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
                 </button>
                 
-                <!-- Expanded Dropup Drawer Main Card Node Structure -->
-                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[350px] h-[400px] bg-white border border-slate-200 shadow-2xl rounded-2xl flex flex-col overflow-hidden transition-all duration-300">
-                    <!-- Drawer Header Search Block -->
+                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
                     <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
-                        <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1"><i class="fa-solid fa-folder-tree text-brand-blue"></i>History Stack</h3>
+                        <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
                         <div class="relative">
-                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
-                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive logs..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
                         </div>
                     </div>
-                    <!-- Target Scroll Box Loop Container Wrapper -->
                     <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- MOBILE SIDEBAR GENERATIONS DRAWER MODAL CONTAINER COVER OVERLAY -->
     <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
-        <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[340px] h-full bg-white shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
-            <!-- Header Operations Sidebar Context -->
+        <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
             <div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
-                <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-history text-brand-blue"></i>Your Generations</span>
-                <button id="mobileDrawerCloseBtn" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white">
-                    <i class="fa-solid fa-xmark text-sm"></i>
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
+                <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
+                    <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <!-- Interactive Search Base Entry Filter -->
             <div class="p-3 bg-white border-b border-slate-100 shrink-0">
                 <div class="relative">
-                    <input type="text" id="mobileHistorySearchBox" placeholder="Search saved generation logs..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2.5 outline-none focus:border-brand-blue">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                    <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
                 </div>
             </div>
-            <!-- Dynamic Scroll Space Injection Node Panel Container Target -->
             <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
         </div>
     </div>
 
-    <!-- INLINE ENGINE ARCHITECTURE CORE LOGIC EXECUTIONS -->
     <script>
-        // --- TAILWIND DESIGN SYSTEM CONTEXT ENGINE SCHEMA VALUES DEFINITION ---
+        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
                 extend: {
@@ -241,32 +242,42 @@
             }
         };
 
-        // --- FIREBASE SUITE ARCHITECTURE CONFIG MATRIX STACK ---
+        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
-            apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
-            authDomain: "quans-175a2.firebaseapp.com",
-            projectId: "quans-175a2",
-            storageBucket: "quans-175a2.firebasestorage.app",
-            messagingSenderId: "221298439204",
-            appId: "1:221298439204:web:47b39c005411c979ca54b1"
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
         };
         
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // DOM Elements Variable Registry Map Node Objects
+        // Runtime Global Variable Registration Parameter State Mapping Objects
+        let currentUserObject = null;
+        let generationLogsCacheArray = [];
+        let globalActiveSearchQueryToken = "";
+
+        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
+        const activeFormStateModel = {
+            platform: "LinkedIn",
+            tone: "Professional",
+            audience: "Developers",
+            goal: "Get comments",
+            length: "Short"
+        };
+
+        // DOM Elements Map Pointer Directory Configuration Objects
         const profileTriggerBtn = document.getElementById('profileTriggerBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
         const logoutActionBtn = document.getElementById('logoutActionBtn');
         const userHelloDisplay = document.getElementById('userHelloDisplay');
         
         const topicInputField = document.getElementById('topicInputField');
-        const platformSelector = document.getElementById('platformSelector');
-        const toneSelector = document.getElementById('toneSelector');
-        const audienceSelector = document.getElementById('audienceSelector');
-        const goalSelector = document.getElementById('goalSelector');
-        const lengthSelector = document.getElementById('lengthSelector');
         const addCtaCheckbox = document.getElementById('addCtaCheckbox');
         const generationTriggerBtn = document.getElementById('generationTriggerBtn');
         
@@ -291,27 +302,73 @@
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
-        let currentUserObject = null;
-        let generationLogsCacheArray = [];
-        let globalActiveSearchQueryToken = "";
+        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
+        function initializeCustomDropdownModules() {
+            const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
+            
+            dropdownRoots.forEach(root => {
+                const triggerBtn = root.querySelector('.dropdown-trigger');
+                const optionsMenu = root.querySelector('.dropdown-menu-options');
+                const displaySpan = root.querySelector('.selected-display-value');
+                const optionItems = root.querySelectorAll('.option-item');
+                const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
 
-        // AUTH GUARD PROTECTION TRACKER TRIGGER MIGRATION
+                // Toggle menu on click
+                triggerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Close all other dropdown menus first
+                    document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
+                        if (menu !== optionsMenu) menu.classList.add('hidden');
+                    });
+                    optionsMenu.classList.toggle('hidden');
+                });
+
+                // Option selection handler logic
+                optionItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const chosenVal = item.getAttribute('data-value');
+                        displaySpan.innerText = chosenVal;
+                        activeFormStateModel[stateKey] = chosenVal;
+                        optionsMenu.classList.add('hidden');
+                    });
+                });
+            });
+
+            // Global click capture hook layer to dismiss floating dropdown elements instantly
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
+            });
+        }
+
+        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
+        function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
+            const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
+            if (rootTargetNode) {
+                const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
+                if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
+                activeFormStateModel[componentNameKey] = absoluteTargetValue;
+            }
+        }
+
+        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'index.html';
             } else {
                 currentUserObject = user;
                 if (user.displayName) {
-                    const primaryFirstName = user.displayName.split(' ')[0];
-                    userHelloDisplay.innerText = `Hello, ${primaryFirstName}!`;
+                    const primaryFirstNameName = user.displayName.split(' ')[0];
+                    userHelloDisplay.innerText = `Hello, ${primaryFirstNameName}!`;
                 } else {
                     userHelloDisplay.innerText = "Hello!";
                 }
+                initializeCustomDropdownModules();
                 syncGenerationsRealtimeDatabaseStack();
             }
         });
 
-        // Dropdown Menu Toggles Interaction Controls Event Listeners
+        // Dropdown User profile overlay interaction handlers
         profileTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileDropdownMenu.classList.toggle('hidden');
@@ -322,8 +379,8 @@
         // Desktop Dropup Component Event Layout Toggles handlers
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const isOpen = !desktopDropupPanel.classList.toggle('hidden');
-            desktopDropupIcon.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+            const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
+            desktopDropupIcon.style.transform = !isMenuClosed ? "rotate(180deg)" : "rotate(0deg)";
         });
         desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
         document.addEventListener('click', () => {
@@ -333,24 +390,24 @@
 
         // Mobile Sidebar Drawer Actions Controls Interface Implementations
         mobileDrawerOpenBtn.addEventListener('click', () => {
-            mobileSidebarDrawerOverlay.classList.remove('pointer-events-none', 'opacity-0');
-            mobileSidebarDrawerPanel.classList.remove('translate-x-full');
+            mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
         });
         const closeMobileDrawerHandler = () => {
-            mobileSidebarDrawerOverlay.classList.add('pointer-events-none', 'opacity-0');
-            mobileSidebarDrawerPanel.classList.add('translate-x-full');
+            mobileSidebarDrawerOverlay.classList.remove('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.remove('sidebar-panel-active');
         };
         mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY ENGINE ACTION CODE IMPLEMENTATION
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
-            const outputCopyValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
-            navigator.clipboard.writeText(outputCopyValueText).then(() => {
+            const rawCopyStringContextValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
+            navigator.clipboard.writeText(rawCopyStringContextValueText).then(() => {
                 copyBtnLabelText.innerText = "Copied!";
-                setTimeout(() => copyBtnLabelText.innerText = "Copy Copy", 1500);
-            }).catch(e => console.error("Clipboard target buffer blockage:", e));
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Post", 1500);
+            }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
         });
 
         // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
@@ -365,17 +422,17 @@
                       generationLogsCacheArray.push({ id: doc.id, ...doc.data() });
                   });
                   renderGenerationsListCanvasDOM();
-              }, error => console.error("Firestore sync fault:", error));
+              }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
-        // DYNAMIC DOM RECORD GENERATORS NODE LIST ASSEMBLY FACTORY
+        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
         function renderGenerationsListCanvasDOM() {
             const filteredArray = generationLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
-                const matchToken = globalActiveSearchQueryToken.toLowerCase();
-                return (item.title && item.title.toLowerCase().includes(matchToken)) || 
-                       (item.promptInput && item.promptInput.toLowerCase().includes(matchToken)) ||
-                       (item.platform && item.platform.toLowerCase().includes(matchToken));
+                const activeMatchTokenValue = globalActiveSearchQueryToken.toLowerCase();
+                return (item.title && item.title.toLowerCase().includes(activeMatchTokenValue)) || 
+                       (item.promptInput && item.promptInput.toLowerCase().includes(activeMatchTokenValue)) ||
+                       (item.platform && item.platform.toLowerCase().includes(activeMatchTokenValue));
             });
 
             const renderBlockFactoryHtml = (item) => `
@@ -385,7 +442,7 @@
                             <i class="fa-regular fa-file-lines text-slate-400 text-xs shrink-0"></i>
                             <input type="text" value="${item.title || 'Untitled Generation'}" 
                                 class="text-xs font-bold text-slate-700 bg-transparent border-b border-transparent focus:border-brand-blue outline-none min-w-0 flex-1 cursor-text"
-                                onclick="e => e.stopPropagation()" 
+                                onclick="event.stopPropagation()" 
                                 onchange="renameGenerationDocRecord('${item.id}', this.value)" 
                                 id="titleInputNode-${item.id}">
                         </div>
@@ -398,7 +455,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold text-slate-400">
+                    <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
                         <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform}</span>
                         <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone}</span>
                     </div>
@@ -406,14 +463,14 @@
             `;
 
             const finalCompiledHtmlMarkup = filteredArray.length ? filteredArray.map(renderBlockFactoryHtml).join('') : `
-                <div class="text-center py-8 text-slate-400 text-xs font-medium">No generation logs located.</div>
+                <div class="text-center py-8 text-slate-400 text-xs font-medium">No configuration matches located.</div>
             `;
 
             desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
             mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
-        // SEARCH INPUT LISTENER MATRIX ENGINES
+        // Interactive Key Ingestion Stream Handlers
         desktopHistorySearchBox.addEventListener('input', (e) => {
             globalActiveSearchQueryToken = e.target.value;
             renderGenerationsListCanvasDOM();
@@ -423,36 +480,36 @@
             renderGenerationsListCanvasDOM();
         });
 
-        // FIRESTORE MUTATION ACTIONS LAYER OPERATORS
+        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
         async function renameGenerationDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
             try {
                 await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).update({
                     title: nextTitleValue.trim()
                 });
-            } catch(e) { console.error("Rename operational fault:", e); }
+            } catch(err) { console.error("Operational update abort:", err); }
         }
 
         async function deleteGenerationDocRecord(docId) {
             if(!currentUserObject || !confirm("Are you sure you want to delete this generation?")) return;
             try {
                 await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).delete();
-            } catch(e) { console.error("Deletion transaction rollback fault:", e); }
+            } catch(err) { console.error("Deletion transaction execution rollback:", err); }
         }
 
-        // VIEW PORT WORKSPACE HYDRATION HANDLER NODE DEPLOYMENT
+        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
         function loadArchivedItemToWorkspace(docId) {
-            const targetedMatch = generationLogsCacheArray.find(g => g.id === docId);
-            if (!targetedMatch) return;
+            const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
+            if (!targetingMatchNode) return;
 
-            // Sync structural select values safely
-            topicInputField.value = targetedMatch.promptInput || "";
-            platformSelector.value = targetedMatch.platform || "LinkedIn";
-            toneSelector.value = targetedMatch.tone || "Professional";
-            audienceSelector.value = targetedMatch.audience || "General";
-            goalSelector.value = targetedMatch.goal || "Educate";
-            lengthSelector.value = targetedMatch.length || "Medium";
-            addCtaCheckbox.checked = !!targetedMatch.addCTA;
+            // Fluid state synchronizations over our custom dropdown components
+            topicInputField.value = targetingMatchNode.promptInput || "";
+            updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
+            updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
+            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "Developers");
+            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Get comments");
+            updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
+            addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
 
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
@@ -460,14 +517,14 @@
             outputDisplayScreenFrame.classList.remove('justify-center');
 
             statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = `Archived Content Session Loaded [${targetedMatch.platform}].`;
+            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform}].`;
             
-            contentRendererDisplayBlock.innerText = targetedMatch.generatedOutput || "";
+            contentRendererDisplayBlock.innerText = targetingMatchNode.generatedOutput || "";
             closeMobileDrawerHandler();
         }
 
-        // CHAR-BY-CHAR TOKEN CHARACTER RENDERING ENGINE 
-        function streamPostContentText(rawText) {
+        // CHAR STREAM RENDERING SYSTEM 
+        function streamPostContentText(rawContentStringContext) {
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
             copyToClipboardBtn.classList.remove('hidden');
@@ -475,38 +532,38 @@
             contentRendererDisplayBlock.innerHTML = '';
 
             statusDotIndicator.className = "w-2 h-2 rounded-full bg-brand-blue animate-pulse";
-            statusLabelIndicator.innerText = "Copywriting nodes rendering textual output dynamic layout data...";
+            statusLabelIndicator.innerText = "Copywriting models active. Building structural assets stream...";
 
             let index = 0;
-            const compiledHtmlMarkup = rawText
+            const cleanHtmlStructurePayload = rawContentStringContext
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n/g, '<br>');
 
-            const temporaryNodeContainerDiv = document.createElement('div');
-            temporaryNodeContainerDiv.innerHTML = compiledHtmlMarkup;
-            const streamTokens = [];
+            const wrapperParseContainerNode = document.createElement('div');
+            wrapperParseContainerNode.innerHTML = cleanHtmlStructurePayload;
+            const executionTokensArray = [];
 
-            function structuralParseLoop(node) {
+            function contextualHTMLTraversalParser(node) {
                 if(node.nodeType === Node.TEXT_NODE) {
-                    node.nodeValue.split('').forEach(char => streamTokens.push({ type: 'text', value: char }));
+                    node.nodeValue.split('').forEach(char => executionTokensArray.push({ type: 'text', value: char }));
                 } else if(node.nodeType === Node.ELEMENT_NODE) {
                     if(node.tagName === 'BR') {
-                        streamTokens.push({ type: 'br' });
+                        executionTokensArray.push({ type: 'br' });
                     } else {
-                        streamTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
-                        Array.from(node.childNodes).forEach(structuralParseLoop);
-                        streamTokens.push({ type: 'tag-end' });
+                        executionTokensArray.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        Array.from(node.childNodes).forEach(contextualHTMLTraversalParser);
+                        executionTokensArray.push({ type: 'tag-end' });
                     }
                 }
             }
-            Array.from(temporaryNodeContainerDiv.childNodes).forEach(structuralParseLoop);
+            Array.from(wrapperParseContainerNode.childNodes).forEach(contextualHTMLTraversalParser);
 
-            let pointerAnchorContainerNode = contentRendererDisplayBlock;
-            const DOMContextStack = [];
+            let operationalInsertionPointerNode = contentRendererDisplayBlock;
+            const executionContextStack = [];
 
             function processingCharTokenTick() {
-                if(index >= streamTokens.length) {
+                if(index >= executionTokensArray.length) {
                     statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
                     statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
                     generationTriggerBtn.disabled = false;
@@ -514,44 +571,44 @@
                     return;
                 }
 
-                const currentToken = streamTokens[index];
+                const currentToken = executionTokensArray[index];
                 if(currentToken.type === 'text') {
-                    pointerAnchorContainerNode.appendChild(document.createTextNode(currentToken.value));
+                    operationalInsertionPointerNode.appendChild(document.createTextNode(currentToken.value));
                 } else if(currentToken.type === 'br') {
-                    pointerAnchorContainerNode.appendChild(document.createElement('br'));
+                    operationalInsertionPointerNode.appendChild(document.createElement('br'));
                 } else if(currentToken.type === 'tag-start') {
-                    const tagElementNode = document.createElement(currentToken.tag);
-                    pointerAnchorContainerNode.appendChild(tagElementNode);
-                    DOMContextStack.push(pointerAnchorContainerNode);
-                    pointerAnchorContainerNode = tagElementNode;
+                    const generatedTagElementNode = document.createElement(currentToken.tag);
+                    operationalInsertionPointerNode.appendChild(generatedTagElementNode);
+                    executionContextStack.push(operationalInsertionPointerNode);
+                    operationalInsertionPointerNode = generatedTagElementNode;
                 } else if(currentToken.type === 'tag-end') {
-                    if(DOMContextStack.length > 0) pointerAnchorContainerNode = DOMContextStack.pop();
+                    if(executionContextStack.length > 0) operationalInsertionPointerNode = executionContextStack.pop();
                 }
 
                 index++;
-                setTimeout(processingCharTokenTick, 5);
+                setTimeout(processingCharTokenTick, 4);
             }
             processingCharTokenTick();
         }
 
-        // BRAND GENERATION BACKEND FETCH FLOW CONTROLLER DISPATCHER
+        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
-                alert("Please fill out your core text topic requirements before triggering copywriting processes.");
+                alert("Please write your core text topic configuration parameter rules first before generating content.");
                 return;
             }
 
             generationTriggerBtn.disabled = true;
             generationTriggerBtn.style.opacity = "0.6";
             statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
-            statusLabelIndicator.innerText = "Sending payload schema mapping configurations directly to Vercel downstream nodes...";
+            statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
 
-            const platformToken = platformSelector.value;
-            const toneToken = toneSelector.value;
-            const audienceToken = audienceSelector.value;
-            const goalToken = goalSelector.value;
-            const lengthToken = lengthSelector.value;
+            const platformToken = activeFormStateModel.platform;
+            const toneToken = activeFormStateModel.tone;
+            const audienceToken = activeFormStateModel.audience;
+            const goalToken = activeFormStateModel.goal;
+            const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
 
             try {
@@ -569,16 +626,16 @@
                     })
                 });
 
-                if(!apiPayloadResponse.ok) throw new Error(`HTTP Error Status: ${apiPayloadResponse.status}`);
-                const JSONDataPayload = await apiPayloadResponse.json();
+                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+                const parsedJSONDataPayload = await apiPayloadResponse.json();
                 
-                const rawModelOutputText = JSONDataPayload.candidates[0].content.parts[0].text;
+                const rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
                 
-                // Write structural object map down to active firestore layer paths instantly
+                // Write generated content record down to Firestore instantly if signed in
                 if(currentUserObject) {
-                    const sampleTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 24) + "...";
+                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
                     await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
-                        title: sampleTruncatedTitle,
+                        title: formattedTruncatedTitle,
                         promptInput: promptValueInputString,
                         platform: platformToken,
                         tone: toneToken,
@@ -594,12 +651,12 @@
                 streamPostContentText(rawModelOutputText);
 
             } catch (err) {
-                console.error("Upstream payload ingestion error:", err);
+                console.error("Upstream communication breakdown fault:", err);
                 statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-                statusLabelIndicator.innerText = "Execution fault. Critical server connection breakdown.";
+                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
                 generationTriggerBtn.disabled = false;
                 generationTriggerBtn.style.opacity = "1";
-                alert("Failed to communicate successfully with text generation node channels. Try again later.");
+                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
             }
         });
     </script>
