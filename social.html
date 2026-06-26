@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | Social Content Generator</title>
     
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase Compatibility SDK Matrix -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -25,6 +29,7 @@
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Smooth Mobile Sidebar Animation Transitions */
         .sidebar-overlay-active {
             opacity: 1 !important;
             pointer-events: auto !important;
@@ -36,7 +41,9 @@
 </head>
 <body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
+    <!-- NAVIGATION HEADER BAR -->
     <header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
+        <!-- Left Wing: Home Redirect Element -->
         <div class="flex items-center">
             <a href="index.html" class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
@@ -44,17 +51,21 @@
             </a>
         </div>
 
+        <!-- Center Wing: Main Title Context -->
         <div class="text-center">
             <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">Content Generator</h1>
         </div>
 
+        <!-- Right Wing: Clean Action Target Intersections -->
         <div class="flex items-center gap-2">
+            <!-- Profile Identity Card Container -->
             <div class="relative" id="profileDropdownRoot">
                 <button id="profileTriggerBtn" class="flex items-center gap-1.5 px-3 py-2 hover:bg-slate-50 transition-all cursor-pointer bg-white shadow-xs">
                     <span id="userHelloDisplay" class="text-sm font-semibold text-slate-700 ">Hello!</span>
                     <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
                 </button>
                 
+                <!-- Account Profile Dropdown Container -->
                 <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-xl py-1 z-50">
                     <button id="logoutActionBtn" class="w-full px-3 py-2 text-left text-xs text-rose-500 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -63,22 +74,28 @@
                 </div>
             </div>
 
+            <!-- Mobile History Toggle Trigger Button (Placed cleanly AFTER the profile button) -->
             <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
                 <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             </button>
         </div>
     </header>
 
+    <!-- MAIN CORE CONTENT ENGINE FRAME WORKSPACE CONTAINER -->
     <main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
         
+        <!-- MODULE COLUMN 1: INTERACTIVE SELECTION INTERFACE PANEL -->
         <section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-[45vh] md:h-full">
             <div class="space-y-4 pb-4">
+                <!-- User Entry Text Block -->
                 <div class="flex flex-col gap-1.5">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
-                    <textarea id="topicInputField" rows="3" placeholder="What is your business..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                    <textarea id="topicInputField" rows="3" placeholder="Paste structural text details, blogs, ideas, or brief notes here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
                 </div>
 
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 1 -->
                 <div class="grid grid-cols-2 gap-3">
+                    <!-- Config Menu Block: Platform Target Selection -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -92,6 +109,7 @@
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
                         </div>
                     </div>
+                    <!-- Config Menu Block: Tone Profiles Setup -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -100,44 +118,51 @@
                         </button>
                         <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual & Friendly">Casual & Friendly</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Witty & Sarcastic">Witty & Sarcastic</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational & Authority">Educational</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Bold & Hype">Bold & Hype</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 2 -->
                 <div class="grid grid-cols-2 gap-3">
+                    <!-- Config Menu Block: Target Audience Selection Profile -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
-                            <span class="selected-display-value truncate">General Audience</span>
+                            <span class="selected-display-value truncate">Developers</span>
                             <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
                         </button>
                         <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General Audience">General</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers & Tech Leaders">Developers</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders & Solopreneurs">Founders</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Marketers & Creators">Creators</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="B2B Executives">B2B Buyers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
                         </div>
                     </div>
+                    <!-- Config Menu Block: Campaign Goal Metric Core Profile -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
-                            <span class="selected-display-value truncate">Engagement</span>
+                            <span class="selected-display-value truncate">Get comments</span>
                             <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
                         </button>
                         <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Engagement and Likes">Engagement</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get Comments & Discussion">Get Comments</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Drive Website Traffic">Drive Traffic</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Inbound Lead Generation">Inbound Leads</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Custom Grid Matrix Dropdown Configurations Block Row 3 -->
                 <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
                     <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -151,6 +176,7 @@
                     </div>
                 </div>
 
+                <!-- Interactive Call-To-Action Custom Toggle Switch Element -->
                 <div class="flex items-center gap-2.5 pt-1">
                     <label class="relative inline-flex items-center cursor-pointer select-none">
                         <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
@@ -158,99 +184,43 @@
                         <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
                     </label>
                 </div>
-
-                <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
-                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                        <i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner
-                    </h3>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                            Profile URL Context <span class="text-slate-300 font-normal lowercase">(optional)</span>
-                        </label>
-                        <input type="url" id="brandContextInput" placeholder="e.g., https://mybrand.com" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                            Writing History Style Sample <span class="text-slate-300 font-normal lowercase">(optional)</span>
-                        </label>
-                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy your natural syntax voice..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
-                    </div>
-                </div>
             </div>
 
-            <button id="generationTriggerBtn" class="w-full mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0">
+            <!-- Main Generation Dispatch Submit Trigger Button -->
+            <button id="generationTriggerBtn" class="w-full mt-4 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm">
                 <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
                 <span>Generate Content</span>
             </button>
         </section>
 
+        <!-- MODULE COLUMN 2: WORKSPACE RUNTIME CODE TEXT DISPLAY SCREEN -->
         <section class="flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[40vh] md:min-h-0">
+            <!-- Dynamic Subheader Status Bar Navigation Interface -->
             <div class="h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
                 <div class="flex items-center gap-2 min-w-0 pr-2">
                     <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
-                    <span id="statusLabelIndicator" class="text-[15px] font-bold text-slate-500 truncate">Workspace idle. Awaiting configuration input variables.</span>
+                    <span id="statusLabelIndicator" class="text-[10px] font-bold text-slate-500 truncate">Workspace idle. Awaiting configuration input variables.</span>
                 </div>
                 <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
                     <i class="fa-regular fa-copy"></i>
-                    <span id="copyBtnLabelText">Copy Full Blueprint</span>
+                    <span id="copyBtnLabelText">Copy Post</span>
                 </button>
             </div>
 
+            <!-- Core Canvas Rendering Frame -->
             <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
+                <!-- Static Fallback Instruction View Block -->
                 <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
                     <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-base text-slate-400 border border-slate-100 mb-2.5">
                         <i class="fa-solid fa-rectangle-list"></i>
                     </div>
                     <p class="text-[11px] font-medium leading-relaxed">Your generated social blueprint will render inside this interactive scroll block container frame in real-time.</p>
                 </div>
-                
-                <div id="contentRendererDisplayBlock" class="hidden w-full space-y-4 text-xs sm:text-sm select-text">
-                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
-                            <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Hook Stream Option</span>
-                            <button onclick="copyIndividualSegmentBlock('generatedHookText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
-                        </div>
-                        <div id="generatedHookText" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap"></div>
-                    </div>
-
-                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
-                            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
-                            <button onclick="copyIndividualSegmentBlock('generatedMainBodyText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
-                        </div>
-                        <div id="generatedMainBodyText" class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed"></div>
-                    </div>
-
-                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
-                            <span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
-                            <button onclick="copyIndividualSegmentBlock('generatedCtaText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
-                        </div>
-                        <div id="generatedCtaText" class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap"></div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-                            <span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
-                            <div id="generatedHashtags" class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap"></div>
-                        </div>
-                        <div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
-                            <span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
-                            <div id="generatedImageSuggestion" class="text-[11px] text-slate-500 italic whitespace-pre-wrap"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>竢ｱ Shorter</span></button>
-                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>藻 Executive</span></button>
-                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>､｡ Wittier</span></button>
-                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>ｪPunchy Hook</span></button>
-                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>嶋 Sales Pitch</span></button>
-                        <button onclick="handleMicroRefinement('story')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>当 Narrative</span></button>
-                    </div>
-                </div>
+                <!-- Dynamic Content Insertion Box Targeting -->
+                <div id="contentRendererDisplayBlock" class="hidden w-full text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
             </div>
 
+            <!-- DESKTOP FLOATING HISTORY DRAWER BLOCK INTERFACE ANCHOR NODE -->
             <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
                 <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
                     <i class="fa-solid fa-folder-open text-[11px]"></i>
@@ -258,6 +228,7 @@
                     <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
                 </button>
                 
+                <!-- Expanded Desktop Log Container Element Drawer Frame -->
                 <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
                     <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
                         <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
@@ -266,31 +237,38 @@
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
                         </div>
                     </div>
+                    <!-- Iterative Render Mount Block Node Target Box -->
                     <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- MOBILE DRAWER MODAL OVERLAY WRAPPER LAYER (SLIDES CLEANLY FROM THE RIGHT SIDE) -->
     <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
         <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
+            <!-- Sidebar Navigation Node Element Header Context -->
             <div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
                 <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
                 <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
+            <!-- Search Text Field Node Injection Container Component -->
             <div class="p-3 bg-white border-b border-slate-100 shrink-0">
                 <div class="relative">
                     <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
                     <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
                 </div>
             </div>
+            <!-- Interactive Collection Target Mount Wrapper View Node Frame -->
             <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
         </div>
     </div>
 
+    <!-- MAIN CONTROL CORE BUSINESS INFRASTRUCTURE APP LOGIC EXECUTIONS -->
     <script>
+        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
                 extend: {
@@ -300,6 +278,7 @@
             }
         };
 
+        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
               apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
               authDomain: "quans-175a2.firebaseapp.com",
@@ -314,20 +293,21 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // Runtime Global Variable Registration Parameter State Mapping Objects
         let currentUserObject = null;
         let generationLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
-        let activeGeneratedPostObject = null;
 
-        // CRITICAL STORAGE STATE SYNC WITH CORE BLUEPRINTS
+        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
         const activeFormStateModel = {
             platform: "LinkedIn",
             tone: "Professional",
-            audience: "General Audience",
-            goal: "Engagement and Likes",
+            audience: "Developers",
+            goal: "Get comments",
             length: "Short"
         };
 
+        // DOM Elements Map Pointer Directory Configuration Objects
         const profileTriggerBtn = document.getElementById('profileTriggerBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
         const logoutActionBtn = document.getElementById('logoutActionBtn');
@@ -336,7 +316,7 @@
         const topicInputField = document.getElementById('topicInputField');
         const addCtaCheckbox = document.getElementById('addCtaCheckbox');
         const generationTriggerBtn = document.getElementById('generationTriggerBtn');
-
+        
         const statusDotIndicator = document.getElementById('statusDotIndicator');
         const statusLabelIndicator = document.getElementById('statusLabelIndicator');
         const fallbackEmptyStatePanel = document.getElementById('fallbackEmptyStatePanel');
@@ -358,6 +338,7 @@
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
+        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
         function initializeCustomDropdownModules() {
             const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
             
@@ -368,14 +349,17 @@
                 const optionItems = root.querySelectorAll('.option-item');
                 const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
 
+                // Toggle menu on click
                 triggerBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    // Close all other dropdown menus first
                     document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
                         if (menu !== optionsMenu) menu.classList.add('hidden');
                     });
                     optionsMenu.classList.toggle('hidden');
                 });
 
+                // Option selection handler logic
                 optionItems.forEach(item => {
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -387,31 +371,40 @@
                 });
             });
 
+            // Global click capture hook layer to dismiss floating dropdown elements instantly
             document.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
             });
         }
 
+        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
         function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
             const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
             if (rootTargetNode) {
                 const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
                 if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
+                activeFormStateModel[componentNameKey] = absoluteTargetValue;
             }
-            activeFormStateModel[componentNameKey] = absoluteTargetValue;
         }
 
+        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'index.html';
             } else {
                 currentUserObject = user;
-                userHelloDisplay.innerText = "Hello!";
+                if (user.displayName) {
+                    const primaryFirstNameName = user.displayName.split(' ')[0];
+                    userHelloDisplay.innerText = `Hello!`;
+                } else {
+                    userHelloDisplay.innerText = "Hello!";
+                }
                 initializeCustomDropdownModules();
                 syncGenerationsRealtimeDatabaseStack();
             }
         });
 
+        // Dropdown User profile overlay interaction handlers
         profileTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileDropdownMenu.classList.toggle('hidden');
@@ -419,6 +412,7 @@
         document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
         logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
 
+        // Desktop Dropup Component Event Layout Toggles handlers
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
@@ -430,6 +424,7 @@
             desktopDropupIcon.style.transform = "rotate(0deg)";
         });
 
+        // Mobile Sidebar Drawer Actions Controls Interface Implementations
         mobileDrawerOpenBtn.addEventListener('click', () => {
             mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
             mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
@@ -442,24 +437,16 @@
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
-            if (!activeGeneratedPostObject) return;
-            const blueprintTextString = `HOOK:\n${activeGeneratedPostObject.hook || ''}\n\nBODY:\n${activeGeneratedPostObject.mainPost || ''}\n\nCTA:\n${activeGeneratedPostObject.cta || ''}\n\n${activeGeneratedPostObject.hashtags || ''}`;
-            navigator.clipboard.writeText(blueprintTextString).then(() => {
+            const rawCopyStringContextValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
+            navigator.clipboard.writeText(rawCopyStringContextValueText).then(() => {
                 copyBtnLabelText.innerText = "Copied!";
-                setTimeout(() => copyBtnLabelText.innerText = "Copy Full Blueprint", 1500);
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Post", 1500);
             }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
         });
 
-        function copyIndividualSegmentBlock(elementId) {
-            const nodeTarget = document.getElementById(elementId);
-            const textToCopy = nodeTarget ? (nodeTarget.innerText || nodeTarget.textContent) : "";
-            if (!textToCopy) return;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("Segment asset copied to clipboard!");
-            }).catch(err => console.error("Segment copy blocked:", err));
-        }
-
+        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
         function syncGenerationsRealtimeDatabaseStack() {
             if (!currentUserObject) return;
 
@@ -474,6 +461,7 @@
               }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
+        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
         function renderGenerationsListCanvasDOM() {
             const filteredArray = generationLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
@@ -504,8 +492,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
-                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform || 'LinkedIn'}</span>
-                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue truncate max-w-[120px]">${item.tone || 'Custom'}</span>
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone}</span>
                     </div>
                 </div>
             `;
@@ -518,6 +506,7 @@
             mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
+        // Interactive Key Ingestion Stream Handlers
         desktopHistorySearchBox.addEventListener('input', (e) => {
             globalActiveSearchQueryToken = e.target.value;
             renderGenerationsListCanvasDOM();
@@ -527,6 +516,7 @@
             renderGenerationsListCanvasDOM();
         });
 
+        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
         async function renameGenerationDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
             try {
@@ -543,20 +533,19 @@
             } catch(err) { console.error("Deletion transaction execution rollback:", err); }
         }
 
+        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
         function loadArchivedItemToWorkspace(docId) {
             const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
             if (!targetingMatchNode) return;
 
+            // Fluid state synchronizations over our custom dropdown components
             topicInputField.value = targetingMatchNode.promptInput || "";
             updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
             updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
-            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "General Audience");
-            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Engagement and Likes");
+            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "Developers");
+            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Get comments");
             updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
             addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
-
-            if (document.getElementById('brandContextInput')) document.getElementById('brandContextInput').value = targetingMatchNode.brandContext || "";
-            if (document.getElementById('sampleWritingStyleInput')) document.getElementById('sampleWritingStyleInput').value = targetingMatchNode.sampleWritingStyle || "";
 
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
@@ -564,150 +553,162 @@
             outputDisplayScreenFrame.classList.remove('justify-center');
 
             statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform || 'LinkedIn'}].`;
+            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform}].`;
             
-            try {
-                const parsedObject = JSON.parse(targetingMatchNode.generatedOutput);
-                activeGeneratedPostObject = parsedObject;
-                renderStructuredOutput(parsedObject);
-            } catch (e) {
-                const fallbackObject = { hook: "Restored Document", mainPost: targetingMatchNode.generatedOutput, cta: "", hashtags: "", imageSuggestion: "" };
-                activeGeneratedPostObject = fallbackObject;
-                renderStructuredOutput(fallbackObject);
-            }
+            contentRendererDisplayBlock.innerText = targetingMatchNode.generatedOutput || "";
             closeMobileDrawerHandler();
         }
 
-        function renderStructuredOutput(dataObject) {
+        // CHAR STREAM RENDERING SYSTEM 
+        function streamPostContentText(rawContentStringContext) {
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
+            contentRendererDisplayBlock.innerHTML = '';
 
-            document.getElementById('generatedHookText').innerHTML = formatTextTokenWeights(dataObject.hook || "None generated.");
-            document.getElementById('generatedMainBodyText').innerHTML = formatTextTokenWeights(dataObject.mainPost || "None generated.");
-            document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(dataObject.cta || "");
-            document.getElementById('generatedHashtags').innerText = dataObject.hashtags || "";
-            document.getElementById('generatedImageSuggestion').innerText = dataObject.imageSuggestion || "";
-        }
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-brand-blue animate-pulse";
+            statusLabelIndicator.innerText = "Copywriting models active. Building structural assets stream...";
 
-        function formatTextTokenWeights(rawStr) {
-            if (!rawStr) return "";
-            return rawStr
+            let index = 0;
+            const cleanHtmlStructurePayload = rawContentStringContext
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n/g, '<br>');
-        }
 
-        function setUIProcessingState(isLoading, customMessage = "Processing structural inputs...") {
-            generationTriggerBtn.disabled = isLoading;
-            generationTriggerBtn.style.opacity = isLoading ? "0.6" : "1";
-            statusDotIndicator.className = isLoading ? "w-2 h-2 rounded-full bg-amber-400 animate-bounce" : "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = isLoading ? customMessage : "Ready";
-        }
+            const wrapperParseContainerNode = document.createElement('div');
+            wrapperParseContainerNode.innerHTML = cleanHtmlStructurePayload;
+            const executionTokensArray = [];
 
-        generationTriggerBtn.addEventListener('click', async () => {
-            const promptValueInputString = topicInputField.value.trim();
-            if(!promptValueInputString) {
-                alert("Please write your core text topic configuration parameter rules first before generating content.");
-                return;
-            }
-        
-            setUIProcessingState(true, "Processing structural inputs through system APIs...");
-        
-            const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
-            const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
-        
-            try {
-                const apiPayloadResponse = await fetch('/api/social', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        topic: promptValueInputString,
-                        platform: activeFormStateModel.platform,
-                        tone: activeFormStateModel.tone,
-                        audience: activeFormStateModel.audience,
-                        goal: activeFormStateModel.goal,
-                        length: activeFormStateModel.length,
-                        addCTA: addCtaCheckbox.checked,
-                        brandContext: brandContextToken,
-                        sampleWritingStyle: sampleStyleToken
-                    })
-                });
-        
-                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
-                const structuredDataPayload = await apiPayloadResponse.json();
-                
-                activeGeneratedPostObject = structuredDataPayload;
-                renderStructuredOutput(structuredDataPayload);
-                
-                setUIProcessingState(false, "Generation complete. Final post asset available below.");
-        
-                if(currentUserObject) {
-                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
-                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
-                        title: formattedTruncatedTitle,
-                        promptInput: promptValueInputString,
-                        platform: activeFormStateModel.platform,
-                        tone: activeFormStateModel.tone,
-                        audience: activeFormStateModel.audience,
-                        goal: activeFormStateModel.goal,
-                        length: activeFormStateModel.length,
-                        addCTA: addCtaCheckbox.checked,
-                        brandContext: brandContextToken,
-                        sampleWritingStyle: sampleStyleToken,
-                        generatedOutput: JSON.stringify(structuredDataPayload),
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+            function contextualHTMLTraversalParser(node) {
+                if(node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue.split('').forEach(char => executionTokensArray.push({ type: 'text', value: char }));
+                } else if(node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'BR') {
+                        executionTokensArray.push({ type: 'br' });
+                    } else {
+                        executionTokensArray.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        Array.from(node.childNodes).forEach(contextualHTMLTraversalParser);
+                        executionTokensArray.push({ type: 'tag-end' });
+                    }
                 }
-        
-            } catch (err) {
-                console.error("Upstream communication breakdown fault:", err);
-                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
-                generationTriggerBtn.disabled = false;
-                generationTriggerBtn.style.opacity = "1";
-                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
             }
-        });
+            Array.from(wrapperParseContainerNode.childNodes).forEach(contextualHTMLTraversalParser);
 
-        async function handleMicroRefinement(actionKey) {
-            if (!activeGeneratedPostObject) {
-                alert("Generate a post configuration layout blueprint first before processing rapid variants.");
-                return;
+            let operationalInsertionPointerNode = contentRendererDisplayBlock;
+            const executionContextStack = [];
+
+            function processingCharTokenTick() {
+                if(index >= executionTokensArray.length) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+                    statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
+                    generationTriggerBtn.disabled = false;
+                    generationTriggerBtn.style.opacity = "1";
+                    return;
+                }
+
+                const currentToken = executionTokensArray[index];
+                if(currentToken.type === 'text') {
+                    operationalInsertionPointerNode.appendChild(document.createTextNode(currentToken.value));
+                } else if(currentToken.type === 'br') {
+                    operationalInsertionPointerNode.appendChild(document.createElement('br'));
+                } else if(currentToken.type === 'tag-start') {
+                    const generatedTagElementNode = document.createElement(currentToken.tag);
+                    operationalInsertionPointerNode.appendChild(generatedTagElementNode);
+                    executionContextStack.push(operationalInsertionPointerNode);
+                    operationalInsertionPointerNode = generatedTagElementNode;
+                } else if(currentToken.type === 'tag-end') {
+                    if(executionContextStack.length > 0) operationalInsertionPointerNode = executionContextStack.pop();
+                }
+
+                index++;
+                setTimeout(processingCharTokenTick, 4);
             }
-
-            setUIProcessingState(true, `Applying refinement modification rule [${actionKey}]...`);
-
-            try {
-                const apiPayloadResponse = await fetch('/api/social', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        platform: activeFormStateModel.platform,
-                        tone: activeFormStateModel.tone,
-                        audience: activeFormStateModel.audience,
-                        goal: activeFormStateModel.goal,
-                        length: activeFormStateModel.length,
-                        addCTA: addCtaCheckbox.checked,
-                        refineAction: actionKey,
-                        existingPostContext: JSON.stringify(activeGeneratedPostObject)
-                    })
-                });
-
-                if(!apiPayloadResponse.ok) throw new Error();
-                const refinedData = await apiPayloadResponse.json();
-                
-                activeGeneratedPostObject = refinedData;
-                renderStructuredOutput(refinedData);
-                setUIProcessingState(false, "Refinement update compiled successfully.");
-
-            } catch (err) {
-                console.error("Micro-refinement transaction anomaly encountered:", err);
-                setUIProcessingState(false, "Failed to apply refinement modification.");
-                alert("Could not update copy variants across endpoint nodes.");
-            }
+            processingCharTokenTick();
         }
+
+        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
+        generationTriggerBtn.addEventListener('click', async () => {
+        const promptValueInputString = topicInputField.value.trim();
+        if(!promptValueInputString) {
+            alert("Please write your core text topic configuration parameter rules first before generating content.");
+            return;
+        }
+    
+        generationTriggerBtn.disabled = true;
+        generationTriggerBtn.style.opacity = "0.6";
+        statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
+        statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
+    
+        const platformToken = activeFormStateModel.platform;
+        const toneToken = activeFormStateModel.tone;
+        const audienceToken = activeFormStateModel.audience;
+        const goalToken = activeFormStateModel.goal;
+        const lengthToken = activeFormStateModel.length;
+        const ctaActiveFlag = addCtaCheckbox.checked;
+    
+        try {
+            const apiPayloadResponse = await fetch('/api/social', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    topic: promptValueInputString,
+                    platform: platformToken,
+                    tone: toneToken,
+                    audience: audienceToken,
+                    goal: goalToken,
+                    length: lengthToken,
+                    addCTA: ctaActiveFlag
+                })
+            });
+    
+            if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+            const parsedJSONDataPayload = await apiPayloadResponse.json();
+            
+            // Safety Fallback check for payload mapping paths
+            let rawModelOutputText = "";
+            if (parsedJSONDataPayload.candidates && parsedJSONDataPayload.candidates[0]?.content?.parts?.[0]?.text) {
+                rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
+            } else if (parsedJSONDataPayload.text) {
+                rawModelOutputText = parsedJSONDataPayload.text;
+            } else {
+                throw new Error("Unexpected payload structure parsing down channel nodes.");
+            }
+            
+            // Reset processing states beautifully on successful transmission response
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = "Content updated successfully!";
+            generationTriggerBtn.disabled = false;
+            generationTriggerBtn.style.opacity = "1";
+    
+            // Write generated content record down to Firestore instantly if signed in
+            if(currentUserObject) {
+                const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                    title: formattedTruncatedTitle,
+                    promptInput: promptValueInputString,
+                    platform: platformToken,
+                    tone: toneToken,
+                    audience: audienceToken,
+                    goal: goalToken,
+                    length: lengthToken,
+                    addCTA: ctaActiveFlag,
+                    generatedOutput: rawModelOutputText,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+    
+            streamPostContentText(rawModelOutputText);
+    
+        } catch (err) {
+            console.error("Upstream communication breakdown fault:", err);
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+            statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
+            generationTriggerBtn.disabled = false;
+            generationTriggerBtn.style.opacity = "1";
+            alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+        }
+    });
     </script>
 </body>
 </html>
