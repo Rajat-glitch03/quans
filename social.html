@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | Social Content Generator</title>
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com/tailwind.js"></script>
+    <!-- Fixed Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: DM Sans -->
@@ -75,7 +74,7 @@
                 </div>
             </div>
 
-            <!-- Mobile History Toggle Trigger Button (Placed cleanly AFTER the profile button) -->
+            <!-- Mobile History Toggle Trigger Button -->
             <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
                 <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             </button>
@@ -376,12 +375,12 @@
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
-        // Listen for typing events on free-text inputs to seamlessly sync them into the global form object payload
+        // Listen for typing events on free-text inputs
         toneTextInput.addEventListener('input', (e) => { activeFormStateModel.tone = e.target.value; });
         audienceTextInput.addEventListener('input', (e) => { activeFormStateModel.audience = e.target.value; });
         goalTextInput.addEventListener('input', (e) => { activeFormStateModel.goal = e.target.value; });
 
-        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
+        // --- CUSTOM DROPDOWN LAYOUT MANAGEMENT LOGIC ---
         function initializeCustomDropdownModules() {
             const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
             
@@ -395,7 +394,6 @@
                 // Toggle menu on click
                 triggerBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    // Close all other dropdown menus first
                     document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
                         if (menu !== optionsMenu) menu.classList.add('hidden');
                     });
@@ -414,13 +412,11 @@
                 });
             });
 
-            // Global click capture hook layer to dismiss floating dropdown elements instantly
             document.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
             });
         }
 
-        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
         function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
             if (componentNameKey === 'platform' || componentNameKey === 'length') {
                 const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
@@ -438,7 +434,7 @@
             activeFormStateModel[componentNameKey] = absoluteTargetValue;
         }
 
-        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
+        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS ---
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'index.html';
@@ -500,7 +496,7 @@
             }).catch(err => console.error("Segment copy blocked:", err));
         }
 
-        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
+        // REAL-TIME FIRESTORE DATA ACQUISITION
         function syncGenerationsRealtimeDatabaseStack() {
             if (!currentUserObject) return;
 
@@ -515,7 +511,7 @@
               }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
-        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
+        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY
         function renderGenerationsListCanvasDOM() {
             const filteredArray = generationLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
@@ -560,7 +556,6 @@
             mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
-        // Interactive Key Ingestion Stream Handlers
         desktopHistorySearchBox.addEventListener('input', (e) => {
             globalActiveSearchQueryToken = e.target.value;
             renderGenerationsListCanvasDOM();
@@ -570,7 +565,7 @@
             renderGenerationsListCanvasDOM();
         });
 
-        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
+        // FIRESTORE RECORD WRITING CONTROLLER
         async function renameGenerationDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
             try {
@@ -587,12 +582,11 @@
             } catch(err) { console.error("Deletion transaction execution rollback:", err); }
         }
 
-        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
+        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN
         function loadArchivedItemToWorkspace(docId) {
             const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
             if (!targetingMatchNode) return;
 
-            // Fluid state synchronizations over our modular text/dropdown layout system
             topicInputField.value = targetingMatchNode.promptInput || "";
             updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
             updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
@@ -601,7 +595,6 @@
             updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
             addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
 
-            // Restore brand inputs if present
             document.getElementById('brandContextInput').value = targetingMatchNode.brandContext || "";
             document.getElementById('sampleWritingStyleInput').value = targetingMatchNode.sampleWritingStyle || "";
 
@@ -653,7 +646,7 @@
             statusLabelIndicator.innerText = isLoading ? customMessage : "Ready";
         }
 
-        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
+        // ACTION PROCESS DISPATCH
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
@@ -697,7 +690,6 @@
                 
                 setUIProcessingState(false, "Generation complete. Final post asset available below.");
         
-                // Write generated content record down to Firestore instantly if signed in
                 if(currentUserObject) {
                     const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
                     await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
