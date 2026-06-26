@@ -627,7 +627,8 @@
         
             const platformToken = activeFormStateModel.platform;
             
-            // SAFE FALLBACKS: If empty, use defaults so backend doesn't throw a 500 error
+            // PERFECT SYNCHRONIZATION ALIGNMENT: 
+            // Pull exactly what the user typed. If empty, fallback gracefully to the placeholder hint text or clear defaults
             const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
             const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
             const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
@@ -635,7 +636,7 @@
             const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
             
-            // Optional fields safely fall back to empty strings
+            // Optional Brand Context tokens cleanly pass as empty strings if left blank
             const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
