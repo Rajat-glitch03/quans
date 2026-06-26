@@ -340,14 +340,21 @@
             profileDropdownMenu.classList.toggle('hidden');
         });
         document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await auth.signOut();
-                window.location.href = 'index.html';
-            } catch (err) {
-                console.error(err);
-            }
-        });
+        logoutActionBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
+            
+            // Disable button to prevent double-clicks
+            logoutActionBtn.disabled = true;
+            
+            auth.signOut().then(() => {
+                // Use replace to prevent the user from going 'back' to the content screen
+                window.location.replace('index.html'); 
+            }).catch((error) => {
+                console.error("Signout failed:", error);
+                logoutActionBtn.disabled = false;
+            });
+        });    
 
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
