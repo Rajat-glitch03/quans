@@ -480,11 +480,10 @@
         if (user) {
             window.userIsAuthenticated = true;
             
-            // Show the Sidebar
-            if (mobileSidebar) {
+            
                 mobileSidebar.classList.remove('hidden');
                 mobileSidebar.classList.add('!flex');
-            }
+            
     
             // Only update innerHTML if it hasn't already been rendered to avoid flickering
             if (!document.getElementById('firebaseLogoutBtn')) {
