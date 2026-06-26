@@ -483,10 +483,6 @@
                 // 1. Inject the navigation elements along with your Mobile Menu trigger button (hamburger icon)
                 navAuthGroup.innerHTML = `
                     <div class="flex items-center space-x-3 fade-in">
-                        <button id="openMobileMenuBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
-                            <i class="fa-solid fa-bars text-sm"></i>
-                        </button>
-        
                         <div class="relative inline-block text-left">
                             <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
                                 <span>Hello!</span>
@@ -499,6 +495,9 @@
                                 </button>
                             </div>
                         </div>
+                        <button id="openMobileMenuBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                            <i class="fa-solid fa-bars text-sm"></i>
+                        </button>
                     </div>
                 `;
         
