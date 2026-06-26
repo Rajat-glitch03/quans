@@ -25,7 +25,6 @@
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Smooth Mobile Sidebar Animation Transitions */
         .sidebar-overlay-active {
             opacity: 1 !important;
             pointer-events: auto !important;
@@ -131,7 +130,6 @@
                     </label>
                 </div>
 
-                <!-- Personalization Identity Controls -->
                 <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
                     <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
                         <i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner
@@ -264,7 +262,6 @@
     </div>
 
     <script>
-        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
                 extend: {
@@ -274,7 +271,6 @@
             }
         };
 
-        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
               apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
               authDomain: "quans-175a2.firebaseapp.com",
@@ -289,22 +285,16 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Runtime Global Variable Registration Parameter State Mapping Objects
         let currentUserObject = null;
         let generationLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
         let activeGeneratedPostObject = null;
 
-        // Object Tracking Active Values For Custom Selection Architecture
         const activeFormStateModel = {
             platform: "LinkedIn",
-            tone: "Professional",
-            audience: "Developers",
-            goal: "Get comments",
             length: "Short"
         };
 
-        // DOM Elements Map Pointer Directory Configuration Objects
         const profileTriggerBtn = document.getElementById('profileTriggerBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
         const logoutActionBtn = document.getElementById('logoutActionBtn');
@@ -314,7 +304,6 @@
         const addCtaCheckbox = document.getElementById('addCtaCheckbox');
         const generationTriggerBtn = document.getElementById('generationTriggerBtn');
         
-        // Free-text Input Node Target Map Selectors
         const toneTextInput = document.getElementById('toneTextInput');
         const audienceTextInput = document.getElementById('audienceTextInput');
         const goalTextInput = document.getElementById('goalTextInput');
@@ -340,12 +329,6 @@
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
-        // Listen for typing events on free-text inputs
-        if (toneTextInput) toneTextInput.addEventListener('input', (e) => { activeFormStateModel.tone = e.target.value; });
-        if (audienceTextInput) audienceTextInput.addEventListener('input', (e) => { activeFormStateModel.audience = e.target.value; });
-        if (goalTextInput) goalTextInput.addEventListener('input', (e) => { activeFormStateModel.goal = e.target.value; });
-
-        // --- CUSTOM DROPDOWN LAYOUT MANAGEMENT LOGIC ---
         function initializeCustomDropdownModules() {
             const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
             
@@ -356,7 +339,6 @@
                 const optionItems = root.querySelectorAll('.option-item');
                 const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
 
-                // Toggle menu on click
                 triggerBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
@@ -365,7 +347,6 @@
                     optionsMenu.classList.toggle('hidden');
                 });
 
-                // Option selection handler logic
                 optionItems.forEach(item => {
                     item.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -389,6 +370,7 @@
                     const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
                     if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
                 }
+                activeFormStateModel[componentNameKey] = absoluteTargetValue;
             } else if (componentNameKey === 'tone' && toneTextInput) {
                 toneTextInput.value = absoluteTargetValue;
             } else if (componentNameKey === 'audience' && audienceTextInput) {
@@ -396,10 +378,8 @@
             } else if (componentNameKey === 'goal' && goalTextInput) {
                 goalTextInput.value = absoluteTargetValue;
             }
-            activeFormStateModel[componentNameKey] = absoluteTargetValue;
         }
 
-        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS ---
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'index.html';
@@ -411,7 +391,6 @@
             }
         });
 
-        // Dropdown User profile overlay interaction handlers
         profileTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileDropdownMenu.classList.toggle('hidden');
@@ -419,7 +398,6 @@
         document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
         logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
 
-        // Desktop Dropup Component Event Layout Toggles handlers
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
@@ -431,7 +409,6 @@
             desktopDropupIcon.style.transform = "rotate(0deg)";
         });
 
-        // Mobile Sidebar Drawer Actions Controls Interface Implementations
         mobileDrawerOpenBtn.addEventListener('click', () => {
             mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
             mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
@@ -444,7 +421,6 @@
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
             if (!activeGeneratedPostObject) return;
             const blueprintTextString = `HOOK:\n${activeGeneratedPostObject.hook || ''}\n\nBODY:\n${activeGeneratedPostObject.mainPost || ''}\n\nCTA:\n${activeGeneratedPostObject.cta || ''}\n\n${activeGeneratedPostObject.hashtags || ''}`;
@@ -463,7 +439,6 @@
             }).catch(err => console.error("Segment copy blocked:", err));
         }
 
-        // REAL-TIME FIRESTORE DATA ACQUISITION
         function syncGenerationsRealtimeDatabaseStack() {
             if (!currentUserObject) return;
 
@@ -478,7 +453,6 @@
               }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
-        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY
         function renderGenerationsListCanvasDOM() {
             const filteredArray = generationLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
@@ -532,7 +506,6 @@
             renderGenerationsListCanvasDOM();
         });
 
-        // FIRESTORE RECORD WRITING CONTROLLER
         async function renameGenerationDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
             try {
@@ -549,7 +522,6 @@
             } catch(err) { console.error("Deletion transaction execution rollback:", err); }
         }
 
-        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN
         function loadArchivedItemToWorkspace(docId) {
             const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
             if (!targetingMatchNode) return;
@@ -585,7 +557,6 @@
             closeMobileDrawerHandler();
         }
 
-        // STRUCTURED OBJECT VIEW BINDING INTERFACE METHOD
         function renderStructuredOutput(dataObject) {
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
@@ -614,8 +585,7 @@
             statusLabelIndicator.innerText = isLoading ? customMessage : "Ready";
         }
 
-        // ACTION PROCESS DISPATCH
-        // ACTION PROCESS DISPATCH
+        // --- DIRECT SCREEN-EXTRACTION CLICK EVENT DISPATCH MATRIX ---
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
@@ -626,14 +596,14 @@
             setUIProcessingState(true, "Processing structural inputs through system APIs...");
         
             const platformToken = activeFormStateModel.platform;
-            
-            // READ VALUES DIRECTLY FROM INPUT NODES AT THE MOMENT OF CLICK WITH ACCURATE FALLBACKS
-            const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
-            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
-            const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
-            
             const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
+
+            // PULLING EXACT USER TEXT FROM BOX WITH HIGH COMPATIBILITY BACKEND SAFE FALLBACK VALUE WRAPPERS
+            const toneToken = (toneTextInput && toneTextInput.value.trim()) !== "" ? toneTextInput.value.trim() : "Professional";
+            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) !== "" ? audienceTextInput.value.trim() : "General Audience";
+            const goalToken = (goalTextInput && goalTextInput.value.trim()) !== "" ? goalTextInput.value.trim() : "Engagement";
+            
             const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
@@ -690,7 +660,6 @@
             }
         });
 
-        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         async function handleMicroRefinement(actionKey) {
             if (!activeGeneratedPostObject) {
                 alert("Generate a post configuration layout blueprint first before processing rapid variants.");
@@ -699,10 +668,9 @@
 
             setUIProcessingState(true, `Applying refinement modification rule [${actionKey}]...`);
 
-            // READ CLEAN VALUES DIRECTLY FOR REFINEMENTS AS WELL
-            const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
-            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
-            const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
+            const toneToken = (toneTextInput && toneTextInput.value.trim()) !== "" ? toneTextInput.value.trim() : "Professional";
+            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) !== "" ? audienceTextInput.value.trim() : "General Audience";
+            const goalToken = (goalTextInput && goalTextInput.value.trim()) !== "" ? goalTextInput.value.trim() : "Engagement";
 
             try {
                 const apiPayloadResponse = await fetch('/api/social', {
