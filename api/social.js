@@ -105,7 +105,7 @@ You MUST respond with a valid JSON object matching the requested schema structur
         ];
 
         // 7. Securely dispatch the payload using the valid gemini-2.5-flash endpoint URL
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
