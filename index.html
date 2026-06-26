@@ -474,59 +474,81 @@
         const initialNavHTML = navAuthGroup.innerHTML;
 
         onAuthStateChanged(auth, (user) => {
-        if (user) {
-            window.userIsAuthenticated = true;
-            
-            if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
-            if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
-    
-            // Inject the Hello text, user dropdown, AND the mobile drawer trigger button together
-            navAuthGroup.innerHTML = `
-                <div class="flex items-center space-x-3 fade-in">
-                    <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
-                        <i class="fa-solid fa-clock-rotate-left text-xs"></i>
-                    </button>
-    
-                    <div class="relative inline-block text-left">
-                        <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
-                            <span>Hello!</span>
-                            <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
+            if (user) {
+                window.userIsAuthenticated = true;
+                
+                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+        
+                // 1. Inject the navigation elements along with your Mobile Menu trigger button (hamburger icon)
+                navAuthGroup.innerHTML = `
+                    <div class="flex items-center space-x-3 fade-in">
+                        <button id="openMobileMenuBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                            <i class="fa-solid fa-bars text-sm"></i>
                         </button>
-                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
-                            <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
-                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                                <span>Log out</span>
+        
+                        <div class="relative inline-block text-left">
+                            <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
+                                <span>Hello!</span>
+                                <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
                             </button>
+                            <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
+                                <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
+                                    <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                                    <span>Log out</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-    
-            // ACTIVATE MOBILE SIDEBAR: Bind the click event now that the button exists in the DOM
-            const mobileDrawerBtn = document.getElementById('mobileDrawerOpenBtn');
-            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay'); // The main mobile container
-            const mobileSidebarPanel = document.getElementById('mobileSidebarDrawerPanel');
-    
-            if (mobileDrawerBtn && mobileSidebarOverlay && mobileSidebarPanel) {
-                mobileDrawerBtn.addEventListener('click', () => {
-                    // Add your custom sidebar activation tracking classes here
-                    mobileSidebarOverlay.classList.add('sidebar-overlay-active');
-                    mobileSidebarPanel.classList.add('sidebar-panel-active');
+                `;
+        
+                // 2. Fetch references to your existing static sidebar elements
+                const openMenuBtn = document.getElementById('openMobileMenuBtn');
+                const mobileSidebar = document.getElementById('mobileSidebar');
+                const closeMenuBtn = document.getElementById('closeMobileMenu');
+                const sidebarOverlay = document.getElementById('sidebarOverlay');
+                
+                // Find the inner sliding panel inside your sidebar structure
+                const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.translate-x-full, .translate-x-0') : null;
+        
+                // 3. Define open and close functions that modify your existing sidebar's styles
+                const openSidebar = () => {
+                    if (mobileSidebar && sidebarPanel) {
+                        mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                        mobileSidebar.classList.add('opacity-100', 'pointer-events-auto');
+                        
+                        sidebarPanel.classList.remove('translate-x-full');
+                        sidebarPanel.classList.add('translate-x-0');
+                    }
+                };
+        
+                const closeSidebar = () => {
+                    if (mobileSidebar && sidebarPanel) {
+                        mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                        mobileSidebar.classList.remove('opacity-100', 'pointer-events-auto');
+                        
+                        sidebarPanel.classList.add('translate-x-full');
+                        sidebarPanel.classList.remove('translate-x-0');
+                    }
+                };
+        
+                // 4. Attach event listeners to activate the transitions
+                if (openMenuBtn) openMenuBtn.addEventListener('click', openSidebar);
+                if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeSidebar);
+                if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        
+                // 5. Activate the logout button click handler
+                document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                    signOut(auth).catch((error) => {
+                        alert(`Sign-out error: ${error.message}`);
+                    });
                 });
+        
+            } else {
+                window.userIsAuthenticated = false;
+                navAuthGroup.innerHTML = initialNavHTML;
             }
-    
-            // ACTIVATE LOGOUT BUTTON
-            document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
-                signOut(auth).catch((error) => {
-                    alert(`Sign-out error: ${error.message}`);
-                });
-            });
-    
-        } else {
-            window.userIsAuthenticated = false;
-            navAuthGroup.innerHTML = initialNavHTML;
-        }
-    });
+        });
 
         // --- SIGNUP FORM EVENT LISTENER ---
         // Global utility state holders for your OTP operational system
