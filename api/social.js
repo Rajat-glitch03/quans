@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
         // 4. Handle Identity Cloning & Micro-Refinement Variations
         let identityCloningBlock = "";
-        if (brandContext || sampleWritingStyle) {
+        if ((brandContext && brandContext.trim() !== "") || (sampleWritingStyle && sampleWritingStyle.trim() !== "")) {
             identityCloningBlock = `
 PERSONALIZATION SYSTEM PROFILE MATCH (HIGHEST PRIORITY CONSTRAINTS):
 - Brand Profile/Website Background Context: "${brandContext || 'None provided'}"
@@ -65,6 +65,13 @@ Apply this modification command immediately across the JSON structure components
   * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
         }
 
+        // Ensure safe operational defaults if parameters arrive blank from frontend
+        const safePlatform = platform && platform.trim() !== "" ? platform.trim() : "LinkedIn";
+        const safeTone = tone && tone.trim() !== "" ? tone.trim() : "Professional";
+        const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "General Audience";
+        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement and Brand Awareness";
+        const safeLength = length && length.trim() !== "" ? length.trim() : "Short";
+
         // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
         const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert ghostwriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, highly believable social post based on their custom typed parameters.
 
@@ -75,16 +82,19 @@ CRITICAL TRUTH & AUTHENTICITY GUARDRAILS (NEVER INVENT FACTS):
 2. NO HOLLOW MARKETING-SPEAK: Avoid hyper-polished, robotic marketing tropes ("In today's fast-paced world", "Revolutionize your workflow", "Delve deeper"). Write like a real person sharing an authentic observation.
 3. USE PROVIDED CONTEXT ONLY: Restrict all contextual claims, product features, and personal background stories entirely to what is provided in the topic, brand context, or rewrite details. If information is missing, focus purely on formatting and clarifying the user's existing thoughts rather than guessing or fabricating filler content.
 
+INTEGRATED FORM INPUT INSTRUCTIONS:
+The user has provided structural parameters below. You must adapt fluidly to whatever values are provided, handling explicit manual configurations or fallback settings naturally without losing the context of the core topic.
+
 CUSTOM USER INPUT FIELD CONFIGURATION MATRIX:
-- TARGET PLATFORM: "${platform || 'LinkedIn'}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
-- BRAND TONE COMMAND: "${tone || 'Authentic'}". Adopt this precise, user-specified vocal style flawlessly.
-- TARGET AUDIENCE: "${audience || 'General'}". Address the exact pain points, mental models, and terminology associated with this typed audience.
-- POST GOAL: "${goal || 'Engage'}". Optimize the structural style to hit this specific target outcome.
-- ACCORDING CONFIGURATION LENGTH: "${length || 'Medium'}". Follow these hard limits:
+- TARGET PLATFORM: "${safePlatform}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
+- BRAND TONE COMMAND: "${safeTone}". Adopt this precise, user-specified vocal style flawlessly. Do not force generic marketing styles if a specific tone nuance is specified.
+- TARGET AUDIENCE: "${safeAudience}". Address the exact pain points, mental models, and terminology associated with this typed audience.
+- POST GOAL: "${safeGoal}". Optimize the structural style to hit this specific target outcome.
+- ACCORDING CONFIGURATION LENGTH: "${safeLength}". Follow these hard limits:
   * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
   * Long: In-depth breakdowns, long-form post layouts.
-- CALL TO ACTION (CTA): ${addCTA ? "CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line matching the goal inside the 'cta' parameter." : "DO NOT add a Call to Action under any circumstances. Keep the 'cta' field empty."}
+- CALL TO ACTION (CTA): ${addCTA ? `CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line matching the goal "${safeGoal}" inside the 'cta' parameter.` : "DO NOT add a Call to Action under any circumstances. Keep the 'cta' field empty."}
 ${identityCloningBlock}
 ${refinementDirectivesBlock}
 
