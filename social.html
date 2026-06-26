@@ -319,19 +319,31 @@
         }
 
         // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
-        auth.onAuthStateChanged((user) => {
+               auth.onAuthStateChanged((user) => {
+            // Get the current filename
+            const path = window.location.pathname;
+            const isIndexPage = path.endsWith('index.html') || path === '/';
+        
             if (!user) {
-                window.location.href = 'index.html';
+                // ONLY redirect if we aren't already on the index page
+                if (!isIndexPage) {
+                    window.location.replace('index.html');
+                }
             } else {
+                // User IS logged in
                 currentUserObject = user;
                 if (user.displayName) {
                     const primaryFirstNameName = user.displayName.split(' ')[0];
-                    userHelloDisplay.innerText = `Hello, ${primaryFirstNameName}!`;
+                    userHelloDisplay.innerText = `Hello!`;
                 } else {
                     userHelloDisplay.innerText = "Hello!";
                 }
-                initializeCustomDropdownModules();
-                syncGenerationsRealtimeDatabaseStack();
+                
+                // Only initialize these if we are on the content page
+                if (!isIndexPage) {
+                    initializeCustomDropdownModules();
+                    syncGenerationsRealtimeDatabaseStack();
+                }
             }
         });
 
