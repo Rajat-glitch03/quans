@@ -627,16 +627,13 @@
         
             const platformToken = activeFormStateModel.platform;
             
-            // PERFECT SYNCHRONIZATION ALIGNMENT: 
-            // Pull exactly what the user typed. If empty, fallback gracefully to the placeholder hint text or clear defaults
+            // READ VALUES DIRECTLY FROM INPUT NODES AT THE MOMENT OF CLICK WITH ACCURATE FALLBACKS
             const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
             const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
             const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
             
             const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
-            
-            // Optional Brand Context tokens cleanly pass as empty strings if left blank
             const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
@@ -702,15 +699,20 @@
 
             setUIProcessingState(true, `Applying refinement modification rule [${actionKey}]...`);
 
+            // READ CLEAN VALUES DIRECTLY FOR REFINEMENTS AS WELL
+            const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
+            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
+            const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
+
             try {
                 const apiPayloadResponse = await fetch('/api/social', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         platform: activeFormStateModel.platform,
-                        tone: activeFormStateModel.tone,
-                        audience: activeFormStateModel.audience,
-                        goal: activeFormStateModel.goal,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
                         length: activeFormStateModel.length,
                         addCTA: addCtaCheckbox.checked,
                         refineAction: actionKey,
