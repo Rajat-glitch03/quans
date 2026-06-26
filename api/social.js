@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Extract configuration parameters (now treated as raw user-typed inputs instead of rigid dropdowns)
+        // Extract configuration parameters (matching the restored rigid dropdown values)
         const { 
             topic, platform, tone, audience, goal, length, addCTA, 
             brandContext, sampleWritingStyle, refineAction, existingPostContext 
@@ -65,11 +65,11 @@ Apply this modification command immediately across the JSON structure components
   * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
         }
 
-        // Ensure safe operational defaults if parameters arrive blank from frontend
+        // Operational safe defaults matched perfectly with restored dropdown elements
         const safePlatform = platform && platform.trim() !== "" ? platform.trim() : "LinkedIn";
         const safeTone = tone && tone.trim() !== "" ? tone.trim() : "Professional";
         const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "General Audience";
-        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement";
+        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement and Likes";
         const safeLength = length && length.trim() !== "" ? length.trim() : "Short";
 
         // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
@@ -83,13 +83,13 @@ CRITICAL TRUTH & AUTHENTICITY GUARDRAILS (NEVER INVENT FACTS):
 3. USE PROVIDED CONTEXT ONLY: Restrict all contextual claims, product features, and personal background stories entirely to what is provided in the topic, brand context, or rewrite details. If information is missing, focus purely on formatting and clarifying the user's existing thoughts rather than guessing or fabricating filler content.
 
 INTEGRATED FORM INPUT INSTRUCTIONS:
-The user has provided structural parameters below. You must adapt fluidly to whatever values are provided, handling explicit manual configurations or fallback settings naturally without losing the context of the core topic.
+The user has selected parameters via structural dropdown configurations. Adapt natively to these variables.
 
 CUSTOM USER INPUT FIELD CONFIGURATION MATRIX:
 - TARGET PLATFORM: "${safePlatform}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
 - BRAND TONE COMMAND: "${safeTone}". Adopt this precise, user-specified vocal style flawlessly. Do not force generic marketing styles if a specific tone nuance is specified.
-- TARGET AUDIENCE: "${safeAudience}". Address the exact pain points, mental models, and terminology associated with this typed audience.
-- POST GOAL: "${safeGoal}". Optimize the structural style to hit this specific target outcome.
+- TARGET AUDIENCE: "${safeAudience}". Address the exact pain points, mental models, and terminology associated with this chosen audience profile.
+- POST GOAL: "${safeGoal}". Optimize the structural copy framework to target this absolute objective outcome.
 - ACCORDING CONFIGURATION LENGTH: "${safeLength}". Follow these hard limits:
   * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
@@ -115,7 +115,7 @@ You MUST respond with a valid JSON object matching the requested schema structur
         ];
 
         // 7. Securely dispatch the payload using the valid gemini-2.5-flash endpoint URL
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
