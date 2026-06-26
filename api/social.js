@@ -69,7 +69,7 @@ Apply this modification command immediately across the JSON structure components
         const safePlatform = platform && platform.trim() !== "" ? platform.trim() : "LinkedIn";
         const safeTone = tone && tone.trim() !== "" ? tone.trim() : "Professional";
         const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "General Audience";
-        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement and Brand Awareness";
+        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement";
         const safeLength = length && length.trim() !== "" ? length.trim() : "Short";
 
         // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
@@ -115,7 +115,7 @@ You MUST respond with a valid JSON object matching the requested schema structur
         ];
 
         // 7. Securely dispatch the payload using the valid gemini-2.5-flash endpoint URL
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
