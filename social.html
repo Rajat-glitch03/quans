@@ -1,1 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>QUANS | Social Content Generator</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase Compatibility SDK Matrix -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50">
+
+    <!-- NAVIGATION HEADER BAR -->
+    <header class="w-full h-16 border-b border-slate-100 bg-white px-4 sm:px-6 flex items-center justify-between sticky top-0 z-50 shrink-0">
+        <!-- Left Wing: Home Redirection Button -->
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="text-sm font-bold border border-slate-200 text-slate-600 px-4 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-house text-xs"></i>
+                <span class="hidden sm:inline">Home</span>
+            </a>
+        </div>
+
+        <!-- Center Wing: Content Generator Core Identity -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+            <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-slate-900">Content Generator</h1>
+        </div>
+
+        <!-- Right Wing: Mobile Trigger + Identity Profile Interface Dropdown -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Mobile Sidebar Generations Drawer Trigger Toggle -->
+            <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors">
+                <i class="fa-solid fa-clock-history text-sm"></i>
+            </button>
+
+            <!-- Profile Menu Container Dropdown Group -->
+            <div class="relative" id="profileDropdownRoot">
+                <button id="profileTriggerBtn" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 border border-slate-200 rounded-full hover:bg-slate-50 transition-all cursor-pointer bg-white">
+                    <span id="userHelloDisplay" class="text-xs sm:text-sm font-bold text-slate-700">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 mt-0.5"></i>
+                </button>
+                
+                <!-- Dropdown Menu Box Panel -->
+                <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 z-50">
+                    <button id="logoutActionBtn" class="w-full px-4 py-2.5 text-left text-sm text-rose-500 hover:bg-rose-50/50 font-semibold flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout Account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS GRID FRAMEWORK -->
+    <main class="flex-1 w-full max-w-[1440px] mx-auto flex overflow-hidden relative p-4 gap-4">
+        
+        <!-- COLUMN 1: LEFT CONFIGURATION ENGINE LAYOUT COMPONENT -->
+        <section class="w-full md:w-[400px] bg-white border border-slate-100 rounded-3xl shadow-sm flex flex-col p-5 overflow-y-auto shrink-0 z-10">
+            <div class="space-y-4 flex-1">
+                <!-- Field Input Module: Topic Header -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Paste or enter a topic you want</label>
+                    <textarea id="topicInputField" rows="3" placeholder="Type your core idea, or paste internal workflows/articles here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-2xl p-3 outline-none text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                </div>
+
+                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 1 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+                        <select id="platformSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="X (Twitter)">X (Twitter)</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+                        <select id="toneSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
+                            <option value="Professional">Professional</option>
+                            <option value="Funny">Funny</option>
+                            <option value="Storytelling">Storytelling</option>
+                            <option value="Motivational">Motivational</option>
+                            <option value="Educational">Educational</option>
+                            <option value="Casual">Casual</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 2 -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+                        <select id="audienceSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
+                            <option value="Developers">Developers</option>
+                            <option value="Founders">Founders</option>
+                            <option value="Students">Students</option>
+                            <option value="Creators">Creators</option>
+                            <option value="Business Owners">Business Owners</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                        <select id="goalSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
+                            <option value="Get comments">Get comments</option>
+                            <option value="Go viral">Go viral</option>
+                            <option value="Build authority">Build authority</option>
+                            <option value="Sell a product">Sell a product</option>
+                            <option value="Educate">Educate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dropdown Form Selector Parameters Control Dashboard Grid Row 3 -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+                    <select id="lengthSelector" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-blue text-sm text-slate-700 bg-white cursor-pointer shadow-xs">
+                        <option value="Short">Short</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Long">Long</option>
+                    </select>
+                </div>
+
+                <!-- CTA Engine Activation Flag Checkbox Layer Box -->
+                <div class="flex items-center gap-2.5 pt-1.5">
+                    <input type="checkbox" id="addCtaCheckbox" class="w-4 h-4 text-brand-blue border-slate-300 rounded focus:ring-brand-blue cursor-pointer">
+                    <label for="addCtaCheckbox" class="text-sm font-bold text-slate-600 cursor-pointer select-none">Add CTA</label>
+                </div>
+            </div>
+
+            <!-- Primary Workspace Dispatch Submission Operation Trigger Button -->
+            <button id="generationTriggerBtn" class="w-full mt-5 bg-brand-blue text-white font-bold py-3 px-4 rounded-2xl shadow-md shadow-blue-100 hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group">
+                <i class="fa-solid fa-wand-magic-sparkles text-sm group-hover:rotate-12 transition-transform"></i>
+                <span>Generate</span>
+            </button>
+        </section>
+
+        <!-- COLUMN 2: RIGHT GENERATION WORKSPACE RUNTIME SCREEN VIEWER -->
+        <section class="flex-1 bg-white border border-slate-100 rounded-3xl shadow-sm flex flex-col overflow-hidden relative">
+            <!-- Workspace Output Subheader Status Info Context Navbar -->
+            <div class="h-14 border-b border-slate-100 px-5 flex items-center justify-between bg-slate-50/40 shrink-0">
+                <div class="flex items-center gap-2">
+                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300"></div>
+                    <span id="statusLabelIndicator" class="text-xs font-bold text-slate-500">Workspace ready. Ready for input specifications.</span>
+                </div>
+                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-xs font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-colors">
+                    <i class="fa-regular fa-copy"></i>
+                    <span id="copyBtnLabelText">Copy Copy</span>
+                </button>
+            </div>
+
+            <!-- Display Frame Shell Block Interface Engine -->
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-6 flex flex-col justify-center">
+                <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
+                    <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto text-xl text-slate-400 border border-slate-100 mb-3">
+                        <i class="fa-solid fa-rectangle-list"></i>
+                    </div>
+                    <p class="text-xs font-medium leading-relaxed">Your generated social blueprint will render inside this container module viewport canvas workspace in real-time.</p>
+                </div>
+                <div id="contentRendererDisplayBlock" class="hidden w-full h-full text-slate-700 text-base leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
+            </div>
+
+            <!-- DESKTOP FLOATING DROPUP VIEW MODULE DESIGN ANCHOR LINK -->
+            <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
+                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg hover:bg-slate-800 transition-all cursor-pointer">
+                    <i class="fa-solid fa-clock-history"></i>
+                    <span>Your Generations</span>
+                    <i class="fa-solid fa-chevron-up text-[10px] text-slate-400 ml-1 transition-transform duration-300" id="desktopDropupIcon"></i>
+                </button>
+                
+                <!-- Expanded Dropup Drawer Main Card Node Structure -->
+                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[350px] h-[400px] bg-white border border-slate-200 shadow-2xl rounded-2xl flex flex-col overflow-hidden transition-all duration-300">
+                    <!-- Drawer Header Search Block -->
+                    <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
+                        <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1"><i class="fa-solid fa-folder-tree text-brand-blue"></i>History Stack</h3>
+                        <div class="relative">
+                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+                        </div>
+                    </div>
+                    <!-- Target Scroll Box Loop Container Wrapper -->
+                    <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MOBILE SIDEBAR GENERATIONS DRAWER MODAL CONTAINER COVER OVERLAY -->
+    <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
+        <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[340px] h-full bg-white shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
+            <!-- Header Operations Sidebar Context -->
+            <div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
+                <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-history text-brand-blue"></i>Your Generations</span>
+                <button id="mobileDrawerCloseBtn" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <!-- Interactive Search Base Entry Filter -->
+            <div class="p-3 bg-white border-b border-slate-100 shrink-0">
+                <div class="relative">
+                    <input type="text" id="mobileHistorySearchBox" placeholder="Search saved generation logs..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2.5 outline-none focus:border-brand-blue">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                </div>
+            </div>
+            <!-- Dynamic Scroll Space Injection Node Panel Container Target -->
+            <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
+        </div>
+    </div>
+
+    <!-- INLINE ENGINE ARCHITECTURE CORE LOGIC EXECUTIONS -->
+    <script>
+        // --- TAILWIND DESIGN SYSTEM CONTEXT ENGINE SCHEMA VALUES DEFINITION ---
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
+                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
+                }
+            }
+        };
+
+        // --- FIREBASE SUITE ARCHITECTURE CONFIG MATRIX STACK ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+            authDomain: "quans-175a2.firebaseapp.com",
+            projectId: "quans-175a2",
+            storageBucket: "quans-175a2.firebasestorage.app",
+            messagingSenderId: "221298439204",
+            appId: "1:221298439204:web:47b39c005411c979ca54b1"
+        };
+        
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements Variable Registry Map Node Objects
+        const profileTriggerBtn = document.getElementById('profileTriggerBtn');
+        const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+        const logoutActionBtn = document.getElementById('logoutActionBtn');
+        const userHelloDisplay = document.getElementById('userHelloDisplay');
+        
+        const topicInputField = document.getElementById('topicInputField');
+        const platformSelector = document.getElementById('platformSelector');
+        const toneSelector = document.getElementById('toneSelector');
+        const audienceSelector = document.getElementById('audienceSelector');
+        const goalSelector = document.getElementById('goalSelector');
+        const lengthSelector = document.getElementById('lengthSelector');
+        const addCtaCheckbox = document.getElementById('addCtaCheckbox');
+        const generationTriggerBtn = document.getElementById('generationTriggerBtn');
+        
+        const statusDotIndicator = document.getElementById('statusDotIndicator');
+        const statusLabelIndicator = document.getElementById('statusLabelIndicator');
+        const fallbackEmptyStatePanel = document.getElementById('fallbackEmptyStatePanel');
+        const contentRendererDisplayBlock = document.getElementById('contentRendererDisplayBlock');
+        const copyToClipboardBtn = document.getElementById('copyToClipboardBtn');
+        const copyBtnLabelText = document.getElementById('copyBtnLabelText');
+        const outputDisplayScreenFrame = document.getElementById('outputDisplayScreenFrame');
+
+        const desktopDropupTriggerBtn = document.getElementById('desktopDropupTriggerBtn');
+        const desktopDropupPanel = document.getElementById('desktopDropupPanel');
+        const desktopDropupIcon = document.getElementById('desktopDropupIcon');
+        const desktopHistorySearchBox = document.getElementById('desktopHistorySearchBox');
+        const desktopGenerationsScrollList = document.getElementById('desktopGenerationsScrollList');
+
+        const mobileDrawerOpenBtn = document.getElementById('mobileDrawerOpenBtn');
+        const mobileDrawerCloseBtn = document.getElementById('mobileDrawerCloseBtn');
+        const mobileSidebarDrawerOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+        const mobileSidebarDrawerPanel = document.getElementById('mobileSidebarDrawerPanel');
+        const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
+        const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
+
+        let currentUserObject = null;
+        let generationLogsCacheArray = [];
+        let globalActiveSearchQueryToken = "";
+
+        // AUTH GUARD PROTECTION TRACKER TRIGGER MIGRATION
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+            } else {
+                currentUserObject = user;
+                if (user.displayName) {
+                    const primaryFirstName = user.displayName.split(' ')[0];
+                    userHelloDisplay.innerText = `Hello, ${primaryFirstName}!`;
+                } else {
+                    userHelloDisplay.innerText = "Hello!";
+                }
+                syncGenerationsRealtimeDatabaseStack();
+            }
+        });
+
+        // Dropdown Menu Toggles Interaction Controls Event Listeners
+        profileTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdownMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
+        logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+
+        // Desktop Dropup Component Event Layout Toggles handlers
+        desktopDropupTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !desktopDropupPanel.classList.toggle('hidden');
+            desktopDropupIcon.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+        });
+        desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', () => {
+            desktopDropupPanel.classList.add('hidden');
+            desktopDropupIcon.style.transform = "rotate(0deg)";
+        });
+
+        // Mobile Sidebar Drawer Actions Controls Interface Implementations
+        mobileDrawerOpenBtn.addEventListener('click', () => {
+            mobileSidebarDrawerOverlay.classList.remove('pointer-events-none', 'opacity-0');
+            mobileSidebarDrawerPanel.classList.remove('translate-x-full');
+        });
+        const closeMobileDrawerHandler = () => {
+            mobileSidebarDrawerOverlay.classList.add('pointer-events-none', 'opacity-0');
+            mobileSidebarDrawerPanel.classList.add('translate-x-full');
+        };
+        mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
+
+        // COPY ENGINE ACTION CODE IMPLEMENTATION
+        copyToClipboardBtn.addEventListener('click', () => {
+            const outputCopyValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
+            navigator.clipboard.writeText(outputCopyValueText).then(() => {
+                copyBtnLabelText.innerText = "Copied!";
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Copy", 1500);
+            }).catch(e => console.error("Clipboard target buffer blockage:", e));
+        });
+
+        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
+        function syncGenerationsRealtimeDatabaseStack() {
+            if (!currentUserObject) return;
+
+            db.collection('users').doc(currentUserObject.uid).collection('generations')
+              .orderBy('timestamp', 'desc')
+              .onSnapshot((snapshot) => {
+                  generationLogsCacheArray = [];
+                  snapshot.forEach(doc => {
+                      generationLogsCacheArray.push({ id: doc.id, ...doc.data() });
+                  });
+                  renderGenerationsListCanvasDOM();
+              }, error => console.error("Firestore sync fault:", error));
+        }
+
+        // DYNAMIC DOM RECORD GENERATORS NODE LIST ASSEMBLY FACTORY
+        function renderGenerationsListCanvasDOM() {
+            const filteredArray = generationLogsCacheArray.filter(item => {
+                if(!globalActiveSearchQueryToken.trim()) return true;
+                const matchToken = globalActiveSearchQueryToken.toLowerCase();
+                return (item.title && item.title.toLowerCase().includes(matchToken)) || 
+                       (item.promptInput && item.promptInput.toLowerCase().includes(matchToken)) ||
+                       (item.platform && item.platform.toLowerCase().includes(matchToken));
+            });
+
+            const renderBlockFactoryHtml = (item) => `
+                <div class="p-2.5 bg-white border border-slate-100 rounded-xl hover:border-brand-blue shadow-xs transition-all flex flex-col gap-1.5 group/item relative cursor-pointer" onclick="loadArchivedItemToWorkspace('${item.id}')">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-1.5 min-w-0 flex-1">
+                            <i class="fa-regular fa-file-lines text-slate-400 text-xs shrink-0"></i>
+                            <input type="text" value="${item.title || 'Untitled Generation'}" 
+                                class="text-xs font-bold text-slate-700 bg-transparent border-b border-transparent focus:border-brand-blue outline-none min-w-0 flex-1 cursor-text"
+                                onclick="e => e.stopPropagation()" 
+                                onchange="renameGenerationDocRecord('${item.id}', this.value)" 
+                                id="titleInputNode-${item.id}">
+                        </div>
+                        <div class="flex items-center gap-1 shrink-0 opacity-100 md:opacity-0 group-hover/item:opacity-100 transition-opacity">
+                            <button onclick="event.stopPropagation(); document.getElementById('titleInputNode-${item.id}').focus();" class="w-6 h-6 rounded-md hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-blue text-[10px]">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteGenerationDocRecord('${item.id}')" class="w-6 h-6 rounded-md hover:bg-rose-50 flex items-center justify-center text-slate-400 hover:text-rose-500 text-[10px]">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold text-slate-400">
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone}</span>
+                    </div>
+                </div>
+            `;
+
+            const finalCompiledHtmlMarkup = filteredArray.length ? filteredArray.map(renderBlockFactoryHtml).join('') : `
+                <div class="text-center py-8 text-slate-400 text-xs font-medium">No generation logs located.</div>
+            `;
+
+            desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+            mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+        }
+
+        // SEARCH INPUT LISTENER MATRIX ENGINES
+        desktopHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
+        });
+        mobileHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
+        });
+
+        // FIRESTORE MUTATION ACTIONS LAYER OPERATORS
+        async function renameGenerationDocRecord(docId, nextTitleValue) {
+            if(!currentUserObject || !nextTitleValue.trim()) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).update({
+                    title: nextTitleValue.trim()
+                });
+            } catch(e) { console.error("Rename operational fault:", e); }
+        }
+
+        async function deleteGenerationDocRecord(docId) {
+            if(!currentUserObject || !confirm("Are you sure you want to delete this generation?")) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).delete();
+            } catch(e) { console.error("Deletion transaction rollback fault:", e); }
+        }
+
+        // VIEW PORT WORKSPACE HYDRATION HANDLER NODE DEPLOYMENT
+        function loadArchivedItemToWorkspace(docId) {
+            const targetedMatch = generationLogsCacheArray.find(g => g.id === docId);
+            if (!targetedMatch) return;
+
+            // Sync structural select values safely
+            topicInputField.value = targetedMatch.promptInput || "";
+            platformSelector.value = targetedMatch.platform || "LinkedIn";
+            toneSelector.value = targetedMatch.tone || "Professional";
+            audienceSelector.value = targetedMatch.audience || "General";
+            goalSelector.value = targetedMatch.goal || "Educate";
+            lengthSelector.value = targetedMatch.length || "Medium";
+            addCtaCheckbox.checked = !!targetedMatch.addCTA;
+
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = `Archived Content Session Loaded [${targetedMatch.platform}].`;
+            
+            contentRendererDisplayBlock.innerText = targetedMatch.generatedOutput || "";
+            closeMobileDrawerHandler();
+        }
+
+        // CHAR-BY-CHAR TOKEN CHARACTER RENDERING ENGINE 
+        function streamPostContentText(rawText) {
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+            contentRendererDisplayBlock.innerHTML = '';
+
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-brand-blue animate-pulse";
+            statusLabelIndicator.innerText = "Copywriting nodes rendering textual output dynamic layout data...";
+
+            let index = 0;
+            const compiledHtmlMarkup = rawText
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+
+            const temporaryNodeContainerDiv = document.createElement('div');
+            temporaryNodeContainerDiv.innerHTML = compiledHtmlMarkup;
+            const streamTokens = [];
+
+            function structuralParseLoop(node) {
+                if(node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue.split('').forEach(char => streamTokens.push({ type: 'text', value: char }));
+                } else if(node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'BR') {
+                        streamTokens.push({ type: 'br' });
+                    } else {
+                        streamTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
+                        Array.from(node.childNodes).forEach(structuralParseLoop);
+                        streamTokens.push({ type: 'tag-end' });
+                    }
+                }
+            }
+            Array.from(temporaryNodeContainerDiv.childNodes).forEach(structuralParseLoop);
+
+            let pointerAnchorContainerNode = contentRendererDisplayBlock;
+            const DOMContextStack = [];
+
+            function processingCharTokenTick() {
+                if(index >= streamTokens.length) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+                    statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
+                    generationTriggerBtn.disabled = false;
+                    generationTriggerBtn.style.opacity = "1";
+                    return;
+                }
+
+                const currentToken = streamTokens[index];
+                if(currentToken.type === 'text') {
+                    pointerAnchorContainerNode.appendChild(document.createTextNode(currentToken.value));
+                } else if(currentToken.type === 'br') {
+                    pointerAnchorContainerNode.appendChild(document.createElement('br'));
+                } else if(currentToken.type === 'tag-start') {
+                    const tagElementNode = document.createElement(currentToken.tag);
+                    pointerAnchorContainerNode.appendChild(tagElementNode);
+                    DOMContextStack.push(pointerAnchorContainerNode);
+                    pointerAnchorContainerNode = tagElementNode;
+                } else if(currentToken.type === 'tag-end') {
+                    if(DOMContextStack.length > 0) pointerAnchorContainerNode = DOMContextStack.pop();
+                }
+
+                index++;
+                setTimeout(processingCharTokenTick, 5);
+            }
+            processingCharTokenTick();
+        }
+
+        // BRAND GENERATION BACKEND FETCH FLOW CONTROLLER DISPATCHER
+        generationTriggerBtn.addEventListener('click', async () => {
+            const promptValueInputString = topicInputField.value.trim();
+            if(!promptValueInputString) {
+                alert("Please fill out your core text topic requirements before triggering copywriting processes.");
+                return;
+            }
+
+            generationTriggerBtn.disabled = true;
+            generationTriggerBtn.style.opacity = "0.6";
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
+            statusLabelIndicator.innerText = "Sending payload schema mapping configurations directly to Vercel downstream nodes...";
+
+            const platformToken = platformSelector.value;
+            const toneToken = toneSelector.value;
+            const audienceToken = audienceSelector.value;
+            const goalToken = goalSelector.value;
+            const lengthToken = lengthSelector.value;
+            const ctaActiveFlag = addCtaCheckbox.checked;
+
+            try {
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag
+                    })
+                });
+
+                if(!apiPayloadResponse.ok) throw new Error(`HTTP Error Status: ${apiPayloadResponse.status}`);
+                const JSONDataPayload = await apiPayloadResponse.json();
+                
+                const rawModelOutputText = JSONDataPayload.candidates[0].content.parts[0].text;
+                
+                // Write structural object map down to active firestore layer paths instantly
+                if(currentUserObject) {
+                    const sampleTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 24) + "...";
+                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                        title: sampleTruncatedTitle,
+                        promptInput: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        generatedOutput: rawModelOutputText,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                streamPostContentText(rawModelOutputText);
+
+            } catch (err) {
+                console.error("Upstream payload ingestion error:", err);
+                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                statusLabelIndicator.innerText = "Execution fault. Critical server connection breakdown.";
+                generationTriggerBtn.disabled = false;
+                generationTriggerBtn.style.opacity = "1";
+                alert("Failed to communicate successfully with text generation node channels. Try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
