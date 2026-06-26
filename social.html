@@ -73,7 +73,7 @@
     <main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
         
         <section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-[45vh] md:h-full">
-            <div class="space-y-4">
+            <div class="space-y-4 pb-1">
                 <div class="flex flex-col gap-1.5">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
                     <textarea id="topicInputField" rows="3" placeholder="Paste structural text details, blogs, ideas, or brief notes here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
@@ -182,7 +182,7 @@
                 </button>
             </div>
 
-            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center max-h-full">
                 <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
                     <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-base text-slate-400 border border-slate-100 mb-2.5">
                         <i class="fa-solid fa-rectangle-list"></i>
@@ -374,7 +374,10 @@
             profileDropdownMenu.classList.toggle('hidden');
         });
         document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
-        logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+        logoutActionBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            auth.signOut().catch(err => console.error("Signout error:", err));
+        });
 
         // Desktop Dropup Component Event Layout Toggles handlers
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
