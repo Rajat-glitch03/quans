@@ -92,20 +92,49 @@
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1.5" id="fieldToneRoot">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
-                        <input type="text" id="toneTextInput" placeholder="e.g., Witty but executive" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Professional</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual & Friendly">Casual & Friendly</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Witty & Sarcastic">Witty & Sarcastic</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational & Authority">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Bold & Hype">Bold & Hype</div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="flex flex-col gap-1.5" id="fieldAudienceRoot">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
-                        <input type="text" id="audienceTextInput" placeholder="e.g., Indie hackers" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">General Audience</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General Audience">General</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers & Tech Leaders">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders & Solopreneurs">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Marketers & Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="B2B Executives">B2B Buyers</div>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-1.5" id="fieldGoalRoot">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
-                        <input type="text" id="goalTextInput" placeholder="e.g., Sell product" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Engagement</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Engagement and Likes">Engagement</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get Comments & Discussion">Get Comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Drive Website Traffic">Drive Traffic</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Inbound Lead Generation">Inbound Leads</div>
+                        </div>
                     </div>
                 </div>
 
@@ -290,8 +319,12 @@
         let globalActiveSearchQueryToken = "";
         let activeGeneratedPostObject = null;
 
+        // CRITICAL STORAGE STATE SYNC WITH CORE BLUEPRINTS
         const activeFormStateModel = {
             platform: "LinkedIn",
+            tone: "Professional",
+            audience: "General Audience",
+            goal: "Engagement and Likes",
             length: "Short"
         };
 
@@ -303,10 +336,6 @@
         const topicInputField = document.getElementById('topicInputField');
         const addCtaCheckbox = document.getElementById('addCtaCheckbox');
         const generationTriggerBtn = document.getElementById('generationTriggerBtn');
-        
-        const toneTextInput = document.getElementById('toneTextInput');
-        const audienceTextInput = document.getElementById('audienceTextInput');
-        const goalTextInput = document.getElementById('goalTextInput');
 
         const statusDotIndicator = document.getElementById('statusDotIndicator');
         const statusLabelIndicator = document.getElementById('statusLabelIndicator');
@@ -364,20 +393,12 @@
         }
 
         function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
-            if (componentNameKey === 'platform' || componentNameKey === 'length') {
-                const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
-                if (rootTargetNode) {
-                    const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
-                    if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
-                }
-                activeFormStateModel[componentNameKey] = absoluteTargetValue;
-            } else if (componentNameKey === 'tone' && toneTextInput) {
-                toneTextInput.value = absoluteTargetValue;
-            } else if (componentNameKey === 'audience' && audienceTextInput) {
-                audienceTextInput.value = absoluteTargetValue;
-            } else if (componentNameKey === 'goal' && goalTextInput) {
-                goalTextInput.value = absoluteTargetValue;
+            const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
+            if (rootTargetNode) {
+                const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
+                if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
             }
+            activeFormStateModel[componentNameKey] = absoluteTargetValue;
         }
 
         auth.onAuthStateChanged((user) => {
@@ -529,8 +550,8 @@
             topicInputField.value = targetingMatchNode.promptInput || "";
             updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
             updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
-            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "Developers");
-            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Get comments");
+            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "General Audience");
+            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Engagement and Likes");
             updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
             addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
 
@@ -585,7 +606,6 @@
             statusLabelIndicator.innerText = isLoading ? customMessage : "Ready";
         }
 
-        // --- DIRECT SCREEN-EXTRACTION CLICK EVENT DISPATCH MATRIX ---
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
@@ -595,15 +615,6 @@
         
             setUIProcessingState(true, "Processing structural inputs through system APIs...");
         
-            const platformToken = activeFormStateModel.platform;
-            const lengthToken = activeFormStateModel.length;
-            const ctaActiveFlag = addCtaCheckbox.checked;
-
-            // PULLING EXACT USER TEXT FROM BOX WITH HIGH COMPATIBILITY BACKEND SAFE FALLBACK VALUE WRAPPERS
-            const toneToken = (toneTextInput && toneTextInput.value.trim()) !== "" ? toneTextInput.value.trim() : "Professional";
-            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) !== "" ? audienceTextInput.value.trim() : "General Audience";
-            const goalToken = (goalTextInput && goalTextInput.value.trim()) !== "" ? goalTextInput.value.trim() : "Engagement";
-            
             const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
@@ -613,12 +624,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         topic: promptValueInputString,
-                        platform: platformToken,
-                        tone: toneToken,
-                        audience: audienceToken,
-                        goal: goalToken,
-                        length: lengthToken,
-                        addCTA: ctaActiveFlag,
+                        platform: activeFormStateModel.platform,
+                        tone: activeFormStateModel.tone,
+                        audience: activeFormStateModel.audience,
+                        goal: activeFormStateModel.goal,
+                        length: activeFormStateModel.length,
+                        addCTA: addCtaCheckbox.checked,
                         brandContext: brandContextToken,
                         sampleWritingStyle: sampleStyleToken
                     })
@@ -637,12 +648,12 @@
                     await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
                         title: formattedTruncatedTitle,
                         promptInput: promptValueInputString,
-                        platform: platformToken,
-                        tone: toneToken,
-                        audience: audienceToken,
-                        goal: goalToken,
-                        length: lengthToken,
-                        addCTA: ctaActiveFlag,
+                        platform: activeFormStateModel.platform,
+                        tone: activeFormStateModel.tone,
+                        audience: activeFormStateModel.audience,
+                        goal: activeFormStateModel.goal,
+                        length: activeFormStateModel.length,
+                        addCTA: addCtaCheckbox.checked,
                         brandContext: brandContextToken,
                         sampleWritingStyle: sampleStyleToken,
                         generatedOutput: JSON.stringify(structuredDataPayload),
@@ -668,19 +679,15 @@
 
             setUIProcessingState(true, `Applying refinement modification rule [${actionKey}]...`);
 
-            const toneToken = (toneTextInput && toneTextInput.value.trim()) !== "" ? toneTextInput.value.trim() : "Professional";
-            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) !== "" ? audienceTextInput.value.trim() : "General Audience";
-            const goalToken = (goalTextInput && goalTextInput.value.trim()) !== "" ? goalTextInput.value.trim() : "Engagement";
-
             try {
                 const apiPayloadResponse = await fetch('/api/social', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         platform: activeFormStateModel.platform,
-                        tone: toneToken,
-                        audience: audienceToken,
-                        goal: goalToken,
+                        tone: activeFormStateModel.tone,
+                        audience: activeFormStateModel.audience,
+                        goal: activeFormStateModel.goal,
                         length: activeFormStateModel.length,
                         addCTA: addCtaCheckbox.checked,
                         refineAction: actionKey,
