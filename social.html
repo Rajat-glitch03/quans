@@ -95,18 +95,18 @@
                     </div>
                     <div class="flex flex-col gap-1.5" id="fieldToneRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
-                        <input type="text" id="toneTextInput" value="Professional" placeholder="e.g., Witty but executive" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <input type="text" id="toneTextInput" placeholder="e.g., Witty but executive" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="flex flex-col gap-1.5" id="fieldAudienceRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
-                        <input type="text" id="audienceTextInput" value="Developers" placeholder="e.g., Indie hackers" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <input type="text" id="audienceTextInput" placeholder="e.g., Indie hackers" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
                     <div class="flex flex-col gap-1.5" id="fieldGoalRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
-                        <input type="text" id="goalTextInput" value="Get comments" placeholder="e.g., Sell product" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
+                        <input type="text" id="goalTextInput" placeholder="e.g., Sell product" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
                 </div>
 
@@ -132,14 +132,20 @@
                 </div>
 
                 <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
-                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner</h3>
+                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
+                        <i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner
+                    </h3>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                            Profile URL Context <span class="text-slate-300 font-normal lowercase">(optional)</span>
+                        </label>
                         <input type="url" id="brandContextInput" placeholder="e.g., https://mybrand.com" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
-                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy syntax..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                            Writing History Style Sample <span class="text-slate-300 font-normal lowercase">(optional)</span>
+                        </label>
+                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy your natural syntax voice..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
                     </div>
                 </div>
             </div>
