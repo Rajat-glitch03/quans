@@ -131,6 +131,7 @@
                     </label>
                 </div>
 
+                <!-- Personalization Identity Controls -->
                 <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
                     <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
                         <i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner
@@ -213,12 +214,12 @@
                     </div>
 
                     <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>⏱ Shorter</span></button>
-                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>👔 Executive</span></button>
-                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🤡 Wittier</span></button>
-                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🪝 Punchy Hook</span></button>
-                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>📈 Sales Pitch</span></button>
-                        <button onclick="handleMicroRefinement('story')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>📖 Narrative</span></button>
+                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>竢ｱ Shorter</span></button>
+                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>藻 Executive</span></button>
+                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>､｡ Wittier</span></button>
+                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>ｪPunchy Hook</span></button>
+                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>嶋 Sales Pitch</span></button>
+                        <button onclick="handleMicroRefinement('story')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>当 Narrative</span></button>
                     </div>
                 </div>
             </div>
@@ -454,7 +455,9 @@
         });
 
         function copyIndividualSegmentBlock(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText || document.getElementById(elementId).textContent;
+            const nodeTarget = document.getElementById(elementId);
+            const textToCopy = nodeTarget ? (nodeTarget.innerText || nodeTarget.textContent) : "";
+            if (!textToCopy) return;
             navigator.clipboard.writeText(textToCopy).then(() => {
                 alert("Segment asset copied to clipboard!");
             }).catch(err => console.error("Segment copy blocked:", err));
@@ -597,6 +600,7 @@
         }
 
         function formatTextTokenWeights(rawStr) {
+            if (!rawStr) return "";
             return rawStr
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
