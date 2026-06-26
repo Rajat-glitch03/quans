@@ -474,20 +474,12 @@
         const initialNavHTML = navAuthGroup.innerHTML;
 
         onAuthStateChanged(auth, (user) => {
-        // 1. Grab references to your elements
-        const navAuthGroup = document.getElementById('navAuthGroup');
-        const mobileSidebar = document.getElementById('mobileSidebar'); // Make sure your mobile sidebar has this exact ID
-    
         if (user) {
             window.userIsAuthenticated = true;
+            if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+            if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
     
-            // 2. FORCE the mobile sidebar to become visible when logged in
-            if (mobileSidebar) {
-                mobileSidebar.classList.remove('hidden');
-                mobileSidebar.classList.add('flex', '!block'); // Overrides any hidden responsive utility classes
-            }
-    
-            // 3. Inject the authenticated user dropdown layout cleanly
+            // We update the nav innerHTML, and ensure any mobile sidebar components inside are configured cleanly
             navAuthGroup.innerHTML = `
                 <div class="relative inline-block text-left fade-in">
                     <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
@@ -503,30 +495,38 @@
                 </div>
             `;
     
-            // 4. CRITICAL: Attach the click listener ONLY AFTER innerHTML is written to the page!
-            // If you do this before, the element doesn't exist yet and it fails silently.
-            const logoutBtn = document.getElementById('firebaseLogoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', (e) => {
+            // --- MOBILE SIDEBAR ACTION ACTIVATION ---
+            // Grab the mobile elements right after injecting to force them visible on mobile layout channels
+            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+            const mobileSidebarPanel = document.getElementById('mobileSidebarDrawerPanel');
+            
+            if (mobileSidebarOverlay && mobileSidebarPanel) {
+                // Remove Tailwind opacity/pointer hidden blocks and force immediate visibility animations
+                mobileSidebarOverlay.classList.add('sidebar-overlay-active');
+                mobileSidebarPanel.classList.add('sidebar-panel-active');
+            }
+    
+            // Safely re-attach your logout click listener inside the fresh innerHTML context layer
+            const logoutButton = document.getElementById('firebaseLogoutBtn');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     signOut(auth).catch((error) => {
                         alert(`Sign-out error: ${error.message}`);
                     });
                 });
             }
-    
         } else {
-            // --- USER IS LOGGED OUT ---
             window.userIsAuthenticated = false;
-            
-            // Hide the mobile sidebar again safely
-            if (mobileSidebar) {
-                mobileSidebar.classList.add('hidden');
-                mobileSidebar.classList.remove('flex', '!block');
-            }
-    
-            // Revert to initial guest/login button navbar link state
             navAuthGroup.innerHTML = initialNavHTML;
+            
+            // Hide mobile sidebars gracefully upon logout if elements are present
+            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+            const mobileSidebarPanel = document.getElementById('mobileSidebarDrawerPanel');
+            if (mobileSidebarOverlay && mobileSidebarPanel) {
+                mobileSidebarOverlay.classList.remove('sidebar-overlay-active');
+                mobileSidebarPanel.classList.remove('sidebar-panel-active');
+            }
         }
     });
 
