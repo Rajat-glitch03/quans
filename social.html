@@ -184,10 +184,23 @@
                         <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
                     </label>
                 </div>
+
+                <!-- Personalization Identity Controls -->
+                <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
+                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner</h3>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
+                        <input type="url" id="brandContextInput" placeholder="e.g., https://mybrand.com" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
+                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy your natural syntax voice..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                    </div>
+                </div>
             </div>
 
             <!-- Main Generation Dispatch Submit Trigger Button -->
-            <button id="generationTriggerBtn" class="w-full mt-4 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm">
+            <button id="generationTriggerBtn" class="w-full mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0">
                 <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
                 <span>Generate Content</span>
             </button>
@@ -203,7 +216,7 @@
                 </div>
                 <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
                     <i class="fa-regular fa-copy"></i>
-                    <span id="copyBtnLabelText">Copy Post</span>
+                    <span id="copyBtnLabelText">Copy Full Blueprint</span>
                 </button>
             </div>
 
@@ -216,8 +229,58 @@
                     </div>
                     <p class="text-[11px] font-medium leading-relaxed">Your generated social blueprint will render inside this interactive scroll block container frame in real-time.</p>
                 </div>
-                <!-- Dynamic Content Insertion Box Targeting -->
-                <div id="contentRendererDisplayBlock" class="hidden w-full text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
+                
+                <!-- Dynamic Segmented Structured Asset Board Layout Frame Container -->
+                <div id="contentRendererDisplayBlock" class="hidden w-full space-y-4 text-xs sm:text-sm select-text">
+                    <!-- 1. Scroll-Stopping Hook Card -->
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Hook Stream Option</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedHookText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedHookText" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap"></div>
+                    </div>
+
+                    <!-- 2. Main Body Structural Content Card -->
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedMainBodyText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedMainBodyText" class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed"></div>
+                    </div>
+
+                    <!-- 3. Optimized Engagement Call to Action (CTA) Card -->
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedCtaText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedCtaText" class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap"></div>
+                    </div>
+
+                    <!-- 4. Metadata Stack Matrix View Grid Node Layout Blocks -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
+                            <div id="generatedHashtags" class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap"></div>
+                        </div>
+                        <div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
+                            <div id="generatedImageSuggestion" class="text-[11px] text-slate-500 italic whitespace-pre-wrap"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
+                    <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>⚡ Shorter</span></button>
+                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💼 Executive</span></button>
+                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🎭 Wittier</span></button>
+                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💥 Punchy Hook</span></button>
+                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💰 Sales Pitch</span></button>
+                        <button onclick="handleMicroRefinement('story')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>📖 Narrative</span></button>
+                    </div>
+                </div>
             </div>
 
             <!-- DESKTOP FLOATING HISTORY DRAWER BLOCK INTERFACE ANCHOR NODE -->
@@ -297,6 +360,7 @@
         let currentUserObject = null;
         let generationLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
+        let activeGeneratedPostObject = null;
 
         // Object Tracking Active Values For Custom Dropdowns Selection Architecture
         const activeFormStateModel = {
@@ -437,14 +501,22 @@
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS (Copies entire constructed text block cleanly)
         copyToClipboardBtn.addEventListener('click', () => {
-            const rawCopyStringContextValueText = contentRendererDisplayBlock.innerText || contentRendererDisplayBlock.textContent;
-            navigator.clipboard.writeText(rawCopyStringContextValueText).then(() => {
+            if (!activeGeneratedPostObject) return;
+            const blueprintTextString = `HOOK:\n${activeGeneratedPostObject.hook || ''}\n\nBODY:\n${activeGeneratedPostObject.mainPost || ''}\n\nCTA:\n${activeGeneratedPostObject.cta || ''}\n\n${activeGeneratedPostObject.hashtags || ''}`;
+            navigator.clipboard.writeText(blueprintTextString).then(() => {
                 copyBtnLabelText.innerText = "Copied!";
-                setTimeout(() => copyBtnLabelText.innerText = "Copy Post", 1500);
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Full Blueprint", 1500);
             }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
         });
+
+        function copyIndividualSegmentBlock(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText || document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Segment asset copied to clipboard!");
+            }).catch(err => console.error("Segment copy blocked:", err));
+        }
 
         // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
         function syncGenerationsRealtimeDatabaseStack() {
@@ -492,8 +564,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
-                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform}</span>
-                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone}</span>
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform || 'LinkedIn'}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone || 'Professional'}</span>
                     </div>
                 </div>
             `;
@@ -547,168 +619,170 @@
             updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
             addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
 
+            // Restore brand inputs if present
+            document.getElementById('brandContextInput').value = targetingMatchNode.brandContext || "";
+            document.getElementById('sampleWritingStyleInput').value = targetingMatchNode.sampleWritingStyle || "";
+
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
 
             statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform}].`;
+            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform || 'LinkedIn'}].`;
             
-            contentRendererDisplayBlock.innerText = targetingMatchNode.generatedOutput || "";
+            try {
+                const parsedObject = JSON.parse(targetingMatchNode.generatedOutput);
+                activeGeneratedPostObject = parsedObject;
+                renderStructuredOutput(parsedObject);
+            } catch (e) {
+                // Fallback for flat storage strings
+                const fallbackObject = { hook: "Restored Document", mainPost: targetingMatchNode.generatedOutput, cta: "", hashtags: "", imageSuggestion: "" };
+                activeGeneratedPostObject = fallbackObject;
+                renderStructuredOutput(fallbackObject);
+            }
             closeMobileDrawerHandler();
         }
 
-        // CHAR STREAM RENDERING SYSTEM 
-        function streamPostContentText(rawContentStringContext) {
+        // STRUCTURED OBJECT VIEW BINDING INTERFACE METHOD
+        function renderStructuredOutput(dataObject) {
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
-            contentRendererDisplayBlock.innerHTML = '';
 
-            statusDotIndicator.className = "w-2 h-2 rounded-full bg-brand-blue animate-pulse";
-            statusLabelIndicator.innerText = "Copywriting models active. Building structural assets stream...";
+            document.getElementById('generatedHookText').innerHTML = formatTextTokenWeights(dataObject.hook || "None generated.");
+            document.getElementById('generatedMainBodyText').innerHTML = formatTextTokenWeights(dataObject.mainPost || "None generated.");
+            document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(dataObject.cta || "");
+            document.getElementById('generatedHashtags').innerText = dataObject.hashtags || "";
+            document.getElementById('generatedImageSuggestion').innerText = dataObject.imageSuggestion || "";
+        }
 
-            let index = 0;
-            const cleanHtmlStructurePayload = rawContentStringContext
+        function formatTextTokenWeights(rawStr) {
+            return rawStr
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n/g, '<br>');
+        }
 
-            const wrapperParseContainerNode = document.createElement('div');
-            wrapperParseContainerNode.innerHTML = cleanHtmlStructurePayload;
-            const executionTokensArray = [];
-
-            function contextualHTMLTraversalParser(node) {
-                if(node.nodeType === Node.TEXT_NODE) {
-                    node.nodeValue.split('').forEach(char => executionTokensArray.push({ type: 'text', value: char }));
-                } else if(node.nodeType === Node.ELEMENT_NODE) {
-                    if(node.tagName === 'BR') {
-                        executionTokensArray.push({ type: 'br' });
-                    } else {
-                        executionTokensArray.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
-                        Array.from(node.childNodes).forEach(contextualHTMLTraversalParser);
-                        executionTokensArray.push({ type: 'tag-end' });
-                    }
-                }
-            }
-            Array.from(wrapperParseContainerNode.childNodes).forEach(contextualHTMLTraversalParser);
-
-            let operationalInsertionPointerNode = contentRendererDisplayBlock;
-            const executionContextStack = [];
-
-            function processingCharTokenTick() {
-                if(index >= executionTokensArray.length) {
-                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-                    statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
-                    generationTriggerBtn.disabled = false;
-                    generationTriggerBtn.style.opacity = "1";
-                    return;
-                }
-
-                const currentToken = executionTokensArray[index];
-                if(currentToken.type === 'text') {
-                    operationalInsertionPointerNode.appendChild(document.createTextNode(currentToken.value));
-                } else if(currentToken.type === 'br') {
-                    operationalInsertionPointerNode.appendChild(document.createElement('br'));
-                } else if(currentToken.type === 'tag-start') {
-                    const generatedTagElementNode = document.createElement(currentToken.tag);
-                    operationalInsertionPointerNode.appendChild(generatedTagElementNode);
-                    executionContextStack.push(operationalInsertionPointerNode);
-                    operationalInsertionPointerNode = generatedTagElementNode;
-                } else if(currentToken.type === 'tag-end') {
-                    if(executionContextStack.length > 0) operationalInsertionPointerNode = executionContextStack.pop();
-                }
-
-                index++;
-                setTimeout(processingCharTokenTick, 4);
-            }
-            processingCharTokenTick();
+        function setUIProcessingState(isLoading, customMessage = "Processing structural inputs...") {
+            generationTriggerBtn.disabled = isLoading;
+            generationTriggerBtn.style.opacity = isLoading ? "0.6" : "1";
+            statusDotIndicator.className = isLoading ? "w-2 h-2 rounded-full bg-amber-400 animate-bounce" : "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = isLoading ? customMessage : "Ready";
         }
 
         // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
-        const promptValueInputString = topicInputField.value.trim();
-        if(!promptValueInputString) {
-            alert("Please write your core text topic configuration parameter rules first before generating content.");
-            return;
-        }
-    
-        generationTriggerBtn.disabled = true;
-        generationTriggerBtn.style.opacity = "0.6";
-        statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
-        statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
-    
-        const platformToken = activeFormStateModel.platform;
-        const toneToken = activeFormStateModel.tone;
-        const audienceToken = activeFormStateModel.audience;
-        const goalToken = activeFormStateModel.goal;
-        const lengthToken = activeFormStateModel.length;
-        const ctaActiveFlag = addCtaCheckbox.checked;
-    
-        try {
-            const apiPayloadResponse = await fetch('/api/social', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    topic: promptValueInputString,
-                    platform: platformToken,
-                    tone: toneToken,
-                    audience: audienceToken,
-                    goal: goalToken,
-                    length: lengthToken,
-                    addCTA: ctaActiveFlag
-                })
-            });
-    
-            if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
-            const parsedJSONDataPayload = await apiPayloadResponse.json();
-            
-            // Safety Fallback check for payload mapping paths
-            let rawModelOutputText = "";
-            if (parsedJSONDataPayload.candidates && parsedJSONDataPayload.candidates[0]?.content?.parts?.[0]?.text) {
-                rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
-            } else if (parsedJSONDataPayload.text) {
-                rawModelOutputText = parsedJSONDataPayload.text;
-            } else {
-                throw new Error("Unexpected payload structure parsing down channel nodes.");
+            const promptValueInputString = topicInputField.value.trim();
+            if(!promptValueInputString) {
+                alert("Please write your core text topic configuration parameter rules first before generating content.");
+                return;
             }
-            
-            // Reset processing states beautifully on successful transmission response
-            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = "Content updated successfully!";
-            generationTriggerBtn.disabled = false;
-            generationTriggerBtn.style.opacity = "1";
-    
-            // Write generated content record down to Firestore instantly if signed in
-            if(currentUserObject) {
-                const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
-                await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
-                    title: formattedTruncatedTitle,
-                    promptInput: promptValueInputString,
-                    platform: platformToken,
-                    tone: toneToken,
-                    audience: audienceToken,
-                    goal: goalToken,
-                    length: lengthToken,
-                    addCTA: ctaActiveFlag,
-                    generatedOutput: rawModelOutputText,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        
+            setUIProcessingState(true, "Processing structural inputs through system APIs...");
+        
+            const platformToken = activeFormStateModel.platform;
+            const toneToken = activeFormStateModel.tone;
+            const audienceToken = activeFormStateModel.audience;
+            const goalToken = activeFormStateModel.goal;
+            const lengthToken = activeFormStateModel.length;
+            const ctaActiveFlag = addCtaCheckbox.checked;
+            const brandContextToken = document.getElementById('brandContextInput').value.trim();
+            const sampleStyleToken = document.getElementById('sampleWritingStyleInput').value.trim();
+        
+            try {
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        brandContext: brandContextToken,
+                        sampleWritingStyle: sampleStyleToken
+                    })
                 });
+        
+                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+                const structuredDataPayload = await apiPayloadResponse.json();
+                
+                activeGeneratedPostObject = structuredDataPayload;
+                renderStructuredOutput(structuredDataPayload);
+                
+                setUIProcessingState(false, "Generation complete. Final post asset available below.");
+        
+                // Write generated content record down to Firestore instantly if signed in
+                if(currentUserObject) {
+                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
+                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                        title: formattedTruncatedTitle,
+                        promptInput: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        brandContext: brandContextToken,
+                        sampleWritingStyle: sampleStyleToken,
+                        generatedOutput: JSON.stringify(structuredDataPayload),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+        
+            } catch (err) {
+                console.error("Upstream communication breakdown fault:", err);
+                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
+                generationTriggerBtn.disabled = false;
+                generationTriggerBtn.style.opacity = "1";
+                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
             }
-    
-            streamPostContentText(rawModelOutputText);
-    
-        } catch (err) {
-            console.error("Upstream communication breakdown fault:", err);
-            statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-            statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
-            generationTriggerBtn.disabled = false;
-            generationTriggerBtn.style.opacity = "1";
-            alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+        });
+
+        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
+        async function handleMicroRefinement(actionKey) {
+            if (!activeGeneratedPostObject) {
+                alert("Generate a post configuration layout blueprint first before processing rapid variants.");
+                return;
+            }
+
+            setUIProcessingState(true, `Applying refinement modification rule [${actionKey}]...`);
+
+            try {
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        platform: activeFormStateModel.platform,
+                        tone: activeFormStateModel.tone,
+                        audience: activeFormStateModel.audience,
+                        goal: activeFormStateModel.goal,
+                        length: activeFormStateModel.length,
+                        addCTA: addCtaCheckbox.checked,
+                        refineAction: actionKey,
+                        existingPostContext: JSON.stringify(activeGeneratedPostObject)
+                    })
+                });
+
+                if(!apiPayloadResponse.ok) throw new Error();
+                const refinedData = await apiPayloadResponse.json();
+                
+                activeGeneratedPostObject = refinedData;
+                renderStructuredOutput(refinedData);
+                setUIProcessingState(false, "Refinement update compiled successfully.");
+
+            } catch (err) {
+                console.error("Micro-refinement transaction anomaly encountered:", err);
+                setUIProcessingState(false, "Failed to apply refinement modification.");
+                alert("Could not update copy variants across endpoint nodes.");
+            }
         }
-    });
     </script>
 </body>
 </html>
