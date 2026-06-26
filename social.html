@@ -615,6 +615,7 @@
         }
 
         // ACTION PROCESS DISPATCH
+        // ACTION PROCESS DISPATCH
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
@@ -625,11 +626,16 @@
             setUIProcessingState(true, "Processing structural inputs through system APIs...");
         
             const platformToken = activeFormStateModel.platform;
-            const toneToken = activeFormStateModel.tone;
-            const audienceToken = activeFormStateModel.audience;
-            const goalToken = activeFormStateModel.goal;
+            
+            // SAFE FALLBACKS: If empty, use defaults so backend doesn't throw a 500 error
+            const toneToken = (toneTextInput && toneTextInput.value.trim()) || "Professional";
+            const audienceToken = (audienceTextInput && audienceTextInput.value.trim()) || "General Audience";
+            const goalToken = (goalTextInput && goalTextInput.value.trim()) || "Engagement";
+            
             const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
+            
+            // Optional fields safely fall back to empty strings
             const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
