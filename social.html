@@ -6,6 +6,7 @@
     <title>QUANS | Social Content Generator</title>
     
     <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com/tailwind.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: DM Sans -->
@@ -93,7 +94,7 @@
                     <textarea id="topicInputField" rows="3" placeholder="What is your business..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
                 </div>
 
-                <!-- Custom Grid Matrix Dropdown Configurations Block Row 1 -->
+                <!-- Custom Grid Matrix Configurations Block Row 1 -->
                 <div class="grid grid-cols-2 gap-3">
                     <!-- Config Menu Block: Platform Target Selection -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
@@ -109,56 +110,24 @@
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
                         </div>
                     </div>
-                    <!-- Config Menu Block: Tone Profiles Setup -->
-                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+                    <!-- Config Field Block: Free Text Tone Entry -->
+                    <div class="flex flex-col gap-1.5" id="fieldToneRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
-                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
-                            <span class="selected-display-value truncate">Professional</span>
-                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-                        </button>
-                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
-                        </div>
+                        <input type="text" id="toneTextInput" value="Professional" placeholder="e.g., Sarcastic but technical" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
                 </div>
 
-                <!-- Custom Grid Matrix Dropdown Configurations Block Row 2 -->
+                <!-- Custom Grid Matrix Configurations Block Row 2 -->
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Config Menu Block: Target Audience Selection Profile -->
-                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+                    <!-- Config Field Block: Free Text Target Audience Entry -->
+                    <div class="flex flex-col gap-1.5" id="fieldAudienceRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
-                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
-                            <span class="selected-display-value truncate">Developers</span>
-                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-                        </button>
-                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
-                        </div>
+                        <input type="text" id="audienceTextInput" value="Developers" placeholder="e.g., Early-stage web3 founders" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
-                    <!-- Config Menu Block: Campaign Goal Metric Core Profile -->
-                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+                    <!-- Config Field Block: Free Text Goal Entry -->
+                    <div class="flex flex-col gap-1.5" id="fieldGoalRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
-                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
-                            <span class="selected-display-value truncate">Get comments</span>
-                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-                        </button>
-                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
-                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
-                        </div>
+                        <input type="text" id="goalTextInput" value="Get comments" placeholder="e.g., Build authentic hype" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl px-3 py-2 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors outline-none">
                     </div>
                 </div>
 
@@ -273,11 +242,11 @@
 
                     <!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
                     <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>⚡ Shorter</span></button>
-                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💼 Executive</span></button>
-                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🎭 Wittier</span></button>
-                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💥 Punchy Hook</span></button>
-                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>💰 Sales Pitch</span></button>
+                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>⏱ Shorter</span></button>
+                        <button onclick="handleMicroRefinement('professional')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>👔 Executive</span></button>
+                        <button onclick="handleMicroRefinement('funny')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🤡 Wittier</span></button>
+                        <button onclick="handleMicroRefinement('hook')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>🪝 Punchy Hook</span></button>
+                        <button onclick="handleMicroRefinement('sales')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>📈 Sales Pitch</span></button>
                         <button onclick="handleMicroRefinement('story')" class="flex items-center space-x-1 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs"><span>📖 Narrative</span></button>
                     </div>
                 </div>
@@ -307,7 +276,7 @@
         </section>
     </main>
 
-    <!-- MOBILE DRAWER MODAL OVERLAY WRAPPER LAYER (SLIDES CLEANLY FROM THE RIGHT SIDE) -->
+    <!-- MOBILE DRAWER MODAL OVERLAY WRAPPER LAYER -->
     <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
         <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
             <!-- Sidebar Navigation Node Element Header Context -->
@@ -362,7 +331,7 @@
         let globalActiveSearchQueryToken = "";
         let activeGeneratedPostObject = null;
 
-        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
+        // Object Tracking Active Values For Custom Selection Architecture
         const activeFormStateModel = {
             platform: "LinkedIn",
             tone: "Professional",
@@ -381,6 +350,11 @@
         const addCtaCheckbox = document.getElementById('addCtaCheckbox');
         const generationTriggerBtn = document.getElementById('generationTriggerBtn');
         
+        // Free-text Input Node Target Map Selectors
+        const toneTextInput = document.getElementById('toneTextInput');
+        const audienceTextInput = document.getElementById('audienceTextInput');
+        const goalTextInput = document.getElementById('goalTextInput');
+
         const statusDotIndicator = document.getElementById('statusDotIndicator');
         const statusLabelIndicator = document.getElementById('statusLabelIndicator');
         const fallbackEmptyStatePanel = document.getElementById('fallbackEmptyStatePanel');
@@ -401,6 +375,11 @@
         const mobileSidebarDrawerPanel = document.getElementById('mobileSidebarDrawerPanel');
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
+
+        // Listen for typing events on free-text inputs to seamlessly sync them into the global form object payload
+        toneTextInput.addEventListener('input', (e) => { activeFormStateModel.tone = e.target.value; });
+        audienceTextInput.addEventListener('input', (e) => { activeFormStateModel.audience = e.target.value; });
+        goalTextInput.addEventListener('input', (e) => { activeFormStateModel.goal = e.target.value; });
 
         // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
         function initializeCustomDropdownModules() {
@@ -443,12 +422,20 @@
 
         // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
         function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
-            const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
-            if (rootTargetNode) {
-                const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
-                if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
-                activeFormStateModel[componentNameKey] = absoluteTargetValue;
+            if (componentNameKey === 'platform' || componentNameKey === 'length') {
+                const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
+                if (rootTargetNode) {
+                    const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
+                    if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
+                }
+            } else if (componentNameKey === 'tone') {
+                toneTextInput.value = absoluteTargetValue;
+            } else if (componentNameKey === 'audience') {
+                audienceTextInput.value = absoluteTargetValue;
+            } else if (componentNameKey === 'goal') {
+                goalTextInput.value = absoluteTargetValue;
             }
+            activeFormStateModel[componentNameKey] = absoluteTargetValue;
         }
 
         // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
@@ -457,12 +444,7 @@
                 window.location.href = 'index.html';
             } else {
                 currentUserObject = user;
-                if (user.displayName) {
-                    const primaryFirstNameName = user.displayName.split(' ')[0];
-                    userHelloDisplay.innerText = `Hello!`;
-                } else {
-                    userHelloDisplay.innerText = "Hello!";
-                }
+                userHelloDisplay.innerText = "Hello!";
                 initializeCustomDropdownModules();
                 syncGenerationsRealtimeDatabaseStack();
             }
@@ -501,7 +483,7 @@
         mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS (Copies entire constructed text block cleanly)
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
             if (!activeGeneratedPostObject) return;
             const blueprintTextString = `HOOK:\n${activeGeneratedPostObject.hook || ''}\n\nBODY:\n${activeGeneratedPostObject.mainPost || ''}\n\nCTA:\n${activeGeneratedPostObject.cta || ''}\n\n${activeGeneratedPostObject.hashtags || ''}`;
@@ -565,7 +547,7 @@
                     </div>
                     <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
                         <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform || 'LinkedIn'}</span>
-                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone || 'Professional'}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue truncate max-w-[120px]">${item.tone || 'Custom'}</span>
                     </div>
                 </div>
             `;
@@ -610,7 +592,7 @@
             const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
             if (!targetingMatchNode) return;
 
-            // Fluid state synchronizations over our custom dropdown components
+            // Fluid state synchronizations over our modular text/dropdown layout system
             topicInputField.value = targetingMatchNode.promptInput || "";
             updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
             updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
@@ -636,7 +618,6 @@
                 activeGeneratedPostObject = parsedObject;
                 renderStructuredOutput(parsedObject);
             } catch (e) {
-                // Fallback for flat storage strings
                 const fallbackObject = { hook: "Restored Document", mainPost: targetingMatchNode.generatedOutput, cta: "", hashtags: "", imageSuggestion: "" };
                 activeGeneratedPostObject = fallbackObject;
                 renderStructuredOutput(fallbackObject);
