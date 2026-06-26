@@ -14,14 +14,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Extract configuration parameters (matching the restored rigid dropdown values)
-        const { 
-            topic, platform, tone, audience, goal, length, addCTA, 
-            brandContext, sampleWritingStyle, refineAction, existingPostContext 
-        } = req.body;
+        // Extract variables sent from your frontend request body
+        const { topic, platform, tone, audience, goal, length, addCTA } = req.body;
 
-        if (!topic && !existingPostContext) {
-            return res.status(400).json({ error: 'Missing core text input parameter content.' });
+        if (!topic) {
+            return res.status(400).json({ error: 'Missing core topic context parameters rule.' });
         }
 
         // 3. Extract the secret key securely from Vercel's backend ecosystem
@@ -32,7 +29,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server configuration error: Missing API Key.' });
         }
 
-        // Dynamically compute the current server date
+        // Dynamically compute the current server date (e.g., "Friday, June 26, 2026")
         const currentLiveDate = new Date().toLocaleDateString('en-US', { 
             weekday: 'long', 
             year: 'numeric', 
@@ -40,81 +37,38 @@ export default async function handler(req, res) {
             day: 'numeric' 
         });
 
-        // 4. Handle Identity Cloning & Micro-Refinement Variations
-        let identityCloningBlock = "";
-        if ((brandContext && brandContext.trim() !== "") || (sampleWritingStyle && sampleWritingStyle.trim() !== "")) {
-            identityCloningBlock = `
-PERSONALIZATION SYSTEM PROFILE MATCH (HIGHEST PRIORITY CONSTRAINTS):
-- Brand Profile/Website Background Context: "${brandContext || 'None provided'}"
-- User Writing History Sample Vector: "${sampleWritingStyle || 'None provided'}"
-CRITICAL ADAPTATION DIRECTIVE: You must closely analyze and copy the user's specific vocabulary, structural preferences, stylistic cadence, sentence lengths, and formatting pacing from the sample. The final output must sound genuinely like an individual human writing an authentic post, completely avoiding generic chatbot tropes or artificial marketing filler words.`;
-        }
-
-        let refinementDirectivesBlock = "";
-        if (refineAction) {
-            refinementDirectivesBlock = `
-CRITICAL QUICK-REFINE MODIFICATION OVERRIDE:
-The user wants to alter an existing post draft. Analyze this draft context material: "${existingPostContext}"
-Apply this modification command immediately across the JSON structure components:
-- Refine Action Command Mode: "${refineAction}"
-  * shorter -> Maintain core value but aggressively cut down text length across all fields.
-  * professional -> Polish the syntax into high-authority executive communication without making it sound robotic.
-  * funny -> Weave clean wit, humor, irony, or relatable industry comedy lines into the hooks and body text.
-  * hook -> Leave everything else unchanged but replace the "hook" parameter block with an absolute high-converting scroll-stopping statement.
-  * sales -> Reorient paragraphs to focus purely on high-urgency conversion value messaging.
-  * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
-        }
-
-        // Operational safe defaults matched perfectly with restored dropdown elements
-        const safePlatform = platform && platform.trim() !== "" ? platform.trim() : "LinkedIn";
-        const safeTone = tone && tone.trim() !== "" ? tone.trim() : "Professional";
-        const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "General Audience";
-        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Engagement and Likes";
-        const safeLength = length && length.trim() !== "" ? length.trim() : "Short";
-
-        // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
-        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert ghostwriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, highly believable social post based on their custom typed parameters.
+        // 4. Formulate an aggressive engineering structure prompt covering all custom dropdown state options
+        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert copywriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, high-converting social post based strictly on the selected dropdown constraints.
 
 TEMPORAL ANCHOR: Today's live calendar date is ${currentLiveDate}. You operate natively in the present year 2026.
 
-CRITICAL TRUTH & AUTHENTICITY GUARDRAILS (NEVER INVENT FACTS):
-1. NEVER INVENT STATS OR METRICS: Do not make up performance numbers, percentage spikes, revenue metrics, or user counts. If the user did not explicitly provide a metric, do not use one.
-2. NO HOLLOW MARKETING-SPEAK: Avoid hyper-polished, robotic marketing tropes ("In today's fast-paced world", "Revolutionize your workflow", "Delve deeper"). Write like a real person sharing an authentic observation.
-3. USE PROVIDED CONTEXT ONLY: Restrict all contextual claims, product features, and personal background stories entirely to what is provided in the topic, brand context, or rewrite details. If information is missing, focus purely on formatting and clarifying the user's existing thoughts rather than guessing or fabricating filler content.
-
-INTEGRATED FORM INPUT INSTRUCTIONS:
-The user has selected parameters via structural dropdown configurations. Adapt natively to these variables.
-
-CUSTOM USER INPUT FIELD CONFIGURATION MATRIX:
-- TARGET PLATFORM: "${safePlatform}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
-- BRAND TONE COMMAND: "${safeTone}". Adopt this precise, user-specified vocal style flawlessly. Do not force generic marketing styles if a specific tone nuance is specified.
-- TARGET AUDIENCE: "${safeAudience}". Address the exact pain points, mental models, and terminology associated with this chosen audience profile.
-- POST GOAL: "${safeGoal}". Optimize the structural copy framework to target this absolute objective outcome.
-- ACCORDING CONFIGURATION LENGTH: "${safeLength}". Follow these hard limits:
+STRICT DESIGN RULES MATCH MATRIX:
+- TARGET PLATFORM: "${platform || 'LinkedIn'}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
+- BRAND TONE: "${tone || 'Professional'}". Adopt this voice flawlessly. (Professional, Funny, Storytelling, Motivational, Educational, or Casual).
+- TARGET AUDIENCE: "${audience || 'Developers'}". Use vocabulary, pain points, and hooks that directly resonate with this group. (Developers, Founders, Students, Creators, Business Owners, or General).
+- POST GOAL: "${goal || 'Get comments'}". Optimize the structural style to hit this target indicator. (Get comments, Go viral, Build authority, Sell a product, or Educate).
+- ACCORDING CONFIGURATION LENGTH: "${length || 'Short'}". Follow these hard limits:
   * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
   * Long: In-depth breakdowns, long-form post layouts.
-- CALL TO ACTION (CTA): ${addCTA ? `CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line matching the goal "${safeGoal}" inside the 'cta' parameter.` : "DO NOT add a Call to Action under any circumstances. Keep the 'cta' field empty."}
-${identityCloningBlock}
-${refinementDirectivesBlock}
+- CALL TO ACTION (CTA): ${addCTA ? "CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line at the absolute end of the post optimized for the goal." : "DO NOT add a Call to Action under any circumstances. End cleanly."}
 
-OUTPUT REQUIREMENT SPECIFICATION:
-You MUST respond with a valid JSON object matching the requested schema structure exactly. Do not include markdown code block backticks (\`\`\`json) or conversational text wrap outside the JSON structure. Use clear bold typography (**text**) within text fields where necessary for visual emphasis.`;
+FORMATTING CONSTRAINTS:
+- Use bold text via markdown (**text**) for structural visibility emphasis.
+- Use natural layout spacings. No generic placeholder text, conversational filler, or intros like "Here is your post:". Output *only* the ready-to-publish post asset.`;
 
-        // 6. Build the payload wrapper
+        // 5. Build standard Gemini payload mapping matrix
         const contentsPayload = [
             {
                 parts: [
                     { 
-                        text: refineAction 
-                        ? `Modify the following draft according to the "${refineAction}" directive: ${existingPostContext}` 
-                        : `Transform this input context target material: "${topic}" using the specified custom rule structures.` 
+                        text: `Transform this input context target material: "${topic}" using the specified dropdown rule structures.` 
                     }
                 ]
             }
         ];
 
-        // 7. Securely dispatch the payload using the valid gemini-2.5-flash endpoint URL
+        // 6. Securely dispatch the prompt payload to Google Gemini API (Using 3.1 Flash Lite)
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
@@ -126,23 +80,11 @@ You MUST respond with a valid JSON object matching the requested schema structur
                     parts: [{ text: copywriterSystemDirective }]
                 },
                 generationConfig: {
-                    temperature: 0.5,
-                    maxOutputTokens: 2500,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            hook: { type: "STRING", description: "The scroll stopping hook statement optimized for the platform." },
-                            mainPost: { type: "STRING", description: "The core valuable textual body content paragraphs." },
-                            cta: { type: "STRING", description: "The optimized call to action closing text line if enabled, otherwise blank." },
-                            hashtags: { type: "STRING", description: "Space separated social platform hashtag bundle line." },
-                            imageSuggestion: { type: "STRING", description: "Clear concrete AI image generation visual scene text prompt descriptors." }
-                        },
-                        required: ["hook", "mainPost", "cta", "hashtags", "imageSuggestion"]
-                    }
+                    temperature: 0.7,
+                    maxOutputTokens: 1540
                 }
             })
-        ]);
+        });
 
         // Catch transmission or key blockages gracefully
         if (!googleResponse.ok) {
@@ -153,15 +95,8 @@ You MUST respond with a valid JSON object matching the requested schema structur
 
         const data = await googleResponse.json();
         
-        // Extract raw JSON string safely from standard candidate hierarchy
-        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-            throw new Error("Invalid response structural signature returned from upstream AI provider.");
-        }
-
-        const responseJsonText = data.candidates[0].content.parts[0].text;
-        
-        // Send the cleanly structured JSON data right back to your frontend view layer
-        return res.status(200).json(JSON.parse(responseJsonText));
+        // 7. Send the structured payload right back to your frontend view layer
+        return res.status(200).json(data);
 
     } catch (error) {
         console.error("Vercel Serverless Function Catch-All Error:", error);
