@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Extract basic configuration parameters along with personalization and quick-refine parameters
+        // Extract configuration parameters (now treated as raw user-typed inputs instead of rigid dropdowns)
         const { 
             topic, platform, tone, audience, goal, length, addCTA, 
             brandContext, sampleWritingStyle, refineAction, existingPostContext 
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server configuration error: Missing API Key.' });
         }
 
-        // Dynamically compute the current server date (e.g., "Friday, June 26, 2026")
+        // Dynamically compute the current server date
         const currentLiveDate = new Date().toLocaleDateString('en-US', { 
             weekday: 'long', 
             year: 'numeric', 
@@ -44,10 +44,10 @@ export default async function handler(req, res) {
         let identityCloningBlock = "";
         if (brandContext || sampleWritingStyle) {
             identityCloningBlock = `
-PERSONALIZATION SYSTEM PROFILE MATCH:
+PERSONALIZATION SYSTEM PROFILE MATCH (HIGHEST PRIORITY CONSTRAINTS):
 - Brand Profile/Website Background Context: "${brandContext || 'None provided'}"
 - User Writing History Sample Vector: "${sampleWritingStyle || 'None provided'}"
-CRITICAL: You must extract and copy the user's vocabulary, structural patterns, styling cadence, and syntax pacing. The output must sound precisely like them, avoiding a generic chatbot tone.`;
+CRITICAL ADAPTATION DIRECTIVE: You must closely analyze and copy the user's specific vocabulary, structural preferences, stylistic cadence, sentence lengths, and formatting pacing from the sample. The final output must sound genuinely like an individual human writing an authentic post, completely avoiding generic chatbot tropes or artificial marketing filler words.`;
         }
 
         let refinementDirectivesBlock = "";
@@ -58,24 +58,29 @@ The user wants to alter an existing post draft. Analyze this draft context mater
 Apply this modification command immediately across the JSON structure components:
 - Refine Action Command Mode: "${refineAction}"
   * shorter -> Maintain core value but aggressively cut down text length across all fields.
-  * professional -> Polish the syntax into high-authority executive communication.
+  * professional -> Polish the syntax into high-authority executive communication without making it sound robotic.
   * funny -> Weave clean wit, humor, irony, or relatable industry comedy lines into the hooks and body text.
   * hook -> Leave everything else unchanged but replace the "hook" parameter block with an absolute high-converting scroll-stopping statement.
   * sales -> Reorient paragraphs to focus purely on high-urgency conversion value messaging.
   * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
         }
 
-        // 5. System Directive Formulation Matrix
-        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert copywriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, high-converting social post based strictly on the selected dropdown constraints.
+        // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
+        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert ghostwriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, highly believable social post based on their custom typed parameters.
 
 TEMPORAL ANCHOR: Today's live calendar date is ${currentLiveDate}. You operate natively in the present year 2026.
 
-STRICT DESIGN RULES MATCH MATRIX:
+CRITICAL TRUTH & AUTHENTICITY GUARDRAILS (NEVER INVENT FACTS):
+1. NEVER INVENT STATS OR METRICS: Do not make up performance numbers, percentage spikes, revenue metrics, or user counts. If the user did not explicitly provide a metric, do not use one.
+2. NO HOLLOW MARKETING-SPEAK: Avoid hyper-polished, robotic marketing tropes ("In today's fast-paced world", "Revolutionize your workflow", "Delve deeper"). Write like a real person sharing an authentic observation.
+3. USE PROVIDED CONTEXT ONLY: Restrict all contextual claims, product features, and personal background stories entirely to what is provided in the topic, brand context, or rewrite details. If information is missing, focus purely on formatting and clarifying the user's existing thoughts rather than guessing or fabricating filler content.
+
+CUSTOM USER INPUT FIELD CONFIGURATION MATRIX:
 - TARGET PLATFORM: "${platform || 'LinkedIn'}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
-- BRAND TONE: "${tone || 'Professional'}". Adopt this voice flawlessly. (Professional, Funny, Storytelling, Motivational, Educational, or Casual).
-- TARGET AUDIENCE: "${audience || 'Developers'}". Use vocabulary, pain points, and hooks that directly resonate with this group. (Developers, Founders, Students, Creators, Business Owners, or General).
-- POST GOAL: "${goal || 'Get comments'}". Optimize the structural style to hit this target indicator. (Get comments, Go viral, Build authority, Sell a product, or Educate).
-- ACCORDING CONFIGURATION LENGTH: "${length || 'Short'}". Follow these hard limits:
+- BRAND TONE COMMAND: "${tone || 'Authentic'}". Adopt this precise, user-specified vocal style flawlessly.
+- TARGET AUDIENCE: "${audience || 'General'}". Address the exact pain points, mental models, and terminology associated with this typed audience.
+- POST GOAL: "${goal || 'Engage'}". Optimize the structural style to hit this specific target outcome.
+- ACCORDING CONFIGURATION LENGTH: "${length || 'Medium'}". Follow these hard limits:
   * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
   * Long: In-depth breakdowns, long-form post layouts.
@@ -93,13 +98,13 @@ You MUST respond with a valid JSON object matching the requested schema structur
                     { 
                         text: refineAction 
                         ? `Modify the following draft according to the "${refineAction}" directive: ${existingPostContext}` 
-                        : `Transform this input context target material: "${topic}" using the specified dropdown rule structures.` 
+                        : `Transform this input context target material: "${topic}" using the specified custom rule structures.` 
                     }
                 ]
             }
         ];
 
-        // 7. Securely dispatch the payload to Gemini using Strict JSON Schema Schema mode
+        // 7. Securely dispatch the payload to Gemini using Strict JSON Schema mode
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
@@ -111,7 +116,7 @@ You MUST respond with a valid JSON object matching the requested schema structur
                     parts: [{ text: copywriterSystemDirective }]
                 },
                 generationConfig: {
-                    temperature: 0.7,
+                    temperature: 0.5, // Lowered temperature slightly to prioritize factual adherence and reduce creative hallucinations
                     maxOutputTokens: 2500,
                     responseMimeType: "application/json",
                     responseSchema: {
@@ -127,7 +132,7 @@ You MUST respond with a valid JSON object matching the requested schema structur
                     }
                 }
             })
-        });
+        ]);
 
         // Catch transmission or key blockages gracefully
         if (!googleResponse.ok) {
