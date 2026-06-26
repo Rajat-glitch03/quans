@@ -476,57 +476,55 @@
         onAuthStateChanged(auth, (user) => {
         if (user) {
             window.userIsAuthenticated = true;
+            
             if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
             if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
     
-            // We update the nav innerHTML, and ensure any mobile sidebar components inside are configured cleanly
+            // Inject the Hello text, user dropdown, AND the mobile drawer trigger button together
             navAuthGroup.innerHTML = `
-                <div class="relative inline-block text-left fade-in">
-                    <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
-                        <span>Hello!</span>
-                        <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
+                <div class="flex items-center space-x-3 fade-in">
+                    <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                        <i class="fa-solid fa-clock-rotate-left text-xs"></i>
                     </button>
-                    <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
-                        <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
-                            <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                            <span>Log out</span>
+    
+                    <div class="relative inline-block text-left">
+                        <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
+                            <span>Hello!</span>
+                            <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
                         </button>
+                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
+                            <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
+                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                                <span>Log out</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
     
-            // --- MOBILE SIDEBAR ACTION ACTIVATION ---
-            // Grab the mobile elements right after injecting to force them visible on mobile layout channels
-            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+            // ACTIVATE MOBILE SIDEBAR: Bind the click event now that the button exists in the DOM
+            const mobileDrawerBtn = document.getElementById('mobileDrawerOpenBtn');
+            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay'); // The main mobile container
             const mobileSidebarPanel = document.getElementById('mobileSidebarDrawerPanel');
-            
-            if (mobileSidebarOverlay && mobileSidebarPanel) {
-                // Remove Tailwind opacity/pointer hidden blocks and force immediate visibility animations
-                mobileSidebarOverlay.classList.add('sidebar-overlay-active');
-                mobileSidebarPanel.classList.add('sidebar-panel-active');
-            }
     
-            // Safely re-attach your logout click listener inside the fresh innerHTML context layer
-            const logoutButton = document.getElementById('firebaseLogoutBtn');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    signOut(auth).catch((error) => {
-                        alert(`Sign-out error: ${error.message}`);
-                    });
+            if (mobileDrawerBtn && mobileSidebarOverlay && mobileSidebarPanel) {
+                mobileDrawerBtn.addEventListener('click', () => {
+                    // Add your custom sidebar activation tracking classes here
+                    mobileSidebarOverlay.classList.add('sidebar-overlay-active');
+                    mobileSidebarPanel.classList.add('sidebar-panel-active');
                 });
             }
+    
+            // ACTIVATE LOGOUT BUTTON
+            document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                signOut(auth).catch((error) => {
+                    alert(`Sign-out error: ${error.message}`);
+                });
+            });
+    
         } else {
             window.userIsAuthenticated = false;
             navAuthGroup.innerHTML = initialNavHTML;
-            
-            // Hide mobile sidebars gracefully upon logout if elements are present
-            const mobileSidebarOverlay = document.getElementById('mobileSidebarDrawerOverlay');
-            const mobileSidebarPanel = document.getElementById('mobileSidebarDrawerPanel');
-            if (mobileSidebarOverlay && mobileSidebarPanel) {
-                mobileSidebarOverlay.classList.remove('sidebar-overlay-active');
-                mobileSidebarPanel.classList.remove('sidebar-panel-active');
-            }
         }
     });
 
