@@ -629,72 +629,86 @@
 
         // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
-            const promptValueInputString = topicInputField.value.trim();
-            if(!promptValueInputString) {
-                alert("Please write your core text topic configuration parameter rules first before generating content.");
-                return;
+        const promptValueInputString = topicInputField.value.trim();
+        if(!promptValueInputString) {
+            alert("Please write your core text topic configuration parameter rules first before generating content.");
+            return;
+        }
+    
+        generationTriggerBtn.disabled = true;
+        generationTriggerBtn.style.opacity = "0.6";
+        statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
+        statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
+    
+        const platformToken = activeFormStateModel.platform;
+        const toneToken = activeFormStateModel.tone;
+        const audienceToken = activeFormStateModel.audience;
+        const goalToken = activeFormStateModel.goal;
+        const lengthToken = activeFormStateModel.length;
+        const ctaActiveFlag = addCtaCheckbox.checked;
+    
+        try {
+            const apiPayloadResponse = await fetch('/api/social', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    topic: promptValueInputString,
+                    platform: platformToken,
+                    tone: toneToken,
+                    audience: audienceToken,
+                    goal: goalToken,
+                    length: lengthToken,
+                    addCTA: ctaActiveFlag
+                })
+            });
+    
+            if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+            const parsedJSONDataPayload = await apiPayloadResponse.json();
+            
+            // Safety Fallback check for payload mapping paths
+            let rawModelOutputText = "";
+            if (parsedJSONDataPayload.candidates && parsedJSONDataPayload.candidates[0]?.content?.parts?.[0]?.text) {
+                rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
+            } else if (parsedJSONDataPayload.text) {
+                rawModelOutputText = parsedJSONDataPayload.text;
+            } else {
+                throw new Error("Unexpected payload structure parsing down channel nodes.");
             }
-
-            generationTriggerBtn.disabled = true;
-            generationTriggerBtn.style.opacity = "0.6";
-            statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-bounce";
-            statusLabelIndicator.innerText = "Processing structural inputs through system APIs...";
-
-            const platformToken = activeFormStateModel.platform;
-            const toneToken = activeFormStateModel.tone;
-            const audienceToken = activeFormStateModel.audience;
-            const goalToken = activeFormStateModel.goal;
-            const lengthToken = activeFormStateModel.length;
-            const ctaActiveFlag = addCtaCheckbox.checked;
-
-            try {
-                const apiPayloadResponse = await fetch('/api/social', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        topic: promptValueInputString,
-                        platform: platformToken,
-                        tone: toneToken,
-                        audience: audienceToken,
-                        goal: goalToken,
-                        length: lengthToken,
-                        addCTA: ctaActiveFlag
-                    })
+            
+            // Reset processing states beautifully on successful transmission response
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = "Content updated successfully!";
+            generationTriggerBtn.disabled = false;
+            generationTriggerBtn.style.opacity = "1";
+    
+            // Write generated content record down to Firestore instantly if signed in
+            if(currentUserObject) {
+                const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                    title: formattedTruncatedTitle,
+                    promptInput: promptValueInputString,
+                    platform: platformToken,
+                    tone: toneToken,
+                    audience: audienceToken,
+                    goal: goalToken,
+                    length: lengthToken,
+                    addCTA: ctaActiveFlag,
+                    generatedOutput: rawModelOutputText,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
-                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
-                const parsedJSONDataPayload = await apiPayloadResponse.json();
-                
-                const rawModelOutputText = parsedJSONDataPayload.candidates[0].content.parts[0].text;
-                
-                // Write generated content record down to Firestore instantly if signed in
-                if(currentUserObject) {
-                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
-                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
-                        title: formattedTruncatedTitle,
-                        promptInput: promptValueInputString,
-                        platform: platformToken,
-                        tone: toneToken,
-                        audience: audienceToken,
-                        goal: goalToken,
-                        length: lengthToken,
-                        addCTA: ctaActiveFlag,
-                        generatedOutput: rawModelOutputText,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-
-                streamPostContentText(rawModelOutputText);
-
-            } catch (err) {
-                console.error("Upstream communication breakdown fault:", err);
-                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
-                generationTriggerBtn.disabled = false;
-                generationTriggerBtn.style.opacity = "1";
-                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
             }
-        });
+    
+            streamPostContentText(rawModelOutputText);
+    
+        } catch (err) {
+            console.error("Upstream communication breakdown fault:", err);
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+            statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
+            generationTriggerBtn.disabled = false;
+            generationTriggerBtn.style.opacity = "1";
+            alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+        }
+    });
     </script>
 </body>
 </html>
