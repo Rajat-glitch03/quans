@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QUANS | Social Content Generator</title>
     
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase Compatibility SDK Matrix -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -41,9 +37,7 @@
 </head>
 <body class="h-screen w-screen overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
-    <!-- NAVIGATION HEADER BAR -->
     <header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
-        <!-- Left Wing: Home Redirect Element -->
         <div class="flex items-center">
             <a href="index.html" class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
@@ -51,21 +45,17 @@
             </a>
         </div>
 
-        <!-- Center Wing: Main Title Context -->
         <div class="text-center">
             <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">Content Generator</h1>
         </div>
 
-        <!-- Right Wing: Clean Action Target Intersections -->
         <div class="flex items-center gap-2">
-            <!-- Profile Identity Card Container -->
             <div class="relative" id="profileDropdownRoot">
                 <button id="profileTriggerBtn" class="flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-full hover:bg-slate-50 transition-all cursor-pointer bg-white shadow-xs">
                     <span id="userHelloDisplay" class="text-xs font-bold text-slate-700">Hello!</span>
                     <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
                 </button>
                 
-                <!-- Account Profile Dropdown Container -->
                 <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-xl py-1 z-50">
                     <button id="logoutActionBtn" class="w-full px-3 py-2 text-left text-xs text-rose-500 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -74,28 +64,22 @@
                 </div>
             </div>
 
-            <!-- Mobile History Toggle Trigger Button (Placed cleanly AFTER the profile button) -->
             <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
                 <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             </button>
         </div>
     </header>
 
-    <!-- MAIN CORE CONTENT ENGINE FRAME WORKSPACE CONTAINER -->
     <main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
         
-        <!-- MODULE COLUMN 1: INTERACTIVE SELECTION INTERFACE PANEL -->
         <section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-[45vh] md:h-full">
-            <div class="space-y-4 pb-4">
-                <!-- User Entry Text Block -->
+            <div class="space-y-4">
                 <div class="flex flex-col gap-1.5">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
                     <textarea id="topicInputField" rows="3" placeholder="Paste structural text details, blogs, ideas, or brief notes here..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
                 </div>
 
-                <!-- Custom Grid Matrix Dropdown Configurations Block Row 1 -->
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Config Menu Block: Platform Target Selection -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -109,7 +93,6 @@
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
                         </div>
                     </div>
-                    <!-- Config Menu Block: Tone Profiles Setup -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -127,9 +110,7 @@
                     </div>
                 </div>
 
-                <!-- Custom Grid Matrix Dropdown Configurations Block Row 2 -->
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Config Menu Block: Target Audience Selection Profile -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -145,7 +126,6 @@
                             <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
                         </div>
                     </div>
-                    <!-- Config Menu Block: Campaign Goal Metric Core Profile -->
                     <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
                         <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -162,7 +142,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Grid Matrix Dropdown Configurations Block Row 3 -->
                 <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
                     <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
@@ -176,7 +155,6 @@
                     </div>
                 </div>
 
-                <!-- Interactive Call-To-Action Custom Toggle Switch Element -->
                 <div class="flex items-center gap-2.5 pt-1">
                     <label class="relative inline-flex items-center cursor-pointer select-none">
                         <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
@@ -186,16 +164,13 @@
                 </div>
             </div>
 
-            <!-- Main Generation Dispatch Submit Trigger Button -->
-            <button id="generationTriggerBtn" class="w-full mt-4 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm">
+            <button id="generationTriggerBtn" class="w-full mt-2 bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm">
                 <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
                 <span>Generate Content</span>
             </button>
         </section>
 
-        <!-- MODULE COLUMN 2: WORKSPACE RUNTIME CODE TEXT DISPLAY SCREEN -->
         <section class="flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[40vh] md:min-h-0">
-            <!-- Dynamic Subheader Status Bar Navigation Interface -->
             <div class="h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
                 <div class="flex items-center gap-2 min-w-0 pr-2">
                     <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
@@ -207,20 +182,16 @@
                 </button>
             </div>
 
-            <!-- Core Canvas Rendering Frame -->
             <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
-                <!-- Static Fallback Instruction View Block -->
                 <div id="fallbackEmptyStatePanel" class="text-center max-w-xs mx-auto text-slate-400">
                     <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-base text-slate-400 border border-slate-100 mb-2.5">
                         <i class="fa-solid fa-rectangle-list"></i>
                     </div>
                     <p class="text-[11px] font-medium leading-relaxed">Your generated social blueprint will render inside this interactive scroll block container frame in real-time.</p>
                 </div>
-                <!-- Dynamic Content Insertion Box Targeting -->
-                <div id="contentRendererDisplayBlock" class="hidden w-full text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text"></div>
+                <div id="contentRendererDisplayBlock" class="hidden w-full text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-normal select-text overflow-y-auto max-h-full"></div>
             </div>
 
-            <!-- DESKTOP FLOATING HISTORY DRAWER BLOCK INTERFACE ANCHOR NODE -->
             <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
                 <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
                     <i class="fa-solid fa-folder-open text-[11px]"></i>
@@ -228,7 +199,6 @@
                     <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
                 </button>
                 
-                <!-- Expanded Desktop Log Container Element Drawer Frame -->
                 <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
                     <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
                         <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
@@ -237,36 +207,30 @@
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
                         </div>
                     </div>
-                    <!-- Iterative Render Mount Block Node Target Box -->
                     <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- MOBILE DRAWER MODAL OVERLAY WRAPPER LAYER (SLIDES CLEANLY FROM THE RIGHT SIDE) -->
     <div id="mobileSidebarDrawerOverlay" class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
         <div id="mobileSidebarDrawerPanel" class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
-            <!-- Sidebar Navigation Node Element Header Context -->
             <div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
                 <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
                 <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <!-- Search Text Field Node Injection Container Component -->
             <div class="p-3 bg-white border-b border-slate-100 shrink-0">
                 <div class="relative">
                     <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
                     <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
                 </div>
             </div>
-            <!-- Interactive Collection Target Mount Wrapper View Node Frame -->
             <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
         </div>
     </div>
 
-    <!-- MAIN CONTROL CORE BUSINESS INFRASTRUCTURE APP LOGIC EXECUTIONS -->
     <script>
         // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
