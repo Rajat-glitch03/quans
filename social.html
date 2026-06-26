@@ -341,8 +341,16 @@
         });
         document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
         logoutActionBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
             e.stopPropagation();
-            auth.signOut().catch(err => console.error("Signout error:", err));
+        
+            // Force the sign-out and the redirect
+            auth.signOut().then(() => {
+                console.log("Logout successful, redirecting...");
+                window.location.replace('index.html'); // .replace() is better than .href for logouts
+            }).catch((error) => {
+                console.error("Signout failed:", error);
+            });
         });
 
         desktopDropupTriggerBtn.addEventListener('click', (e) => {
