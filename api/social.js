@@ -14,11 +14,14 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Extract variables sent from your frontend request body
-        const { topic, platform, tone, audience, goal, length, addCTA } = req.body;
+        // Extract basic configuration parameters along with personalization and quick-refine parameters
+        const { 
+            topic, platform, tone, audience, goal, length, addCTA, 
+            brandContext, sampleWritingStyle, refineAction, existingPostContext 
+        } = req.body;
 
-        if (!topic) {
-            return res.status(400).json({ error: 'Missing core topic context parameters rule.' });
+        if (!topic && !existingPostContext) {
+            return res.status(400).json({ error: 'Missing core text input parameter content.' });
         }
 
         // 3. Extract the secret key securely from Vercel's backend ecosystem
@@ -37,7 +40,32 @@ export default async function handler(req, res) {
             day: 'numeric' 
         });
 
-        // 4. Formulate an aggressive engineering structure prompt covering all custom dropdown state options
+        // 4. Handle Identity Cloning & Micro-Refinement Variations
+        let identityCloningBlock = "";
+        if (brandContext || sampleWritingStyle) {
+            identityCloningBlock = `
+PERSONALIZATION SYSTEM PROFILE MATCH:
+- Brand Profile/Website Background Context: "${brandContext || 'None provided'}"
+- User Writing History Sample Vector: "${sampleWritingStyle || 'None provided'}"
+CRITICAL: You must extract and copy the user's vocabulary, structural patterns, styling cadence, and syntax pacing. The output must sound precisely like them, avoiding a generic chatbot tone.`;
+        }
+
+        let refinementDirectivesBlock = "";
+        if (refineAction) {
+            refinementDirectivesBlock = `
+CRITICAL QUICK-REFINE MODIFICATION OVERRIDE:
+The user wants to alter an existing post draft. Analyze this draft context material: "${existingPostContext}"
+Apply this modification command immediately across the JSON structure components:
+- Refine Action Command Mode: "${refineAction}"
+  * shorter -> Maintain core value but aggressively cut down text length across all fields.
+  * professional -> Polish the syntax into high-authority executive communication.
+  * funny -> Weave clean wit, humor, irony, or relatable industry comedy lines into the hooks and body text.
+  * hook -> Leave everything else unchanged but replace the "hook" parameter block with an absolute high-converting scroll-stopping statement.
+  * sales -> Reorient paragraphs to focus purely on high-urgency conversion value messaging.
+  * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
+        }
+
+        // 5. System Directive Formulation Matrix
         const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert copywriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, high-converting social post based strictly on the selected dropdown constraints.
 
 TEMPORAL ANCHOR: Today's live calendar date is ${currentLiveDate}. You operate natively in the present year 2026.
@@ -51,24 +79,27 @@ STRICT DESIGN RULES MATCH MATRIX:
   * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
   * Long: In-depth breakdowns, long-form post layouts.
-- CALL TO ACTION (CTA): ${addCTA ? "CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line at the absolute end of the post optimized for the goal." : "DO NOT add a Call to Action under any circumstances. End cleanly."}
+- CALL TO ACTION (CTA): ${addCTA ? "CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line matching the goal inside the 'cta' parameter." : "DO NOT add a Call to Action under any circumstances. Keep the 'cta' field empty."}
+${identityCloningBlock}
+${refinementDirectivesBlock}
 
-FORMATTING CONSTRAINTS:
-- Use bold text via markdown (**text**) for structural visibility emphasis.
-- Use natural layout spacings. No generic placeholder text, conversational filler, or intros like "Here is your post:". Output *only* the ready-to-publish post asset.`;
+OUTPUT REQUIREMENT SPECIFICATION:
+You MUST respond with a valid JSON object matching the requested schema structure exactly. Do not include markdown code block backticks (\`\`\`json) or conversational text wrap outside the JSON structure. Use clear bold typography (**text**) within text fields where necessary for visual emphasis.`;
 
-        // 5. Build standard Gemini payload mapping matrix
+        // 6. Build the payload wrapper
         const contentsPayload = [
             {
                 parts: [
                     { 
-                        text: `Transform this input context target material: "${topic}" using the specified dropdown rule structures.` 
+                        text: refineAction 
+                        ? `Modify the following draft according to the "${refineAction}" directive: ${existingPostContext}` 
+                        : `Transform this input context target material: "${topic}" using the specified dropdown rule structures.` 
                     }
                 ]
             }
         ];
 
-        // 6. Securely dispatch the prompt payload to Google Gemini API (Using 3.1 Flash Lite)
+        // 7. Securely dispatch the payload to Gemini using Strict JSON Schema Schema mode
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
@@ -81,7 +112,19 @@ FORMATTING CONSTRAINTS:
                 },
                 generationConfig: {
                     temperature: 0.7,
-                    maxOutputTokens: 1540
+                    maxOutputTokens: 2500,
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            hook: { type: "STRING", description: "The scroll stopping hook statement optimized for the platform." },
+                            mainPost: { type: "STRING", description: "The core valuable textual body content paragraphs." },
+                            cta: { type: "STRING", description: "The optimized call to action closing text line if enabled, otherwise blank." },
+                            hashtags: { type: "STRING", description: "Space separated social platform hashtag bundle line." },
+                            imageSuggestion: { type: "STRING", description: "Clear concrete AI image generation visual scene text prompt descriptors." }
+                        },
+                        required: ["hook", "mainPost", "cta", "hashtags", "imageSuggestion"]
+                    }
                 }
             })
         });
@@ -95,8 +138,11 @@ FORMATTING CONSTRAINTS:
 
         const data = await googleResponse.json();
         
-        // 7. Send the structured payload right back to your frontend view layer
-        return res.status(200).json(data);
+        // Extract raw JSON string generated by the model
+        const responseJsonText = data.candidates[0].content.parts[0].text;
+        
+        // Send the cleanly structured JSON data right back to your frontend view layer
+        return res.status(200).json(JSON.parse(responseJsonText));
 
     } catch (error) {
         console.error("Vercel Serverless Function Catch-All Error:", error);
