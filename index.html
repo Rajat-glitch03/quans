@@ -77,125 +77,110 @@
         background-size: 40px 40px;
      ">
 
-    <!-- START OF YOUR ORIGINAL APP CORE -->
-    <div class="relative z-10 flex-grow flex flex-col">
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="flex items-center">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+        </div>
 
-        <!-- HEADER -->
-        <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
-            <div class="flex items-center">
-                <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
-            </div>
-
-            <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-                <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                    Contact Us
-                </a>
-                <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                    Pricing
-                </a>
-                <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                    Settings
-                </a>
-                <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                    About Us
-                </a>
-            </div>
+        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
+            <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                Contact Us
+            </a>
+            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                Pricing
+            </a>
+            <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                Settings
+            </a>
+            <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                About Us
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
+            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
+                Login
+            </button>
+            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
+                Signup
+            </button>
             
-            <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
-                <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
-                    Login
-                </button>
-                <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
-                    Signup
-                </button>
-                
-                <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
-                    <i class="fa-solid fa-bars-staggered text-lg"></i>
-                </button>
-            </div>
-        </header>
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+        </div>
+    </header>
 
-        <!-- MAIN CONTAINER -->
-        <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
+    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
+        
+        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
+            Explore number of <span class="text-brand-blue">tools.</span>
+        </h1>
+        
+        <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
+            Build faster with QUANS. A growing AI toolkit for creators, founders, and businesses.
+            Need something we don't offer yet? Suggest a tool by 
+            <a href="contact.html" class="text-brand-blue font-semibold hover:underline decoration-2 underline-offset-4">Contacting Us</a> 
+            —we build what our users actually need.
+        </p>
+
+        <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
             
-            <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
-                Explore number of <span class="text-brand-blue">tools.</span>
-            </h1>
-            
-            <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
-                Build faster with QUANS. A growing AI toolkit for creators, founders, and businesses.
-                Need something we don't offer yet? Suggest a tool by 
-                <a href="contact.html" class="text-brand-blue font-semibold hover:underline decoration-2 underline-offset-4">Contacting Us</a> 
-                —we build what our users actually need.
-            </p>
+            <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl transition-all duration-300 transform md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 text-left cursor-pointer overflow-hidden tool-btn">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
+                <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
 
-            <!-- CARDS GRID: Hover expands cards gracefully ONLY on Desktop (md:) -->
-            <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
-                
-                <!-- Card 1 -->
-                <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 transition-all duration-300 text-left cursor-pointer overflow-hidden tool-btn">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
-                    <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
-                    <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 md:group-hover:opacity-100 transition-opacity transform translate-x-[-10px] md:group-hover:translate-x-0 duration-200">
-                        OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </div>
-                </button>
+            <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl transition-all duration-300 transform md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 text-left cursor-pointer overflow-hidden tool-btn">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Post Studio</h3>
+                <p class="text-slate-500 font-medium">Generate content in seconds.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
 
-                <!-- Card 2 -->
-                <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 transition-all duration-300 text-left cursor-pointer overflow-hidden tool-btn">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Post Studio</h3>
-                    <p class="text-slate-500 font-medium">Generate content in seconds.</p>
-                    <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 md:group-hover:opacity-100 transition-opacity transform translate-x-[-10px] md:group-hover:translate-x-0 duration-200">
-                        OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </div>
-                </button>
+            <button data-tool="idea-validator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl transition-all duration-300 transform md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 text-left cursor-pointer overflow-hidden tool-btn">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Content Repurposer</h3>
+                <p class="text-slate-500 font-medium">Turn blogs, video, etc in multiplt platform format.</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
 
-                <!-- Card 3 -->
-                <button data-tool="idea-validator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 transition-all duration-300 text-left cursor-pointer overflow-hidden tool-btn">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-rocket"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Content Repurposer</h3>
-                    <p class="text-slate-500 font-medium">Turn blogs, video, etc in multiplt platform format.</p>
-                    <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 md:group-hover:opacity-100 transition-opacity transform translate-x-[-10px] md:group-hover:translate-x-0 duration-200">
-                        OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </div>
-                </button>
+            <button data-tool="outreach-personalizer" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl transition-all duration-300 transform md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 text-left cursor-pointer overflow-hidden tool-btn">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Landing Page Analyzer</h3>
+                <p class="text-slate-500 font-medium">Paste website → get feedback..</p>
+                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </button>
 
-                <!-- Card 4 -->
-                <button data-tool="outreach-personalizer" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-xl md:hover:shadow-blue-100 transition-all duration-300 text-left cursor-pointer overflow-hidden tool-btn">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-envelope-open-text"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Landing Page Analyzer</h3>
-                    <p class="text-slate-500 font-medium">Paste website → get feedback..</p>
-                    <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 md:group-hover:opacity-100 transition-opacity transform translate-x-[-10px] md:group-hover:translate-x-0 duration-200">
-                        OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </div>
-                </button>
+        </div>
+    </main>
 
-            </div>
-        </main>
+    <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
+        <p>&copy; 2026 QUANS. All rights reserved.</p>
+    </footer>
 
-        <!-- FOOTER -->
-        <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
-            <p>&copy; 2026 QUANS. All rights reserved.</p>
-        </footer>
-
-    </div>
-    <!-- END OF YOUR ORIGINAL APP CORE -->
-
-    <!-- MOBILE DRAWER MODAL -->
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
         <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
@@ -256,7 +241,6 @@
         </div>
     </div>
 
-    <!-- SIGNUP MODAL -->
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
         <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
@@ -309,7 +293,6 @@
         </div>
     </div>
 
-    <!-- LOGIN MODAL -->
     <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
         <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
