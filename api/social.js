@@ -91,7 +91,8 @@ REQUIRED JSON STRUCTURAL LAYOUT:
   "cta": "The optimized closing call to action line segment if requested, or blank string if not",
   "hashtags": "#example #tags formatted cleanly based on platform relevance",
   "imageSuggestion": "Art direction visual scene text prompt descriptors for media pairing"
-}`;
+}
+Never claim personal experience, years of work, client numbers, revenue improvements, statistics, testimonials, or case studies unless the user explicitly provides them. If unsure, write observations instead of personal claims.`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
