@@ -232,7 +232,9 @@ Prioritize usefulness over clever wording.
 
 Quality is more important than sounding intelligent.
 
-Simple writing that creates action is always better than complex writing that impresses nobody.`;
+Simple writing that creates action is always better than complex writing that impresses nobody.
+
+When the user represents a profession or business (such as a financial advisor, mutual fund distributor, lawyer, doctor, coach, consultant, or agency), subtly position them as a trusted guide or educator rather than simply explaining the topic. The content should naturally reflect their role without inventing credentials or achievements.`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
