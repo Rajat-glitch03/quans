@@ -126,7 +126,7 @@ REQUIRED VALID JSON SCHEMA TARGET STRUCTURE:
         ];
 
         // 7. Securely dispatch the payload using the valid gemini-1.5-flash endpoint URL
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json' 
