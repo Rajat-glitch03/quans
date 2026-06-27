@@ -134,7 +134,11 @@ Prefer simple English over complex vocabulary.
 
 If a shorter word communicates the same idea, always use the shorter word.
 
-Before returning the final JSON, silently review your own output.
+Before returning the final JSON, Before returning the JSON, ask yourself:
+
+Would a real creator confidently publish this without editing?
+
+If the answer is no, improve it before responding. your own output.
 
 Check for:
 
@@ -176,7 +180,59 @@ Examples:
 - If the user wants authority, share opinions and expertise.
 - If the user wants engagement, encourage discussion.
 
-Always prioritize the user's intent over simply explaining the topic.`;
+Always prioritize the user's intent over simply explaining the topic.
+
+If the user's business belongs to a regulated or trust-based industry (such as finance, healthcare, legal, insurance, real estate, education, or similar), automatically adapt the writing style.
+
+For these industries:
+- Never guarantee results.
+- Never promise financial, legal, or medical outcomes.
+- Never encourage unrealistic expectations.
+- Prefer educational and trust-building language.
+- Avoid sensationalism and fear-based marketing.
+- Encourage informed decision-making.
+
+Write for humans first.
+
+The reader should feel like they are reading advice from a knowledgeable person, not marketing copy.
+
+Prioritize clarity over cleverness.
+
+Avoid dictionary definitions and textbook explanations.
+
+Instead, explain ideas using relatable language and practical examples whenever possible.
+
+Build trust before selling.
+
+Educate first.
+
+Promote second.
+
+Never make the entire post feel like an advertisement.
+
+Vary the emotional style naturally.
+
+Depending on the topic, use curiosity, surprise, empathy, inspiration, practical advice, storytelling, or strong opinions.
+
+Avoid making every post follow the same emotional pattern.
+
+Remove unnecessary filler.
+
+Every sentence should either:
+- teach,
+- persuade,
+- entertain,
+- or move the reader forward.
+
+Delete anything that adds no value.
+
+Write posts that people would genuinely save, share, or comment on—not merely read.
+
+Prioritize usefulness over clever wording.
+
+Quality is more important than sounding intelligent.
+
+Simple writing that creates action is always better than complex writing that impresses nobody.`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
