@@ -64,6 +64,24 @@
             scrollbar-width: thin;
             scrollbar-color: #CBD5E1 transparent;
         }
+
+        /* INTERACTIVE SaaS BLUEPRINT LINE MATRIX */
+        .interactive-blueprint-grid {
+            background-color: #f8fafc; /* Sleek, crisp base background tint */
+            background-image: 
+                linear-gradient(to right, rgba(74, 144, 226, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(74, 144, 226, 0.04) 1px, transparent 1px);
+            background-size: 44px 44px;
+            transition: background-color 0.4s ease, background-image 0.4s ease;
+        }
+
+        /* Subtle, premium interactive reaction on user hover interaction state */
+        .interactive-blueprint-grid:hover {
+            background-color: #f1f7fe; /* Gently deepens to a soft premium ice-blue */
+            background-image: 
+                linear-gradient(to right, rgba(74, 144, 226, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(74, 144, 226, 0.07) 1px, transparent 1px);
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
@@ -102,7 +120,7 @@
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
+    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center interactive-blueprint-grid min-h-screen flex flex-col transition-all antialiased selection:bg-blue-500/10">
         
         <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
             Explore number of <span class="text-brand-blue">tools.</span>
