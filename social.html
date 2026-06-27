@@ -616,9 +616,9 @@
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
 
-            document.getElementById('generatedHookText1').innerHTML = formatTextTokenWeights(dataObject.Hook1 || dataObject.hook || "None generated.");
-            document.getElementById('generatedHookText2').innerHTML = formatTextTokenWeights(dataObject.Hook2 || "Alternative hook option 2.");
-            document.getElementById('generatedHookText3').innerHTML = formatTextTokenWeights(dataObject.Hook3 || "Alternative hook option 3.");
+            document.getElementById('generatedHookText1').innerHTML = formatTextTokenWeights(dataObject.hook1 || dataObject.hook || "None generated.");
+            document.getElementById('generatedHookText2').innerHTML = formatTextTokenWeights(dataObject.hook2 || "Alternative hook option 2.");
+            document.getElementById('generatedHookText3').innerHTML = formatTextTokenWeights(dataObject.hook3 || "Alternative hook option 3.");
             document.getElementById('generatedMainBodyText').innerHTML = formatTextTokenWeights(dataObject.mainPost || "None generated.");
             document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(dataObject.cta || "");
             document.getElementById('generatedHashtags').innerText = dataObject.hashtags || "";
