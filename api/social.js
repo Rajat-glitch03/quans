@@ -166,7 +166,17 @@ Prefer:
 
 over
 
-"True authority comes from..."`;
+"True authority comes from..."
+
+Before writing the post, identify the user's primary intent.
+
+Examples:
+- If the user wants to sell a product or service, write persuasive content that builds trust without making exaggerated or unsupported claims.
+- If the user wants to educate, focus on valuable insights.
+- If the user wants authority, share opinions and expertise.
+- If the user wants engagement, encourage discussion.
+
+Always prioritize the user's intent over simply explaining the topic.`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
