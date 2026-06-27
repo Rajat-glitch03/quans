@@ -86,11 +86,10 @@ You must respond ONLY with a clean, fully formed JSON object using the exact str
 
 REQUIRED JSON STRUCTURAL LAYOUT:
 {
-  "hooks": [
+  
   "hook1: Curiosity-driven, scroll-stopping opener.",
   "hook2: Strong opinion or contrarian opener.",
-  "hook3: Question or insight-driven opener."
-],
+  "hook3: Question or insight-driven opener.",
   "mainPost": "The core post structural content body lines formatted with rich markdown parameters",
   "cta": "The optimized closing call to action line segment if requested, or blank string if not",
   "hashtags": "#example #tags formatted cleanly based on platform relevance",
