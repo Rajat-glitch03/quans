@@ -150,7 +150,23 @@ If any issue exists, rewrite the response before returning it.
 
 Hooks should create curiosity, challenge a common belief, ask a thought-provoking question, or present a strong opinion.
 
-Never start with generic openings.`;
+Never start with generic openings.
+
+Never use abstract phrases when a concrete example would be clearer.
+
+Prefer:
+"Where do you leave your keys?"
+
+over
+
+"The flow of human behavior."
+
+Prefer:
+"The best designs solve everyday problems."
+
+over
+
+"True authority comes from..."`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
