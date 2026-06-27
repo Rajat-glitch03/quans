@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Extract all current active configuration parameters from the client-side payload
+        // Extract configuration parameters (matching the restored rigid dropdown values)
         const { 
             topic, platform, tone, audience, goal, length, addCTA, 
             brandContext, sampleWritingStyle, refineAction, existingPostContext 
@@ -34,134 +34,115 @@ export default async function handler(req, res) {
 
         // Dynamically compute the current server date
         const currentLiveDate = new Date().toLocaleDateString('en-US', { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
         });
 
-        // Personalization identity mapping blocks (Brand Identity Scanner data)
+        // 4. Handle Identity Cloning & Micro-Refinement Variations
         let identityCloningBlock = "";
         if ((brandContext && brandContext.trim() !== "") || (sampleWritingStyle && sampleWritingStyle.trim() !== "")) {
             identityCloningBlock = `
-PERSONALIZATION SYSTEM IDENTITY MATCH MATCH MATRIX:
-- Brand Profile Context: "${brandContext || 'None'}"
-- Sample Writing History Syntax: "${sampleWritingStyle || 'None'}"
-DIRECTIVE: Mirror the natural syntax voice, vocabulary structure, and writing style cadence defined above. Avoid automated chat filler.`;
+PERSONALIZATION SYSTEM PROFILE MATCH (HIGHEST PRIORITY CONSTRAINTS):
+- Brand Profile/Website Background Context: "${brandContext || 'None provided'}"
+- User Writing History Sample Vector: "${sampleWritingStyle || 'None provided'}"
+CRITICAL ADAPTATION DIRECTIVE: You must closely analyze and copy the user's specific vocabulary, structural preferences, stylistic cadence, sentence lengths, and formatting pacing from the sample. The final output must sound genuinely like an individual human writing an authentic post, completely avoiding generic chatbot tropes or artificial marketing filler words.`;
         }
 
-        // Micro-prompt variant controller overrides
         let refinementDirectivesBlock = "";
         if (refineAction) {
             refinementDirectivesBlock = `
-MODIFICATION OVERRIDE INSTRUCTION:
-Refine the following existing output context: "${existingPostContext}"
-Execute this exact micro-action modification variant: "${refineAction}"`;
+CRITICAL QUICK-REFINE MODIFICATION OVERRIDE:
+The user wants to alter an existing post draft. Analyze this draft context material: "${existingPostContext}"
+Apply this modification command immediately across the JSON structure components:
+- Refine Action Command Mode: "${refineAction}"
+  * shorter -> Maintain core value but aggressively cut down text length across all fields.
+  * professional -> Polish the syntax into high-authority executive communication without making it sound robotic.
+  * funny -> Weave clean wit, humor, irony, or relatable industry comedy lines into the hooks and body text.
+  * hook -> Leave everything else unchanged but replace all three hook parameters blocks with absolute high-converting scroll-stopping alternative choices.
+  * sales -> Reorient paragraphs to focus purely on high-urgency conversion value messaging.
+  * story -> Reframe the main text content structure using a narrative framework (e.g., problem -> climax -> lesson learned).`;
         }
 
-        // Fallback sanitization rules matching rigid dropdown UI states
+        // Operational safe defaults matched perfectly with restored dropdown elements
         const safePlatform = platform && platform.trim() !== "" ? platform.trim() : "LinkedIn";
         const safeTone = tone && tone.trim() !== "" ? tone.trim() : "Professional";
-        const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "Developers";
-        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "Get comments";
+        const safeAudience = audience && audience.trim() !== "" ? audience.trim() : "General Audience";
+        const safeGoal = goal && goal.trim() !== "" ? goal.trim() : "With options";
         const safeLength = length && length.trim() !== "" ? length.trim() : "Short";
 
-        // 4. Formulate an aggressive engineering structure prompt covering all custom dropdown state options
-        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert copywriter operating smoothly in real-time. Your objective is to transform the user's raw input topic context into an exceptional, high-quality, engaging, platform-native social post.
+        // 5. System Directive Formulation Matrix with Strict Anti-Hallucination Guardrails
+        const copywriterSystemDirective = `You are QUANS, an elite social media growth architect and expert ghostwriter operating smoothly in real-time. Your objective is to transform the user's raw input topic, notes, or copy into an exceptional, highly believable social post based on their custom typed parameters.
 
 TEMPORAL ANCHOR: Today's live calendar date is ${currentLiveDate}. You operate natively in the present year 2026.
 
-STRICT DESIGN RULES MATCH MATRIX:
-- TARGET PLATFORM: "${safePlatform}". Format layout rules natively for this channel (LinkedIn spacing, punchy X hooks, engaging Instagram layouts, etc.).
-- BRAND TONE: "${safeTone}". Adopt this voice perfectly (Professional, Funny, Storytelling, Motivational, Educational, Casual).
-- TARGET AUDIENCE: "${safeAudience}". Direct your content layout specifically toward this segment (Developers, Founders, Students, Creators, Business Owners, General).
-- POST GOAL: "${safeGoal}". Optimize the writing style based on the selected goal. (Get comments, Go viral, Build authority, Sell a product, Educate).
-- LENGTH CONFIGURATION: "${safeLength}". Follow these absolute layout size limitations:
-  * Short: 1-3 highly precise, punchy sentences/blocks.
+CRITICAL TRUTH & AUTHENTICITY GUARDRAILS (NEVER INVENT FACTS):
+1. NEVER INVENT STATS OR METRICS: Do not make up performance numbers, percentage spikes, revenue metrics, or user counts. If the user did not explicitly provide a metric, do not use one.
+2. NO HOLLOW MARKETING-SPEAK: Avoid hyper-polished, robotic marketing tropes ("In today's fast-paced world", "Revolutionize your workflow", "Delve deeper"). Write like a real person sharing an authentic observation.
+3. USE PROVIDED CONTEXT ONLY: Restrict all contextual claims, product features, and personal background stories entirely to what is provided in the topic, brand context, or rewrite details. If information is missing, focus purely on formatting and clarifying the user's existing thoughts rather than guessing or fabricating filler content.
+
+INTEGRATED FORM INPUT INSTRUCTIONS:
+The user has selected parameters via structural dropdown configurations. Adapt natively to these variables.
+
+CUSTOM USER INPUT FIELD CONFIGURATION MATRIX:
+- TARGET PLATFORM: "${safePlatform}". Format text natively for this platform (e.g., use line breaks for LinkedIn readability, brief punchy text for X, engaging formatting for Instagram/Facebook).
+- BRAND TONE COMMAND: "${safeTone}". Adopt this precise, user-specified vocal style flawlessly. Do not force generic marketing styles if a specific tone nuance is specified.
+- TARGET AUDIENCE: "${safeAudience}". Address the exact pain points, mental models, and terminology associated with this chosen audience profile.
+- POST GOAL: "${safeGoal}". Optimize the structural copy framework to target this absolute objective outcome.
+- ACCORDING CONFIGURATION LENGTH: "${safeLength}". Follow these hard limits:
+  * Short: 1-3 punchy sentences/blocks. 
   * Medium: 2-4 well-formatted structural paragraphs.
-  * Long: Detailed long-form analytical breakdowns.
-- CALL TO ACTION (CTA): ${addCTA ? "Include an organic, highly relevant Call To Action closing line tailored to the asset goal." : "DO NOT add any Call to Action closing text. End smoothly and cleanly."}
+  * Long: In-depth breakdowns, long-form post layouts.
+- CALL TO ACTION (CTA): ${addCTA ? `CRITICAL: You MUST append a strong, organic, highly relevant Call To Action closing line matching the goal "${safeGoal}" inside the 'cta' parameter.` : "DO NOT add a Call to Action under any circumstances. Keep the 'cta' field empty."}
 ${identityCloningBlock}
 ${refinementDirectivesBlock}
 
-CRITICAL OUTPUT REQUIREMENT:
-You must respond ONLY with a clean, fully formed JSON object using the exact structural key layout defined below. Do not wrap your response in markdown backticks (\`\`\`json) or include conversational prefix text.
+OUTPUT REQUIREMENT SPECIFICATION:
+You MUST respond with a valid JSON object matching the requested schema structure exactly. Do not include markdown code block backticks (\`\`\`json) or conversational text wrap outside the JSON structure. Use clear bold typography (**text**) within text fields where necessary for visual emphasis.
 
-REQUIRED JSON STRUCTURAL LAYOUT:
+REQUIRED VALID JSON SCHEMA TARGET STRUCTURE:
 {
-  "hook": "Scroll-stopping opener optimized for the specific platform",
-  "mainPost": "The core post structural content body lines formatted with rich markdown parameters",
-  "cta": "The optimized closing call to action line segment if requested, or blank string if not",
-  "hashtags": "#example #tags formatted cleanly based on platform relevance",
-  "imageSuggestion": "Describe a realistic image that complements the post.
-                      Avoid text-heavy graphics.
-                      Prefer scenes a creator could actually generate or photograph."
+  "hook1": "First unique alternative scroll-stopping hook statement optimized for the platform.",
+  "hook2": "Second unique alternative scroll-stopping hook statement optimized for the platform using a completely different angle.",
+  "hook3": "Third unique alternative scroll-stopping hook statement optimized for the platform using an emotional or curiosity-driven angle.",
+  "mainPost": "The core valuable textual body content paragraphs.",
+  "cta": "The optimized call to action closing text line if enabled, otherwise blank.",
+  "hashtags": "Space separated social platform hashtag bundle line.",
+  "imageSuggestion": "Clear concrete AI image generation visual scene text prompt descriptors."
+}`;
 
-}
-Never claim personal experience, years of work, client numbers, revenue improvements, statistics, testimonials, or case studies unless the user explicitly provides them. If unsure, write observations instead of personal claims.
-Write like an experienced human founder or creator having a genuine conversation. Never sound like an AI assistant, marketing brochure, or corporate press release.
-Never assume the user's business achievements, products, experience, opinions, customers, or history.
+        // 6. Build the payload wrapper
+        const contentsPayload = [
+            {
+                parts: [
+                    { 
+                        text: refineAction 
+                        ? `Modify the following draft according to the "${refineAction}" directive: ${existingPostContext}` 
+                        : `Transform this input context target material: "${topic}" using the specified custom rule structures.` 
+                    }
+                ]
+            }
+        ];
 
-Only use information explicitly provided.
-Avoid overused AI phrases such as:
-
-Game changer
-Revolutionary
-Unlock your potential
-Cutting-edge
-Leverage
-Synergy
-Transform your business
-Operational overhead
-Bleeding cash
-Best-in-class
-World-class
-Sales machine
-Next level
-
-Prefer simple English over complex vocabulary.
-
-If a shorter word communicates the same idea, always use the shorter word.
-
-Before returning the final JSON, silently review your own output.
-
-Check for:
-
-- Invented facts
-- Invented numbers
-- Invented experience
-- AI-sounding language
-- Corporate buzzwords
-- Weak hook
-- Platform mismatch
-
-If any issue exists, rewrite the response before returning it.
-
-Hooks should create curiosity, challenge a common belief, ask a thought-provoking question, or present a strong opinion.
-
-Never start with generic openings.`;
-
-        // 5. Build prompt payload structure
-        const contentsPayload = [{
-            parts: [{ 
-                text: refineAction 
-                    ? `Modify the current draft asset according to the micro-refinement rule directive: "${refineAction}" using history context: ${existingPostContext}` 
-                    : `Transform this raw topic context input material into an exceptional asset layout: "${topic}"` 
-            }]
-        }];
-
-        // 6. Securely dispatch payload to Google Gemini API (Using Valid Supported 1.5 Flash Model)
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
+        // 7. Securely dispatch the payload using the valid gemini-1.5-flash endpoint URL
+        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify({
                 contents: contentsPayload,
                 systemInstruction: {
                     parts: [{ text: copywriterSystemDirective }]
                 },
                 generationConfig: {
-                    temperature: 0.6,
+                    temperature: 0.65,
+                    maxOutputTokens: 2500,
                     responseMimeType: "application/json"
                 }
             })
-        });
+        ]);
 
         // Catch transmission or key blockages gracefully
         if (!googleResponse.ok) {
