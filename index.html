@@ -68,288 +68,298 @@
 </head>
 <body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white">
 
-    <!-- THE NEW HIGH-TECH MASTER WRAPPER -->
-<div class="min-h-screen w-full bg-cover bg-center bg-no-repeat fixed inset-0 overflow-y-auto antialiased" 
-     style="background-image: url('https://img.freepik.com/free-vector/abstract-technology-particle-background_52683-25807.jpg');">
+    <!-- THE NEW MASTER WRAPPER WITH YOUR VIBRANT TECH PATTERN -->
+    <div class="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-fixed flex flex-col relative antialiased" 
+         style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80');">
+        
+        <!-- Deep Blue Matte Tint Overlay: Keeps the tech pattern look visible while protecting your card visibility -->
+        <div class="absolute inset-0 bg-slate-950/20 backdrop-blur-[1px] pointer-events-none"></div>
     
-    <!-- Premium Backdrop Tint: Keeps the tech pattern look visible while protecting readability -->
-    <div class="absolute inset-0 bg-slate-950/20 pointer-events-none"></div>
-
-    <!-- Your actual app layout container container -->
-    <div class="relative z-10 flex h-screen">
-
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+        <!-- START OF YOUR ORIGINAL APP CORE -->
+        <div class="relative z-10 flex-grow flex flex-col">
+    
+            <!-- HEADER: Upgraded to an elegant floating glass pane -->
+            <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100/50 shadow-xs">
+                <div class="flex items-center">
+                    <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+                </div>
+    
+                <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
+                    <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                        Contact Us
+                    </a>
+                    <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                        Pricing
+                    </a>
+                    <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                        Settings
+                    </a>
+                    <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                        About Us
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
+                    <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
+                        Login
+                    </button>
+                    <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
+                        Signup
+                    </button>
+                    
+                    <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
+                        <i class="fa-solid fa-bars-staggered text-lg"></i>
+                    </button>
+                </div>
+            </header>
+    
+            <!-- MAIN CONTAINER -->
+            <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
+                
+                <!-- Upgraded heading visibility for the darker background option -->
+                <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-white drop-shadow-sm mb-6">
+                    Explore number of <span class="text-brand-blue bg-white/90 px-4 py-1 rounded-2xl shadow-xs">tools.</span>
+                </h1>
+                
+                <p class="fade-in delay-1 text-lg sm:text-xl text-slate-200 max-w-2xl mx-auto mb-16 leading-relaxed drop-shadow-xs">
+                    Build faster with QUANS. A growing AI toolkit for creators, founders, and businesses.
+                    Need something we don't offer yet? Suggest a tool by 
+                    <a href="contact.html" class="text-white underline decoration-brand-blue font-bold hover:text-brand-blue transition-colors decoration-2 underline-offset-4">Contacting Us</a> 
+                    —we build what our users actually need.
+                </p>
+    
+                <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    
+                    <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
+                        <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
+                        <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                            OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </button>
+    
+                    <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Post Studio</h3>
+                        <p class="text-slate-500 font-medium">Generate content in seconds.</p>
+                        <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                            OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </button>
+    
+                    <button data-tool="idea-validator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Content Repurposer</h3>
+                        <p class="text-slate-500 font-medium">Turn blogs, video, etc in multiplt platform format.</p>
+                        <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                            OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </button>
+    
+                    <button data-tool="outreach-personalizer" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Landing Page Analyzer</h3>
+                        <p class="text-slate-500 font-medium">Paste website → get feedback..</p>
+                        <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
+                            OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    </button>
+    
+                </div>
+            </main>
+    
+            <!-- FOOTER -->
+            <footer class="fade-in delay-3 w-full py-8 text-center text-slate-300 text-sm mt-auto">
+                <p>&copy; 2026 QUANS. All rights reserved.</p>
+            </footer>
+    
         </div>
-
-        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                Contact Us
-            </a>
-            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                Pricing
-            </a>
-            <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                Settings
-            </a>
-            <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
-                About Us
-            </a>
+        <!-- END OF YOUR ORIGINAL APP CORE -->
+    
+        <!-- NAVIGATION DRAWER SIDEBAR MODAL -->
+        <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
+            <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
+            <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
+                <div class="flex items-center justify-end pb-6 border-b border-slate-100">
+                    <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+                </div>
+                <div class="flex-1 py-8 flex flex-col space-y-3">
+                    <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                        <div class="flex items-center space-x-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <span class="text-base font-bold tracking-tight text-slate-800">Contact Us</span>
+                        </div>
+                        <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </a>
+                    <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                        <div class="flex items-center space-x-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                            <span class="text-base font-bold tracking-tight text-slate-800">Pricing</span>
+                        </div>
+                        <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </a>
+                    <a href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                        <div class="flex items-center space-x-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                                <i class="fa-solid fa-gear"></i>
+                            </div>
+                            <span class="text-base font-bold tracking-tight text-slate-800">Settings</span>
+                        </div>
+                        <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </a>
+                    <a href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                        <div class="flex items-center space-x-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <span class="text-base font-bold tracking-tight text-slate-800">About Us</span>
+                        </div>
+                        <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="text-xs text-slate-400 font-medium tracking-tight">
+                    &copy; 2026 QUANS Inc.
+                </div>
+            </div>
         </div>
-        
-        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
-            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
-                Login
-            </button>
-            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
-                Signup
-            </button>
-            
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
-        
-        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
-            Explore number of <span class="text-brand-blue">tools.</span>
-        </h1>
-        
-        <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
-            Build faster with QUANS. A growing AI toolkit for creators, founders, and businesses.
-            Need something we don't offer yet? Suggest a tool by 
-            <a href="contact.html" class="text-brand-blue font-semibold hover:underline decoration-2 underline-offset-4">Contacting Us</a> 
-            —we build what our users actually need.
-        </p>
-
-        <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
-                <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
-
-            <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Post Studio</h3>
-                <p class="text-slate-500 font-medium">Generate content in seconds.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
-
-            <button data-tool="idea-validator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-rocket"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Content Repurposer</h3>
-                <p class="text-slate-500 font-medium">Turn blogs, video, etc in multiplt platform format.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
-
-            <button data-tool="outreach-personalizer" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Landing Page Analyzer</h3>
-                <p class="text-slate-500 font-medium">Paste website → get feedback..</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
-
-        </div>
-    </main>
-
-    <footer class="fade-in delay-3 w-full py-8 text-center text-slate-400 text-sm mt-auto">
-        <p>&copy; 2026 QUANS. All rights reserved.</p>
-    </footer>
-
-    <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
-                    <i class="fa-solid fa-xmark text-base"></i>
+    
+        <!-- SIGNUP MODAL -->
+        <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
+            <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+            <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
-            </div>
-            <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Contact Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Pricing</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Settings</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">About Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-            </div>
-            <div class="text-xs text-slate-400 font-medium tracking-tight">
-                &copy; 2026 QUANS Inc.
-            </div>
-        </div>
-    </div>
-
-    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
-            
-            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Signup with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
-            </div>
-            
-            <form id="signupForm" class="space-y-4 text-left">
-                <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
+                <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                    <i class="fa-solid fa-user-plus"></i>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                        <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
-                    Sign Up
+                <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
+                <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
+                
+                <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
+                    <i class="fa-brands fa-google text-lg text-red-500"></i>
+                    <span>Signup with Google</span>
                 </button>
-            </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
-                Already a user? 
-                <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2">Login</button>
-            </p>
-        </div>
-    </div>
-
-    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
-            
-            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Sign in with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
-            </div>
-            
-            <form id="loginForm" class="space-y-4 text-left">
-                <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
+                
+                <div class="relative flex py-4 items-center">
+                    <div class="flex-grow border-t border-slate-100"></div>
+                    <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
+                    <div class="flex-grow border-t border-slate-100"></div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
-                        <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
-                        </button>
+                
+                <form id="signupForm" class="space-y-4 text-left">
+                    <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
+                        <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                        <span class="error-text"></span>
                     </div>
-                </div>
-                <div class="text-right">
-                    <a id="forgotPasswordLink" class="cursor-pointer text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
-                    Log In
-                </button>
-            </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
-                Don't have an account? 
-                <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2">Signup</button>
-            </p>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
+                        <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                        <div class="relative w-full">
+                            <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                            <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                                <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
+                        Sign Up
+                    </button>
+                </form>
+                <p class="text-sm text-slate-500 font-medium mt-6">
+                    Already a user? 
+                    <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2">Login</button>
+                </p>
+            </div>
         </div>
+    
+        <!-- LOGIN MODAL -->
+        <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
+            <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+            <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+                <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
+                <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
+                
+                <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
+                    <i class="fa-brands fa-google text-lg text-red-500"></i>
+                    <span>Sign in with Google</span>
+                </button>
+                
+                <div class="relative flex py-4 items-center">
+                    <div class="flex-grow border-t border-slate-100"></div>
+                    <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
+                    <div class="flex-grow border-t border-slate-100"></div>
+                </div>
+                
+                <form id="loginForm" class="space-y-4 text-left">
+                    <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
+                        <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                        <span class="error-text"></span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
+                        <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                        <div class="relative w-full">
+                            <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                            <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                                <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <a id="forgotPasswordLink" class="cursor-pointer text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
+                        Log In
+                    </button>
+                </form>
+                <p class="text-sm text-slate-500 font-medium mt-6">
+                    Don't have an account? 
+                    <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2">Signup</button>
+                </p>
+            </div>
+        </div>
+    
     </div>
-    </div>
-</div>
 
     <script>
         tailwind.config = {
