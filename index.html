@@ -81,54 +81,21 @@
 </head>
 <body class="text-slate-900 antialiased relative m-0 p-0 overflow-x-hidden">
     
-    <!-- HIGH-VISIBILITY TECH DESIGN BACKGROUND -->
-<div class="absolute inset-x-0 top-0 -z-50 w-full min-h-screen bg-slate-50 overflow-hidden pointer-events-none">
+   <div id="dynamic-bg-container" class="fixed inset-0 -z-50 w-full h-full bg-slate-50 overflow-hidden pointer-events-none transition-colors duration-500 ease-out">
     
-    <!-- Left Decorative Column Panel (PC Layout) -->
-    <div class="absolute top-0 left-0 w-24 h-full border-r border-blue-200/60 bg-white hidden md:block">
-        <div class="absolute top-12 left-6 w-12 h-12 rounded-xl border border-blue-500/20 bg-blue-500/5 flex items-center justify-center">
-            <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-        </div>
-        <div class="absolute top-40 left-12 w-[1px] h-48 bg-gradient-to-b from-blue-400 via-transparent to-transparent"></div>
+    <div id="bg-grid-layer" class="absolute inset-0 opacity-20 transition-all duration-300 ease-out" 
+         style="background-image: linear-gradient(#3b82f6 1.5px, transparent 1.5px), linear-gradient(90deg, #3b82f6 1.5px, transparent 1.5px); background-size: 40px 40px;">
     </div>
 
-    <!-- Right Decorative Column Panel (PC Layout) -->
-    <div class="absolute top-0 right-0 w-24 h-full border-l border-blue-200/60 bg-white hidden md:block">
-        <div class="absolute bottom-12 right-6 w-12 h-12 rounded-xl border border-blue-500/20 bg-blue-500/5 flex items-center justify-center">
-            <div class="w-4 h-[2px] bg-blue-400"></div>
-        </div>
+    <div id="bg-geometry-layer" class="absolute inset-0 transition-transform duration-200 ease-out">
+        <div class="absolute top-[10%] left-[5%] w-12 h-12 border-t-2 border-l-2 border-blue-600"></div>
+        <div class="absolute top-[40%] right-[8%] w-64 h-64 border border-dashed border-blue-500/40 rounded-full animate-[spin_80s_linear_infinite]"></div>
+        <div class="absolute top-[43%] right-[11%] w-48 h-48 border border-blue-400/30 rounded-full"></div>
+        <div class="absolute bottom-[15%] left-[10%] w-12 h-12 border-b-2 border-l-2 border-blue-600"></div>
     </div>
 
-    <!-- Sharp Hero Technical Header Section Grid -->
-    <div class="absolute top-0 left-0 w-full h-[500px] border-b border-blue-100 bg-gradient-to-b from-blue-50 via-white to-transparent">
-        <!-- Visible Dynamic Grid Patterns -->
-        <div class="absolute inset-0 opacity-15" 
-             style="background-image: linear-gradient(#3b82f6 1.5px, transparent 1.5px), linear-gradient(90deg, #3b82f6 1.5px, transparent 1.5px); background-size: 30px 30px;">
-        </div>
-
-        <!-- Distinct Floating Geometric Blueprint Shapes -->
-        <div class="absolute top-20 right-[10%] w-72 h-72 border-2 border-dashed border-blue-400/30 rounded-full animate-[spin_120s_linear_infinite]"></div>
-        <div class="absolute top-40 right-[15%] w-48 h-48 border border-blue-500/20 rounded-full"></div>
-        
-        <!-- Sharp Diagonal Cross-Hair Marks -->
-        <div class="absolute top-10 left-[15%] text-blue-400/40 font-mono text-xs hidden sm:block">[ SYSTEM_ACTIVE ]</div>
-        <div class="absolute top-32 left-[25%] w-6 h-6 border-t-2 border-l-2 border-blue-500/40"></div>
-        <div class="absolute top-72 right-[30%] w-6 h-6 border-b-2 border-r-2 border-blue-500/40"></div>
-    </div>
-
-    <!-- Center Flow Content Accent Lines -->
-    <div class="absolute top-[450px] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
-    <div class="absolute top-[455px] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-400/20 to-transparent"></div>
-
-    <!-- Distinct Deep Bottom Section Base Grid -->
-    <div class="absolute bottom-0 left-0 w-full h-[400px] bg-white border-t border-blue-100">
-        <div class="absolute inset-0 opacity-[0.08]" 
-             style="background-image: linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px); background-size: 50px 50px;">
-        </div>
-        <!-- Bottom Corner Industrial Corner Accent -->
-        <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-blue-500/5 to-transparent"></div>
-    </div>
-
+    <div class="absolute inset-y-0 left-0 w-16 border-r border-blue-200/80 bg-white/50 backdrop-blur-xs hidden md:block"></div>
+    <div class="absolute inset-y-0 right-0 w-16 border-l border-blue-200/80 bg-white/50 backdrop-blur-xs hidden md:block"></div>
 </div>
     
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
@@ -791,6 +758,34 @@
             // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
             const target = document.getElementById("nav-home");
             if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        }
+    });
+
+        document.addEventListener("scroll", () => {
+        const gridLayer = document.getElementById("bg-grid-layer");
+        const geoLayer = document.getElementById("bg-geometry-layer");
+        const container = document.getElementById("dynamic-bg-container");
+
+        if (gridLayer && geoLayer && container) {
+            const scrolled = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = maxScroll > 0 ? scrolled / maxScroll : 0;
+
+            // 1. Morph Background Hue: Shifts deeper into white/blue as you scroll down
+            if (scrollPercent > 0.5) {
+                container.style.backgroundColor = "#f0f4ff"; // Soft blue-tinted matrix shade
+            } else {
+                container.style.backgroundColor = "#f8fafc"; // Standard slate-50
+            }
+
+            // 2. Change Grid Size dynamically on scroll (creates a matrix zooming effect!)
+            const newGridSize = 40 + (scrollPercent * 30); // scale size from 40px up to 70px
+            gridLayer.style.backgroundSize = `${newGridSize}px ${newGridSize}px`;
+            gridLayer.style.opacity = 0.2 + (scrollPercent * 0.15); // Makes pattern sharper down the page
+
+            // 3. Move the Geometric Shapes at an independent Parallax rate so they react to scrolls
+            const yMovement = scrolled * -0.4; // Counter-movement value
+            geoLayer.style.transform = `translate3d(0, ${yMovement}px, 0)`;
         }
     });
         
