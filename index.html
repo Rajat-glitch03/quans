@@ -77,22 +77,22 @@
         </div>
 
         <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Home
             </a>
-            <a href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Explore
             </a>
-            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Pricing
             </a>
-            <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Contact Us
             </a>
-            <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 About Us
             </a>
-            <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-setting" href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Settings
             </a>
         </div>
@@ -191,7 +191,7 @@
         </section>
 
         <!-- "WHO IS IT FOR?" TARGET AUDIENCE SECTION -->
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mb-24 text-center">
+        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
             
             <!-- Section Heading -->
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mb-12">
@@ -253,7 +253,7 @@
         </section>
 
         <!-- "HOW IT WORKS" WORKFLOW STEP SECTION -->
-        <section class="fade-in delay-2 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
+        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
             
             <!-- Section Heading -->
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mb-14">
@@ -312,7 +312,7 @@
         </section>
 
         <!-- FINAL CALL-OUT SUB-TAGLINE RIBBON SECTION -->
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mb-28 text-center">
+        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
             
             <!-- Translucent High-Contrast Banner Wrap -->
             <div class="w-full bg-white/40 backdrop-blur-md border border-white/40 rounded-[36px] p-8 sm:p-12 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center relative overflow-hidden">
@@ -331,7 +331,7 @@
         </section>
 
         <!-- USER SUGGESTION / FEEDBACK CALL TO ACTION SECTION -->
-        <section class="fade-in delay-3 w-full max-w-4xl mx-auto px-4 mb-28 text-center">
+        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
             <div class="flex flex-col items-center justify-center space-y-4">
                 
                 <!-- Header Text -->
@@ -346,10 +346,10 @@
                 
                 <!-- Interactive Trigger Button -->
                 <div class="pt-2">
-                    <button class="group text-sm font-bold bg-slate-900 text-white px-6 py-3 rounded-full hover:bg-slate-800 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center space-x-2 cursor-pointer">
+                    <a href="contact.html"class="group text-sm font-bold bg-slate-900 text-white px-6 py-3 rounded-full hover:bg-slate-800 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center space-x-2 cursor-pointer">
                         <i class="fa-solid fa-lightbulb text-amber-400 transition-transform group-hover:scale-110"></i>
-                        <span href="contact.html">Submit a Suggestion</span>
-                    </button>
+                        <span>Submit a Suggestion</span>
+                    </a>
                 </div>
         
             </div>
@@ -696,6 +696,48 @@
                 menu.classList.add('hidden');
             }
         });
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. Get the name of the current file from the URL path
+        const currentPath = window.location.pathname.split("/").pop();
+
+        // 2. Clear out any previous active colors to prevent bugs
+        const navIds = ["nav-home", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-explore"];
+        navIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove("text-brand-blue");
+        });
+
+        // 3. Check the path and add your signature brand-blue color to the active link
+        if (currentPath === "index.html") {
+            document.getElementById("nav-home")?.classList.add("text-brand-blue");
+        } else if (currentPath === "pricing.html") {
+            document.getElementById("nav-price")?.classList.add("text-brand-blue");
+        } else if (currentPath === "contact.html") {
+            document.getElementById("nav-contact")?.classList.add("text-brand-blue");
+        } else if (currentPath === "about.html") {
+            document.getElementById("nav-about")?.classList.add("text-brand-blue");
+        } else if (currentPath === "setting.html") {
+            document.getElementById("nav-setting")?.classList.add("text-brand-blue");
+        } else if (currentPath === "explore.html") {
+            document.getElementById("nav-explore")?.classList.add("text-brand-blue");
+        }{
+            // Default fallback: If path is empty, root '/', or 'index.html', highlight Home
+            document.getElementById("nav-home")?.classList.add("text-brand-blue");
+        }
+    });
+
+    // 4. Handle the "Contact Us" modal button click color toggle separately
+    function openContactModal(event) {
+        event.preventDefault();
+        
+        // Turn the Contact link blue when clicked
+        document.getElementById("nav-contact")?.classList.add("text-brand-blue");
+        
+        // (Your existing modal opening logic goes here, for example:)
+        // document.getElementById('contactModal').classList.remove('hidden');
+    }
         
     </script>
 
