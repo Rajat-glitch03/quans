@@ -698,28 +698,40 @@
         });
 
     document.addEventListener("DOMContentLoaded", () => {
-        const currentUrl = window.location.href;
+        // 1. Get the very end string of the address bar URL
+        const currentPath = window.location.pathname.split("/").pop();
 
-        // 1. Clear out all active colors first upon page reload
-        const navIds = ["nav-home", "nav-contact", "nav-price", "nav-about", "nav-setting", "nav-explore"];
-        navIds.forEach(id => {
-            document.getElementById(id)?.classList.remove("text-brand-blue");
+        // 2. Clear out any brand blue text from your links list
+        const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting"];
+        activeNavIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.remove("text-brand-blue");
+                // Resetting to your default slate color class
+                element.classList.add("text-slate-600");
+            }
         });
 
-        // 2. Read the active URL and apply the permanent color
-        if (currentUrl.includes("pricing.html")) {
-            document.getElementById("nav-price")?.classList.add("text-brand-blue");
-        } else if (currentUrl.includes("contact.html")) {
-            document.getElementById("nav-contact")?.classList.add("text-brand-blue");
-        } else if (currentUrl.includes("about.html")) {
-            document.getElementById("nav-about")?.classList.add("text-brand-blue");
-        } else if (currentUrl.includes("setting.html")) {
-            document.getElementById("nav-setting")?.classList.add("text-brand-blue");
-        } else if (currentUrl.includes("explore.html")) {
-            document.getElementById("nav-explore")?.classList.add("text-brand-blue");
+        // 3. Look at the file and light up the correct single choice
+        if (currentPath === "explore.html") {
+            const target = document.getElementById("nav-explore");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "pricing.html") {
+            const target = document.getElementById("nav-price");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "contact.html") {
+            const target = document.getElementById("nav-contact");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "about.html") {
+            const target = document.getElementById("nav-about");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "setting.html") {
+            const target = document.getElementById("nav-setting");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
         } else {
-            // 3. INITIAL FALLBACK: If we are on index.html or just the root domain, Home is blue!
-            document.getElementById("nav-home")?.classList.add("text-brand-blue");
+            // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
+            const target = document.getElementById("nav-home");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
         }
     });
         
