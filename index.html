@@ -79,21 +79,10 @@
         }
     </style>
 </head>
-<body class="text-slate-900 antialiased relative m-0 p-0 overflow-x-hidden">
-    
-   <div id="luxury-canvas" class="fixed inset-0 -z-50 w-full h-full bg-[#fcfcfd] overflow-hidden pointer-events-none transition-colors duration-1000 ease-in-out">
-    
-    <div id="luxury-fluid-stream" class="absolute inset-0 will-change-transform">
-        
-        <div class="absolute top-[-25%] left-[-10%] w-[85vw] h-[85vw] max-w-[1100px] bg-gradient-to-tr from-blue-600/12 via-indigo-500/8 to-transparent rounded-full filter blur-[130px]"></div>
-        
-        <div class="absolute top-[20%] right-[-15%] w-[75vw] h-[75vw] max-w-[900px] bg-gradient-to-bl from-sky-400/10 via-blue-400/5 to-transparent rounded-full filter blur-[150px]"></div>
-        
-        <div class="absolute bottom-[-10%] left-[15%] w-[60vw] h-[60vw] max-w-[750px] bg-gradient-to-u from-blue-500/6 to-transparent rounded-full filter blur-[120px]"></div>
-        
-    </div>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased relative m-0 p-0">
 
-    <div class="absolute inset-0 bg-white/[0.08] backdrop-blur-[4px]"></div>
+    <div class="fixed inset-0 -z-50 w-full h-full pointer-events-none" 
+     style="background-color: #f3f6fe;">
 </div>
     
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
@@ -757,50 +746,6 @@
             const target = document.getElementById("nav-home");
             if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
         }
-    });
-
-    let currentScrollY = window.scrollY;
-    let targetScrollY = window.scrollY;
-    const ease = 0.05; // Lower = much smoother, heavier luxury fluid momentum
-
-    // Cache the scroll input smoothly
-    window.addEventListener("scroll", () => {
-        targetScrollY = window.scrollY;
-    }, { passive: true });
-
-    function renderLuxuryLoop() {
-        // Mathematical interpolation to smooth out rough mousewheel notches
-        currentScrollY += (targetScrollY - currentScrollY) * ease;
-        
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = maxScroll > 0 ? Math.min(Math.max(currentScrollY / maxScroll, 0), 1) : 0;
-
-        const fluidStream = document.getElementById("luxury-fluid-stream");
-        const canvas = document.getElementById("luxury-canvas");
-
-        if (fluidStream && canvas) {
-            // 1. Smoothly translate and slightly morph scale based on scroll depth
-            const yOffset = currentScrollY * -0.35; // Controls the parallax flow speed
-            const scaleFactor = 1 + (scrollPercent * 0.08); // Subtle spatial expansion
-            const rotateFactor = scrollPercent * 12; // Extremely gentle slow organic rotation
-            
-            fluidStream.style.transform = `translate3d(0, ${yOffset}px, 0) scale(${scaleFactor}) rotate(${rotateFactor}deg)`;
-
-            // 2. Premium Dynamic Hue Morphing
-            if (scrollPercent > 0.45) {
-                canvas.style.backgroundColor = "#f3f6fe"; // Rich, custom premium soft porcelain blue tint
-            } else {
-                canvas.style.backgroundColor = "#fcfcfd"; // Pristine clean ivory white
-            }
-        }
-
-        // Keep the frame loop perfectly in sync with the hardware refresh rate
-        requestAnimationFrame(renderLuxuryLoop);
-    }
-
-    // Launch immediately on page initialization
-    document.addEventListener("DOMContentLoaded", () => {
-        requestAnimationFrame(renderLuxuryLoop);
     });
         
     </script>
