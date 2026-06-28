@@ -698,46 +698,50 @@
         });
 
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the name of the current file from the URL path
-        const currentPath = window.location.pathname.split("/").pop();
-
-        // 2. Clear out any previous active colors to prevent bugs
-        const navIds = ["nav-home", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-explore"];
-        navIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.remove("text-brand-blue");
+            document.addEventListener("DOMContentLoaded", () => {
+            // 1. Get the name of the current file from the URL path
+            const currentPath = window.location.pathname.split("/").pop();
+        
+            // 2. Clear out any previous active colors to prevent bugs
+            const navIds = ["nav-home", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-explore"];
+            navIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove("text-brand-blue");
+            });
+        
+            // 3. Check the path and add your signature brand-blue color to the active link
+            // Fix: Check for empty string "" or "/" along with index.html to capture the root domain
+            if (currentPath === "index.html" || currentPath === "" || currentPath === "/") {
+                document.getElementById("nav-home")?.classList.add("text-brand-blue");
+            } else if (currentPath === "pricing.html") {
+                document.getElementById("nav-price")?.classList.add("text-brand-blue");
+            } else if (currentPath === "contact.html") {
+                document.getElementById("nav-contact")?.classList.add("text-brand-blue");
+            } else if (currentPath === "about.html") {
+                document.getElementById("nav-about")?.classList.add("text-brand-blue");
+            } else if (currentPath === "setting.html") {
+                document.getElementById("nav-setting")?.classList.add("text-brand-blue");
+            } else if (currentPath === "explore.html") {
+                document.getElementById("nav-explore")?.classList.add("text-brand-blue");
+            }
         });
-
-        // 3. Check the path and add your signature brand-blue color to the active link
-        if (currentPath === "index.html") {
-            document.getElementById("nav-home")?.classList.add("text-brand-blue");
-        } else if (currentPath === "pricing.html") {
-            document.getElementById("nav-price")?.classList.add("text-brand-blue");
-        } else if (currentPath === "contact.html") {
+        
+        // 4. Handle the "Contact Us" modal button click color toggle safely
+        function openContactModal(event) {
+            event.preventDefault();
+            
+            // Clear other active highlights first so Contact is the only blue item
+            const navIds = ["nav-home", "nav-price", "nav-about", "nav-setting", "nav-explore"];
+            navIds.forEach(id => {
+                document.getElementById(id)?.classList.remove("text-brand-blue");
+            });
+            
+            // Turn the Contact link blue when clicked
             document.getElementById("nav-contact")?.classList.add("text-brand-blue");
-        } else if (currentPath === "about.html") {
-            document.getElementById("nav-about")?.classList.add("text-brand-blue");
-        } else if (currentPath === "setting.html") {
-            document.getElementById("nav-setting")?.classList.add("text-brand-blue");
-        } else if (currentPath === "explore.html") {
-            document.getElementById("nav-explore")?.classList.add("text-brand-blue");
-        } else {
-            // Default fallback: If path is empty, root '/', or 'index.html', highlight Home
-            document.getElementById("nav-home")?.classList.add("text-brand-blue");
+            
+            // (Your existing modal opening logic goes here, for example:)
+            // document.getElementById('contactModal').classList.remove('hidden');
         }
-    });
-
-    // 4. Handle the "Contact Us" modal button click color toggle separately
-    function openContactModal(event) {
-        event.preventDefault();
-        
-        // Turn the Contact link blue when clicked
-        document.getElementById("nav-contact")?.classList.add("text-brand-blue");
-        
-        // (Your existing modal opening logic goes here, for example:)
-        // document.getElementById('contactModal').classList.remove('hidden');
-    }
         
     </script>
 
