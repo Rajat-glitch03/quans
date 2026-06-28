@@ -66,7 +66,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white"> 
+<body class="bg-transparent text-slate-900 min-h-screen flex flex-col antialiased"> 
 
  <div id="live-scroll-bg" class="fixed inset-0 -z-50 w-full h-[120vh] bg-slate-50 transition-transform duration-100 ease-out will-change-transform" style="background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.07) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%), radial-gradient(at 50% 0%, rgba(219, 234, 254, 0.3) 0px, transparent 70%);"></div>
 
@@ -736,15 +736,13 @@
     document.addEventListener("scroll", () => {
         const bg = document.getElementById("live-scroll-bg");
         if (bg) {
-            // Get the current vertical scroll distance
             const scrolled = window.scrollY;
             
-            // Adjust the 0.15 multiplier to make the shift faster or slower
-            // Negative value pushes the background up slightly as you scroll down
-            const yOffset = scrolled * -0.15; 
+            // This shifts the actual background gradient colors down by 0.2px for every 1px scrolled
+            const yOffset = scrolled * 0.2;
             
-            // Apply a smooth hardware-accelerated 3D transform
-            bg.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+            // Adjusts the background positioning coordinates dynamically
+            bg.style.backgroundPosition = `center ${yOffset}px`;
         }
     });
         
