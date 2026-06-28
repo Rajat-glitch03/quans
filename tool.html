@@ -178,9 +178,25 @@
         </div>
     </main>
 
-    <footer class="fade-in delay-3 w-full py-8 text-center text-slate-800 font-semibold text-sm mt-auto bg-white/20 backdrop-blur-md border-t border-white/20 shadow-lg">
+    <!-- VISIBLE BOTTOM FOOTER WITH LEGAL LINKS -->
+<footer class="fade-in delay-3 w-full py-8 text-slate-800 font-semibold text-sm mt-auto bg-white/20 backdrop-blur-md border-t border-white/20 shadow-lg px-6 sm:px-12">
+    <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
+        
+        <!-- Copyright on the left -->
         <p>&copy; 2026 QUANS. All rights reserved.</p>
-    </footer>
+        
+        <!-- Directive links on the right -->
+        <div class="flex items-center space-x-6">
+            <a href="privacy.html" class="hover:text-brand-blue transition-colors duration-200">
+                Privacy Policy
+            </a>
+            <a href="terms.html" class="hover:text-brand-blue transition-colors duration-200">
+                Terms & Conditions
+            </a>
+        </div>
+        
+    </div>
+</footer>
 
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
