@@ -77,23 +77,12 @@
             50% { transform: translate(-40px, 40px) scale(1.1); }
             100% { transform: translate(0px, 0px) scale(1); }
         }
-        
-        /* Custom Animation Utility Classes */
-        .animate-float {
-            animation: float 18s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-            animation: float 25s ease-in-out infinite;
-            animation-delay: -5s;
-        }
-        .animate-float-reverse {
-            animation: floatReverse 22s ease-in-out infinite;
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased relative"> 
 
-    <div id="scroll-mesh" class="fixed inset-0 -z-50 w-full h-full pointer-events-none transition-all duration-300 ease-out" style="background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(219, 234, 254, 0.1) 40%, rgba(255, 255, 255, 0) 70%);"></div>
+    <div class="fixed inset-0 -z-50 w-full h-full" 
+     style="background-image: url('background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
         <div class="flex items-center">
@@ -588,6 +577,7 @@
             </p>
         </div>
     </div>
+</div>
 
     <script>
         tailwind.config = {
@@ -755,24 +745,6 @@
             // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
             const target = document.getElementById("nav-home");
             if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        }
-    });
-
-    document.addEventListener("scroll", () => {
-        const mesh = document.getElementById("scroll-mesh");
-        if (mesh) {
-            const scrolled = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            
-            // Calculate a scroll percentage (0 to 1)
-            const scrollPercent = maxScroll > 0 ? scrolled / maxScroll : 0;
-            
-            // Move the center point of the gradient circle based on how far you scroll
-            const xCenter = 50 + (scrollPercent * 20); // shifts from 50% to 70% horizontally
-            const yCenter = 50 - (scrollPercent * 30); // shifts from 50% to 20% vertically
-            
-            // Dynamically morph the colors from bright blue to soft sky blue as you go down
-            mesh.style.background = `radial-gradient(circle at ${xCenter}% ${yCenter}%, rgba(59, 130, 246, 0.18) 0%, rgba(14, 165, 233, 0.12) 45%, rgba(255, 255, 255, 0) 75%)`;
         }
     });
         
