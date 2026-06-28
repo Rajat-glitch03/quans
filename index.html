@@ -81,21 +81,19 @@
 </head>
 <body class="text-slate-900 antialiased relative m-0 p-0 overflow-x-hidden">
     
-   <div id="dynamic-bg-container" class="fixed inset-0 -z-50 w-full h-full bg-slate-50 overflow-hidden pointer-events-none transition-colors duration-500 ease-out">
+   <div id="luxury-canvas" class="fixed inset-0 -z-50 w-full h-full bg-[#fcfcfd] overflow-hidden pointer-events-none transition-colors duration-1000 ease-in-out">
     
-    <div id="bg-grid-layer" class="absolute inset-0 opacity-20 transition-all duration-300 ease-out" 
-         style="background-image: linear-gradient(#3b82f6 1.5px, transparent 1.5px), linear-gradient(90deg, #3b82f6 1.5px, transparent 1.5px); background-size: 40px 40px;">
+    <div id="luxury-fluid-stream" class="absolute inset-0 will-change-transform">
+        
+        <div class="absolute top-[-25%] left-[-10%] w-[85vw] h-[85vw] max-w-[1100px] bg-gradient-to-tr from-blue-600/12 via-indigo-500/8 to-transparent rounded-full filter blur-[130px]"></div>
+        
+        <div class="absolute top-[20%] right-[-15%] w-[75vw] h-[75vw] max-w-[900px] bg-gradient-to-bl from-sky-400/10 via-blue-400/5 to-transparent rounded-full filter blur-[150px]"></div>
+        
+        <div class="absolute bottom-[-10%] left-[15%] w-[60vw] h-[60vw] max-w-[750px] bg-gradient-to-u from-blue-500/6 to-transparent rounded-full filter blur-[120px]"></div>
+        
     </div>
 
-    <div id="bg-geometry-layer" class="absolute inset-0 transition-transform duration-200 ease-out">
-        <div class="absolute top-[10%] left-[5%] w-12 h-12 border-t-2 border-l-2 border-blue-600"></div>
-        <div class="absolute top-[40%] right-[8%] w-64 h-64 border border-dashed border-blue-500/40 rounded-full animate-[spin_80s_linear_infinite]"></div>
-        <div class="absolute top-[43%] right-[11%] w-48 h-48 border border-blue-400/30 rounded-full"></div>
-        <div class="absolute bottom-[15%] left-[10%] w-12 h-12 border-b-2 border-l-2 border-blue-600"></div>
-    </div>
-
-    <div class="absolute inset-y-0 left-0 w-16 border-r border-blue-200/80 bg-white/50 backdrop-blur-xs hidden md:block"></div>
-    <div class="absolute inset-y-0 right-0 w-16 border-l border-blue-200/80 bg-white/50 backdrop-blur-xs hidden md:block"></div>
+    <div class="absolute inset-0 bg-white/[0.08] backdrop-blur-[4px]"></div>
 </div>
     
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
@@ -761,32 +759,48 @@
         }
     });
 
-        document.addEventListener("scroll", () => {
-        const gridLayer = document.getElementById("bg-grid-layer");
-        const geoLayer = document.getElementById("bg-geometry-layer");
-        const container = document.getElementById("dynamic-bg-container");
+    let currentScrollY = window.scrollY;
+    let targetScrollY = window.scrollY;
+    const ease = 0.05; // Lower = much smoother, heavier luxury fluid momentum
 
-        if (gridLayer && geoLayer && container) {
-            const scrolled = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = maxScroll > 0 ? scrolled / maxScroll : 0;
+    // Cache the scroll input smoothly
+    window.addEventListener("scroll", () => {
+        targetScrollY = window.scrollY;
+    }, { passive: true });
 
-            // 1. Morph Background Hue: Shifts deeper into white/blue as you scroll down
-            if (scrollPercent > 0.5) {
-                container.style.backgroundColor = "#f0f4ff"; // Soft blue-tinted matrix shade
+    function renderLuxuryLoop() {
+        // Mathematical interpolation to smooth out rough mousewheel notches
+        currentScrollY += (targetScrollY - currentScrollY) * ease;
+        
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = maxScroll > 0 ? Math.min(Math.max(currentScrollY / maxScroll, 0), 1) : 0;
+
+        const fluidStream = document.getElementById("luxury-fluid-stream");
+        const canvas = document.getElementById("luxury-canvas");
+
+        if (fluidStream && canvas) {
+            // 1. Smoothly translate and slightly morph scale based on scroll depth
+            const yOffset = currentScrollY * -0.35; // Controls the parallax flow speed
+            const scaleFactor = 1 + (scrollPercent * 0.08); // Subtle spatial expansion
+            const rotateFactor = scrollPercent * 12; // Extremely gentle slow organic rotation
+            
+            fluidStream.style.transform = `translate3d(0, ${yOffset}px, 0) scale(${scaleFactor}) rotate(${rotateFactor}deg)`;
+
+            // 2. Premium Dynamic Hue Morphing
+            if (scrollPercent > 0.45) {
+                canvas.style.backgroundColor = "#f3f6fe"; // Rich, custom premium soft porcelain blue tint
             } else {
-                container.style.backgroundColor = "#f8fafc"; // Standard slate-50
+                canvas.style.backgroundColor = "#fcfcfd"; // Pristine clean ivory white
             }
-
-            // 2. Change Grid Size dynamically on scroll (creates a matrix zooming effect!)
-            const newGridSize = 40 + (scrollPercent * 30); // scale size from 40px up to 70px
-            gridLayer.style.backgroundSize = `${newGridSize}px ${newGridSize}px`;
-            gridLayer.style.opacity = 0.2 + (scrollPercent * 0.15); // Makes pattern sharper down the page
-
-            // 3. Move the Geometric Shapes at an independent Parallax rate so they react to scrolls
-            const yMovement = scrolled * -0.4; // Counter-movement value
-            geoLayer.style.transform = `translate3d(0, ${yMovement}px, 0)`;
         }
+
+        // Keep the frame loop perfectly in sync with the hardware refresh rate
+        requestAnimationFrame(renderLuxuryLoop);
+    }
+
+    // Launch immediately on page initialization
+    document.addEventListener("DOMContentLoaded", () => {
+        requestAnimationFrame(renderLuxuryLoop);
     });
         
     </script>
