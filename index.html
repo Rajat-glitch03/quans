@@ -697,30 +697,28 @@
             }
         });
 
+    document.addEventListener("DOMContentLoaded", () => {
+        const currentUrl = window.location.href;
 
-            document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the name of the current file from the URL path
-        const currentPath = window.location.pathname.split("/").pop();
-
-        // 2. Clear out any previous active colors to prevent bugs
-        const navIds = ["nav-home", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-explore"];
+        // 1. Clear out all active colors first upon page reload
+        const navIds = ["nav-home", "nav-contact", "nav-price", "nav-about", "nav-setting", "nav-explore"];
         navIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.remove("text-brand-blue");
+            document.getElementById(id)?.classList.remove("text-brand-blue");
         });
 
-        // 3. Match the current page to the correct navigation item
-        if (currentPath === "pricing.html") {
+        // 2. Read the active URL and apply the permanent color
+        if (currentUrl.includes("pricing.html")) {
             document.getElementById("nav-price")?.classList.add("text-brand-blue");
-        } else if (currentPath === "contact.html") {
+        } else if (currentUrl.includes("contact.html")) {
             document.getElementById("nav-contact")?.classList.add("text-brand-blue");
-        } else if (currentPath === "about.html") {
+        } else if (currentUrl.includes("about.html")) {
             document.getElementById("nav-about")?.classList.add("text-brand-blue");
-        } else if (currentPath === "setting.html") {
+        } else if (currentUrl.includes("setting.html")) {
             document.getElementById("nav-setting")?.classList.add("text-brand-blue");
-        } else if (currentPath === "explore.html") {
+        } else if (currentUrl.includes("explore.html")) {
             document.getElementById("nav-explore")?.classList.add("text-brand-blue");
-        } else if (currentPath === "index.html" || currentPath === "" || currentPath === "/") {
+        } else {
+            // 3. INITIAL FALLBACK: If we are on index.html or just the root domain, Home is blue!
             document.getElementById("nav-home")?.classList.add("text-brand-blue");
         }
     });
