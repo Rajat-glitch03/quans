@@ -91,13 +91,9 @@
         }
     </style>
 </head>
-<body class="bg-transparent text-slate-900 min-h-screen flex flex-col antialiased"> 
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased relative"> 
 
-     <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 overflow-hidden pointer-events-none">
-        <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] min-w-[350px] bg-blue-400/15 rounded-full blur-[80px] animate-float"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] min-w-[400px] bg-brand-blue/10 rounded-full blur-[100px] animate-float-delayed"></div>
-        <div class="absolute top-[30%] right-[20%] w-[40vw] h-[40vw] min-w-[300px] bg-sky-300/10 rounded-full blur-[90px] animate-float-reverse"></div>
-    </div>
+    <div id="scroll-mesh" class="fixed inset-0 -z-50 w-full h-full pointer-events-none transition-all duration-300 ease-out" style="background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(219, 234, 254, 0.1) 40%, rgba(255, 255, 255, 0) 70%);"></div>
 
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
         <div class="flex items-center">
@@ -763,15 +759,20 @@
     });
 
     document.addEventListener("scroll", () => {
-        const bg = document.getElementById("live-scroll-bg");
-        if (bg) {
+        const mesh = document.getElementById("scroll-mesh");
+        if (mesh) {
             const scrolled = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             
-            // This shifts the actual background gradient colors down by 0.2px for every 1px scrolled
-            const yOffset = scrolled * 0.2;
+            // Calculate a scroll percentage (0 to 1)
+            const scrollPercent = maxScroll > 0 ? scrolled / maxScroll : 0;
             
-            // Adjusts the background positioning coordinates dynamically
-            bg.style.backgroundPosition = `center ${yOffset}px`;
+            // Move the center point of the gradient circle based on how far you scroll
+            const xCenter = 50 + (scrollPercent * 20); // shifts from 50% to 70% horizontally
+            const yCenter = 50 - (scrollPercent * 30); // shifts from 50% to 20% vertically
+            
+            // Dynamically morph the colors from bright blue to soft sky blue as you go down
+            mesh.style.background = `radial-gradient(circle at ${xCenter}% ${yCenter}%, rgba(59, 130, 246, 0.18) 0%, rgba(14, 165, 233, 0.12) 45%, rgba(255, 255, 255, 0) 75%)`;
         }
     });
         
