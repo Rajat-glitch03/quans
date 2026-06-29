@@ -413,7 +413,7 @@
                 </button>
             </div>
             <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-house-chimney"></i>
@@ -424,7 +424,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -435,7 +435,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-compass"></i>
@@ -446,7 +446,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-tag"></i>
@@ -457,7 +457,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-envelope"></i>
@@ -468,7 +468,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-circle-info"></i>
@@ -479,7 +479,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-setting" href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-gear"></i>
@@ -736,47 +736,6 @@
             }
         });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the very end string of the address bar URL
-        const currentPath = window.location.pathname.split("/").pop();
-
-        // 2. Clear out any brand blue text from your links list
-        const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting"];
-        activeNavIds.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.classList.remove("text-brand-blue");
-                // Resetting to your default slate color class
-                element.classList.add("text-slate-600");
-            }
-        });
-
-        // 3. Look at the file and light up the correct single choice
-        if (currentPath === "explore.html") {
-            const target = document.getElementById("nav-explore");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "pricing.html") {
-            const target = document.getElementById("nav-price");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "contact.html") {
-            const target = document.getElementById("nav-contact");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "about.html") {
-            const target = document.getElementById("nav-about");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "setting.html") {
-            const target = document.getElementById("nav-setting");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "tool.html") {
-            const target = document.getElementById("nav-tool");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else {
-            // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
-            const target = document.getElementById("nav-home");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        }
-    });
-
         // Parallax Scroll Script for Balanced Geometric Boxes
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
@@ -801,24 +760,53 @@
         }
     }, { passive: true });
 
-        // Automatically highlight active mobile sidebar links
         document.addEventListener("DOMContentLoaded", () => {
-            // Get the current page filename (e.g., "index.html" or "explore.html")
-            const currentPage = window.location.pathname.split("/").pop() || "index.html";
-            
-            // Find all links inside the mobile sidebar
-            const mobileLinks = document.querySelectorAll("#mobileSidebar a");
-            
-            mobileLinks.forEach(link => {
-                // Check if the link's href matches the current page
-                if (link.getAttribute("href") === currentPage) {
-                    // Remove the default plain styling
-                    link.classList.remove("bg-slate-50", "border-slate-100");
-                    
-                    // Add the premium highlighted background combo
-                    link.classList.add("bg-blue-50/70", "border-blue-100/50");
+            // 1. Get the very end string of the address bar URL
+            const currentPath = window.location.pathname.split("/").pop();
+        
+            // 2. Clear out any active styling from BOTH links lists
+            const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-tool"];
+            activeNavIds.forEach(id => {
+                const pcElement = document.getElementById(id);
+                if (pcElement) {
+                    pcElement.classList.remove("text-brand-blue");
+                    pcElement.classList.add("text-slate-600");
+                }
+                
+                // Also clear out any active highlight from the mobile IDs
+                const mobileElement = document.getElementById(`mobile-${id}`);
+                if (mobileElement) {
+                    mobileElement.classList.remove("bg-blue-50/70", "border-blue-100/50");
+                    mobileElement.classList.add("bg-slate-50", "border-slate-100");
                 }
             });
+        
+            // Helper function to activate both PC text color and Mobile background highlight
+            const activateLink = (pcId, mobileId) => {
+                const pcTarget = document.getElementById(pcId);
+                if (pcTarget) { pcTarget.classList.replace("text-slate-600", "text-brand-blue"); }
+                
+                const mobileTarget = document.getElementById(mobileId);
+                if (mobileTarget) { mobileTarget.classList.replace("bg-slate-50", "bg-blue-50/70"); mobileTarget.classList.replace("border-slate-100", "border-blue-100/50"); }
+            };
+        
+            // 3. Look at the file and light up the correct choice for both systems
+            if (currentPath === "explore.html") {
+                activateLink("nav-explore", "mobile-nav-explore");
+            } else if (currentPath === "pricing.html") {
+                activateLink("nav-price", "mobile-nav-price");
+            } else if (currentPath === "contact.html") {
+                activateLink("nav-contact", "mobile-nav-contact");
+            } else if (currentPath === "about.html") {
+                activateLink("nav-about", "mobile-nav-about");
+            } else if (currentPath === "setting.html") {
+                activateLink("nav-setting", "mobile-nav-setting");
+            } else if (currentPath === "tool.html") {
+                activateLink("nav-tool", "mobile-nav-tool");
+            } else {
+                // FALLBACK: Home gets highlighted
+                activateLink("nav-home", "mobile-nav-home");
+            }
         });
         
     </script>
