@@ -205,10 +205,10 @@
         
         <!-- Directive links on the right -->
         <div class="flex items-center space-x-6">
-            <a href="privacy.html" class="hover:text-brand-blue transition-colors duration-200">
+            <a href="privacypolicy.html" class="hover:text-brand-blue transition-colors duration-200">
                 Privacy Policy
             </a>
-            <a href="terms.html" class="hover:text-brand-blue transition-colors duration-200">
+            <a href="termscondn.html" class="hover:text-brand-blue transition-colors duration-200">
                 Terms & Conditions
             </a>
         </div>
@@ -225,7 +225,7 @@
                 </button>
             </div>
             <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-house-chimney"></i>
@@ -236,7 +236,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -247,7 +247,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-compass"></i>
@@ -258,7 +258,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-tag"></i>
@@ -269,7 +269,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-envelope"></i>
@@ -280,7 +280,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-circle-info"></i>
@@ -291,7 +291,7 @@
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-setting" href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
                     <div class="flex items-center space-x-3.5">
                         <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-gear"></i>
@@ -548,47 +548,6 @@
             }
         });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the very end string of the address bar URL
-        const currentPath = window.location.pathname.split("/").pop();
-
-        // 2. Clear out any brand blue text from your links list
-        const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting"];
-        activeNavIds.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.classList.remove("text-brand-blue");
-                // Resetting to your default slate color class
-                element.classList.add("text-slate-600");
-            }
-        });
-
-        // 3. Look at the file and light up the correct single choice
-        if (currentPath === "explore.html") {
-            const target = document.getElementById("nav-explore");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "pricing.html") {
-            const target = document.getElementById("nav-price");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "contact.html") {
-            const target = document.getElementById("nav-contact");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "about.html") {
-            const target = document.getElementById("nav-about");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "setting.html") {
-            const target = document.getElementById("nav-setting");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else if (currentPath === "tool.html") {
-            const target = document.getElementById("nav-tool");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        } else {
-            // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
-            const target = document.getElementById("nav-home");
-            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
-        }
-    });
-
         // Parallax Scroll Script for Balanced Geometric Boxes
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
@@ -612,6 +571,60 @@
             circle.style.transform = `translate3d(0, ${scrolled * -0.2}px, 0)`;
         }
     }, { passive: true });
+
+        document.addEventListener("DOMContentLoaded", () => {
+        // 1. Get the current URL path and clean it up (lowercase, remove slashes)
+        let currentUrl = window.location.pathname.toLowerCase();
+        
+        // 2. Master configuration pairs list matching page names
+        const navPairs = [
+            { pcId: "nav-home", mobileId: "mobile-nav-home", pageName: "index" },
+            { pcId: "nav-tool", mobileId: "mobile-nav-tool", pageName: "tool" },
+            { pcId: "nav-explore", mobileId: "mobile-nav-explore", pageName: "explore" },
+            { pcId: "nav-price", mobileId: "mobile-nav-price", pageName: "pricing" },
+            { pcId: "nav-contact", mobileId: "mobile-nav-contact", pageName: "contact" },
+            { pcId: "nav-about", mobileId: "mobile-nav-about", pageName: "about" },
+            { pcId: "nav-setting", mobileId: "mobile-nav-setting", pageName: "setting" }
+        ];
+    
+        // Extract a clean page name (e.g. transforms "/tool.html" or "/tool/" into just "tool")
+        let cleanCurrentPage = currentUrl.replace(".html", "").split("/").pop().trim();
+        
+        // Fallback to home page index if the address bar path is empty
+        if (!cleanCurrentPage || cleanCurrentPage === "") {
+            cleanCurrentPage = "index";
+        }
+    
+        // 3. Loop over all pairs, clear defaults, and light up the active target layout
+        navPairs.forEach(pair => {
+            const pcElement = document.getElementById(pair.pcId);
+            const mobileElement = document.getElementById(pair.mobileId);
+    
+            // Reset states to default clean slate first
+            if (pcElement) {
+                pcElement.classList.remove("text-brand-blue");
+                pcElement.classList.add("text-slate-600");
+            }
+            if (mobileElement) {
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200");
+                mobileElement.classList.add("bg-slate-50", "border-slate-100");
+            }
+    
+            // Check if our clean page name matches the pair configuration
+            if (cleanCurrentPage === pair.pageName) {
+                // Activate PC active color
+                if (pcElement) {
+                    pcElement.classList.remove("text-slate-600");
+                    pcElement.classList.add("text-brand-blue");
+                }
+                // Activate Mobile darker border combination
+                if (mobileElement) {
+                    mobileElement.classList.remove("bg-slate-50", "border-slate-100");
+                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200");
+                }
+            }
+        });
+    });
         
     </script>
 
