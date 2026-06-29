@@ -140,7 +140,7 @@
         </p>
 
         <h1 class="fade-in text-2xl sm:text-2xl font-bold tracking-tight text-slate-900 mb-6">
-            🚀 Get started by <span class="text-brand-blue">Signing Up.</span>
+            Get started by <span class="text-brand-blue">Signing Up.</span>
         </h1>
 
         <div class="fade-in delay-2 mt-4 flex flex-col items-center justify-center space-y-4">
@@ -344,16 +344,6 @@
                     Trusted AI tools that help you create <br class="hidden md:inline" /> 
                     better content, <span class="text-brand-blue">faster.</span>
                 </p>
-                
-            </div>
-        </section>
-
-        <section class="w-full py-6 px-6 flex items-center justify-center pointer-events-none">
-            <div class="max-w-md w-full text-center">
-                
-                <h1 class="fade-in text-2xl sm:text-2xl font-bold tracking-tight text-slate-900 mb-6">
-                    ✨ New tools <span class="text-brand-blue">added regularly.</span>
-                </h1>
                 
             </div>
         </section>
@@ -761,10 +751,10 @@
     }, { passive: true });
 
         document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the current URL pathname and clean it up (lowercase, remove trailing slashes)
+        // 1. Get the current URL path and clean it up (lowercase, remove slashes)
         let currentUrl = window.location.pathname.toLowerCase();
         
-        // 2. Define your master navigation pairs list
+        // 2. Master configuration pairs list matching page names
         const navPairs = [
             { pcId: "nav-home", mobileId: "mobile-nav-home", pageName: "index" },
             { pcId: "nav-tool", mobileId: "mobile-nav-tool", pageName: "tool" },
@@ -775,15 +765,15 @@
             { pcId: "nav-setting", mobileId: "mobile-nav-setting", pageName: "setting" }
         ];
     
-        // Determine the clean filename page we are currently viewing (e.g. "tool" or "explore")
+        // Extract a clean page name (e.g. transforms "/tool.html" or "/tool/" into just "tool")
         let cleanCurrentPage = currentUrl.replace(".html", "").split("/").pop().trim();
         
-        // Fallback: If path is empty or just a slash, we are on the home page index
+        // Fallback to home page index if the address bar path is empty
         if (!cleanCurrentPage || cleanCurrentPage === "") {
             cleanCurrentPage = "index";
         }
     
-        // 3. Loop over all pairs, strip defaults, and light up the active target layout
+        // 3. Loop over all pairs, clear defaults, and light up the active target layout
         navPairs.forEach(pair => {
             const pcElement = document.getElementById(pair.pcId);
             const mobileElement = document.getElementById(pair.mobileId);
@@ -798,14 +788,14 @@
                 mobileElement.classList.add("bg-slate-50", "border-slate-100");
             }
     
-            // Absolute check: does our current clean page match this tab item configuration name?
+            // Check if our clean page name matches the pair configuration
             if (cleanCurrentPage === pair.pageName) {
-                // Activate PC link layout text color
+                // Activate PC active color
                 if (pcElement) {
                     pcElement.classList.remove("text-slate-600");
                     pcElement.classList.add("text-brand-blue");
                 }
-                // Activate Mobile background panel frame
+                // Activate Mobile darker border combination
                 if (mobileElement) {
                     mobileElement.classList.remove("bg-slate-50", "border-slate-100");
                     mobileElement.classList.add("bg-blue-100/80", "border-blue-200");
