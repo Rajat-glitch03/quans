@@ -767,13 +767,14 @@
             // 2. Clear out any active styling from BOTH links lists
             const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting", "nav-tool"];
             activeNavIds.forEach(id => {
+                // Clear PC
                 const pcElement = document.getElementById(id);
                 if (pcElement) {
                     pcElement.classList.remove("text-brand-blue");
                     pcElement.classList.add("text-slate-600");
                 }
                 
-                // Also clear out any active highlight from the mobile IDs
+                // Clear Mobile
                 const mobileElement = document.getElementById(`mobile-${id}`);
                 if (mobileElement) {
                     mobileElement.classList.remove("bg-blue-50/70", "border-blue-100/50");
@@ -781,13 +782,21 @@
                 }
             });
         
-            // Helper function to activate both PC text color and Mobile background highlight
+            // Helper function to activate both PC text color and Mobile background highlight safely
             const activateLink = (pcId, mobileId) => {
                 const pcTarget = document.getElementById(pcId);
-                if (pcTarget) { pcTarget.classList.replace("text-slate-600", "text-brand-blue"); }
+                if (pcTarget) { 
+                    pcTarget.classList.remove("text-slate-600");
+                    pcTarget.classList.add("text-brand-blue"); 
+                }
                 
                 const mobileTarget = document.getElementById(mobileId);
-                if (mobileTarget) { mobileTarget.classList.replace("bg-slate-50", "bg-blue-50/70"); mobileTarget.classList.replace("border-slate-100", "border-blue-100/50"); }
+                if (mobileTarget) { 
+                    // Stripping default style
+                    mobileTarget.classList.remove("bg-slate-50", "border-slate-100");
+                    // Appending active highlight combo
+                    mobileTarget.classList.add("bg-blue-50/70", "border-blue-100/50");
+                }
             };
         
             // 3. Look at the file and light up the correct choice for both systems
@@ -804,7 +813,7 @@
             } else if (currentPath === "tool.html") {
                 activateLink("nav-tool", "mobile-nav-tool");
             } else {
-                // FALLBACK: Home gets highlighted
+                // FALLBACK: Home gets highlighted if path is index.html or empty root
                 activateLink("nav-home", "mobile-nav-home");
             }
         });
