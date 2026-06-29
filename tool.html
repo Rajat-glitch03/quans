@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head> 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUANS | Free Business Tools</title>
@@ -88,26 +88,26 @@
 
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
         <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-slate-900">.</span></span>
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="textla-ste-900">.</span></span>
         </div>
 
         <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Home
             </a>
-            <a href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Explore
             </a>
-            <a href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Pricing
             </a>
-            <a href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Contact Us
             </a>
-            <a href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 About Us
             </a>
-            <a href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-setting" href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Settings
             </a>
         </div>
@@ -215,7 +215,7 @@
 
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
+        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
             <div class="flex items-center justify-end pb-6 border-b border-slate-100">
                 <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
                     <i class="fa-solid fa-xmark text-base"></i>
@@ -402,7 +402,6 @@
         </div>
     </div>
  </div>
-</div>
 
     <script>
         tailwind.config = {
@@ -534,6 +533,68 @@
                 menu.classList.add('hidden');
             }
         });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. Get the very end string of the address bar URL
+        const currentPath = window.location.pathname.split("/").pop();
+
+        // 2. Clear out any brand blue text from your links list
+        const activeNavIds = ["nav-home", "nav-explore", "nav-price", "nav-contact", "nav-about", "nav-setting"];
+        activeNavIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.remove("text-brand-blue");
+                // Resetting to your default slate color class
+                element.classList.add("text-slate-600");
+            }
+        });
+
+        // 3. Look at the file and light up the correct single choice
+        if (currentPath === "explore.html") {
+            const target = document.getElementById("nav-explore");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "pricing.html") {
+            const target = document.getElementById("nav-price");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "contact.html") {
+            const target = document.getElementById("nav-contact");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "about.html") {
+            const target = document.getElementById("nav-about");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "setting.html") {
+            const target = document.getElementById("nav-setting");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else {
+            // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
+            const target = document.getElementById("nav-home");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        }
+    });
+
+        // Parallax Scroll Script for Balanced Geometric Boxes
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        
+        const box1 = document.getElementById('scroll-box-1');
+        const box2 = document.getElementById('scroll-box-2');
+        const rightBox1 = document.getElementById('scroll-box-right-1');
+        const rightBox2 = document.getElementById('scroll-box-right-2');
+        const circle = document.getElementById('scroll-circle');
+        
+        if (box1 && box2 && rightBox1 && rightBox2 && circle) {
+            // Left Layout Elements Motion
+            box1.style.transform = `translate3d(0, ${scrolled * -0.15}px, 0) rotate(${12 + (scrolled * 0.02)}deg)`;
+            box2.style.transform = `translate3d(0, ${scrolled * -0.3}px, 0) rotate(${-12 - (scrolled * 0.01)}deg)`;
+            
+            // Right Layout Elements Motion (Slightly altered rates for asymmetrical depth)
+            rightBox1.style.transform = `translate3d(0, ${scrolled * -0.25}px, 0) rotate(${45 + (scrolled * 0.04)}deg)`;
+            rightBox2.style.transform = `translate3d(0, ${scrolled * -0.1}px, 0) rotate(${-12 + (scrolled * 0.02)}deg)`;
+            
+            // Center-Right Technical Circle Alignment Shift
+            circle.style.transform = `translate3d(0, ${scrolled * -0.2}px, 0)`;
+        }
+    }, { passive: true });
         
     </script>
 
