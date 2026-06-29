@@ -761,22 +761,27 @@
     }, { passive: true });
 
         document.addEventListener("DOMContentLoaded", () => {
-        // 1. Get the current active page path location safely
-        const currentUrl = window.location.pathname;
-    
+        // 1. Get the current URL pathname and clean it up (lowercase, remove trailing slashes)
+        let currentUrl = window.location.pathname.toLowerCase();
+        
         // 2. Define your master navigation pairs list
         const navPairs = [
-            { pcId: "nav-home", mobileId: "mobile-nav-home", href: "index.html" },
-            { pcId: "nav-explore", mobileId: "mobile-nav-explore", href: "explore.html" },
-            { pcId: "nav-price", mobileId: "mobile-nav-price", href: "pricing.html" },
-            { pcId: "nav-contact", mobileId: "mobile-nav-contact", href: "contact.html" },
-            { pcId: "nav-about", mobileId: "mobile-nav-about", href: "about.html" },
-            { pcId: "nav-setting", mobileId: "mobile-nav-setting", href: "setting.html" },
-            { pcId: "nav-tool", mobileId: "mobile-nav-tool", href: "tool.html" }
+            { pcId: "nav-home", mobileId: "mobile-nav-home", pageName: "index" },
+            { pcId: "nav-tool", mobileId: "mobile-nav-tool", pageName: "tool" },
+            { pcId: "nav-explore", mobileId: "mobile-nav-explore", pageName: "explore" },
+            { pcId: "nav-price", mobileId: "mobile-nav-price", pageName: "pricing" },
+            { pcId: "nav-contact", mobileId: "mobile-nav-contact", pageName: "contact" },
+            { pcId: "nav-about", mobileId: "mobile-nav-about", pageName: "about" },
+            { pcId: "nav-setting", mobileId: "mobile-nav-setting", pageName: "setting" }
         ];
     
-        // Check if we are sitting cleanly on the root homepage domain path
-        const isHomepage = currentUrl === "/" || currentUrl.endsWith("/") || currentUrl.endsWith("index.html");
+        // Determine the clean filename page we are currently viewing (e.g. "tool" or "explore")
+        let cleanCurrentPage = currentUrl.replace(".html", "").split("/").pop().trim();
+        
+        // Fallback: If path is empty or just a slash, we are on the home page index
+        if (!cleanCurrentPage || cleanCurrentPage === "") {
+            cleanCurrentPage = "index";
+        }
     
         // 3. Loop over all pairs, strip defaults, and light up the active target layout
         navPairs.forEach(pair => {
@@ -793,10 +798,8 @@
                 mobileElement.classList.add("bg-slate-50", "border-slate-100");
             }
     
-            // Match Logic: Check if current URL includes the file name, OR if it's the root homepage
-            const isMatch = (!isHomepage && currentUrl.includes(pair.href)) || (isHomepage && pair.href === "index.html");
-    
-            if (isMatch) {
+            // Absolute check: does our current clean page match this tab item configuration name?
+            if (cleanCurrentPage === pair.pageName) {
                 // Activate PC link layout text color
                 if (pcElement) {
                     pcElement.classList.remove("text-slate-600");
