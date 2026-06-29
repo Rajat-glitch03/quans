@@ -800,6 +800,26 @@
             circle.style.transform = `translate3d(0, ${scrolled * -0.2}px, 0)`;
         }
     }, { passive: true });
+
+        // Automatically highlight active mobile sidebar links
+        document.addEventListener("DOMContentLoaded", () => {
+            // Get the current page filename (e.g., "index.html" or "explore.html")
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            
+            // Find all links inside the mobile sidebar
+            const mobileLinks = document.querySelectorAll("#mobileSidebar a");
+            
+            mobileLinks.forEach(link => {
+                // Check if the link's href matches the current page
+                if (link.getAttribute("href") === currentPage) {
+                    // Remove the default plain styling
+                    link.classList.remove("bg-slate-50", "border-slate-100");
+                    
+                    // Add the premium highlighted background combo
+                    link.classList.add("bg-blue-50/70", "border-blue-100/50");
+                }
+            });
+        });
         
     </script>
 
