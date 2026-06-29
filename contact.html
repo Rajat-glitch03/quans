@@ -88,12 +88,15 @@
 
     <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
         <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="textla-ste-900">.</span></span>
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black">.</span></span>
         </div>
 
         <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
             <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Home
+            </a>
+            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+                Tools
             </a>
             <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
                 Explore
@@ -190,6 +193,17 @@
                             <i class="fa-solid fa-house-chimney"></i>
                         </div>
                         <span class="text-base font-bold tracking-tight text-slate-800">Home</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800">Tools</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
@@ -526,6 +540,9 @@
             if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
         } else if (currentPath === "setting.html") {
             const target = document.getElementById("nav-setting");
+            if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
+        } else if (currentPath === "tool.html") {
+            const target = document.getElementById("nav-tool");
             if (target) { target.classList.replace("text-slate-600", "text-brand-blue"); }
         } else {
             // FALLBACK: If path is empty (homepage root) or explicitly index.html, Home is blue!
