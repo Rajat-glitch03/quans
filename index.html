@@ -1661,15 +1661,67 @@
             });
         }
 
+        function showToast(message, type = 'success') {
+        // 1. Check or create the toast wrapper container
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            // Fixed positioning at the bottom right corner above modals
+            toastContainer.className = 'fixed bottom-6 right-6 z-[9999] space-y-3 max-w-sm w-full px-4 sm:px-0';
+            document.body.appendChild(toastContainer);
+        }
+    
+        // 2. Create the individual toast element
+        const toast = document.createElement('div');
+        
+        // Style dynamically based on the type (success or error)
+        const baseStyles = 'p-4 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 border transition-all duration-300 transform translate-y-4 opacity-0';
+        const typeStyles = type === 'success' 
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80' 
+            : 'bg-rose-50 text-rose-800 border-rose-200/80';
+            
+        toast.className = `${baseStyles} ${typeStyles}`;
+    
+        // Select the appropriate icon
+        const icon = type === 'success' 
+            ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>' 
+            : '<i class="fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0"></i>';
+    
+        toast.innerHTML = `${icon}<span class="flex-grow">${message}</span>`;
+        toastContainer.appendChild(toast);
+    
+        // 3. Trigger entry animation
+        setTimeout(() => {
+            toast.classList.remove('translate-y-4', 'opacity-0');
+        }, 10);
+    
+        // 4. Smoothly remove toast after 3.5 seconds
+        setTimeout(() => {
+            toast.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+
         if (settingsConfirmHardDeleteBtn) {
             settingsConfirmHardDeleteBtn.addEventListener("click", async () => {
                 const user = auth.currentUser;
                 if (user) {
                     user.delete().then(() => {
-                        alert("Account Deleted Successfully.");
-                        closeSettingsPopupSystem();
+                        // Show custom success website toast
+                        showToast("Account Deleted Successfully.", "success");
+                        
+                        // Allow 1.5 seconds for the toast to be seen before navigating away
+                        setTimeout(() => {
+                            if (typeof closeSettingsPopupSystem === "function") {
+                                closeSettingsPopupSystem(); // Close the modal layout cleanly
+                            }
+                            window.location.href = "index.html"; // Safe exit redirect routing
+                        }, 1500);
+                        
                     }).catch((error) => {
-                        alert(handleAuthError(error));
+                        // Show custom error website toast instead of chrome popup alert
+                        showToast(handleAuthError(error), "error");
                     });
                 }
             });
