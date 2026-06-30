@@ -1553,13 +1553,13 @@
 
         function switchSettingsActiveTab(targetViewMode) {
             if (targetViewMode === "account") {
-                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue-600 text-white shadow-sm";
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
                 tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
                 
                 panelSectionAccount.classList.remove("hidden");
                 panelSectionAppearance.classList.add("hidden");
             } else {
-                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue-600 text-white shadow-sm";
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
                 tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
                 
                 panelSectionAppearance.classList.remove("hidden");
