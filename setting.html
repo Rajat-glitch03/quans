@@ -713,8 +713,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
-
-        // Note: If you are using Firestore database to remember metadata, ensure your local db configuration imports are set up here.
         
         // 3. Gather all UI DOM layout element anchors
         const settingsLoader = document.getElementById("settings-loader");
@@ -741,14 +739,14 @@
             if (settingsLoader) settingsLoader.classList.add("hidden");
         
             if (!user) {
-                // User is not signed in -> Hide panel details, pull up Signup action link
-                if (authSettingsView) authSettingsView.classList.add("hidden");
+                // User is not signed in -> Keep the layout visible, but toggle custom CTA actions 
+                if (authSettingsView) authSettingsView.classList.remove("hidden"); // Keeps settings layout visible!
                 if (unauthView) unauthView.classList.remove("hidden");
                 currentUserReference = null;
                 return;
             }
         
-            // User is verified -> Pull profile details framework onto view
+            // User is verified -> Update layout data views
             if (unauthView) unauthView.classList.add("hidden");
             if (authSettingsView) authSettingsView.classList.remove("hidden");
             currentUserReference = user;
@@ -757,7 +755,7 @@
             if (userEmailDisplay) userEmailDisplay.value = user.email || "";
             if (userFullnameInput) userFullnameInput.value = user.displayName || "";
         
-            // Security check logic: Only expose password updates if they aren't authenticated with Google OAuth provider tokens
+            // Security check logic: Only expose password updates if they aren't authenticated with Google OAuth
             const loggedProviders = user.providerData.map(p => p.providerId);
             if (loggedProviders.includes("password")) {
                 if (changePasswordBtn) changePasswordBtn.classList.remove("hidden");
@@ -768,7 +766,11 @@
         
         // 5. Name Storage Logic Block
         saveFullnameBtn.addEventListener("click", async () => {
-            if (!currentUserReference) return;
+            if (!currentUserReference) {
+                // If they aren't logged in but try to save, trigger your existing login window popup instead of breaking!
+                if (typeof window.openLoginPopup === 'function') window.openLoginPopup();
+                return;
+            }
             
             const targetNameString = userFullnameInput.value.trim();
             if (!targetNameString) {
@@ -793,7 +795,7 @@
             }
         });
         
-        // 6. Password Link Dispatches (Matches login dashboard patterns)
+        // 6. Password Link Dispatches
         changePasswordBtn.addEventListener("click", async () => {
             if (!currentUserReference || !currentUserReference.email) return;
         
@@ -810,7 +812,7 @@
         accountLogoutBtn.addEventListener("click", async () => {
             try {
                 await signOut(auth);
-                window.location.href = "index.html"; // Safe exit redirect routing
+                // Removed the window.location.href="index.html" redirect so they stay right here on the settings pane!
             } catch (error) {
                 console.error("Signout processing failure:", error);
                 alert("System logout processing encountered an error.");
@@ -818,48 +820,55 @@
         });
         
         // 8. Security Account Destruction Modal Lifecycle Logic
-        openDeleteModalBtn.addEventListener("click", () => {
-            deleteChallengeInput.value = "";
-            confirmHardDeleteBtn.disabled = true;
-            deleteAccountModal.classList.remove("hidden");
-            deleteAccountModal.classList.add("flex");
-        });
-        
-        closeDeleteModalBtn.addEventListener("click", () => {
-            deleteAccountModal.classList.remove("flex");
-            deleteAccountModal.classList.add("hidden");
-        });
-        
-        // Real-time verification validation handler matching exact challenge string
-        deleteChallengeInput.addEventListener("input", (e) => {
-            if (e.target.value === "Delete My Account") {
-                confirmHardDeleteBtn.disabled = false;
-            } else {
+        if (openDeleteModalBtn) {
+            openDeleteModalBtn.addEventListener("click", () => {
+                deleteChallengeInput.value = "";
                 confirmHardDeleteBtn.disabled = true;
-            }
-        });
+                deleteAccountModal.classList.remove("hidden");
+                deleteAccountModal.classList.add("flex");
+            });
+        }
         
-        confirmHardDeleteBtn.addEventListener("click", async () => {
-            if (!currentUserReference || deleteChallengeInput.value !== "Delete My Account") return;
+        if (closeDeleteModalBtn) {
+            closeDeleteModalBtn.addEventListener("click", () => {
+                deleteAccountModal.classList.remove("flex");
+                deleteAccountModal.classList.add("hidden");
+            });
+        }
         
-            confirmHardDeleteBtn.disabled = true;
-            confirmHardDeleteBtn.innerText = "Deleting Account...";
-        
-            try {
-                await deleteUser(currentUserReference);
-                alert("Your account profile record context metrics have been destroyed permanently.");
-                window.location.href = "index.html"; // Wipe context, route safely away
-            } catch (error) {
-                console.error("Destruction flow halted:", error);
-                if (error.code === "auth/requires-recent-login") {
-                    alert("Security policy alert: This high-impact structural mutation transaction demands fresh user credential validation token blocks. Please refresh your session token by signing out and re-authenticating before attempting account destruction runs again.");
+        if (deleteChallengeInput) {
+            deleteChallengeInput.addEventListener("input", (e) => {
+                if (e.target.value === "Delete My Account") {
+                    confirmHardDeleteBtn.disabled = false;
                 } else {
-                    alert("Account extraction failed: " + error.message);
+                    confirmHardDeleteBtn.disabled = true;
                 }
-                confirmHardDeleteBtn.disabled = false;
-                confirmHardDeleteBtn.innerText = "Delete My Account";
-            }
-        });
+            });
+        }
+        
+        if (confirmHardDeleteBtn) {
+            confirmHardDeleteBtn.addEventListener("click", async () => {
+                if (!currentUserReference || deleteChallengeInput.value !== "Delete My Account") return;
+            
+                confirmHardDeleteBtn.disabled = true;
+                confirmHardDeleteBtn.innerText = "Deleting Account...";
+            
+                try {
+                    await deleteUser(currentUserReference);
+                    alert("Your account profile record context metrics have been destroyed permanently.");
+                    // Clean navigation instead of dropping out to index.html
+                } catch (error) {
+                    console.error("Destruction flow halted:", error);
+                    if (error.code === "auth/requires-recent-login") {
+                        alert("Security policy alert: Re-authenticate to process your deletion run.");
+                    } else {
+                        alert("Account extraction failed: " + error.message);
+                    }
+                    confirmHardDeleteBtn.disabled = false;
+                    confirmHardDeleteBtn.innerText = "Delete My Account";
+                }
+            });
+        }
 
         const navAuthGroup = document.getElementById('navAuthGroup');
         const initialNavHTML = navAuthGroup.innerHTML;
@@ -871,7 +880,6 @@
                 if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
                 if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
         
-                // 1. Inject the navigation elements along with your Mobile Menu trigger button (hamburger icon)
                 navAuthGroup.innerHTML = `
                     <div class="flex items-center space-x-3 fade-in">
                         <div class="relative inline-block text-left">
@@ -892,21 +900,16 @@
                     </div>
                 `;
         
-                // 2. Fetch references to your existing static sidebar elements
                 const openMenuBtn = document.getElementById('openMobileMenuBtn');
                 const mobileSidebar = document.getElementById('mobileSidebar');
                 const closeMenuBtn = document.getElementById('closeMobileMenu');
                 const sidebarOverlay = document.getElementById('sidebarOverlay');
-                
-                // Find the inner sliding panel inside your sidebar structure
                 const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.translate-x-full, .translate-x-0') : null;
         
-                // 3. Define open and close functions that modify your existing sidebar's styles
                 const openSidebar = () => {
                     if (mobileSidebar && sidebarPanel) {
                         mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
                         mobileSidebar.classList.add('opacity-100', 'pointer-events-auto');
-                        
                         sidebarPanel.classList.remove('translate-x-full');
                         sidebarPanel.classList.add('translate-x-0');
                     }
@@ -916,18 +919,15 @@
                     if (mobileSidebar && sidebarPanel) {
                         mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
                         mobileSidebar.classList.remove('opacity-100', 'pointer-events-auto');
-                        
                         sidebarPanel.classList.add('translate-x-full');
                         sidebarPanel.classList.remove('translate-x-0');
                     }
                 };
         
-                // 4. Attach event listeners to activate the transitions
                 if (openMenuBtn) openMenuBtn.addEventListener('click', openSidebar);
                 if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeSidebar);
                 if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
         
-                // 5. Activate the logout button click handler
                 document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
                     signOut(auth).catch((error) => {
                         alert(`Sign-out error: ${error.message}`);
@@ -1007,157 +1007,149 @@
             }, 1000);
         }
 
-        document.getElementById('signupForm').addEventListener('submit', (e) => {
-            e.preventDefault(); 
-
-            const errDiv = document.getElementById('signupErrorMsg');
-            if (errDiv) {
-                errDiv.classList.add('hidden');
-            }
-
-            const emailInput = document.getElementById('signupEmailInput').value.trim();
-            const passwordInput = document.getElementById('signupPasswordInput').value;
-            const signupFormEl = document.getElementById('signupForm');
-
-            if (passwordInput.length < 6) {
-                if (errDiv) {
-                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                    const errorTextContainer = errDiv.querySelector('.error-text');
-                    if (errorTextContainer) {
-                        errorTextContainer.innerText = "Password must be at least 6 characters long.";
-                    } else {
-                        errDiv.innerText = "⚠️ Password must be at least 6 characters long.";
-                    }
-                    errDiv.classList.remove('hidden');
-                } else {
-                    alert("Password must be at least 6 characters long.");
-                }
-                return; 
-            }
-
-            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-            sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
-                .then(() => {
-                    signupFormEl.innerHTML = `
-                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
-                            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">🛡️</div>
-                            <h3 class="text-xl font-bold text-slate-800 mb-1">Verify Your Email</h3>
-                            <p class="text-sm text-slate-600 mb-5 leading-relaxed">
-                                We sent a 6-digit verification code security token to:<br>
-                                <strong class="text-slate-900 font-semibold">${emailInput}</strong>
-                            </p>
-                            <div class="mb-5">
-                                <input id="otpCodeInput" type="text" maxlength="6" required placeholder="000000" class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none font-bold text-slate-800 transition-all">
-                                <p id="otpInlineError" class="text-xs text-rose-600 mt-2 font-semibold hidden">⚠️ Incorrect verification code. Please check again.</p>
-                            </div>
-                            <button type="button" id="verifyOtpBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all mb-4">Confirm & Sign Up</button>
-                            <div class="text-xs text-slate-500">
-                                Didn't receive the email? 
-                                <button type="button" id="resendOtpBtn" class="font-bold text-blue-600 hover:underline outline-none bg-transparent border-none p-0 transition-all">Resend Code</button>
-                            </div>
-                        </div>
-                    `;
-
-                    startResendCooldownClock();
-
-                    document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
-                        otpEvent.preventDefault(); 
-                        
-                        const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
-                        const otpErrorLabel = document.getElementById('otpInlineError');
-                        if (otpErrorLabel) otpErrorLabel.classList.add('hidden');
-
-                        if (userEnteredOTP === generatedOTP) {
-                            createUserWithEmailAndPassword(auth, emailInput, passwordInput)
-                                .then((userCredential) => {
-                                    if(resendCooldownTimer) clearInterval(resendCooldownTimer);
-                                    if (typeof window.updateUIForLoggedInUser === 'function') {
-                                        window.updateUIForLoggedInUser(userCredential.user);
-                                    }
-                                    if (typeof window.closeAuthPopup === 'function') {
-                                        window.closeAuthPopup();
-                                    }
-                                    window.resetSignupFormToInitialState();
-                                })
-                                .catch((error) => {
-                                    let customMsg = "Registration failed: " + error.message;
-                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
-                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
-                                    if (otpErrorLabel) {
-                                        otpErrorLabel.innerText = "⚠️ " + customMsg;
-                                        otpErrorLabel.classList.remove('hidden');
-                                    }
-                                });
-                        } else {
-                            if (otpErrorLabel) {
-                                otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
-                                otpErrorLabel.classList.remove('hidden');
-                            }
-                        }
-                    });
-
-                    document.getElementById('resendOtpBtn').addEventListener('click', () => {
-                        if (cooldownSecondsLeft > 0) return;
-
-                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                        const otpErrorLabel = document.getElementById('otpInlineError');
-                        if (otpErrorLabel) otpErrorLabel.classList.add('hidden');
-
-                        sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
-                            .then(() => {
-                                startResendCooldownClock();
-                            });
-                    });
-                });
-        });
-
-        // --- LOGIN FORM EVENT LISTENER ---
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const errDiv = document.getElementById('loginErrorMsg');
-            
-            if (errDiv) errDiv.classList.add('hidden');
-
-            const emailInput = document.getElementById('loginEmailInput').value.trim();
-            const passwordInput = document.getElementById('loginPasswordInput').value;
-            const loginFormEl = document.getElementById('loginForm');
-
-            signInWithEmailAndPassword(auth, emailInput, passwordInput)
-                .then((userCredential) => {
-                    if (loginFormEl) loginFormEl.reset();
-
-                    if (typeof window.updateUIForLoggedInUser === 'function') {
-                        window.updateUIForLoggedInUser(userCredential.user);
-                    }
-                    
-                    if (typeof window.closeAuthPopup === 'function') {
-                        window.closeAuthPopup();
-                    }
-
-                    if (typeof window.resetLoginFormToInitialState === 'function') {
-                        window.resetLoginFormToInitialState();
-                    }
-                })
-                .catch((error) => {
+        if (document.getElementById('signupForm')) {
+            document.getElementById('signupForm').addEventListener('submit', (e) => {
+                e.preventDefault(); 
+    
+                const errDiv = document.getElementById('signupErrorMsg');
+                if (errDiv) errDiv.classList.add('hidden');
+    
+                const emailInput = document.getElementById('signupEmailInput').value.trim();
+                const passwordInput = document.getElementById('signupPasswordInput').value;
+                const signupFormEl = document.getElementById('signupForm');
+    
+                if (passwordInput.length < 6) {
                     if (errDiv) {
                         errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        let customMsg = "Authentication error: " + error.message;
-                        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
-                            customMsg = "Incorrect email address or password credentials."; 
-                        }
                         const errorTextContainer = errDiv.querySelector('.error-text');
                         if (errorTextContainer) {
-                            errorTextContainer.innerText = customMsg;
+                            errorTextContainer.innerText = "Password must be at least 6 characters long.";
                         } else {
-                            errDiv.innerText = "⚠️ " + customMsg;
+                            errDiv.innerText = "⚠️ Password must be at least 6 characters long.";
                         }
                         errDiv.classList.remove('hidden');
                     } else {
-                        alert("Authentication failure: " + error.message);
+                        alert("Password must be at least 6 characters long.");
                     }
-                });
-        });
+                    return; 
+                }
+    
+                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    
+                sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                    .then(() => {
+                        signupFormEl.innerHTML = `
+                            <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
+                                <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">🛡️</div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-1">Verify Your Email</h3>
+                                <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+                                    We sent a 6-digit verification code security token to:<br>
+                                    <strong class="text-slate-900 font-semibold">${emailInput}</strong>
+                                </p>
+                                <div class="mb-5">
+                                    <input id="otpCodeInput" type="text" maxlength="6" required placeholder="000000" class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none font-bold text-slate-800 transition-all">
+                                    <p id="otpInlineError" class="text-xs text-rose-600 mt-2 font-semibold hidden">⚠️ Incorrect verification code. Please check again.</p>
+                                </div>
+                                <button type="button" id="verifyOtpBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all mb-4">Confirm & Sign Up</button>
+                                <div class="text-xs text-slate-500">
+                                    Didn't receive the email? 
+                                    <button type="button" id="resendOtpBtn" class="font-bold text-blue-600 hover:underline outline-none bg-transparent border-none p-0 transition-all">Resend Code</button>
+                                </div>
+                            </div>
+                        `;
+    
+                        startResendCooldownClock();
+    
+                        document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
+                            otpEvent.preventDefault(); 
+                            
+                            const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
+                            const otpErrorLabel = document.getElementById('otpInlineError');
+                            if (otpErrorLabel) otpErrorLabel.classList.add('hidden');
+    
+                            if (userEnteredOTP === generatedOTP) {
+                                createUserWithEmailAndPassword(auth, emailInput, passwordInput)
+                                    .then((userCredential) => {
+                                        if(resendCooldownTimer) clearInterval(resendCooldownTimer);
+                                        if (typeof window.updateUIForLoggedInUser === 'function') {
+                                            window.updateUIForLoggedInUser(userCredential.user);
+                                        }
+                                        if (typeof window.closeAuthPopup === 'function') {
+                                            window.closeAuthPopup();
+                                        }
+                                        window.resetSignupFormToInitialState();
+                                    })
+                                    .catch((error) => {
+                                        let customMsg = "Registration failed: " + error.message;
+                                        if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
+                                        else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
+                                        if (otpErrorLabel) {
+                                            otpErrorLabel.innerText = "⚠️ " + customMsg;
+                                            otpErrorLabel.classList.remove('hidden');
+                                        }
+                                    });
+                            } else {
+                                if (otpErrorLabel) {
+                                    otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
+                                    otpErrorLabel.classList.remove('hidden');
+                                }
+                            }
+                        });
+    
+                        document.getElementById('resendOtpBtn').addEventListener('click', () => {
+                            if (cooldownSecondsLeft > 0) return;
+    
+                            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                            const otpErrorLabel = document.getElementById('otpInlineError');
+                            if (otpErrorLabel) otpErrorLabel.classList.add('hidden');
+    
+                            sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                                .then(() => {
+                                    startResendCooldownClock();
+                                });
+                        });
+                    });
+            });
+        }
+
+        // --- LOGIN FORM EVENT LISTENER ---
+        if (document.getElementById('loginForm')) {
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const errDiv = document.getElementById('loginErrorMsg');
+                if (errDiv) errDiv.classList.add('hidden');
+    
+                const emailInput = document.getElementById('loginEmailInput').value.trim();
+                const passwordInput = document.getElementById('loginPasswordInput').value;
+                const loginFormEl = document.getElementById('loginForm');
+    
+                signInWithEmailAndPassword(auth, emailInput, passwordInput)
+                    .then((userCredential) => {
+                        if (loginFormEl) loginFormEl.reset();
+                        if (typeof window.updateUIForLoggedInUser === 'function') window.updateUIForLoggedInUser(userCredential.user);
+                        if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                        if (typeof window.resetLoginFormToInitialState === 'function') window.resetLoginFormToInitialState();
+                    })
+                    .catch((error) => {
+                        if (errDiv) {
+                            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            let customMsg = "Authentication error: " + error.message;
+                            if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
+                                customMsg = "Incorrect email address or password credentials."; 
+                            }
+                            const errorTextContainer = errDiv.querySelector('.error-text');
+                            if (errorTextContainer) {
+                                errorTextContainer.innerText = customMsg;
+                            } else {
+                                errDiv.innerText = "⚠️ " + customMsg;
+                            }
+                            errDiv.classList.remove('hidden');
+                        } else {
+                            alert("Authentication failure: " + error.message);
+                        }
+                    });
+            });
+        }
 
         // --- COMPLETE FORGOT PASSWORD SYSTEM ---
         if (typeof window.initialLoginFormHTML === 'undefined') {
@@ -1167,16 +1159,10 @@
         window.forceResetLoginPopup = function() {
             const loginFormEl = document.getElementById('loginForm');
             const errDiv = document.getElementById('loginErrorMsg');
-            
             if (errDiv) errDiv.classList.add('hidden');
-            
             if (loginFormEl) {
-                if (window.initialLoginFormHTML) {
-                    loginFormEl.innerHTML = window.initialLoginFormHTML;
-                }
-                if (typeof loginFormEl.reset === 'function') {
-                    loginFormEl.reset(); 
-                }
+                if (window.initialLoginFormHTML) loginFormEl.innerHTML = window.initialLoginFormHTML;
+                if (typeof loginFormEl.reset === 'function') loginFormEl.reset(); 
             }
         };
         
@@ -1198,7 +1184,6 @@
                 
                 const currentLoginFormEl = document.getElementById('loginForm');
                 const errDiv = document.getElementById('loginErrorMsg');
-                
                 const emailField = document.getElementById('loginEmailInput');
                 const emailInput = emailField ? emailField.value.trim() : "";
         
@@ -1207,30 +1192,7 @@
                         errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
                         errDiv.classList.remove('hidden');
                         const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
-                        } else {
-                            errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
-                        }
-                    } else {
-                        alert("Please enter your email address first to get a reset link.");
-                    }
-                    return; 
-                }
-        
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(emailInput)) {
-                    if (errDiv) {
-                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
-                        errDiv.classList.remove('hidden');
-                        const errorTextContainer = errDiv.querySelector('.error-text');
-                        if (errorTextContainer) {
-                            errorTextContainer.innerText = "The email address layout structure is invalid.";
-                        } else {
-                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
-                        }
-                    } else {
-                        alert("The email address layout structure is invalid.");
+                        if (errorTextContainer) errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
                     }
                     return; 
                 }
@@ -1240,7 +1202,7 @@
                 sendPasswordResetEmail(auth, emailInput)
                     .then(() => {
                         currentLoginFormEl.innerHTML = `
-                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm animate-fadeIn">
+                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm">
                                 <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">📩</div>
                                 <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
                                 <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
@@ -1253,9 +1215,7 @@
         
                         document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
                             btnEvent.preventDefault();
-                            if (typeof window.closeAuthPopup === 'function') {
-                                window.closeAuthPopup();
-                            }
+                            if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
                             window.forceResetLoginPopup();
                         });
                     })
@@ -1263,20 +1223,9 @@
                         if (errDiv) {
                             errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
                             errDiv.classList.remove('hidden');
-                            
                             let customMsg = "Error sending reset link: " + error.message;
-                            if (error.code === 'auth/user-not-found') {
-                                customMsg = "No account found matching this email address.";
-                            }
-        
                             const errorTextContainer = errDiv.querySelector('.error-text');
-                            if (errorTextContainer) {
-                                errorTextContainer.innerText = customMsg;
-                            } else {
-                                errDiv.innerText = "⚠️ " + customMsg;
-                            }
-                        } else {
-                            alert("Reset Error: " + error.message);
+                            if (errorTextContainer) errorTextContainer.innerText = customMsg;
                         }
                     });
             });
@@ -1291,13 +1240,12 @@
         const handleGoogleAuthFlow = () => {
             signInWithPopup(auth, googleProvider)
                 .catch((error) => {
-                    if (error.code === 'auth/popup-closed-by-user') { alert("Sign-in popup closed before completion."); }
-                    else { alert(`Google sign-in error: ${error.message}`); }
+                    if (error.code !== 'auth/popup-closed-by-user') { alert(`Google sign-in error: ${error.message}`); }
                 });
         };
 
-        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
-        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
+        if (document.getElementById('googleSignupBtn')) document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
+        if (document.getElementById('googleLoginBtn')) document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
     </script>
 </body>
 </html>
