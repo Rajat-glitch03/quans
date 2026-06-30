@@ -154,7 +154,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl justify-items-center justify-center">
         
                 <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
                         🤖
                     </div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Multiple AI Tools</h3>
@@ -162,7 +162,7 @@
                 </div>
         
                 <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
                         🌍
                     </div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Creators & Businesses</h3>
@@ -170,7 +170,7 @@
                 </div>
         
                 <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full sm:col-span-2 md:col-span-1">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
                         💡
                     </div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Regular Features</h3>
@@ -615,9 +615,15 @@
             </button>
         </div>
 
-        <div class="flex-1 p-5 md:p-8 overflow-y-auto max-h-[calc(100vh-140px)] md:max-h-[520px]" style="font-family: 'DM Sans', sans-serif;">
+        <div class="flex-1 p-5 md:p-8 overflow-y-auto md:max-h-[520px]" style="font-family: 'DM Sans', sans-serif;">
             
             <div id="panelSectionAccount" class="space-y-6">
+                <!-- Website style message container -->
+                <div id="settingsAlertMsg" class="hidden flex items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
                 <div>
                     <h2 class="text-xl font-bold tracking-tight mb-1">Account Profiles</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Manage your system registration settings configuration metadata layers.</p>
@@ -632,7 +638,7 @@
                 </div>
 
                 <div class="pt-2 space-y-3 max-w-md">
-                    <button id="settingsLogoutBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                    <button id="settingsChangePasswordBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
                         <div class="flex items-center space-x-4">
                             <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
                                 <i class="fa-solid fa-key text-sm"></i>
@@ -1495,7 +1501,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <button id="openMobileMenuBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs">
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs">
                                 <i class="fa-solid fa-bars text-sm"></i>
                             </button>
                         </div>
@@ -1540,6 +1546,9 @@
             if (!settingsPopupModal) return;
             settingsPopupModal.classList.remove("hidden");
             settingsPopupModal.classList.add("flex");
+            // Clear past alert banner messages whenever popup mounts
+            const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+            if (settingsAlertMsg) settingsAlertMsg.classList.add("hidden");
             switchSettingsActiveTab("account");
         }
 
@@ -1578,15 +1587,25 @@
 
         // --- PASSWORD RESET TRIGGERS ---
         const settingsChangePasswordBtn = document.getElementById("settingsChangePasswordBtn");
+        const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+
         if (settingsChangePasswordBtn) {
             settingsChangePasswordBtn.addEventListener("click", async () => {
                 const activeUser = auth.currentUser;
                 if (!activeUser || !activeUser.email) return;
                 try {
                     await sendPasswordResetEmail(auth, activeUser.email);
-                    alert(`An operation verification reset validation link has been securely configured and sent to your profile layout frame: ${activeUser.email}`);
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = `A verification reset link has been securely sent to: ${activeUser.email}`;
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
                 } catch (error) {
-                    alert(handleAuthError(error));
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = handleAuthError(error);
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
                 }
             });
         }
