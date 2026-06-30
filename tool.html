@@ -66,64 +66,64 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white"> 
+<body class="min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
- <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 overflow-hidden pointer-events-none">
+ <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
     
-    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 rounded-[4rem] rotate-12 transform will-change-transform"></div>
+    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform"></div>
     
     <div id="scroll-box-2" class="absolute top-[50vh] left-[5%] w-[40vw] h-[40vw] max-w-[500px] bg-gradient-to-tl from-sky-400/15 to-transparent rounded-[3rem] -rotate-12 transform will-change-transform"></div>
 
-    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 rounded-2xl rotate-45 transform will-change-transform"></div>
+    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 dark:from-blue-600/10 dark:to-transparent rounded-2xl rotate-45 transform will-change-transform"></div>
 
     <div id="scroll-box-right-2" class="absolute top-[65vh] right-[12%] w-[18vw] h-[18vw] max-w-[220px] bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-[2rem] -rotate-12 transform will-change-transform"></div>
 
-    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
-    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 rounded-full"></div>
+    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 dark:border-blue-500/15 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
+    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 dark:border-blue-400/5 rounded-full"></div>
     
     <div class="absolute bottom-0 left-[-5%] w-[110%] h-[40vh] bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent"></div>
 </div>
 
 <div class="min-h-screen w-full relative flex flex-col antialiased">
 
-    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10">
+    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10 dark:border-slate-900/10">
         <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black">.</span></span>
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black dark:text-white">.</span></span>
         </div>
 
         <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Home
             </a>
-            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Tools
             </a>
-            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Explore
             </a>
-            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Pricing
             </a>
-            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Contact Us
             </a>
-            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 About Us
             </a>
-            <a id="nav-setting" href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-setting" href="setting.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Settings
             </a>
         </div>
         
         <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
-            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 hover:text-brand-blue transition-colors">
+            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors">
                 Login
             </button>
             <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
                 Signup
             </button>
             
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
                 <i class="fa-solid fa-bars-staggered text-lg"></i>
             </button>
         </div>
@@ -195,15 +195,12 @@
 
         </div>
     </main>
-
-    <!-- VISIBLE BOTTOM FOOTER WITH LEGAL LINKS -->
-<footer class="fade-in delay-3 w-full py-8 text-slate-800 font-semibold text-sm mt-auto bg-white/20 backdrop-blur-md border-t border-white/20 shadow-lg px-6 sm:px-12">
+    
+    <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 font-semibold text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
     <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
         
-        <!-- Copyright on the left -->
         <p>&copy; 2026 QUANS. All rights reserved.</p>
         
-        <!-- Directive links on the right -->
         <div class="flex items-center space-x-6">
             <a href="privacypolicy.html" class="hover:text-brand-blue transition-colors duration-200">
                 Privacy Policy
@@ -218,85 +215,85 @@
 
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white shadow-2xl border-l border-slate-100 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-500">
+        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-100 dark:border-slate-800 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
+            <div class="flex items-center justify-end pb-6 border-b border-slate-100 dark:border-slate-800">
+                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
             <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-house-chimney"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Home</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Home</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Tools</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Tools</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-compass"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Explore</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Explore</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-tag"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Pricing</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Pricing</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Contact Us</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Contact Us</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-circle-info"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">About Us</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">About Us</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </div>
                 </a>
-                <a id="mobile-nav-setting" href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-800 group">
+                <a id="mobile-nav-setting" href="setting.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-base">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
                             <i class="fa-solid fa-gear"></i>
                         </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800">Settings</span>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Settings</span>
                     </div>
                     <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
@@ -311,50 +308,50 @@
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[32px] border border-slate-100 dark:border-slate-800 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
+            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
                 <i class="fa-solid fa-user-plus"></i>
             </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Create an account<span class="text-brand-blue">.</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Join us today.</p>
+            <h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Create an account<span class="text-brand-blue">.</span></h3>
+            <p class="text-slate-500 dark:text-slate-400 mt-1 text-sm leading-relaxed">Join us today.</p>
             
-            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
+            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 option-btn">
                 <i class="fa-brands fa-google text-lg text-red-500"></i>
                 <span>Signup with Google</span>
             </button>
             
             <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
+                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">or</span>
+                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
             </div>
             
             <form id="signupForm" class="space-y-4 text-left">
-                <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
+                <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
                     <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
                     <span class="error-text"></span>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Email Address</label>
+                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Password</label>
                     <div class="relative w-full">
-                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
                         <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
                             <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
                         </button>
                     </div>
                 </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
+                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 dark:shadow-none hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
                     Sign Up
                 </button>
             </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
+            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-6">
                 Already a user? 
                 <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2">Login</button>
             </p>
@@ -363,40 +360,40 @@
 
     <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white w-full max-w-md rounded-[32px] border border-slate-100 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50">
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[32px] border border-slate-100 dark:border-slate-800 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
+            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
                 <i class="fa-solid fa-circle-user"></i>
             </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
+            <h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Welcome back<span class="text-brand-blue">!</span></h3>
+            <p class="text-slate-500 dark:text-slate-400 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
             
-            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white border border-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 option-btn">
+            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 option-btn">
                 <i class="fa-brands fa-google text-lg text-red-500"></i>
                 <span>Sign in with Google</span>
             </button>
             
             <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400">or</span>
-                <div class="flex-grow border-t border-slate-100"></div>
+                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">or</span>
+                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
             </div>
             
             <form id="loginForm" class="space-y-4 text-left">
-                <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
+                <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
                     <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
                     <span class="error-text"></span>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Email Address</label>
-                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Email Address</label>
+                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Password</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Password</label>
                     <div class="relative w-full">
-                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 placeholder:text-slate-400">
+                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
                         <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
                             <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
                         </button>
@@ -405,11 +402,11 @@
                 <div class="text-right">
                     <a id="forgotPasswordLink" class="cursor-pointer text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
                 </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
+                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 dark:shadow-none hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
                     Log In
                 </button>
             </form>
-            <p class="text-sm text-slate-500 font-medium mt-6">
+            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-6">
                 Don't have an account? 
                 <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2">Signup</button>
             </p>
@@ -417,8 +414,151 @@
     </div>
  </div>
 
+    <div id="settingsPopupModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300">
+    <div class="relative w-full h-full md:h-auto md:max-w-3xl md:rounded-3xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xl border border-transparent md:dark:border-slate-800 flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+        
+        <div class="md:hidden flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <h3 class="text-lg font-bold tracking-tight" style="font-family: 'DM Sans', sans-serif;">Settings</h3>
+            <button id="closeSettingsMobileBtn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <div class="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/40 p-3 md:p-5 flex flex-row md:flex-col gap-1 md:gap-2 overflow-x-auto md:overflow-x-visible whitespace-nowrap md:whitespace-normal">
+            <button id="tabBtnAccount" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all bg-blue-600 text-white shadow-sm">
+                <i class="fa-solid fa-circle-user text-base"></i>
+                <span>Account</span>
+            </button>
+            <button id="tabBtnAppearance" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i class="fa-solid fa-palette text-base"></i>
+                <span>Appearance</span>
+            </button>
+            
+            <button id="closeSettingsDesktopBtn" class="hidden md:flex absolute top-5 right-5 w-9 h-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 p-5 md:p-8 overflow-y-auto md:max-h-[520px]" style="font-family: 'DM Sans', sans-serif;">
+            
+            <div id="panelSectionAccount" class="space-y-6">
+                <!-- Website style message container -->
+                <div id="settingsAlertMsg" class="hidden flex items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight mb-1">Account Profiles</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Registered Email Address</label>
+                    <div class="flex items-center space-x-3 max-w-md bg-slate-50 dark:bg-slate-950 px-4 py-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-inner">
+                        <i class="fa-solid fa-envelope text-slate-400 dark:text-slate-600 text-base"></i>
+                        <span id="settingsEmailTextDisplay" class="flex-1 font-semibold text-sm tracking-tight text-slate-700 dark:text-slate-300 truncate">loading...</span>
+                    </div>
+                </div>
+
+                <div class="pt-2 space-y-3 max-w-md">
+                    <button id="settingsChangePasswordBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-key text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold tracking-tight">Change Password</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+
+                    <button id="settingsLogoutBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-right-from-bracket text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold tracking-tight">Log Out</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+
+                    <button id="settingsOpenDeleteModalBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-rose-100 dark:border-rose-950/40 hover:bg-rose-50/30 dark:hover:bg-rose-950/20 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-rose-50 dark:bg-rose-950/50 text-rose-500 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-rose-600 tracking-tight">Delete Account</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-rose-300 dark:text-rose-800 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="panelSectionAppearance" class="hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight mb-1">Theme Preferences</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Optimize display presentation configuration modes across system themes.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+                    <button id="themeSelectorBtnLight" data-theme-target="light" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-white border-slate-200">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center mb-3 shadow-xs">
+                            <i class="fa-solid fa-sun text-base"></i>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-slate-800">☀️ Light</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-snug">Crisp white profile structures.</p>
+                    </button>
+
+                    <button id="themeSelectorBtnDark" data-theme-target="dark" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-slate-900 border-transparent">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-950 text-indigo-400 flex items-center justify-center mb-3 shadow-xs">
+                            <i class="fa-solid fa-moon text-base"></i>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-slate-200">🌙 Dark</span>
+                        <p class="text-xs text-slate-500 mt-0.5 leading-snug">Calm workspace themes.</p>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="settingsHardDeleteModal" class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
+        <div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
+        
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+            Once you delete your account, your profile and username are permanently removed from Quans.
+        </p>
+        
+        <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
+            <input id="settingsDeleteChallengeInput" type="text" placeholder="Type here..." autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100">
+            <p id="settingsDeleteInlineError" class="text-xs font-semibold text-rose-500 mt-2 hidden">⚠️ Verification input mismatch. Try typing carefully.</p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="settingsCancelDeleteBtn" type="button" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Cancel
+            </button>
+            <button id="settingsConfirmHardDeleteBtn" type="button" disabled class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all">
+                Delete Permanently
+            </button>
+        </div>
+    </div>
+</div>
+    
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
@@ -500,11 +640,13 @@
         });
 
         const setupToggle = (btn, input, icon) => {
-            btn.addEventListener('click', () => {
-                const isPass = input.type === 'password';
-                input.type = isPass ? 'text' : 'password';
-                icon.classList.replace(isPass ? 'fa-eye' : 'fa-eye-slash', isPass ? 'fa-eye-slash' : 'fa-eye');
-            });
+            if (btn && input && icon) {
+                btn.addEventListener('click', () => {
+                    const isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    icon.classList.replace(isPass ? 'fa-eye' : 'fa-eye-slash', isPass ? 'fa-eye-slash' : 'fa-eye');
+                });
+            }
         };
         setupToggle(document.getElementById('toggleLoginPassword'), document.getElementById('loginPasswordInput'), document.getElementById('eyeIcon'));
         setupToggle(document.getElementById('toggleSignupPassword'), document.getElementById('signupPasswordInput'), document.getElementById('signupEyeIcon'));
@@ -513,9 +655,10 @@
         document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
 
         const mobileSidebar = document.getElementById('mobileSidebar');
-        const sidebarPanel = mobileSidebar.querySelector('.transform');
+        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.transform') : null;
         
         const toggleSidebar = (open) => {
+            if (!mobileSidebar || !sidebarPanel) return;
             if (open) {
                 mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
                 sidebarPanel.classList.remove('translate-x-full');
@@ -656,84 +799,34 @@
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
 
-        const navAuthGroup = document.getElementById('navAuthGroup');
-        const initialNavHTML = navAuthGroup.innerHTML;
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.userIsAuthenticated = true;
-                
-                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
-                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
-        
-                // 1. Inject the navigation elements along with your Mobile Menu trigger button (hamburger icon)
-                navAuthGroup.innerHTML = `
-                    <div class="flex items-center space-x-3 fade-in">
-                        <div class="relative inline-block text-left">
-                            <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 hover:text-brand-blue tracking-tight outline-none group">
-                                <span>Hello!</span>
-                                <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
-                            </button>
-                            <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-36 origin-top-right rounded-2xl bg-white border border-slate-100 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
-                                <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-rose-50/50 transition-colors flex items-center space-x-2">
-                                    <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                                    <span>Log out</span>
-                                </button>
-                            </div>
-                        </div>
-                        <button id="openMobileMenuBtn" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
-                            <i class="fa-solid fa-bars text-sm"></i>
-                        </button>
-                    </div>
-                `;
-        
-                // 2. Fetch references to your existing static sidebar elements
-                const openMenuBtn = document.getElementById('openMobileMenuBtn');
-                const mobileSidebar = document.getElementById('mobileSidebar');
-                const closeMenuBtn = document.getElementById('closeMobileMenu');
-                const sidebarOverlay = document.getElementById('sidebarOverlay');
-                
-                // Find the inner sliding panel inside your sidebar structure
-                const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.translate-x-full, .translate-x-0') : null;
-        
-                // 3. Define open and close functions that modify your existing sidebar's styles
-                const openSidebar = () => {
-                    if (mobileSidebar && sidebarPanel) {
-                        mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
-                        mobileSidebar.classList.add('opacity-100', 'pointer-events-auto');
-                        
-                        sidebarPanel.classList.remove('translate-x-full');
-                        sidebarPanel.classList.add('translate-x-0');
-                    }
-                };
-        
-                const closeSidebar = () => {
-                    if (mobileSidebar && sidebarPanel) {
-                        mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
-                        mobileSidebar.classList.remove('opacity-100', 'pointer-events-auto');
-                        
-                        sidebarPanel.classList.add('translate-x-full');
-                        sidebarPanel.classList.remove('translate-x-0');
-                    }
-                };
-        
-                // 4. Attach event listeners to activate the transitions
-                if (openMenuBtn) openMenuBtn.addEventListener('click', openSidebar);
-                if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeSidebar);
-                if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
-        
-                // 5. Activate the logout button click handler
-                document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
-                    signOut(auth).catch((error) => {
-                        alert(`Sign-out error: ${error.message}`);
-                    });
-                });
-        
-            } else {
-                window.userIsAuthenticated = false;
-                navAuthGroup.innerHTML = initialNavHTML;
+        // Native website style error mask converter
+        function handleAuthError(error) {
+            switch(error.code) {
+                case 'auth/invalid-email':
+                    return 'Please enter a valid email address style.';
+                case 'auth/user-disabled':
+                    return 'This system account has been disabled.';
+                case 'auth/user-not-found':
+                    return 'No matching profile registry found.';
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    return 'Incorrect account credentials. Please verify your email and password.';
+                case 'auth/email-already-in-use':
+                    return 'This email layout is already linked to an active account registry.';
+                case 'auth/weak-password':
+                    return 'Password must be at least 6 characters long.';
+                case 'auth/popup-closed-by-user':
+                    return 'Verification window closed before authentication profile could finish connecting.';
+                case 'auth/cancelled-popup-request':
+                    return 'Authentication connection processing sequence terminated.';
+                case 'auth/popup-blocked':
+                    return 'Verification interface blocked by system window layout rules.';
+                case 'auth/requires-recent-login':
+                    return 'Security protocol requires a fresh session token. Please log out and sign back in to try again.';
+                default:
+                    return error.message.replace('Firebase: ', '').replace(/\(auth\/.*\)\.?/, '').trim();
             }
-        });
+        }
 
         // --- SIGNUP FORM EVENT LISTENER ---
         // Global utility state holders for your OTP operational system
@@ -1198,6 +1291,307 @@
 
         document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
         document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
+
+        // =========================================================================
+        // ON AUTH STATE CHANGED INTERACTION FRAMEWORK
+        // =========================================================================
+        const navAuthGroup = document.getElementById('navAuthGroup');
+        const initialNavHTML = navAuthGroup ? navAuthGroup.innerHTML : "";
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.userIsAuthenticated = true;
+                
+                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+        
+                if (navAuthGroup) {
+                    navAuthGroup.innerHTML = `
+                        <div class="flex items-center space-x-3 fade-in">
+                            <div class="relative inline-block text-left">
+                                <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-blue tracking-tight outline-none group">
+                                    <span>Hello!</span>
+                                    <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
+                                </button>
+                                <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-40 origin-top-right rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
+                                    <button id="firebaseSettingsTriggerBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
+                                        <i class="fa-solid fa-gear text-xs text-slate-500 dark:text-slate-400"></i>
+                                        <span>Settings</span>
+                                    </button>
+                                    <hr class="border-slate-100/80 dark:border-slate-800">
+                                    <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
+                                        <i class="fa-solid fa-right-from-bracket text-xs text-slate-400 dark:text-slate-500"></i>
+                                        <span>Log out</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs">
+                                <i class="fa-solid fa-bars text-sm"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const dropdownMenu = document.getElementById('userDropdownMenu');
+                        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+                        openSettingsPopupSystem();
+                    });
+
+                    document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                        signOut(auth).then(() => {
+                            closeSettingsPopupSystem();
+                        }).catch((err) => { alert(handleAuthError(err)); });
+                    });
+                }
+                
+                const targetDisplayEmailSpan = document.getElementById("settingsEmailTextDisplay");
+                if (targetDisplayEmailSpan) targetDisplayEmailSpan.innerText = user.email || "No Email Provided";
+
+            } else {
+                window.userIsAuthenticated = false;
+                if (navAuthGroup) navAuthGroup.innerHTML = initialNavHTML;
+                closeSettingsPopupSystem();
+            }
+        });
+
+        // =========================================================================
+        // LAYOUT SETTINGS POPUP SYSTEM INTERACTION ARCHITECTURE
+        // =========================================================================
+        const settingsPopupModal = document.getElementById("settingsPopupModal");
+        const settingsHardDeleteModal = document.getElementById("settingsHardDeleteModal");
+        
+        const tabBtnAccount = document.getElementById("tabBtnAccount");
+        const tabBtnAppearance = document.getElementById("tabBtnAppearance");
+        const panelSectionAccount = document.getElementById("panelSectionAccount");
+        const panelSectionAppearance = document.getElementById("panelSectionAppearance");
+
+        function openSettingsPopupSystem() {
+            if (!settingsPopupModal) return;
+            settingsPopupModal.classList.remove("hidden");
+            settingsPopupModal.classList.add("flex");
+            // Clear past alert banner messages whenever popup mounts
+            const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+            if (settingsAlertMsg) settingsAlertMsg.classList.add("hidden");
+            switchSettingsActiveTab("account");
+        }
+
+        function closeSettingsPopupSystem() {
+            if (settingsPopupModal) {
+                settingsPopupModal.classList.remove("flex");
+                settingsPopupModal.classList.add("hidden");
+            }
+            closeHardDeleteModalSystem();
+        }
+
+        function switchSettingsActiveTab(targetViewMode) {
+            if (targetViewMode === "account") {
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
+                
+                panelSectionAccount.classList.remove("hidden");
+                panelSectionAppearance.classList.add("hidden");
+            } else {
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
+                
+                panelSectionAppearance.classList.remove("hidden");
+                panelSectionAccount.classList.add("hidden");
+            }
+        }
+
+        if(tabBtnAccount) tabBtnAccount.addEventListener("click", () => switchSettingsActiveTab("account"));
+        if(tabBtnAppearance) tabBtnAppearance.addEventListener("click", () => switchSettingsActiveTab("appearance"));
+
+        const closeTriggers = ["closeSettingsDesktopBtn", "closeSettingsMobileBtn"];
+        closeTriggers.forEach(btnId => {
+            const btnEl = document.getElementById(btnId);
+            if (btnEl) btnEl.addEventListener("click", closeSettingsPopupSystem);
+        });
+
+        // --- PASSWORD RESET TRIGGERS ---
+        const settingsChangePasswordBtn = document.getElementById("settingsChangePasswordBtn");
+        const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+
+        if (settingsChangePasswordBtn) {
+            settingsChangePasswordBtn.addEventListener("click", async () => {
+                const activeUser = auth.currentUser;
+                if (!activeUser || !activeUser.email) return;
+                try {
+                    await sendPasswordResetEmail(auth, activeUser.email);
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = `A verification reset link has been securely sent to: ${activeUser.email}`;
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = handleAuthError(error);
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+
+        const settingsLogoutBtn = document.getElementById("settingsLogoutBtn");
+        if (settingsLogoutBtn) {
+            settingsLogoutBtn.addEventListener("click", () => {
+                signOut(auth).catch(err => alert(handleAuthError(err)));
+            });
+        }
+
+        // --- SECURE PERMANENT ACCOUNT DELETION BLOCK ---
+        const settingsOpenDeleteModalBtn = document.getElementById("settingsOpenDeleteModalBtn");
+        const settingsCancelDeleteBtn = document.getElementById("settingsCancelDeleteBtn");
+        const settingsDeleteChallengeInput = document.getElementById("settingsDeleteChallengeInput");
+        const settingsConfirmHardDeleteBtn = document.getElementById("settingsConfirmHardDeleteBtn");
+        const settingsDeleteInlineError = document.getElementById("settingsDeleteInlineError");
+
+        if (settingsOpenDeleteModalBtn) {
+            settingsOpenDeleteModalBtn.addEventListener("click", () => {
+                if (settingsDeleteChallengeInput) settingsDeleteChallengeInput.value = "";
+                if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                if (settingsConfirmHardDeleteBtn) {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+                if (settingsHardDeleteModal) {
+                    settingsHardDeleteModal.classList.remove("hidden");
+                    settingsHardDeleteModal.classList.add("flex");
+                }
+            });
+        }
+
+        function closeHardDeleteModalSystem() {
+            if (settingsHardDeleteModal) {
+                settingsHardDeleteModal.classList.remove("flex");
+                settingsHardDeleteModal.classList.add("hidden");
+            }
+        }
+
+        if (settingsCancelDeleteBtn) settingsCancelDeleteBtn.addEventListener("click", closeHardDeleteModalSystem);
+
+        if (settingsDeleteChallengeInput) {
+            settingsDeleteChallengeInput.addEventListener("input", (e) => {
+                if (e.target.value === "Delete My Account") {
+                    if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                    settingsConfirmHardDeleteBtn.disabled = false;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white shadow-md transition-all";
+                } else {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+            });
+        }
+
+        function showToast(message, type = 'success') {
+        // 1. Check or create the toast wrapper container
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            // Positioned perfectly at the upper center, stacking items vertically down
+            toastContainer.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[9999] space-y-3 max-w-sm w-full px-4 flex flex-col items-center';
+            document.body.appendChild(toastContainer);
+        }
+    
+        // 2. Create the individual toast element
+        const toast = document.createElement('div');
+        
+        // -translate-y-4 makes it start slightly higher up for a slide-down effect
+        const baseStyles = 'p-4 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 border transition-all duration-300 transform -translate-y-4 opacity-0 w-full';
+        const typeStyles = type === 'success' 
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80' 
+            : 'bg-rose-50 text-rose-800 border-rose-200/80';
+            
+        toast.className = `${baseStyles} ${typeStyles}`;
+    
+        // Select the appropriate icon
+        const icon = type === 'success' 
+            ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>' 
+            : '<i class="fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0"></i>';
+    
+        toast.innerHTML = `${icon}<span class="flex-grow">${message}</span>`;
+        toastContainer.appendChild(toast);
+    
+        // 3. Trigger downward entry slide animation
+        setTimeout(() => {
+            toast.classList.remove('-translate-y-4', 'opacity-0');
+        }, 10);
+    
+        // 4. Smoothly slide up and fade away after 3.5 seconds
+        setTimeout(() => {
+            toast.classList.add('-translate-y-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+        if (settingsConfirmHardDeleteBtn) {
+            settingsConfirmHardDeleteBtn.addEventListener("click", async () => {
+                const user = auth.currentUser;
+                if (user) {
+                    user.delete().then(() => {
+                        // Show custom success website toast
+                        showToast("Account Deleted Successfully.", "success");
+                        
+                        // Allow 1.5 seconds for the toast to be seen before navigating away
+                        setTimeout(() => {
+                            if (typeof closeSettingsPopupSystem === "function") {
+                                closeSettingsPopupSystem(); // Close the modal layout cleanly
+                            }
+                            window.location.href = "index.html"; // Safe exit redirect routing
+                        }, 4000);
+                        
+                    }).catch((error) => {
+                        // Show custom error website toast instead of chrome popup alert
+                        showToast(handleAuthError(error), "error");
+                    });
+                }
+            });
+        }
+
+        // =========================================================================
+        // PRODUCTION THEME SWITCHING ENGINE
+        // =========================================================================
+        const btnThemeLight = document.getElementById('themeSelectorBtnLight');
+        const btnThemeDark = document.getElementById('themeSelectorBtnDark');
+
+        function processThemeApplication(selectedTheme) {
+            const documentHtmlElement = document.documentElement;
+            
+            if (selectedTheme === 'dark') {
+                documentHtmlElement.classList.add('dark');
+            } else {
+                documentHtmlElement.classList.remove('dark');
+            }
+            
+            localStorage.setItem('quans-app-theme', selectedTheme);
+            syncThemeVisualInterface(selectedTheme);
+        }
+
+        function syncThemeVisualInterface(activeTheme) {
+            const buttonsArray = [btnThemeLight, btnThemeDark];
+            buttonsArray.forEach(btn => {
+                if (btn) {
+                    btn.classList.remove('border-brand-blue');
+                    btn.classList.add('border-transparent');
+                }
+            });
+
+            if (activeTheme === 'light' && btnThemeLight) {
+                btnThemeLight.classList.remove('border-transparent');
+                btnThemeLight.classList.add('border-brand-blue');
+            } else if (activeTheme === 'dark' && btnThemeDark) {
+                btnThemeDark.classList.remove('border-transparent');
+                btnThemeDark.classList.add('border-brand-blue');
+            }
+        }
+
+        if (btnThemeLight) btnThemeLight.addEventListener('click', () => processThemeApplication('light'));
+        if (btnThemeDark) btnThemeDark.addEventListener('click', () => processThemeApplication('dark'));
+
+        const cachedUserThemeSelection = localStorage.getItem('quans-app-theme') || 'light';
+        processThemeApplication(cachedUserThemeSelection);
     </script>
 </body>
 </html>
