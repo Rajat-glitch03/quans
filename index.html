@@ -632,13 +632,14 @@
                 </div>
 
                 <div class="pt-2 space-y-3 max-w-md">
-                    <button id="settingsChangePasswordBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-600/30 dark:hover:border-blue-400/30 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                    <button id="settingsLogoutBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
                         <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center transition-colors">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
                                 <i class="fa-solid fa-key text-sm"></i>
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold tracking-tight">Change Password</h4>
+                            </div>
                         </div>
                         <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
                     </button>
@@ -1552,13 +1553,13 @@
 
         function switchSettingsActiveTab(targetViewMode) {
             if (targetViewMode === "account") {
-                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-blue-600 text-white shadow-sm";
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue-600 text-white shadow-sm";
                 tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
                 
                 panelSectionAccount.classList.remove("hidden");
                 panelSectionAppearance.classList.add("hidden");
             } else {
-                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-blue-600 text-white shadow-sm";
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue-600 text-white shadow-sm";
                 tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
                 
                 panelSectionAppearance.classList.remove("hidden");
