@@ -1001,92 +1001,469 @@
             }
         }
 
-        // --- SUBMIT SIGNUP ACTION HANDLER ---
-        const signupForm = document.getElementById('signupForm');
-        if (signupForm) {
-            signupForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('signupEmailInput').value;
-                const password = document.getElementById('signupPasswordInput').value;
-                const errDiv = document.getElementById('signupErrorMsg');
-                
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        sendEmailVerification(userCredential.user);
+        // --- SIGNUP FORM EVENT LISTENER ---
+        // Global utility state holders for your OTP operational system
+        let generatedOTP = "";
+        let resendCooldownTimer = null;
+        let cooldownSecondsLeft = 0;
+
+        // 🛠️ FIX: Store the original layout state of the signup form right when the page loads
+        let initialSignupFormHTML = "";
+        document.addEventListener("DOMContentLoaded", () => {
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl) {
+                initialSignupFormHTML = signupFormEl.innerHTML;
+            }
+        });
+
+        // 🛠️ GLOBAL UTILITY: Call this function whenever a user logs out or closes the popup!
+        window.resetSignupFormToInitialState = function() {
+            if (resendCooldownTimer) clearInterval(resendCooldownTimer);
+            cooldownSecondsLeft = 0;
+            generatedOTP = "";
+            
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl && initialSignupFormHTML) {
+                signupFormEl.innerHTML = initialSignupFormHTML;
+            }
+        };
+
+        // Isolated function helper to dispatch EmailJS requests cleanly
+        function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
+            // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
+            return emailjs.send("service_72k9plm", "template_2ku6o4k", {
+                to_email: emailAddress,
+                verification_code: otpCode
+            })
+            .catch((err) => {
+                errorDivElement.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                const textNode = errorDivElement.querySelector('.error-text');
+                if (textNode) {
+                    textNode.innerText = "Technical failure delivering OTP. Please try again.";
+                } else {
+                    errorDivElement.innerText = "⚠️ Technical failure delivering OTP. Please try again.";
+                }
+                errorDivElement.classList.remove('hidden');
+                console.error("EmailJS sending error log:", err);
+                throw err;
+            });
+        }
+
+        // Functional control handler to run your resend button visual counter mechanics
+        function startResendCooldownClock() {
+            const resendBtn = document.getElementById('resendOtpBtn');
+            if (!resendBtn) return;
+
+            cooldownSecondsLeft = 30;
+            resendBtn.disabled = true;
+            resendBtn.classList.remove('text-blue-600', 'hover:underline', 'cursor-pointer');
+            resendBtn.classList.add('text-slate-400', 'cursor-not-allowed');
+            resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
+
+            resendCooldownTimer = setInterval(() => {
+                cooldownSecondsLeft--;
+                if (cooldownSecondsLeft <= 0) {
+                    clearInterval(resendCooldownTimer);
+                    resendBtn.disabled = false;
+                    resendBtn.classList.add('text-blue-600', 'hover:underline', 'cursor-pointer');
+                    resendBtn.classList.remove('text-slate-400', 'cursor-not-allowed');
+                    resendBtn.innerText = "Resend Code";
+                } else {
+                    resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
+                }
+            }, 1000);
+        }
+
+        // --- THE COMPLETE SIGNUP FORM INTERACTION LISTENER ---
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            // 🛠️ FIX: THIS MUST RUN FIRST! Prevents HTML from redirecting/reloading the page immediately
+            e.preventDefault(); 
+
+            const errDiv = document.getElementById('signupErrorMsg');
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+
+            const emailInput = document.getElementById('signupEmailInput').value.trim();
+            const passwordInput = document.getElementById('signupPasswordInput').value;
+            const signupFormEl = document.getElementById('signupForm');
+
+            // 🛠️ 1. INSTANT WEBSITE PASSWORD VALIDATION (Bulletproof check against internal null crashes)
+            if (passwordInput.length < 6) {
+                if (errDiv) {
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    
+                    // Safe selector check to prevent script crashes
+                    const errorTextContainer = errDiv.querySelector('.error-text');
+                    if (errorTextContainer) {
+                        errorTextContainer.innerText = "Password must be at least 6 characters long.";
+                    } else {
+                        errDiv.innerText = "⚠️ Password must be at least 6 characters long.";
+                    }
+                    
+                    errDiv.classList.remove('hidden');
+                } else {
+                    // Fallback alert box if your DOM container element doesn't exist at all
+                    alert("Password must be at least 6 characters long.");
+                }
+                return; // 🛑 Stops execution instantly right here! No redirect, no reload.
+            }
+
+            // 2. Initialize a secure random 6-digit numeric verification sequence string
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+            // 3. Fire the first verification email sequence via EmailJS (No account created yet!)
+            sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                .then(() => {
+                    // 4. Keep the signup wrapper open but slide a dynamic overlay view inside it
+                    signupFormEl.innerHTML = `
+                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
+                            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                🛡️
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1">Verify Your Email</h3>
+                            <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+                                We sent a 6-digit verification code security token to:<br>
+                                <strong class="text-slate-900 font-semibold">${emailInput}</strong>
+                            </p>
+                            
+                            <div class="mb-5">
+                                <input id="otpCodeInput" type="text" maxlength="6" required placeholder="000000" 
+                                    class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none font-bold text-slate-800 transition-all">
+                                <p id="otpInlineError" class="text-xs text-rose-600 mt-2 font-semibold hidden">⚠️ Incorrect verification code. Please check again.</p>
+                            </div>
+
+                            <button type="button" id="verifyOtpBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all mb-4">
+                                Confirm & Sign Up
+                            </button>
+
+                            <div class="text-xs text-slate-500">
+                                Didn't receive the email? 
+                                <button type="button" id="resendOtpBtn" class="font-bold text-blue-600 hover:underline outline-none bg-transparent border-none p-0 transition-all">
+                                    Resend Code
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    startResendCooldownClock();
+
+                    // --- ACTION SUB-HANDLER A: VALIDATING ENTERED OTP ---
+                    document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
+                        otpEvent.preventDefault(); // Prevents layout bubbling
+                        
+                        const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
+                        const otpErrorLabel = document.getElementById('otpInlineError');
+                        otpErrorLabel.classList.add('hidden');
+
+                        if (userEnteredOTP === generatedOTP) {
+                            // 5. Code is correct! NOW we attempt to create the account in Firebase
+                            createUserWithEmailAndPassword(auth, emailInput, passwordInput)
+                                .then((userCredential) => {
+                                    if(resendCooldownTimer) clearInterval(resendCooldownTimer);
+
+                                    // 6. UPDATE BACKGROUND HTML (User logged-in view renders behind popup)
+                                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                                        window.updateUIForLoggedInUser(userCredential.user);
+                                    }
+
+                                    // 🛠️ CLOSE POPUP INSTANTLY
+                                    if (typeof window.closeAuthPopup === 'function') {
+                                        window.closeAuthPopup();
+                                    } else {
+                                        const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
+                                        if(modal) modal.classList.add('hidden');
+                                    }
+
+                                    // 🛠️ RESET THE FORM FOR THE NEXT TIME THEY SEE IT
+                                    window.resetSignupFormToInitialState();
+                                })
+                                .catch((error) => {
+                                    let customMsg = "Registration failed: " + error.message;
+                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
+                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
+                                    
+                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
+                                    otpErrorLabel.classList.remove('hidden');
+                                });
+                        } else {
+                            otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
+                            otpErrorLabel.classList.remove('hidden');
+                        }
+                    });
+
+                    // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
+                    document.getElementById('resendOtpBtn').addEventListener('click', () => {
+                        if (cooldownSecondsLeft > 0) return;
+
+                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                        const otpErrorLabel = document.getElementById('otpInlineError');
+                        otpErrorLabel.classList.add('hidden');
+
+                        sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                            .then(() => {
+                                startResendCooldownClock();
+                            });
+                    });
+                });
+        });
+
+      
+        // --- LOGIN FORM EVENT LISTENER ---
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            // Reset message container styles back to hidden first
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+
+            const emailInput = document.getElementById('loginEmailInput').value.trim();
+            const passwordInput = document.getElementById('loginPasswordInput').value;
+
+            // Save a reference to the main login form element container
+            const loginFormEl = document.getElementById('loginForm');
+
+            signInWithEmailAndPassword(auth, emailInput, passwordInput)
+                .then((userCredential) => {
+                    // 🛠️ SUCCESS PHASE: Account exists and matches!
+                    // Clear form values out completely
+                    loginFormEl.reset();
+
+                    // Update background HTML for the newly authenticated user
+                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                        window.updateUIForLoggedInUser(userCredential.user);
+                    }
+                    
+                    // Close the authentication modal wrapper view instantly
+                    if (typeof window.closeAuthPopup === 'function') {
                         window.closeAuthPopup();
-                    })
-                    .catch((error) => {
-                        if (errDiv) {
-                            errDiv.classList.remove('hidden');
-                            errDiv.querySelector('.error-text').innerText = handleAuthError(error);
+                    } else {
+                        const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
+                        if(modal) modal.classList.add('hidden');
+                    }
+
+                    // 🛠️ FIX: Wipe out fields and reset to original state automatically right after closing!
+                    if (typeof window.resetLoginFormToInitialState === 'function') {
+                        window.resetLoginFormToInitialState();
+                    }
+                })
+                .catch((error) => {
+                    // 🛠️ FAILURE PHASE: Pass Firebase error codes clean straight to the view text container
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('bg-amber-50', 'text-amber-700', 'border-amber-200');
+
+                        let customMsg = "Authentication error: " + error.message;
+                        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
+                            customMsg = "Incorrect email address or password credentials."; 
+                        } else if (error.code === 'auth/user-disabled') { 
+                            customMsg = "This user account profile has been suspended."; 
+                        } else if (error.code === 'auth/invalid-email') {
+                            customMsg = "The email address structure is invalid.";
                         }
-                    });
-            });
-        }
-
-        // --- SUBMIT LOGIN ACTION HANDLER ---
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('loginEmailInput').value;
-                const password = document.getElementById('loginPasswordInput').value;
-                const errDiv = document.getElementById('loginErrorMsg');
-
-                signInWithEmailAndPassword(auth, email, password)
-                    .then(() => {
-                        window.closeLoginPopup();
-                    })
-                    .catch((error) => {
-                        if (errDiv) {
-                            errDiv.classList.remove('hidden');
-                            errDiv.querySelector('.error-text').innerText = handleAuthError(error);
+                        
+                        // Safe selector assignment check to prevent script crashes
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = customMsg;
+                        } else {
+                            errDiv.innerText = "⚠️ " + customMsg;
                         }
-                    });
-            });
-        }
+                        
+                        errDiv.classList.remove('hidden');
+                    } else {
+                        alert("Authentication failure: " + error.message);
+                    }
+                });
+        });
 
-        // --- INITIALIZE FORGOT PASSWORD ACTION HANDLER ---
+        // --- COMPLETE FORGOT PASSWORD SYSTEM ---
+
+        // 1. Declare the template container structure state safely on the global window object
+        if (typeof window.initialLoginFormHTML === 'undefined') {
+            window.initialLoginFormHTML = "";
+        }
+        
+        // 2. Expose the resetting function globally so your "X" close icons can use it too!
+        window.forceResetLoginPopup = function() {
+            const loginFormEl = document.getElementById('loginForm');
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+            
+            if (loginFormEl) {
+                // Restore the original raw form HTML (inputs, buttons, links)
+                if (window.initialLoginFormHTML) {
+                    loginFormEl.innerHTML = window.initialLoginFormHTML;
+                }
+                // Wipes out typed characters inside input boxes cleanly
+                if (typeof loginFormEl.reset === 'function') {
+                    loginFormEl.reset(); 
+                }
+            }
+        };
+        
+        // 3. Wrap everything in an initializer that waits for the DOM to be completely ready
         function initializeForgotPasswordSystem() {
             const forgotLink = document.getElementById('forgotPasswordLink');
-            if (forgotLink) {
-                forgotLink.addEventListener('click', () => {
-                    const email = document.getElementById('loginEmailInput').value;
-                    const errDiv = document.getElementById('loginErrorMsg');
-                    if (!email) {
-                        if (errDiv) {
-                            errDiv.classList.remove('hidden');
-                            errDiv.querySelector('.error-text').innerText = "Please input a valid account email configuration handle first.";
-                        }
-                        return;
-                    }
-                    sendPasswordResetEmail(auth, email)
-                        .then(() => {
-                            alert("A secure credential recovery payload link has been successfully dispatched.");
-                        })
-                        .catch((error) => {
-                            alert(handleAuthError(error));
-                        });
-                });
+            const loginFormEl = document.getElementById('loginForm');
+        
+            // Save the clean, initial inner state template of your login window form right now
+            if (loginFormEl && !window.initialLoginFormHTML) {
+                window.initialLoginFormHTML = loginFormEl.innerHTML;
             }
+        
+            // Stop execution safely if the forgot password link isn't rendered on this specific page view
+            if (!forgotLink) return;
+        
+            // Remove any older duplicate event listeners to prevent double-firing bugs
+            forgotLink.replaceWith(forgotLink.cloneNode(true));
+            
+            // Re-select the freshly cleared clean element node link
+            const activeForgotLink = document.getElementById('forgotPasswordLink');
+        
+            activeForgotLink.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                
+                const currentLoginFormEl = document.getElementById('loginForm');
+                const errDiv = document.getElementById('loginErrorMsg');
+                
+                // Safety checkpoint check: Ensure the backup string exists
+                if (currentLoginFormEl && !window.initialLoginFormHTML) {
+                    window.initialLoginFormHTML = currentLoginFormEl.innerHTML;
+                }
+        
+                const emailField = document.getElementById('loginEmailInput');
+                const emailInput = emailField ? emailField.value.trim() : "";
+        
+                // 🚨 CHECK 1: If the email address input box field is empty
+                if (!emailInput) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
+                        } else {
+                            errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
+                        }
+                    } else {
+                        alert("Please enter your email address first to get a reset link.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // 🚨 CHECK 2: Strict email format validation via Regular Expression
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput)) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "The email address layout structure is invalid.";
+                        } else {
+                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
+                        }
+                    } else {
+                        alert("The email address layout structure is invalid.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // Clean slate: Clear past error frames out before making the network request API call
+                if (errDiv) errDiv.classList.add('hidden');
+        
+                // 🚀 FIRE FIREBASE NETWORK REQUEST LINK DELIVERER
+                sendPasswordResetEmail(auth, emailInput)
+                    .then(() => {
+                        // SUCCESS PHASE: Render response interface success confirmation frame template inside the popup box
+                        currentLoginFormEl.innerHTML = `
+                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm animate-fadeIn">
+                                <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                    📩
+                                </div>
+                                <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
+                                <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
+                                    We have sent a secure password reset link to:<br>
+                                    <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
+                                </p>
+                                <p class="text-xs text-slate-500 mb-5">
+                                    Please check your inbox or spam folder to recover access.
+                                </p>
+                                <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                    Close Window
+                                </button>
+                            </div>
+                        `;
+        
+                        // Handle closing and wiping out components
+                        document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
+                            btnEvent.preventDefault();
+        
+                            // Close the popup window layer modal cleanly
+                            if (typeof window.closeAuthPopup === 'function') {
+                                window.closeAuthPopup();
+                            } else {
+                                const modal = currentLoginFormEl.closest('.modal') || currentLoginFormEl.parentElement;
+                                if (modal) modal.classList.add('hidden');
+                            }
+        
+                            // Wipes fields and resets the template instantly as it closes!
+                            window.forceResetLoginPopup();
+                        });
+                    })
+                    .catch((error) => {
+                        // FAILURE PHASE: Handle non-existent accounts safely from Firebase response
+                        if (errDiv) {
+                            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            errDiv.classList.remove('hidden');
+                            
+                            let customMsg = "Error sending reset link: " + error.message;
+                            if (error.code === 'auth/user-not-found') {
+                                customMsg = "No account found matching this email address.";
+                            } else if (error.code === 'auth/invalid-email') {
+                                customMsg = "The email address structure layout is invalid.";
+                            }
+        
+                            const errorTextContainer = errDiv.querySelector('.error-text');
+                            if (errorTextContainer) {
+                                errorTextContainer.innerText = customMsg;
+                            } else {
+                                errDiv.innerText = "⚠️ " + customMsg;
+                            }
+                        } else {
+                            alert("Reset Error: " + error.message);
+                        }
+                    });
+            });
         }
+        
+        // 4. Run the code safely whether the browser window loaded early or late!
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", initializeForgotPasswordSystem);
         } else {
             initializeForgotPasswordSystem();
         }
-
-        // --- GOOGLE AUTH POPUP FLOW ENGINE ---
+        
         const handleGoogleAuthFlow = () => {
             signInWithPopup(auth, googleProvider)
                 .catch((error) => {
-                    alert(handleAuthError(error));
+                    if (error.code === 'auth/popup-closed-by-user') { alert("Sign-in popup closed before completion."); }
+                    else if (error.code === 'auth/cancelled-popup-request') { alert("Authentication operation conflict detected."); }
+                    else if (error.code === 'auth/popup-blocked') { alert("Authentication popup blocked by browser settings."); }
+                    else { alert(`Google sign-in error: ${error.message}`); }
                 });
         };
-        const googleSignupBtn = document.getElementById('googleSignupBtn');
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-        if (googleSignupBtn) googleSignupBtn.addEventListener('click', handleGoogleAuthFlow);
-        if (googleLoginBtn) googleLoginBtn.addEventListener('click', handleGoogleAuthFlow);
+
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
 
         // =========================================================================
         // ON AUTH STATE CHANGED INTERACTION FRAMEWORK
