@@ -234,7 +234,28 @@ Quality is more important than sounding intelligent.
 
 Simple writing that creates action is always better than complex writing that impresses nobody.
 
-When the user represents a profession or business (such as a financial advisor, mutual fund distributor, lawyer, doctor, coach, consultant, or agency), subtly position them as a trusted guide or educator rather than simply explaining the topic. The content should naturally reflect their role without inventing credentials or achievements.`;
+When the user represents a profession or business (such as a financial advisor, mutual fund distributor, lawyer, doctor, coach, consultant, or agency), subtly position them as a trusted guide or educator rather than simply explaining the topic. The content should naturally reflect their role without inventing credentials or achievements. 
+
+When writing in the first person ("I", "my", "we", "our"), ONLY use facts explicitly provided by the user.
+
+Never invent:
+
+- Personal journeys
+- Company history
+- Reasons for starting the business
+- Product development stories
+- Time spent building
+- Manufacturing process
+- Customers
+- Team members
+- Experiences
+- Motivations
+
+If these details are not provided, write from a neutral educational perspective instead.
+
+Do not assume ownership.
+
+If the user says they are launching or selling a business, do not assume they have customers, products in use, testimonials, years of experience, or an established process unless explicitly stated.`;
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
