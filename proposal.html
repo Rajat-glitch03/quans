@@ -25,7 +25,6 @@
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Smooth Mobile Sidebar Animation Transitions */
         .sidebar-overlay-active {
             opacity: 1 !important;
             pointer-events: auto !important;
@@ -176,27 +175,29 @@
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                             <div class="bg-slate-50 rounded-xl p-3">
                                 <span class="block text-[9px] font-bold uppercase text-slate-400 mb-0.5">Complexity</span>
-                                <div id="generatedComplexity" class="text-xs sm:text-sm font-bold text-slate-800">Medium Complexity</div>
+                                <div id="generatedComplexity" class="text-xs sm:text-sm font-bold text-slate-800"></div>
                             </div>
                             <div class="bg-slate-50 rounded-xl p-3">
-                                <span class="block text-[9px] font-bold uppercase text-slate-400 mb-0.5">Timeline Duration</span>
-                                <div id="generatedDuration" class="text-xs sm:text-sm font-bold text-slate-800">3–4 Weeks</div>
+                                <span class="block text-[9px] font-bold uppercase text-slate-400 mb-0.5">Estimated Size</span>
+                                <div id="generatedDuration" class="text-xs sm:text-sm font-bold text-slate-800"></div>
                             </div>
                             <div class="bg-slate-50 rounded-xl p-3">
                                 <span class="block text-[9px] font-bold uppercase text-slate-400 mb-0.5">Missing Info / Gaps</span>
-                                <div id="generatedMissingInfo" class="text-xs sm:text-sm font-bold text-slate-800 space-y-0.5">• Budget<br>• Figma<br>• API Docs</div>
+                                <div id="generatedMissingInfo" class="text-xs sm:text-sm font-bold text-slate-800 space-y-0.5"></div>
                             </div>
+                        </div>
+                        <!-- REPAIRED: Appended the missing element block here -->
+                        <div class="mt-2 pt-2 border-t border-slate-100">
+                            <span class="block text-[9px] font-bold uppercase text-slate-400 mb-1">Client Core Priorities</span>
+                            <div id="generatedClientPriorities" class="text-xs text-slate-700 leading-relaxed font-medium"></div>
                         </div>
                     </div>
 
                     <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
                         <span class="text-[10px] font-bold uppercase text-amber-500 tracking-wider flex items-center gap-1 mb-1.5"><i class="fa-solid fa-star"></i> ⭐ Client Fit</span>
-                        <div id="generatedClientFit" class="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
-                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Excellent Match
-                        </div>
+                        <div id="generatedClientFit" class="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5"></div>
                     </div>
 
-                    <!-- REPAIRED: Appended missing ID container block -->
                     <div id="questionsContainerBlock" class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
                         <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
                             <span class="text-[10px] font-bold uppercase text-purple-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-circle-question"></i> 💡 Questions</span>
@@ -214,7 +215,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- REPAIRED: Appended missing ID container block -->
                         <div id="subjectDisplayBlock" class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
                             <div class="flex items-center justify-between border-b border-slate-50 pb-1.5 mb-1.5">
                                 <span class="text-[10px] font-bold uppercase text-sky-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-envelope"></i> 📧 Subject</span>
@@ -222,7 +222,6 @@
                             </div>
                             <div id="generatedSubjectText" class="text-xs sm:text-sm font-bold text-slate-800 whitespace-pre-wrap"></div>
                         </div>
-                        <!-- REPAIRED: Appended missing ID container block -->
                         <div id="ctaDisplayBlock" class="bg-white border border-slate-100 rounded-xl p-4">
                             <div class="flex items-center justify-between border-b border-slate-50 pb-1.5 mb-1.5">
                                 <span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-thumbtack"></i> 📌 CTA</span>
@@ -289,7 +288,6 @@
     </div>
 
     <script>
-        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
                 extend: {
@@ -299,7 +297,6 @@
             }
         };
 
-        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
         const firebaseConfig = {
               apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
               authDomain: "quans-175a2.firebaseapp.com",
@@ -314,20 +311,17 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Runtime Global Variable Registration Parameter State Mapping Objects
         let currentUserObject = null;
         let proposalLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
         let activeGeneratedProposalObject = null;
 
-        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
         const activeFormStateModel = {
             platform: "Upwork",
             tone: "Professional",
             length: "Short"
         };
 
-        // DOM Elements Map Pointer Directory Configuration Objects
         const profileTriggerBtn = document.getElementById('profileTriggerBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
         const logoutActionBtn = document.getElementById('logoutActionBtn');
@@ -358,7 +352,6 @@
         const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
         const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
 
-        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
         function initializeCustomDropdownModules() {
             const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
             
@@ -402,13 +395,12 @@
             }
         }
 
-        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'index.html';
             } else {
                 currentUserObject = user;
-                if(userHelloDisplay) userHelloDisplay.innerText = `Hello, ${user.displayName || 'Creator'}!`;
+                if(userHelloDisplay) userHelloDisplay.innerText = `Hello, ${user.displayName || 'Creator'}`;
                 initializeCustomDropdownModules();
                 syncProposalsRealtimeDatabaseStack();
             }
@@ -452,7 +444,6 @@
         if (mobileSidebarDrawerOverlay) mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
         if (mobileSidebarDrawerPanel) mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
-        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
             if (!activeGeneratedProposalObject) return;
             let blueprintTextString = "";
@@ -466,7 +457,7 @@
             navigator.clipboard.writeText(blueprintTextString).then(() => {
                 copyBtnLabelText.innerText = "Copied!";
                 setTimeout(() => copyBtnLabelText.innerText = "Copy Full Proposal", 1500);
-            }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
+            }).catch(err => console.error("Clipboard blocking execution anomaly:", err));
         });
 
         function copyIndividualSegmentBlock(elementId) {
@@ -476,7 +467,6 @@
             }).catch(err => console.error("Segment copy blocked:", err));
         }
 
-        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
         function syncProposalsRealtimeDatabaseStack() {
             if (!currentUserObject) return;
 
@@ -579,14 +569,6 @@
             if(brandInput) brandInput.value = targetingMatchNode.brandContext || "";
             if(sampleInput) sampleInput.value = targetingMatchNode.sampleWritingStyle || "";
 
-            fallbackEmptyStatePanel.classList.add('hidden');
-            contentRendererDisplayBlock.classList.remove('hidden');
-            copyToClipboardBtn.classList.remove('hidden');
-            outputDisplayScreenFrame.classList.remove('justify-center');
-
-            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
-            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform || 'Upwork'}].`;
-            
             try {
                 const parsedObject = JSON.parse(targetingMatchNode.generatedOutput);
                 activeGeneratedProposalObject = parsedObject;
@@ -605,6 +587,7 @@
             closeMobileDrawerHandler();
         }
 
+        // REPAIRED: Upgraded to use fault-tolerant defensive injection to ensure zero layout crashes
         function renderStructuredOutput(dataObject) {
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
@@ -613,27 +596,27 @@
 
             const analysisObj = dataObject.analysis || {};
 
-            // 1. Complexity
-            document.getElementById('generatedComplexity').innerHTML = formatTextTokenWeights(analysisObj.complexity || "Medium");
+            const safeSetHtml = (id, targetContent) => {
+                const elementNode = document.getElementById(id);
+                if (elementNode) {
+                    elementNode.innerHTML = formatTextTokenWeights(targetContent);
+                }
+            };
+
+            safeSetHtml('generatedComplexity', analysisObj.complexity || "Medium");
+            safeSetHtml('generatedDuration', analysisObj.estimatedProjectSize || "Medium");
             
-            // 2. Estimated Project Size
-            document.getElementById('generatedDuration').innerHTML = formatTextTokenWeights(analysisObj.estimatedProjectSize || "Medium");
-            
-            // 3. Missing Information Bullet Construction
             const missingInfoArray = analysisObj.missingInformation || [];
-            const missingInfoHtml = missingInfoArray.length > 0 
-                ? missingInfoArray.map(item => `• ${item}`).join('<br>') 
-                : "None listed";
-            document.getElementById('generatedMissingInfo').innerHTML = formatTextTokenWeights(missingInfoHtml);
+            const missingInfoHtml = missingInfoArray.length > 0 ? missingInfoArray.map(item => `• ${item}`).join('<br>') : "None listed";
+            safeSetHtml('generatedMissingInfo', missingInfoHtml);
             
-            // 4. Client Priorities Block
-            document.getElementById('generatedClientPriorities').innerHTML = formatTextTokenWeights(analysisObj.clientPriorities || "No summary provided.");
+            safeSetHtml('generatedClientPriorities', analysisObj.clientPriorities || "No explicit priorities listed.");
             
-            // 5. Client Fit Visual Indicator Badge
-            const fitColor = "bg-emerald-500"; 
-            document.getElementById('generatedClientFit').innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${fitColor}"></span> Excellent Match`;
+            const clientFitEl = document.getElementById('generatedClientFit');
+            if (clientFitEl) {
+                clientFitEl.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Excellent Match`;
+            }
             
-            // 6. Clarifying Questions Node Management
             const questionsArray = dataObject.questions || [];
             const questionsContainer = document.getElementById('questionsContainerBlock');
             const validQuestions = questionsArray.filter(q => q && q.trim() !== "");
@@ -644,34 +627,31 @@
                 if(questionsContainer) {
                     questionsContainer.classList.remove('hidden');
                     const questionsHtml = validQuestions.map(q => `• ${q}`).join('<br>');
-                    document.getElementById('generatedQuestions').innerHTML = formatTextTokenWeights(questionsHtml);
+                    safeSetHtml('generatedQuestions', questionsHtml);
                 }
             }
 
-            // 7. Proposal Content Text Textbox
-            document.getElementById('generatedProposalText').innerHTML = formatTextTokenWeights(dataObject.proposal || "None generated.");
+            safeSetHtml('generatedProposalText', dataObject.proposal || "None generated.");
             
-            // 8. Subject Field Segment Visibility Management
             const subjectText = dataObject.subject || "";
             const subjectBlock = document.getElementById('subjectDisplayBlock');
             if(subjectBlock) {
-                if (subjectText.trim() === "") {
+                if (!subjectText.trim()) {
                     subjectBlock.classList.add('hidden');
                 } else {
                     subjectBlock.classList.remove('hidden');
-                    document.getElementById('generatedSubjectText').innerHTML = formatTextTokenWeights(subjectText);
+                    safeSetHtml('generatedSubjectText', subjectText);
                 }
             }
 
-            // 9. Call to Action Container Section Blocks
             const ctaText = dataObject.cta || "";
             const ctaBlock = document.getElementById('ctaDisplayBlock');
             if(ctaBlock) {
-                if (ctaText.trim() === "") {
+                if (!ctaText.trim()) {
                     ctaBlock.classList.add('hidden');
                 } else {
                     ctaBlock.classList.remove('hidden');
-                    document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(ctaText);
+                    safeSetHtml('generatedCtaText', ctaText);
                 }
             }
         }
@@ -684,18 +664,17 @@
                 .replace(/\n/g, '<br>');
         }
 
-        function setUIProcessingState(isLoading, customMessage = "Drafting customized tactical proposal template content values...") {
+        function setUIProcessingState(isLoading) {
             generationTriggerBtn.disabled = isLoading;
             generationTriggerBtn.style.opacity = isLoading ? "0.6" : "1";
             statusDotIndicator.className = isLoading ? "w-2 h-2 rounded-full bg-amber-400 animate-bounce" : "w-2 h-2 rounded-full bg-emerald-500";
             statusLabelIndicator.innerText = isLoading ? "Generating..." : "Ready";
         }
 
-        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
-                alert("Please write your core project description parameters rules first before generating content.");
+                alert("Please write your core project description parameters first.");
                 return;
             }
         
@@ -730,7 +709,7 @@
                 renderStructuredOutput(structuredDataPayload);
                 
                 setUIProcessingState(false);
-                statusLabelIndicator.innerText = "Generation complete. Final proposal blueprint available below.";
+                statusLabelIndicator.innerText = "Generation complete.";
         
                 if(currentUserObject) {
                     const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
@@ -749,19 +728,17 @@
                 }
         
             } catch (err) {
-                console.error("Upstream communication breakdown fault:", err);
+                console.error("Upstream connection fault:", err);
                 statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-                statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
-                generationTriggerBtn.disabled = false;
-                generationTriggerBtn.style.opacity = "1";
-                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+                statusLabelIndicator.innerText = "Fatal connection abort error.";
+                setUIProcessingState(false);
+                alert("Failed to connect successfully with text generation channels.");
             }
         });
 
-        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         async function handleMicroRefinement(actionKey) {
             if (!activeGeneratedProposalObject) {
-                alert("Generate a proposal configuration layout blueprint first before processing rapid variants.");
+                alert("Generate a layout first before processing modifications.");
                 return;
             }
 
@@ -787,13 +764,12 @@
                 activeGeneratedProposalObject = refinedData;
                 renderStructuredOutput(refinedData);
                 setUIProcessingState(false);
-                statusLabelIndicator.innerText = "Refinement update compiled successfully.";
+                statusLabelIndicator.innerText = "Refinement update compiled.";
 
             } catch (err) {
-                console.error("Micro-refinement transaction anomaly encountered:", err);
+                console.error("Micro-refinement anomaly:", err);
                 setUIProcessingState(false);
-                statusLabelIndicator.innerText = "Failed to apply refinement modification.";
-                alert("Could not update copy variants across endpoint nodes.");
+                statusLabelIndicator.innerText = "Failed to apply variant configuration modification.";
             }
         }
     </script>
