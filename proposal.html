@@ -656,6 +656,7 @@
         }
 
         // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
+        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
             if(!promptValueInputString) {
@@ -673,6 +674,7 @@
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput').value.trim();
         
             try {
+                // Ensure this path points exactly to your backend route (e.g., /api/proposal)
                 const apiPayloadResponse = await fetch('/api/proposal', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -722,6 +724,7 @@
             }
         });
 
+        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         async function handleMicroRefinement(actionKey) {
             if (!activeGeneratedProposalObject) {
