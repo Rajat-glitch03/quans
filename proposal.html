@@ -581,18 +581,64 @@
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
 
-            document.getElementById('generatedComplexity').innerHTML = formatTextTokenWeights(dataObject.complexity || "Medium Complexity");
-            document.getElementById('generatedDuration').innerHTML = formatTextTokenWeights(dataObject.duration || "3–4 Weeks");
-            document.getElementById('generatedMissingInfo').innerHTML = formatTextTokenWeights(dataObject.missingInfo || "• Budget<br>• Figma<br>• API Docs");
+            // Accessing properties safely from the new "analysis" object structure
+            const analysisObj = dataObject.analysis || {};
+
+            // 1. Complexity
+            document.getElementById('generatedComplexity').innerHTML = formatTextTokenWeights(analysisObj.complexity || "Medium");
             
-            const clientFitValue = dataObject.clientFit || "🟢 Excellent Match";
-            const fitColor = clientFitValue.includes("Excellent") || clientFitValue.includes("🟢") ? "bg-emerald-500" : "bg-amber-500";
-            document.getElementById('generatedClientFit').innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${fitColor}"></span> ${clientFitValue}`;
+            // 2. Estimated Project Size (Mapped to your layout's middle analysis block)
+            document.getElementById('generatedDuration').innerHTML = formatTextTokenWeights(analysisObj.estimatedProjectSize || "Medium");
             
-            document.getElementById('generatedQuestions').innerHTML = formatTextTokenWeights(dataObject.questions || "• Missing specifications description line option parameters.");
+            // 3. Missing Information array joined with bullet points
+            const missingInfoArray = analysisObj.missingInformation || [];
+            const missingInfoHtml = missingInfoArray.length > 0 
+                ? missingInfoArray.map(item => `• ${item}`).join('<br>') 
+                : "None listed";
+            document.getElementById('generatedMissingInfo').innerHTML = formatTextTokenWeights(missingInfoHtml);
+            
+            // 4. Client Priorities Summary Block
+            document.getElementById('generatedClientPriorities').innerHTML = formatTextTokenWeights(analysisObj.clientPriorities || "No summary provided.");
+            
+            // 5. Client Fit - calculated or set dynamically since it's an app feature
+            const fitColor = "bg-emerald-500"; 
+            document.getElementById('generatedClientFit').innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${fitColor}"></span> Excellent Match`;
+            
+            // 6. Questions Array mapping to string lines
+            const questionsArray = dataObject.questions || [];
+            const questionsHtml = questionsArray.length > 0 
+                ? questionsArray.map(q => `• ${q}`).join('<br>') 
+                : "No clarifying questions needed.";
+            const questionsContainer = document.getElementById('questionsContainerBlock');
+            if (questionsArray.length === 0) {
+                questionsContainer.classList.add('hidden');
+            } else {
+                questionsContainer.classList.remove('hidden');
+                document.getElementById('generatedQuestions').innerHTML = formatTextTokenWeights(questionsHtml);
+            }
+
+            // 7. Core Proposal Content Text
             document.getElementById('generatedProposalText').innerHTML = formatTextTokenWeights(dataObject.proposal || "None generated.");
-            document.getElementById('generatedSubjectText').innerHTML = formatTextTokenWeights(dataObject.subject || "Proposal for Requirement Spec");
-            document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(dataObject.cta || "");
+            
+            // 8. Subject (Only visible if dynamic value exists)
+            const subjectText = dataObject.subject || "";
+            const subjectBlock = document.getElementById('subjectDisplayBlock');
+            if (subjectText.trim() === "") {
+                subjectBlock.classList.add('hidden');
+            } else {
+                subjectBlock.classList.remove('hidden');
+                document.getElementById('generatedSubjectText').innerHTML = formatTextTokenWeights(subjectText);
+            }
+
+            // 9. Call to Action (Only visible if dynamic value exists)
+            const ctaText = dataObject.cta || "";
+            const ctaBlock = document.getElementById('ctaDisplayBlock');
+            if (ctaText.trim() === "") {
+                ctaBlock.classList.add('hidden');
+            } else {
+                ctaBlock.classList.remove('hidden');
+                document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(ctaText);
+            }
         }
 
         function formatTextTokenWeights(rawStr) {
