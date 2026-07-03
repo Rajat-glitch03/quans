@@ -405,46 +405,61 @@
                 window.location.href = 'index.html';
             } else {
                 currentUserObject = user;
-                userHelloDisplay.innerText = "Hello!";
+                if(userHelloDisplay) userHelloDisplay.innerText = `Hello, ${user.displayName || 'Creator'}!`;
                 initializeCustomDropdownModules();
                 syncProposalsRealtimeDatabaseStack();
             }
         });
 
-        profileTriggerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdownMenu.classList.toggle('hidden');
-        });
-        document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
-        logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+        if (profileTriggerBtn) {
+            profileTriggerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+        }
+        document.addEventListener('click', () => { if(profileDropdownMenu) profileDropdownMenu.classList.add('hidden'); });
+        if (logoutActionBtn) logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
 
-        desktopDropupTriggerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
-            desktopDropupIcon.style.transform = !isMenuClosed ? "rotate(180deg)" : "rotate(0deg)";
-        });
-        desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
+        if (desktopDropupTriggerBtn) {
+            desktopDropupTriggerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
+                if(desktopDropupIcon) desktopDropupIcon.style.transform = !isMenuClosed ? "rotate(180deg)" : "rotate(0deg)";
+            });
+        }
+        if (desktopDropupPanel) desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
         document.addEventListener('click', () => {
-            desktopDropupPanel.classList.add('hidden');
-            desktopDropupIcon.style.transform = "rotate(0deg)";
+            if(desktopDropupPanel) {
+                desktopDropupPanel.classList.add('hidden');
+                if(desktopDropupIcon) desktopDropupIcon.style.transform = "rotate(0deg)";
+            }
         });
 
-        mobileDrawerOpenBtn.addEventListener('click', () => {
-            mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
-            mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
-        });
+        if (mobileDrawerOpenBtn) {
+            mobileDrawerOpenBtn.addEventListener('click', () => {
+                if(mobileSidebarDrawerOverlay) mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
+                if(mobileSidebarDrawerPanel) mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
+            });
+        }
         const closeMobileDrawerHandler = () => {
-            mobileSidebarDrawerOverlay.classList.remove('sidebar-overlay-active');
-            mobileSidebarDrawerPanel.classList.remove('sidebar-panel-active');
+            if(mobileSidebarDrawerOverlay) mobileSidebarDrawerOverlay.classList.remove('sidebar-overlay-active');
+            if(mobileSidebarDrawerPanel) mobileSidebarDrawerPanel.classList.remove('sidebar-panel-active');
         };
-        mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
-        mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
-        mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
+        if (mobileDrawerCloseBtn) mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
+        if (mobileSidebarDrawerOverlay) mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
+        if (mobileSidebarDrawerPanel) mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
 
         // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS
         copyToClipboardBtn.addEventListener('click', () => {
             if (!activeGeneratedProposalObject) return;
-            const blueprintTextString = `SUBJECT:\n${activeGeneratedProposalObject.subject || ''}\n\nPROPOSAL:\n${activeGeneratedProposalObject.proposal || ''}\n\nCTA:\n${activeGeneratedProposalObject.cta || ''}`;
+            let blueprintTextString = "";
+            if (activeGeneratedProposalObject.subject) {
+                blueprintTextString += `SUBJECT:\n${activeGeneratedProposalObject.subject}\n\n`;
+            }
+            blueprintTextString += `PROPOSAL:\n${activeGeneratedProposalObject.proposal || ''}`;
+            if (activeGeneratedProposalObject.cta) {
+                blueprintTextString += `\n\nCTA:\n${activeGeneratedProposalObject.cta}`;
+            }
             navigator.clipboard.writeText(blueprintTextString).then(() => {
                 copyBtnLabelText.innerText = "Copied!";
                 setTimeout(() => copyBtnLabelText.innerText = "Copy Full Proposal", 1500);
@@ -513,18 +528,22 @@
                 <div class="text-center py-8 text-slate-400 text-xs font-medium">No stored proposal matching records found.</div>
             `;
 
-            desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
-            mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+            if(desktopGenerationsScrollList) desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+            if(mobileGenerationsScrollList) mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
         }
 
-        desktopHistorySearchBox.addEventListener('input', (e) => {
-            globalActiveSearchQueryToken = e.target.value;
-            renderProposalsListCanvasDOM();
-        });
-        mobileHistorySearchBox.addEventListener('input', (e) => {
-            globalActiveSearchQueryToken = e.target.value;
-            renderProposalsListCanvasDOM();
-        });
+        if(desktopHistorySearchBox) {
+            desktopHistorySearchBox.addEventListener('input', (e) => {
+                globalActiveSearchQueryToken = e.target.value;
+                renderProposalsListCanvasDOM();
+            });
+        }
+        if(mobileHistorySearchBox) {
+            mobileHistorySearchBox.addEventListener('input', (e) => {
+                globalActiveSearchQueryToken = e.target.value;
+                renderProposalsListCanvasDOM();
+            });
+        }
 
         async function renameProposalDocRecord(docId, nextTitleValue) {
             if(!currentUserObject || !nextTitleValue.trim()) return;
@@ -552,8 +571,10 @@
             updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
             addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
 
-            document.getElementById('brandContextInput').value = targetingMatchNode.brandContext || "";
-            document.getElementById('sampleWritingStyleInput').value = targetingMatchNode.sampleWritingStyle || "";
+            const brandInput = document.getElementById('brandContextInput');
+            const sampleInput = document.getElementById('sampleWritingStyleInput');
+            if(brandInput) brandInput.value = targetingMatchNode.brandContext || "";
+            if(sampleInput) sampleInput.value = targetingMatchNode.sampleWritingStyle || "";
 
             fallbackEmptyStatePanel.classList.add('hidden');
             contentRendererDisplayBlock.classList.remove('hidden');
@@ -568,7 +589,13 @@
                 activeGeneratedProposalObject = parsedObject;
                 renderStructuredOutput(parsedObject);
             } catch (e) {
-                const fallbackObject = { complexity: "Medium Complexity", duration: "3-4 Weeks", missingInfo: "• Budget", clientFit: "🟢 Excellent Match", questions: "• Clarifying question details", proposal: targetingMatchNode.generatedOutput, subject: "Proposal Context", cta: "" };
+                const fallbackObject = { 
+                    analysis: { complexity: "Medium", estimatedProjectSize: "Medium", clientPriorities: "No summary context provided.", missingInformation: [] }, 
+                    questions: [], 
+                    proposal: targetingMatchNode.generatedOutput, 
+                    subject: "", 
+                    cta: "" 
+                };
                 activeGeneratedProposalObject = fallbackObject;
                 renderStructuredOutput(fallbackObject);
             }
@@ -581,81 +608,86 @@
             copyToClipboardBtn.classList.remove('hidden');
             outputDisplayScreenFrame.classList.remove('justify-center');
 
-            // Accessing properties safely from the new "analysis" object structure
             const analysisObj = dataObject.analysis || {};
 
             // 1. Complexity
             document.getElementById('generatedComplexity').innerHTML = formatTextTokenWeights(analysisObj.complexity || "Medium");
             
-            // 2. Estimated Project Size (Mapped to your layout's middle analysis block)
+            // 2. Estimated Project Size
             document.getElementById('generatedDuration').innerHTML = formatTextTokenWeights(analysisObj.estimatedProjectSize || "Medium");
             
-            // 3. Missing Information array joined with bullet points
+            // 3. Missing Information Bullet Construction
             const missingInfoArray = analysisObj.missingInformation || [];
             const missingInfoHtml = missingInfoArray.length > 0 
                 ? missingInfoArray.map(item => `• ${item}`).join('<br>') 
                 : "None listed";
             document.getElementById('generatedMissingInfo').innerHTML = formatTextTokenWeights(missingInfoHtml);
             
-            // 4. Client Priorities Summary Block
+            // 4. Client Priorities Block
             document.getElementById('generatedClientPriorities').innerHTML = formatTextTokenWeights(analysisObj.clientPriorities || "No summary provided.");
             
-            // 5. Client Fit - calculated or set dynamically since it's an app feature
+            // 5. Client Fit Visual Indicator Badge
             const fitColor = "bg-emerald-500"; 
             document.getElementById('generatedClientFit').innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${fitColor}"></span> Excellent Match`;
             
-            // 6. Questions Array mapping to string lines
+            // 6. Clarifying Questions Node Management
             const questionsArray = dataObject.questions || [];
-            const questionsHtml = questionsArray.length > 0 
-                ? questionsArray.map(q => `• ${q}`).join('<br>') 
-                : "No clarifying questions needed.";
             const questionsContainer = document.getElementById('questionsContainerBlock');
-            if (questionsArray.length === 0) {
-                questionsContainer.classList.add('hidden');
+            const validQuestions = questionsArray.filter(q => q && q.trim() !== "");
+            
+            if (validQuestions.length === 0) {
+                if(questionsContainer) questionsContainer.classList.add('hidden');
             } else {
-                questionsContainer.classList.remove('hidden');
-                document.getElementById('generatedQuestions').innerHTML = formatTextTokenWeights(questionsHtml);
+                if(questionsContainer) {
+                    questionsContainer.classList.remove('hidden');
+                    const questionsHtml = validQuestions.map(q => `• ${q}`).join('<br>');
+                    document.getElementById('generatedQuestions').innerHTML = formatTextTokenWeights(questionsHtml);
+                }
             }
 
-            // 7. Core Proposal Content Text
+            // 7. Proposal Content Text Textbox
             document.getElementById('generatedProposalText').innerHTML = formatTextTokenWeights(dataObject.proposal || "None generated.");
             
-            // 8. Subject (Only visible if dynamic value exists)
+            // 8. Subject Field Segment Visibility Management
             const subjectText = dataObject.subject || "";
             const subjectBlock = document.getElementById('subjectDisplayBlock');
-            if (subjectText.trim() === "") {
-                subjectBlock.classList.add('hidden');
-            } else {
-                subjectBlock.classList.remove('hidden');
-                document.getElementById('generatedSubjectText').innerHTML = formatTextTokenWeights(subjectText);
+            if(subjectBlock) {
+                if (subjectText.trim() === "") {
+                    subjectBlock.classList.add('hidden');
+                } else {
+                    subjectBlock.classList.remove('hidden');
+                    document.getElementById('generatedSubjectText').innerHTML = formatTextTokenWeights(subjectText);
+                }
             }
 
-            // 9. Call to Action (Only visible if dynamic value exists)
+            // 9. Call to Action Container Section Blocks
             const ctaText = dataObject.cta || "";
             const ctaBlock = document.getElementById('ctaDisplayBlock');
-            if (ctaText.trim() === "") {
-                ctaBlock.classList.add('hidden');
-            } else {
-                ctaBlock.classList.remove('hidden');
-                document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(ctaText);
+            if(ctaBlock) {
+                if (ctaText.trim() === "") {
+                    ctaBlock.classList.add('hidden');
+                } else {
+                    ctaBlock.classList.remove('hidden');
+                    document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(ctaText);
+                }
             }
         }
 
         function formatTextTokenWeights(rawStr) {
-            return rawStr
+            if(!rawStr) return "";
+            return rawStr.toString()
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n/g, '<br>');
         }
 
-        function setUIProcessingState(isLoading, customMessage = "Processing structural inputs...") {
+        function setUIProcessingState(isLoading, customMessage = "Drafting customized tactical proposal template content values...") {
             generationTriggerBtn.disabled = isLoading;
             generationTriggerBtn.style.opacity = isLoading ? "0.6" : "1";
             statusDotIndicator.className = isLoading ? "w-2 h-2 rounded-full bg-amber-400 animate-bounce" : "w-2 h-2 rounded-full bg-emerald-500";
             statusLabelIndicator.innerText = isLoading ? "Generating..." : "Ready";
         }
 
-        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
         generationTriggerBtn.addEventListener('click', async () => {
             const promptValueInputString = topicInputField.value.trim();
@@ -670,11 +702,10 @@
             const toneToken = activeFormStateModel.tone;
             const lengthToken = activeFormStateModel.length;
             const ctaActiveFlag = addCtaCheckbox.checked;
-            const brandContextToken = document.getElementById('brandContextInput').value.trim();
-            const sampleStyleToken = document.getElementById('sampleWritingStyleInput').value.trim();
+            const brandContextToken = document.getElementById('brandContextInput') ? document.getElementById('brandContextInput').value.trim() : "";
+            const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
             try {
-                // Ensure this path points exactly to your backend route (e.g., /api/proposal)
                 const apiPayloadResponse = await fetch('/api/proposal', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -724,7 +755,6 @@
             }
         });
 
-        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
         async function handleMicroRefinement(actionKey) {
             if (!activeGeneratedProposalObject) {
