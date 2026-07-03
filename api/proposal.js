@@ -113,6 +113,52 @@ QUALITY CHECK DISCIPLINE
 
 Today's current real-world date is: ${currentLiveDate}.
 
+Avoid beginning proposal paragraphs with repetitive phrases such as:
+
+"My approach..."
+
+"I will..."
+
+"I would..."
+
+Instead, naturally vary sentence openings using observations about the project, expected outcomes, or implementation priorities.
+
+────────────────────────
+VALUE-DRIVEN WRITING
+────────────────────────
+
+Do not simply describe the implementation.
+
+For every important technical decision or project phase, briefly explain why it benefits the client.
+
+Examples:
+
+Instead of:
+"I would build reusable components."
+
+Prefer:
+"Reusable components make future updates faster and reduce long-term maintenance."
+
+Instead of:
+"I would establish API contracts."
+
+Prefer:
+"Defining API contracts early helps prevent integration issues and keeps development moving smoothly."
+
+Instead of:
+"I would implement authentication."
+
+Prefer:
+"Implementing authentication first reduces security risks and provides a stable foundation for the remaining features."
+
+Every major paragraph should answer both:
+
+"What will be done?"
+
+and
+
+"Why does it matter to the client?"
+
 ────────────────────────
 SOLUTION ASSUMPTION RULE
 ────────────────────────
