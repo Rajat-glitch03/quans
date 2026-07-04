@@ -689,7 +689,7 @@
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
             try {
-                const apiPayloadResponse = await fetch('/api/repurpose', {
+                const apiPayloadResponse = await fetch('/api/textrep', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
