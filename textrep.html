@@ -625,6 +625,7 @@
                 renderStructuredOutput(fallbackObject);
             }
             closeMobileDrawerHandler();
+            
         }
 
         function renderStructuredOutput(dataObject) {
@@ -752,7 +753,7 @@
             setUIProcessingState(true);
 
             try {
-                const apiPayloadResponse = await fetch('/api/repurpose', {
+                const apiPayloadResponse = await fetch('/api/textrep', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
