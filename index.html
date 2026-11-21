@@ -917,19 +917,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
         document.getElementById('closeLoginModal').addEventListener('click', window.closeLoginPopup);
         document.getElementById('loginModalOverlay').addEventListener('click', window.closeLoginPopup);
 
-        document.querySelectorAll('.tool-btn').forEach(button => {
+        // Apply the same sign-in gate to legacy tool buttons and the redesigned
+        // homepage tool cards. Cards keep their own href when the user is signed in.
+        document.querySelectorAll('.tool-btn, .tool-feature').forEach(button => {
             button.addEventListener('click', (e) => {
-                if (window.userIsAuthenticated) {
-                    const tool = button.getAttribute('data-tool');
-                    if (tool === 'ai-assistant') {
-                        window.location.href = 'ai.html';
-                    } else if (tool === 'social-generator'){
-                        window.location.href = 'social.html'
-                    } else {
-                        window.location.href = `tools/${tool}.html`;
-                    }
-                } else {
+                if (!window.userIsAuthenticated) {
+                    e.preventDefault();
                     window.openAuthPopup(e);
+                    return;
+                }
+
+                // Legacy buttons use data-tool to resolve their destination.
+                // The redesigned .tool-feature anchors already have a correct href,
+                // so let the browser follow that href for authenticated users.
+                const tool = button.getAttribute('data-tool');
+                if (!tool) return;
+
+                if (tool === 'ai-assistant') {
+                    window.location.href = 'ai.html';
+                } else if (tool === 'social-generator') {
+                    window.location.href = 'social.html';
+                } else {
+                    window.location.href = `tools/${tool}.html`;
                 }
             });
         });
