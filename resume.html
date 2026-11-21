@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6fb">
+  <meta name="description" content="Build a thoughtful resume, tailor it to a role, draft cover letters and prepare for interviews with Humonoid Career Studio by Quans.">
+  <title>Quans | AI Resume Builder & Career Toolkit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site-ui.css">
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['"DM Sans"', 'sans-serif'] }, colors: { brand: { blue: '#5365e8', hover: '#4052ce', light: '#eef0ff' } } } } };
+  </script>
+</head>
+<body class="q-resume-app" data-page="resume">
+  <div id="mobileOverlay" class="q-resume-mobile-overlay hidden sm:hidden"></div>
+  <aside id="sidebar" class="q-resume-sidebar">
+    <div class="q-resume-side-brand"><a href="index.html" class="q-app-brand">QUANS<span>.</span></a><span class="q-resume-brand-note">HUMONOID AI</span>
+      <button id="closeSidebarMobile" class="q-resume-close sm:hidden" aria-label="Close navigation"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="q-resume-side-content">
+      <button id="newChatBtn" class="q-resume-new"><i class="fa-solid fa-plus"></i> New workspace</button>
+      <a class="q-resume-side-link active" href="resume.html"><i class="fa-regular fa-file-lines"></i><span>Resume Builder</span></a>
+      <div class="q-resume-side-label">CAREER TOOLKIT</div>
+      <button class="q-resume-side-link" type="button" data-resume-mode="tailor"><i class="fa-solid fa-bullseye"></i><span>Tailor to a job</span></button>
+      <button class="q-resume-side-link" type="button" data-resume-mode="cover"><i class="fa-regular fa-envelope"></i><span>Cover letter</span></button>
+      <button class="q-resume-side-link" type="button" data-resume-mode="interview"><i class="fa-solid fa-comments"></i><span>Interview prep</span></button>
+      <button class="q-resume-side-link" type="button" data-resume-mode="linkedin"><i class="fa-brands fa-linkedin"></i><span>LinkedIn summary</span></button>
+      <div class="q-resume-history-head"><span class="q-resume-side-label">RECENT WORK</span>
+        <label class="q-resume-search"><i class="fa-solid fa-magnifying-glass"></i><input id="historySearch" type="search" placeholder="Search your drafts"><button id="clearSearchBtn" class="hidden" type="button" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button></label>
+      </div>
+      <div id="historyList" class="q-resume-history-list"><p class="q-resume-history-empty">Your saved work will appear here.</p></div>
+    </div>
+    <div class="q-resume-side-bottom">
+      <a href="tool.html"><i class="fa-solid fa-grid-2"></i> All tools</a>
+      <a href="contact.html"><i class="fa-regular fa-circle-question"></i> Help & support</a>
+      <a href="index.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Quans home</a>
+    </div>
+  </aside>
+
+  <main class="q-resume-workspace">
+    <header class="q-resume-topbar">
+      <div class="q-resume-topbar-left">
+        <button id="toggleSidebarBtn" class="q-resume-icon-button" type="button" aria-label="Toggle history sidebar"><i class="fa-solid fa-bars-staggered"></i></button>
+        <div class="q-resume-breadcrumb"><span>Workspace</span><i class="fa-solid fa-chevron-right"></i><strong>Career Studio</strong></div>
+      </div>
+      <div class="q-resume-topbar-right">
+        <a class="q-resume-top-link" href="tool.html">Explore tools</a>
+        <div class="relative">
+          <button id="userMenuBtn" class="q-resume-user-button" type="button"><span class="q-resume-avatar">Q</span><span id="userGreeting">Your workspace</span><i class="fa-solid fa-chevron-down"></i></button>
+          <div id="userDropdown" class="q-resume-user-dropdown opacity-0 pointer-events-none"><button id="logoutBtn" type="button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out</button></div>
+        </div>
+      </div>
+    </header>
+
+    <div id="chatBox" class="q-resume-chatbox">
+      <section id="welcomeScreen" class="q-resume-welcome">
+        <div class="q-resume-welcome-inner">
+          <div class="q-resume-heading-row"><div><span class="q-resume-kicker"><span></span> HUMONOID CAREER STUDIO</span><h1>Make your experience <em>stand out.</em></h1><p>Build a clear, credible career story. Start with your details, choose a task and shape a draft you can confidently make your own.</p></div>
+            <div class="q-resume-score-card"><div class="q-resume-score-ring"><i class="fa-solid fa-file-circle-check"></i></div><strong>One career workspace</strong><span>Resume · Role fit · Interviews</span></div>
+          </div>
+          <div class="q-resume-builder-card">
+            <div class="q-resume-builder-head"><div><span class="q-resume-section-label">START A NEW DRAFT</span><h2>What would you like to work on?</h2></div><span class="q-resume-private"><i class="fa-solid fa-lock"></i> Your workspace</span></div>
+            <div class="q-resume-mode-grid" role="group" aria-label="Choose a career task">
+              <button class="q-resume-mode active" type="button" data-resume-mode="build" aria-pressed="true"><span class="q-resume-mode-icon resume"><i class="fa-regular fa-file-lines"></i></span><strong>Build a resume</strong><small>Start from your experience</small></button>
+              <button class="q-resume-mode" type="button" data-resume-mode="tailor" aria-pressed="false"><span class="q-resume-mode-icon tailor"><i class="fa-solid fa-crosshairs"></i></span><strong>Tailor to a job</strong><small>Match a role description</small></button>
+              <button class="q-resume-mode" type="button" data-resume-mode="cover" aria-pressed="false"><span class="q-resume-mode-icon cover"><i class="fa-regular fa-envelope"></i></span><strong>Cover letter</strong><small>Write a role-specific letter</small></button>
+              <button class="q-resume-mode" type="button" data-resume-mode="interview" aria-pressed="false"><span class="q-resume-mode-icon interview"><i class="fa-solid fa-comments"></i></span><strong>Interview prep</strong><small>Practise with focused prompts</small></button>
+              <button class="q-resume-mode" type="button" data-resume-mode="linkedin" aria-pressed="false"><span class="q-resume-mode-icon linkedin"><i class="fa-brands fa-linkedin"></i></span><strong>LinkedIn profile</strong><small>Headline and About section</small></button>
+            </div>
+            <form id="resumeBuilderForm" class="q-resume-form-grid">
+              <div class="q-resume-field"><label for="resumeFullName">Full name</label><input id="resumeFullName" name="fullName" autocomplete="name" placeholder="e.g. Alex Morgan" required></div>
+              <div class="q-resume-field"><label for="resumeTargetRole">Target role</label><input id="resumeTargetRole" name="targetRole" placeholder="e.g. Frontend Developer" required></div>
+              <div class="q-resume-field q-resume-span-2"><label for="resumeExperience">Experience and projects</label><textarea id="resumeExperience" name="experience" rows="3" placeholder="Roles, internships, projects, responsibilities and outcomes..."></textarea></div>
+              <div class="q-resume-field"><label for="resumeSkills">Skills</label><textarea id="resumeSkills" name="skills" rows="3" placeholder="Technical skills, tools and strengths..."></textarea></div>
+              <div class="q-resume-field"><label for="resumeEducation">Education</label><textarea id="resumeEducation" name="education" rows="3" placeholder="Degree, institution, graduation year..."></textarea></div>
+              <div class="q-resume-field q-resume-span-2" id="resumeJobDescriptionField"><label for="resumeJobDescription">Job description <span>Optional for a general resume</span></label><textarea id="resumeJobDescription" name="jobDescription" rows="3" placeholder="Paste a job description to tailor the resume or cover letter..."></textarea></div>
+              <div class="q-resume-field q-resume-span-2"><label for="resumeExtraContext">Additional details <span>Optional</span></label><textarea id="resumeExtraContext" name="extraContext" rows="2" placeholder="Certifications, achievements, portfolio links, preferred tone or anything else to include..."></textarea></div>
+              <div class="q-resume-form-footer q-resume-span-2"><p><i class="fa-solid fa-circle-info"></i> Keep personal details accurate. The draft is a starting point—review every claim before using it.</p><button class="q-resume-generate" id="resumeGenerateBtn" type="submit">Create my draft <i class="fa-solid fa-arrow-right"></i></button></div>
+            </form>
+          </div>
+          <div class="q-resume-process"><div class="q-resume-process-title"><span class="q-resume-section-label">A CLEARER PROCESS</span><span>From details to a stronger draft</span></div><div class="q-resume-process-flow"><div><span class="process-number">01</span><strong>Your story</strong><small>Experience and strengths</small></div><i class="fa-solid fa-arrow-right"></i><div><span class="process-number purple">02</span><strong>Focused structure</strong><small>Role-aware organisation</small></div><i class="fa-solid fa-arrow-right"></i><div><span class="process-number teal">03</span><strong>Review-ready draft</strong><small>Edit, check and refine</small></div></div></div>
+        </div>
+      </section>
+      <div id="messagesArea" class="q-resume-messages hidden"></div>
+    </div>
+
+    <div id="inputWrapper" class="q-resume-composer-wrap">
+      <div class="q-resume-composer"><textarea id="messageInput" placeholder="Ask for a revision or another career draft…" rows="1" aria-label="Message the career toolkit"></textarea><button id="sendBtn" type="button" aria-label="Send message"><i id="sendBtnIcon" class="fa-solid fa-arrow-up"></i></button></div>
+      <p>AI-generated drafts may contain errors. Verify dates, qualifications, links and all personal details.</p>
+    </div>
+  </main>
+
+    <script>
+        // --- INITIALIZE REAL-TIME CONFIG ---
+        const firebaseConfig = {
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+        const closeSidebarMobile = document.getElementById('closeSidebarMobile');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const sendBtnIcon = document.getElementById('sendBtnIcon');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const messagesArea = document.getElementById('messagesArea');
+        const chatBox = document.getElementById('chatBox');
+        const inputWrapper = document.getElementById('inputWrapper');
+        
+        const newChatBtn = document.getElementById('newChatBtn');
+        const historyList = document.getElementById('historyList');
+        const historySearch = document.getElementById('historySearch');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userGreeting = document.getElementById('userGreeting');
+
+        // Global Application Context States
+        let currentUser = null;
+        let activeChatId = null;
+        let localChatsCache = [];
+        let currentChatMessages = []; 
+        let isFirstMessage = true;
+        let isSidebarOpen = true;
+
+        // Streaming Cancellation Interruption Token Control Flag
+        let isGenerationActive = false;
+        let shouldAbortCurrentStream = false;
+
+        // --- CLEAN AUTH GUARD STATE ENGINE ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                userGreeting.innerText = `Hello!`;
+                subscribeToChatHistory();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        userMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('opacity-0');
+            userDropdown.classList.toggle('pointer-events-none');
+            userDropdown.classList.toggle('translate-y-2');
+        });
+
+        document.addEventListener('click', () => {
+            userDropdown.classList.add('opacity-0');
+            userDropdown.classList.add('pointer-events-none');
+            userDropdown.classList.add('translate-y-2');
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                window.location.href = 'index.html';
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        function toggleSidebar() {
+            if (window.innerWidth < 640) {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    mobileOverlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.remove('translate-x-0');
+                    sidebar.classList.add('-translate-x-full');
+                    mobileOverlay.classList.add('hidden');
+                }
+            } else {
+                if(isSidebarOpen) {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    sidebar.style.marginRight = `-${sidebar.offsetWidth}px`;
+                } else {
+                    sidebar.style.transform = 'translateX(0)';
+                    sidebar.style.marginRight = '0px';
+                }
+                isSidebarOpen = !isSidebarOpen;
+            }
+        }
+
+        if (window.innerWidth < 640) {
+            sidebar.classList.add('-translate-x-full');
+            isSidebarOpen = false;
+        }
+
+        toggleSidebarBtn.addEventListener('click', toggleSidebar);
+        closeSidebarMobile.addEventListener('click', toggleSidebar);
+        mobileOverlay.addEventListener('click', toggleSidebar);
+
+        // Auto-Expanding Height Matrix Engine logic for elastic Textarea control
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        function subscribeToChatHistory() {
+            if (!currentUser) return;
+            
+            db.collection('users').doc(currentUser.uid).collection('chats')
+              .orderBy('updatedAt', 'desc')
+              .onSnapshot((snapshot) => {
+                  localChatsCache = [];
+                  snapshot.forEach(doc => { localChatsCache.push({ id: doc.id, ...doc.data() }); });
+                  renderHistoryItems(localChatsCache);
+              }, err => { console.error(err); });
+        }
+
+        function renderHistoryItems(chats) {
+            historyList.innerHTML = '';
+            if(chats.length === 0) {
+                historyList.innerHTML = `<p class="text-xs text-slate-400 italic pl-2 py-2">No conversations found</p>`;
+                return;
+            }
+
+            chats.forEach(chat => {
+                const isActive = chat.id === activeChatId;
+                const historyItem = document.createElement('div');
+                historyItem.className = `group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
+                    isActive ? 'bg-slate-200/70 text-slate-900 font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-200/40 hover:text-slate-900'
+                } cursor-pointer`;
+                
+                historyItem.setAttribute('onclick', `loadConversation('${chat.id}')`);
+
+                historyItem.innerHTML = `
+                    <div class="flex items-center gap-2.5 overflow-hidden flex-1 mr-2">
+                        <i class="fa-regular fa-message text-xs shrink-0 ${isActive ? 'text-brand-blue' : 'text-slate-400 group-hover:text-slate-600'}"></i>
+                        <span id="title_text_${chat.id}" class="text-sm truncate font-medium">${chat.title || 'Untitled Chat'}</span>
+                        <input id="title_input_${chat.id}" type="text" class="hidden text-sm bg-white border border-brand-blue px-1.5 py-0.5 rounded outline-none w-full font-medium text-slate-800" value="${chat.title || ''}" onclick="event.stopPropagation()">
+                    </div>
+                    <div class="flex items-center space-x-1 shrink-0">
+                        <button onclick="event.stopPropagation(); triggerRenameInline('${chat.id}')" class="text-slate-400 hover:text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                            <i class="fa-solid fa-pencil text-[11px]"></i>
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteConversation('${chat.id}')" class="text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                            <i class="fa-solid fa-trash-can text-[11px]"></i>
+                        </button>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        historySearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+                const filtered = localChatsCache.filter(chat => (chat.title && chat.title.toLowerCase().includes(query)));
+                renderHistoryItems(filtered);
+            } else {
+                clearSearchBtn.classList.add('hidden');
+                renderHistoryItems(localChatsCache);
+            }
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            historySearch.value = '';
+            clearSearchBtn.classList.add('hidden');
+            renderHistoryItems(localChatsCache);
+        });
+
+        window.triggerRenameInline = function(chatId) {
+            const labelSpan = document.getElementById(`title_text_${chatId}`);
+            const editInput = document.getElementById(`title_input_${chatId}`);
+            if(!labelSpan || !editInput) return;
+
+            labelSpan.classList.add('hidden');
+            editInput.classList.remove('hidden');
+            editInput.focus(); editInput.select();
+
+            const saveBlock = async () => {
+                const nextTitle = editInput.value.trim();
+                if(nextTitle && nextTitle !== labelSpan.innerText) {
+                    labelSpan.innerText = nextTitle;
+                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).update({ title: nextTitle });
+                }
+                labelSpan.classList.remove('hidden'); editInput.classList.add('hidden');
+            };
+
+            editInput.onkeydown = (ev) => {
+                if(ev.key === 'Enter') { ev.preventDefault(); saveBlock(); }
+                if(ev.key === 'Escape') {
+                    editInput.value = labelSpan.innerText;
+                    labelSpan.classList.remove('hidden'); editInput.classList.add('hidden');
+                }
+            };
+            editInput.onblur = saveBlock;
+        };
+
+        window.deleteConversation = async function(chatId) {
+            if(!currentUser) return;
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).delete();
+                if(activeChatId === chatId) { resetWorkspaceUI(); }
+            } catch(e) { console.error(e); }
+        };
+
+        window.loadConversation = async function(chatId) {
+            if(!currentUser) return;
+            activeChatId = chatId;
+            renderHistoryItems(localChatsCache);
+
+            try {
+                const snapshot = await db.collection('users').doc(currentUser.uid).collection('chats').doc(chatId).get();
+                if(!snapshot.exists) return;
+
+                const data = snapshot.data();
+                messagesArea.innerHTML = '';
+                
+                const rawMessages = data.messages || [];
+                currentChatMessages = rawMessages.map(msg => {
+                    if (msg.parts && Array.isArray(msg.parts)) return msg;
+                    return {
+                        role: msg.role === 'model' ? 'model' : 'user',
+                        parts: [{ text: msg.text || "" }]
+                    };
+                });
+                
+                if (currentChatMessages.length > 0) {
+                    welcomeScreen.classList.add('hidden');
+                    welcomeScreen.style.opacity = '0';
+                    messagesArea.classList.remove('hidden');
+                    isFirstMessage = false;
+
+                    currentChatMessages.forEach(msg => {
+                        let renderText = "";
+                        if(Array.isArray(msg.parts)) {
+                            const textPart = msg.parts.find(p => p.text);
+                            renderText = textPart ? textPart.text : "[Media Attachment]";
+                        } else {
+                            renderText = msg.text || "";
+                        }
+                        appendCustomStaticMessageBubble(renderText, msg.role === 'user');
+                    });
+                } else {
+                    resetWorkspaceUIKeepId(chatId);
+                }
+                setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 50);
+                if(window.innerWidth < 640) toggleSidebar();
+            } catch (err) { console.error(err); }
+        };
+
+        // Static append wrapper with custom feedback tracking capability bindings
+        function appendCustomStaticMessageBubble(htmlContent, isUser) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex w-full fade-in flex-col ${isUser ? 'items-end' : 'items-start'}`;
+            
+            const row = document.createElement('div');
+            row.className = `flex w-full ${isUser ? 'justify-end' : 'justify-start'}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
+                isUser ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
+            }`;
+            
+            bubble.innerHTML = htmlContent;
+            row.appendChild(bubble);
+            wrapper.appendChild(row);
+
+            // Append Utility Feedback Toolbar Node for completed Model responses seamlessly
+            if (!isUser && !htmlContent.includes("Thinking...") && !htmlContent.includes("stopped by user") && !htmlContent.includes("Error fetching response")) {
+                const actionToolbar = document.createElement('div');
+                actionToolbar.className = 'flex items-center gap-3 mt-1.5 ml-3 text-slate-400 text-xs';
+                
+                // Pure clean text rendering parser computation for local clipboard integration
+                const cleanExtractText = bubble.innerText || bubble.textContent;
+
+                actionToolbar.innerHTML = `
+                    <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                    </button>
+                    <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                    </button>
+                    <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
+                        <i class="fa-regular fa-copy"></i>
+                        <span class="text-[10px] hidden font-medium">Copied!</span>
+                    </button>
+                `;
+                wrapper.appendChild(actionToolbar);
+            }
+
+            messagesArea.appendChild(wrapper);
+        }
+
+        // Action Feedback Element Handler Utility Controls
+        window.handleFeedbackClick = function(btnElement, feedbackType) {
+            const parent = btnElement.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            
+            if (feedbackType === 'like') {
+                const icon = btnElement.querySelector('i');
+                if (icon.classList.contains('fa-regular')) {
+                    icon.className = 'fa-solid fa-thumbs-up text-emerald-600';
+                    const dislikeIcon = buttons[1].querySelector('i');
+                    dislikeIcon.className = 'fa-regular fa-thumbs-down';
+                } else {
+                    icon.className = 'fa-regular fa-thumbs-up';
+                }
+            } else if (feedbackType === 'dislike') {
+                const icon = btnElement.querySelector('i');
+                if (icon.classList.contains('fa-regular')) {
+                    icon.className = 'fa-solid fa-thumbs-down text-rose-600';
+                    const likeIcon = buttons[0].querySelector('i');
+                    likeIcon.className = 'fa-regular fa-thumbs-up';
+                } else {
+                    icon.className = 'fa-regular fa-thumbs-down';
+                }
+            }
+        };
+
+        window.handleCopyClick = function(btnElement, textToCopy) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const statusSpan = btnElement.querySelector('span');
+                const copyIcon = btnElement.querySelector('i');
+                
+                if (statusSpan) {
+                    statusSpan.classList.remove('hidden');
+                    copyIcon.className = 'fa-solid fa-check text-brand-blue';
+                    setTimeout(() => {
+                        statusSpan.classList.add('hidden');
+                        copyIcon.className = 'fa-regular fa-copy';
+                    }, 2000);
+                }
+            }).catch(err => { console.error('Clipboard fault:', err); });
+        };
+
+        function resetWorkspaceUI() {
+            activeChatId = null;
+            isFirstMessage = true;
+            currentChatMessages = [];
+            messagesArea.innerHTML = '';
+            messagesArea.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.style.opacity = '1';
+            renderHistoryItems(localChatsCache);
+        }
+
+        function resetWorkspaceUIKeepId(chatId) {
+            activeChatId = chatId;
+            isFirstMessage = true;
+            currentChatMessages = [];
+            messagesArea.innerHTML = '';
+            messagesArea.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.style.opacity = '1';
+        }
+
+        newChatBtn.addEventListener('click', () => { resetWorkspaceUI(); });
+
+        function streamAIResponseText(rawHtmlText, bubbleTargetElement) {
+            bubbleTargetElement.innerHTML = ''; 
+            let i = 0;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = rawHtmlText;
+            const flatTokens = [];
+            
+            function segmentNode(node) {
+                if(node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue.split('').forEach(c => flatTokens.push({ type: 'text', value: c }));
+                } else if(node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'BR') {
+                        flatTokens.push({ type: 'br' });
+                    } else {
+                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase(), attrs: Array.from(node.attributes) });
+                        Array.from(node.childNodes).forEach(segmentNode);
+                        flatTokens.push({ type: 'tag-end' });
+                    }
+                }
+            }
+            Array.from(tempDiv.childNodes).forEach(segmentNode);
+
+            let activeContainer = bubbleTargetElement;
+            const elementStack = [];
+
+            async function renderNextToken() {
+                // If cancellation request intercepts loop cycle, interrupt execution immediately
+                if (shouldAbortCurrentStream) {
+                    finalizeGenerationControlUI();
+                    return;
+                }
+
+                if(i >= flatTokens.length) {
+                    currentChatMessages.push({ role: 'model', parts: [{ text: rawHtmlText }] });
+                    if(currentUser && activeChatId) {
+                        await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            messages: currentChatMessages
+                        });
+                    }
+                    
+                    // Injection of active feedback action items dynamically on successful loop completion
+                    finalizeGenerationControlUI();
+                    
+                    // Render action panel below model container wrapper node elements row
+                    const wrapperNode = bubbleTargetElement.closest('.flex-col');
+                    if (wrapperNode) {
+                        const cleanExtractText = bubbleTargetElement.innerText || bubbleTargetElement.textContent;
+                        const actionToolbar = document.createElement('div');
+                        actionToolbar.className = 'flex items-center gap-3 mt-1.5 ml-3 text-slate-400 text-xs';
+                        actionToolbar.innerHTML = `
+                            <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
+                                <i class="fa-regular fa-thumbs-up"></i>
+                            </button>
+                            <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
+                                <i class="fa-regular fa-thumbs-down"></i>
+                            </button>
+                            <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
+                                <i class="fa-regular fa-copy"></i>
+                                <span class="text-[10px] hidden font-medium">Copied!</span>
+                            </button>
+                        `;
+                        wrapperNode.appendChild(actionToolbar);
+                    }
+                    return;
+                }
+
+                const token = flatTokens[i];
+                if(token.type === 'text') {
+                    activeContainer.appendChild(document.createTextNode(token.value));
+                } else if(token.type === 'br') {
+                    activeContainer.appendChild(document.createElement('br'));
+                } else if(token.type === 'tag-start') {
+                    const el = document.createElement(token.tag);
+                    token.attrs.forEach(attr => el.setAttribute(attr.name, attr.value));
+                    activeContainer.appendChild(el);
+                    elementStack.push(activeContainer);
+                    activeContainer = el;
+                } else if(token.type === 'tag-end') {
+                    if(elementStack.length > 0) activeContainer = elementStack.pop();
+                }
+
+                i++;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                setTimeout(renderNextToken, 8);
+            }
+            renderNextToken();
+        }
+
+        // Toggle dispatch control wrapper setup layer resets 
+        function setGenerationUIVisualState(activeState) {
+            isGenerationActive = activeState;
+            if (activeState) {
+                sendBtn.classList.remove('bg-brand-blue', 'hover:bg-brand-hover');
+                sendBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                sendBtnIcon.className = 'fa-solid fa-square text-xs'; // Transition send arrow to square stop icon
+            } else {
+                sendBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                sendBtn.classList.add('bg-brand-blue', 'hover:bg-brand-hover');
+                sendBtnIcon.className = 'fa-solid fa-arrow-up text-sm';
+            }
+        }
+
+        function finalizeGenerationControlUI() {
+            setGenerationUIVisualState(false);
+            shouldAbortCurrentStream = false;
+        }
+
+        async function handleSend() {
+            // Handle active execution loop interrupt requests safely
+            if (isGenerationActive) {
+                shouldAbortCurrentStream = true;
+                return;
+            }
+
+            let typedText = messageInput.value.trim();
+            if (!typedText) return;
+
+            if (isFirstMessage) {
+                welcomeScreen.style.opacity = '0';
+                setTimeout(() => { 
+                    welcomeScreen.classList.add('hidden'); 
+                    messagesArea.classList.remove('hidden');
+                }, 300);
+                isFirstMessage = false;
+            }
+
+            let safeUserText = typedText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            let userBubbleHTML = `<div>${safeUserText}</div>`;
+            let apiParts = [{ text: typedText }];
+
+            appendCustomStaticMessageBubble(userBubbleHTML, true);
+            currentChatMessages.push({ role: 'user', parts: apiParts });
+            
+            // Clear input metrics and revert elastic row height properties back to baseline state
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            
+            setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight; }, 30);
+
+            let deducedTitle = typedText.length > 24 ? typedText.substring(0, 23) + "..." : typedText;
+            if (!activeChatId && currentUser) {
+                const freshDocRef = db.collection('users').doc(currentUser.uid).collection('chats').doc();
+                activeChatId = freshDocRef.id;
+                await freshDocRef.set({
+                    title: deducedTitle,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    messages: currentChatMessages
+                });
+            } else if (currentUser && activeChatId) {
+                await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                    messages: currentChatMessages,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            const aiWrapper = document.createElement('div');
+            aiWrapper.className = `flex w-full fade-in flex-col items-start`;
+            
+            const aiRow = document.createElement('div');
+            aiRow.className = `flex w-full justify-start`;
+
+            const aiBubble = document.createElement('div');
+            aiBubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm`;
+            aiBubble.innerText = "Thinking...";
+            
+            aiRow.appendChild(aiBubble);
+            aiWrapper.appendChild(aiRow);
+            messagesArea.appendChild(aiWrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Trigger generation sequence locks
+            setGenerationUIVisualState(true);
+
+            try {
+                // Return immediate break checkpoint verification check
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
+
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: currentChatMessages })
+                });
+
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
+
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+                const data = await response.json();
+                const aiResponseText = data.candidates[0].content.parts[0].text;
+                
+                const processedHtml = aiResponseText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+
+                if (shouldAbortCurrentStream) {
+                    throw new DOMException("Aborted", "AbortError");
+                }
+
+                streamAIResponseText(processedHtml, aiBubble);
+
+            } catch (error) {
+                console.error(error);
+                finalizeGenerationControlUI();
+
+                if (error.name === 'AbortError' || shouldAbortCurrentStream) {
+                    const cancellationMarkup = `<span class="text-rose-500 font-medium"><i class="fa-solid fa-circle-stop mr-1.5"></i>response stopped by user</span>`;
+                    aiBubble.innerHTML = cancellationMarkup;
+                    aiBubble.className = `max-w-[85%] sm:max-w-[75%] px-5 py-3.5 text-[15px] leading-relaxed shadow-sm border border-rose-100 bg-rose-50 rounded-3xl rounded-bl-sm`;
+                    
+                    currentChatMessages.push({ role: 'model', parts: [{ text: "response stopped by user" }] });
+                } else {
+                    const errorMarkup = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
+                    aiBubble.innerHTML = errorMarkup;
+                    aiBubble.classList.add('border-red-200', 'bg-red-50');
+                    currentChatMessages.push({ role: 'model', parts: [{ text: errorMarkup }] });
+                }
+
+                if(currentUser && activeChatId) {
+                    await db.collection('users').doc(currentUser.uid).collection('chats').doc(activeChatId).update({
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        messages: currentChatMessages
+                    });
+                }
+            }
+        }
+
+
+        // Career Studio uses the existing chat endpoint and existing Firestore chat history.
+        // This adds a focused form-to-prompt layer; no API route or database schema is changed.
+        let selectedResumeMode = 'build';
+        const resumeForm = document.getElementById('resumeBuilderForm');
+        const resumeModeButtons = Array.from(document.querySelectorAll('[data-resume-mode]'));
+        const jobDescriptionField = document.getElementById('resumeJobDescriptionField');
+        const modeDescriptions = {
+            build: 'Create a polished, ATS-conscious resume draft using only the facts supplied. Use clear section headings, strong action verbs and concise bullets. Do not invent employers, dates, qualifications, metrics or achievements. Mark missing details as placeholders.',
+            tailor: 'Tailor the resume to the supplied job description. Map the candidate’s real experience and skills to the role, identify relevant keywords naturally, and never claim skills or experience not supplied. Include a short list of gaps or details the candidate should verify.',
+            cover: 'Write a tailored, natural cover letter for the target role. Connect the candidate’s real experience to the job description. Avoid generic claims, fake enthusiasm and invented achievements.',
+            interview: 'Create a practical interview preparation pack for the target role: likely questions, what each question is assessing, answer frameworks based on the candidate’s real background, and thoughtful questions to ask the interviewer. Do not fabricate experience.',
+            linkedin: 'Create a professional LinkedIn headline and About summary based only on the supplied experience, skills and education. Keep it authentic, specific and easy to scan.'
+        };
+
+        function setResumeMode(mode) {
+            if (!modeDescriptions[mode]) return;
+            selectedResumeMode = mode;
+            resumeModeButtons.forEach((button) => {
+                const active = button.dataset.resumeMode === mode;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+            if (jobDescriptionField) {
+                jobDescriptionField.classList.toggle('is-muted', !['tailor', 'cover'].includes(mode));
+            }
+            const submit = document.getElementById('resumeGenerateBtn');
+            if (submit) {
+                const labels = { build: 'Create my resume', tailor: 'Tailor my resume', cover: 'Write my cover letter', interview: 'Prepare for interview', linkedin: 'Create LinkedIn summary' };
+                submit.innerHTML = `${labels[mode]} <i class="fa-solid fa-arrow-right"></i>`;
+            }
+        }
+
+        resumeModeButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                if (messagesArea && !messagesArea.classList.contains('hidden')) resetWorkspaceUI();
+                setResumeMode(button.dataset.resumeMode);
+            });
+        });
+
+        if (resumeForm) {
+            resumeForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const value = (id) => (document.getElementById(id)?.value || '').trim();
+                const fullName = value('resumeFullName');
+                const targetRole = value('resumeTargetRole');
+                const experience = value('resumeExperience');
+                const skills = value('resumeSkills');
+                const education = value('resumeEducation');
+                const jobDescription = value('resumeJobDescription');
+                const extraContext = value('resumeExtraContext');
+
+                if (!fullName || !targetRole) {
+                    document.getElementById(!fullName ? 'resumeFullName' : 'resumeTargetRole')?.focus();
+                    return;
+                }
+                if (['tailor', 'cover'].includes(selectedResumeMode) && !jobDescription) {
+                    document.getElementById('resumeJobDescription')?.focus();
+                    return;
+                }
+                if (!experience && !skills && !education && !extraContext) {
+                    document.getElementById('resumeExperience')?.focus();
+                    return;
+                }
+
+                const prompt = [
+                    `Career task: ${selectedResumeMode.toUpperCase()}`,
+                    modeDescriptions[selectedResumeMode],
+                    `Candidate name: ${fullName}`,
+                    `Target role: ${targetRole}`,
+                    `Experience and projects:\n${experience || 'Not provided'}`,
+                    `Skills:\n${skills || 'Not provided'}`,
+                    `Education:\n${education || 'Not provided'}`,
+                    `Job description:\n${jobDescription || 'Not provided'}`,
+                    `Additional context:\n${extraContext || 'Not provided'}`,
+                    'Use a professional, human-sounding tone. Ask for clarification rather than guessing when a critical detail is missing.'
+                ].join('\n\n');
+
+                messageInput.value = prompt;
+                messageInput.style.height = 'auto';
+                sendBtn.click();
+            });
+        }
+
+        setResumeMode('build');
+
+                sendBtn.addEventListener('click', handleSend);
+        
+        // Prevent multi-row newline processing breaking keydown submit actions on Desktop layouts
+        messageInput.addEventListener('keydown', (e) => { 
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                handleSend(); 
+            } 
+        });
+
+        // --- PASSWORD VISIBILITY TOGGLE ENGINE ---
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const loginPasswordInput = document.getElementById('loginPasswordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        if (togglePasswordBtn && loginPasswordInput) {
+            togglePasswordBtn.addEventListener('click', () => {
+                const isPassword = loginPasswordInput.type === 'password';
+                loginPasswordInput.type = isPassword ? 'text' : 'password';
+                if(eyeIcon) {
+                    eyeIcon.classList.toggle('fa-eye', !isPassword);
+                    eyeIcon.classList.toggle('fa-eye-slash', isPassword);
+                }
+            });
+        }
+
+        if (window.visualViewport) {
+            const adjustMobileLayout = () => {
+                if (window.innerWidth < 640) {
+                    const keyboardOffset = window.innerHeight - window.visualViewport.height;
+                    inputWrapper.style.bottom = keyboardOffset > 0 ? `${keyboardOffset}px` : '0px';
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                } else {
+                    inputWrapper.style.bottom = '0px';
+                }
+            };
+            window.visualViewport.addEventListener('resize', adjustMobileLayout);
+            messageInput.addEventListener('focus', () => { setTimeout(adjustMobileLayout, 50); });
+        }
+    </script>
+
+</body>
+</html>
