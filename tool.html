@@ -1,9 +1,9 @@
 <!DOCTYPE html> 
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Free Business Tools</title>
+    <title>QUANS | AI Tools Workspace</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -64,132 +64,320 @@
             scrollbar-width: thin;
             scrollbar-color: #CBD5E1 transparent;
         }
+
+
+        :root {
+            --quans-ink: #282335;
+            --quans-muted: #777184;
+            --quans-paper: #fbfaff;
+            --quans-line: #e9e4f0;
+            --quans-violet: #8064c1;
+            --quans-violet-deep: #6e53ad;
+            --quans-lilac: #eee9ff;
+            --quans-cyan: #dff5f3;
+            --quans-coral: #f8e8ed;
+            --quans-gold: #f5eedf;
+        }
+
+        body {
+            background-color: var(--quans-paper);
+            color: var(--quans-ink);
+        }
+
+        .quans-serif { font-family: 'DM Sans', sans-serif; }
+        .quans-editorial { font-family: Georgia, 'Times New Roman', serif; }
+
+        .tool-feature {
+            position: relative;
+            isolation: isolate;
+            transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease, background-color .25s ease;
+        }
+        .tool-feature:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 45px rgba(65, 48, 104, .09);
+        }
+        .tool-feature:focus-visible,
+        .quans-nav-link:focus-visible,
+        .quans-action:focus-visible {
+            outline: 3px solid rgba(128, 100, 193, .35);
+            outline-offset: 3px;
+        }
+        .tool-preview-line { height: 5px; background: #e9e4f0; }
+        .tool-preview-line.is-violet { background: #b9a7e9; }
+        .tool-preview-line.is-cyan { background: #91d9d3; }
+        .tool-preview-line.is-coral { background: #eab2c4; }
+        .tool-preview-line.is-gold { background: #e4c88f; }
+        .workspace-grid {
+            background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+            background-size: 25px 25px;
+        }
+        .workspace-orbit {
+            animation: workspaceDrift 18s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+        @keyframes workspaceDrift {
+            from { transform: translate3d(0, 0, 0) rotate(-5deg); }
+            to { transform: translate3d(8px, -9px, 0) rotate(3deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
- <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
-    
-    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform"></div>
-    
-    <div id="scroll-box-2" class="absolute top-[50vh] left-[5%] w-[40vw] h-[40vw] max-w-[500px] bg-gradient-to-tl from-sky-400/15 to-transparent rounded-[3rem] -rotate-12 transform will-change-transform"></div>
-
-    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 dark:from-blue-600/10 dark:to-transparent rounded-2xl rotate-45 transform will-change-transform"></div>
-
-    <div id="scroll-box-right-2" class="absolute top-[65vh] right-[12%] w-[18vw] h-[18vw] max-w-[220px] bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-[2rem] -rotate-12 transform will-change-transform"></div>
-
-    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 dark:border-blue-500/15 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
-    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 dark:border-blue-400/5 rounded-full"></div>
-    
-    <div class="absolute bottom-0 left-[-5%] w-[110%] h-[40vh] bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent"></div>
+<div class="fixed inset-0 -z-50 w-full h-full overflow-hidden pointer-events-none bg-[#fbfaff]">
+    <div class="absolute inset-0 opacity-70" style="background-image:linear-gradient(rgba(134,111,179,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(134,111,179,.045) 1px,transparent 1px);background-size:48px 48px;"></div>
+    <div id="scroll-box-1" class="absolute top-[-8%] left-[-8%] w-[34vw] h-[34vw] max-w-[500px] border border-[#d9d0ee] bg-[#eee9ff]/45 rotate-12 transform will-change-transform"></div>
+    <div id="scroll-box-2" class="absolute top-[48vh] left-[4%] w-[24vw] h-[24vw] max-w-[340px] border border-[#c9e8e5] bg-[#dff5f3]/45 -rotate-12 transform will-change-transform"></div>
+    <div id="scroll-box-right-1" class="absolute top-[11vh] right-[8%] w-[10vw] h-[10vw] max-w-[140px] border border-[#e8cbd6] bg-[#f8e8ed]/60 rotate-12 transform will-change-transform"></div>
+    <div id="scroll-box-right-2" class="absolute top-[66vh] right-[12%] w-[15vw] h-[15vw] max-w-[205px] border border-[#eadbb8] bg-[#f5eedf]/55 -rotate-12 transform will-change-transform"></div>
+    <div id="scroll-circle" class="workspace-orbit absolute top-36 right-[24%] w-72 h-72 border border-dashed border-[#b9a9d9]/45 rotate-45 will-change-transform"></div>
+    <div class="absolute bottom-0 left-0 w-full h-[36vh] bg-gradient-to-t from-[#eee9ff]/45 via-[#fbfaff]/10 to-transparent"></div>
 </div>
 
 <div class="min-h-screen w-full relative flex flex-col antialiased">
 
-    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10 dark:border-slate-900/10">
-        <div class="flex items-center">
-            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black dark:text-white">.</span></span>
-        </div>
+    <header class="sticky top-0 z-50 w-full border-b border-[#e9e4f0] bg-[#fbfaff]/90 backdrop-blur-xl">
+        <div class="relative mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
+            <a href="index.html" class="relative z-10 inline-flex items-center text-[#282335]" aria-label="Quans home">
+                <span class="text-[28px] font-extrabold tracking-[-2px]">QUANS<span class="text-[#9675df]">.</span></span>
+            </a>
 
-        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
-            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                Home
-            </a>
-            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                Tools
-            </a>
-            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                Explore
-            </a>
-            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                Pricing
-            </a>
-            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                Contact Us
-            </a>
-            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
-                About Us
-            </a>
-        </div>
-        
-        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
-            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors">
-                Login
-            </button>
-            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
-                Signup
-            </button>
-            
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
-            </button>
+            <nav class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex" aria-label="Main navigation">
+                <a id="nav-home" href="index.html" class="quans-nav-link text-[13px] font-semibold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">Home</a>
+                <a id="nav-tool" href="tool.html" aria-current="page" class="quans-nav-link relative text-[13px] font-bold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">Tools<span class="absolute -bottom-[23px] left-0 h-[2px] w-full bg-[#8064c1]"></span></a>
+                <a id="nav-explore" href="explore.html" class="quans-nav-link text-[13px] font-semibold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">Explore</a>
+                <a id="nav-price" href="pricing.html" class="quans-nav-link text-[13px] font-semibold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">Pricing</a>
+                <a id="nav-contact" href="contact.html" class="quans-nav-link text-[13px] font-semibold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">Contact</a>
+                <a id="nav-about" href="about.html" class="quans-nav-link text-[13px] font-semibold tracking-[-.1px] text-slate-600 transition-colors hover:text-[#8064c1]">About</a>
+            </nav>
+
+            <div class="relative z-10 flex items-center gap-3 sm:gap-4" id="navAuthGroup">
+                <button type="button" onclick="openLoginPopup()" class="text-[13px] font-semibold text-[#625c70] transition-colors hover:text-[#8064c1]">Log in</button>
+                <button type="button" onclick="openAuthPopup(event)" class="quans-action border border-[#8064c1] bg-[#8064c1] px-5 py-2.5 text-[13px] font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#7053b2]">Create account <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-[10px]"></i></button>
+                <button id="openMobileMenu" type="button" aria-label="Open navigation menu" class="flex h-10 w-10 items-center justify-center border border-[#e5dfed] bg-white text-[#5f586d] transition-colors hover:border-[#cbbde6] hover:text-[#8064c1] lg:hidden">
+                    <i class="fa-solid fa-bars-staggered text-base"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
-        
-        <!-- UPDATED HEADER FOR TOOLS WORKSPACE PAGE -->
-        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6">
-            Your Creative <span class="text-brand-blue">Workspace.</span>
-        </h1>
-        <p class="fade-in delay-1 text-base sm:text-lg text-slate-500 max-w-xl mx-auto mb-12 leading-relaxed">
-            Select an optimized AI companion utility below to begin structuring your production workflows.
-        </p>
+    <main id="tools-page-main" class="relative flex-grow w-full px-5 pb-20 pt-10 sm:px-8 sm:pt-14 lg:px-10">
+        <div class="mx-auto max-w-7xl">
+            <!-- Breadcrumb / context -->
+            <div class="fade-in flex items-center gap-2 text-[10px] font-bold uppercase tracking-[2px] text-[#938aa2]">
+                <span>QUANS</span><span class="text-[#c5bdd2]">/</span><span class="text-[#8064c1]">Workspace</span>
+            </div>
 
-        <p class="fade-in delay-1 text-base sm:text-lg text-slate-500 max-w-xl mx-auto mb-12 leading-relaxed">
-            To know our tools, visit <span class="text-brand-blue cursor-pointer">Explore </span> page.
-        </p>
+            <!-- Editorial hero -->
+            <section class="mt-7 grid items-center gap-10 lg:grid-cols-[1.02fr_.98fr] lg:gap-14" aria-labelledby="tools-page-title">
+                <div class="fade-in delay-1 max-w-[620px]">
+                    <div class="mb-5 inline-flex items-center gap-2 border border-[#e6def3] bg-white/75 px-3 py-2 text-[10px] font-bold uppercase tracking-[1.7px] text-[#8064c1]">
+                        <span class="h-2 w-2 bg-[#a88ce0]"></span>
+                        A workspace for getting things done
+                    </div>
 
-        <div class="fade-in delay-2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            <button data-tool="ai-assistant" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">AI Assistant</h3>
-                <p class="text-slate-500 font-medium">Your intelligent everyday companion.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
+                    <h1 id="tools-page-title" class="quans-editorial max-w-[650px] text-[43px] leading-[1.08] tracking-[-1.7px] text-[#282335] sm:text-[56px] lg:text-[62px]">
+                        The right tool for your <span class="italic text-[#8064c1]">next idea.</span>
+                    </h1>
 
-            <button data-tool="social-generator" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Post Studio</h3>
-                <p class="text-slate-500 font-medium">Generate content in seconds.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
+                    <p class="mt-6 max-w-[540px] text-[15px] leading-7 text-[#777184] sm:text-[16px]">
+                        A focused collection of AI tools for writing, creating proposals, reshaping content and moving your career forward. Choose a workspace and start with what you have.
+                    </p>
 
-            <button data-tool="proposal-idea" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-rocket"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Proposal Generator</h3>
-                <p class="text-slate-500 font-medium">Generate, customize, and send professional proposals with ease.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
+                        <a href="#tool-collection" class="quans-action inline-flex items-center gap-3 border border-[#8064c1] bg-[#8064c1] px-5 py-3 text-[13px] font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#7053b2]">
+                            Explore the tools <i class="fa-solid fa-arrow-down text-[11px]"></i>
+                        </a>
+                        <a href="explore.html" class="inline-flex items-center gap-2 border-b border-[#c9bddf] pb-1 text-[13px] font-semibold text-[#625c70] transition-colors hover:border-[#8064c1] hover:text-[#8064c1]">
+                            See what each tool does <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
 
-            <button data-tool="text-repurpose" class="group relative flex flex-col items-start p-8 bg-white border-2 border-slate-100 rounded-3xl hover:border-brand-blue hover:shadow-xl hover:shadow-blue-100 transition-all duration-200 transform hover:-translate-y-1 text-left cursor-pointer overflow-hidden tool-btn">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div class="w-14 h-14 bg-brand-light text-brand-blue rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-[#e9e4f0] pt-5 text-[11px] font-medium text-[#8b8497]">
+                        <span class="inline-flex items-center gap-2"><i class="fa-solid fa-layer-group text-[#8064c1]"></i> Four focused workspaces</span>
+                        <span class="inline-flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-[#53aaa5]"></i> Built around practical tasks</span>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Text Repurposer</h3>
-                <p class="text-slate-500 font-medium">Turn blogs, etc in multiple platform format.</p>
-                <div class="mt-6 flex items-center text-brand-blue font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-200">
-                    OPEN TOOL <i class="fa-solid fa-arrow-right ml-2"></i>
-                </div>
-            </button>
 
+                <!-- Workflow illustration -->
+                <div class="fade-in delay-2 relative mx-auto w-full max-w-[590px]">
+                    <div class="absolute -left-5 -top-5 h-24 w-24 border border-[#d8cdec] bg-[#eee9ff]/70"></div>
+                    <div class="absolute -bottom-5 -right-5 h-28 w-28 border border-[#c9e8e5] bg-[#dff5f3]/70"></div>
+
+                    <div class="workspace-grid relative overflow-hidden border border-[#3d354f] bg-[#242033] p-5 shadow-[0_24px_70px_rgba(44,34,68,.18)] sm:p-7">
+                        <div class="absolute right-[-52px] top-[-70px] h-52 w-52 rotate-45 border border-[#8c79b5]/35"></div>
+                        <div class="absolute bottom-[-78px] left-[34%] h-48 w-48 -rotate-12 border border-[#78c7c0]/25"></div>
+
+                        <div class="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="flex h-8 w-8 items-center justify-center border border-white/10 bg-white/5 text-[#c4b1ee]"><i class="fa-solid fa-shapes text-xs"></i></span>
+                                <div>
+                                    <p class="text-[11px] font-bold tracking-wide text-white">Your creative workflow</p>
+                                    <p class="mt-0.5 text-[9px] uppercase tracking-[1.5px] text-white/35">From thought to finished work</p>
+                                </div>
+                            </div>
+                            <span class="border border-[#7a6a9a]/50 px-2 py-1 text-[9px] font-bold uppercase tracking-[1.3px] text-[#c3b3e3]">QUANS / 04</span>
+                        </div>
+
+                        <div class="relative z-10 grid grid-cols-[1fr_38px_1fr] items-center gap-2 py-7 sm:gap-3 sm:py-9">
+                            <div class="border border-white/10 bg-[#302b40]/95 p-3 sm:p-4">
+                                <p class="text-[9px] font-bold uppercase tracking-[1.5px] text-white/35">01 / Start</p>
+                                <div class="mt-4 flex h-9 w-9 items-center justify-center border border-[#b39be7]/30 bg-[#8a70c6]/20 text-[#c6b5f0]"><i class="fa-regular fa-lightbulb"></i></div>
+                                <p class="mt-3 text-[12px] font-semibold text-white">Your idea</p>
+                                <p class="mt-1 text-[10px] leading-5 text-white/45">A note, a brief or a first draft.</p>
+                            </div>
+
+                            <div class="flex items-center justify-center text-[#a997d2]">
+                                <div class="h-px w-full bg-[#8d7aaa]"></div>
+                                <i class="fa-solid fa-chevron-right -ml-1 text-[10px]"></i>
+                            </div>
+
+                            <div class="border border-[#86c9c2]/25 bg-[#293d40]/80 p-3 sm:p-4">
+                                <p class="text-[9px] font-bold uppercase tracking-[1.5px] text-[#9bd8d2]/65">02 / Shape</p>
+                                <div class="mt-4 flex h-9 w-9 items-center justify-center border border-[#86c9c2]/30 bg-[#65b9b1]/15 text-[#a6e4de]"><i class="fa-solid fa-sliders"></i></div>
+                                <p class="mt-3 text-[12px] font-semibold text-white">Choose a tool</p>
+                                <p class="mt-1 text-[10px] leading-5 text-white/45">A focused workspace for the task.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative z-10 border border-white/10 bg-white/[.055] p-3 sm:p-4">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-[9px] font-bold uppercase tracking-[1.5px] text-white/35">03 / Finish</p>
+                                    <p class="mt-1 text-[12px] font-semibold text-white">A result you can refine and use.</p>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="h-2 w-8 bg-[#b39be7]"></span>
+                                    <span class="h-2 w-8 bg-[#86c9c2]"></span>
+                                    <span class="h-2 w-8 bg-[#e7a9bf]"></span>
+                                    <span class="h-2 w-8 bg-[#dfc48a]"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="relative z-10 mt-4 text-right text-[10px] font-medium tracking-wide text-[#938aa2]">A simple process, with room to make it your own.</p>
+                </div>
+            </section>
+
+            <!-- Tool collection -->
+            <section id="tool-collection" class="mt-20 scroll-mt-28 sm:mt-24" aria-labelledby="tool-collection-title">
+                <div class="mb-7 flex flex-col gap-4 border-b border-[#e9e4f0] pb-6 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-[2px] text-[#8064c1]">THE TOOL COLLECTION</p>
+                        <h2 id="tool-collection-title" class="quans-editorial mt-3 text-[34px] leading-tight tracking-[-.8px] text-[#282335] sm:text-[40px]">Choose a workspace.</h2>
+                        <p class="mt-2 max-w-xl text-[13px] leading-6 text-[#858091]">Each tool is designed around a specific kind of work, so you can get straight to the part that matters.</p>
+                    </div>
+                    <span class="self-start border border-[#e6def3] bg-white/80 px-3 py-2 text-[10px] font-bold uppercase tracking-[1.5px] text-[#827895] sm:self-auto">04 workspaces</span>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-5">
+                    <!-- Resume Builder -->
+                    <button type="button" data-tool="resume-builder" class="tool-btn tool-feature group flex min-h-[260px] w-full flex-col border border-[#e7e0ef] bg-white p-5 text-left sm:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <span class="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[1.8px] text-[#8064c1]"><span class="h-1.5 w-1.5 bg-[#a88ce0]"></span> Career / Toolkit</span>
+                                <h3 class="quans-editorial mt-3 max-w-[330px] text-[27px] leading-[1.12] tracking-[-.5px] text-[#282335] sm:text-[30px]">AI Resume Builder <span class="italic text-[#8064c1]">& Toolkit</span></h3>
+                                <p class="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7c7589]">Shape a clear resume, tailor it to a role and prepare for the next step in your career.</p>
+                            </div>
+                            <div class="relative hidden h-[112px] w-[112px] shrink-0 border border-[#dfd5f0] bg-[#f1edfb] p-3 sm:block">
+                                <div class="h-full border border-[#d8cceb] bg-white p-2 shadow-sm">
+                                    <div class="flex items-center gap-1.5"><span class="h-5 w-5 bg-[#dcd2f2]"></span><span class="h-1.5 w-10 bg-[#bdb0d9]"></span></div>
+                                    <div class="mt-3 space-y-1.5"><div class="tool-preview-line is-violet w-full"></div><div class="tool-preview-line w-4/5"></div><div class="tool-preview-line w-3/5"></div></div>
+                                    <div class="mt-3 grid grid-cols-2 gap-1"><div class="tool-preview-line h-1.5"></div><div class="tool-preview-line is-cyan h-1.5"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[#f0ecf4] pt-5">
+                            <div class="flex flex-wrap gap-2 text-[9px] font-semibold text-[#8a8296]"><span class="border border-[#e9e3f1] px-2 py-1">Resume drafts</span><span class="border border-[#e9e3f1] px-2 py-1">Role tailoring</span><span class="border border-[#e9e3f1] px-2 py-1">Interview prep</span></div>
+                            <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[1.2px] text-[#8064c1] transition-all group-hover:gap-3">Open workspace <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </button>
+
+                    <!-- Post Studio -->
+                    <button type="button" data-tool="social-generator" class="tool-btn tool-feature group flex min-h-[260px] w-full flex-col border border-[#e7e0ef] bg-white p-5 text-left sm:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <span class="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[1.8px] text-[#388f8a]"><span class="h-1.5 w-1.5 bg-[#73c9c2]"></span> Content / Social</span>
+                                <h3 class="quans-editorial mt-3 text-[27px] leading-[1.12] tracking-[-.5px] text-[#282335] sm:text-[30px]">Post Studio<span class="text-[#68bcb5]">.</span></h3>
+                                <p class="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7c7589]">Turn a rough thought into platform-aware posts with a tone that feels like you.</p>
+                            </div>
+                            <div class="hidden h-[112px] w-[112px] shrink-0 border border-[#cde8e5] bg-[#e8f6f4] p-3 sm:block">
+                                <div class="border border-[#d6ebe8] bg-white p-2 shadow-sm">
+                                    <div class="flex items-center gap-1.5"><span class="h-5 w-5 bg-[#ccebe7]"></span><span class="h-1.5 w-12 bg-[#c8dedb]"></span></div>
+                                    <div class="mt-3 space-y-1.5"><div class="tool-preview-line is-cyan w-full"></div><div class="tool-preview-line w-5/6"></div><div class="tool-preview-line w-3/5"></div></div>
+                                    <div class="mt-3 flex gap-1"><span class="h-4 w-4 bg-[#d8efec]"></span><span class="h-4 w-4 bg-[#f7e6ed]"></span><span class="h-4 w-4 bg-[#eee8fa]"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[#f0ecf4] pt-5">
+                            <div class="flex flex-wrap gap-2 text-[9px] font-semibold text-[#8a8296]"><span class="border border-[#e9e3f1] px-2 py-1">Social posts</span><span class="border border-[#e9e3f1] px-2 py-1">Captions</span><span class="border border-[#e9e3f1] px-2 py-1">Platform tone</span></div>
+                            <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[1.2px] text-[#388f8a] transition-all group-hover:gap-3">Open workspace <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </button>
+
+                    <!-- Proposal Generator -->
+                    <button type="button" data-tool="proposal-idea" class="tool-btn tool-feature group flex min-h-[260px] w-full flex-col border border-[#e7e0ef] bg-white p-5 text-left sm:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <span class="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[1.8px] text-[#bd7892]"><span class="h-1.5 w-1.5 bg-[#e4a6bc]"></span> Business / Documents</span>
+                                <h3 class="quans-editorial mt-3 text-[27px] leading-[1.12] tracking-[-.5px] text-[#282335] sm:text-[30px]">Proposal Generator<span class="text-[#d994ad]">.</span></h3>
+                                <p class="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7c7589]">Organize your offer, scope and deliverables into a professional proposal.</p>
+                            </div>
+                            <div class="hidden h-[112px] w-[112px] shrink-0 border border-[#f0dce4] bg-[#fbf0f3] p-3 sm:block">
+                                <div class="h-full border border-[#f0dce4] bg-white p-2 shadow-sm">
+                                    <div class="flex items-center justify-between"><span class="h-2 w-10 bg-[#e7bdcb]"></span><span class="h-4 w-4 bg-[#f6e4ea]"></span></div>
+                                    <div class="mt-3 space-y-1.5"><div class="tool-preview-line is-coral w-full"></div><div class="tool-preview-line w-5/6"></div><div class="tool-preview-line w-full"></div><div class="tool-preview-line w-2/3"></div></div>
+                                    <div class="mt-3 flex justify-end"><div class="h-4 w-10 bg-[#f4dce5]"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[#f0ecf4] pt-5">
+                            <div class="flex flex-wrap gap-2 text-[9px] font-semibold text-[#8a8296]"><span class="border border-[#e9e3f1] px-2 py-1">Scope of work</span><span class="border border-[#e9e3f1] px-2 py-1">Deliverables</span><span class="border border-[#e9e3f1] px-2 py-1">Client-ready copy</span></div>
+                            <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[1.2px] text-[#bd7892] transition-all group-hover:gap-3">Open workspace <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </button>
+
+                    <!-- Text Repurposer -->
+                    <button type="button" data-tool="text-repurpose" class="tool-btn tool-feature group flex min-h-[260px] w-full flex-col border border-[#e7e0ef] bg-white p-5 text-left sm:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <span class="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[1.8px] text-[#a27e3d]"><span class="h-1.5 w-1.5 bg-[#dfc48a]"></span> Writing / Repurposing</span>
+                                <h3 class="quans-editorial mt-3 text-[27px] leading-[1.12] tracking-[-.5px] text-[#282335] sm:text-[30px]">Text Repurposer<span class="text-[#d1ae69]">.</span></h3>
+                                <p class="mt-3 max-w-[360px] text-[13px] leading-6 text-[#7c7589]">Adapt one piece of writing into fresh formats for different channels and audiences.</p>
+                            </div>
+                            <div class="hidden h-[112px] w-[112px] shrink-0 border border-[#eee3c9] bg-[#faf5e9] p-3 sm:block">
+                                <div class="flex h-full flex-col justify-center gap-2">
+                                    <div class="border border-[#e8dcc0] bg-white px-2 py-1.5"><div class="tool-preview-line is-gold w-full"></div><div class="tool-preview-line mt-1 w-3/5"></div></div>
+                                    <div class="grid grid-cols-3 gap-1"><div class="h-5 border border-[#e8dcc0] bg-[#fffdf8]"></div><div class="h-5 border border-[#cde8e5] bg-[#e8f6f4]"></div><div class="h-5 border border-[#f0dce4] bg-[#fbf0f3]"></div></div>
+                                    <div class="flex items-center justify-between"><span class="h-1 w-7 bg-[#dfc48a]"></span><span class="h-1 w-7 bg-[#91d9d3]"></span><span class="h-1 w-7 bg-[#eab2c4]"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[#f0ecf4] pt-5">
+                            <div class="flex flex-wrap gap-2 text-[9px] font-semibold text-[#8a8296]"><span class="border border-[#e9e3f1] px-2 py-1">One source</span><span class="border border-[#e9e3f1] px-2 py-1">Multiple formats</span><span class="border border-[#e9e3f1] px-2 py-1">Consistent voice</span></div>
+                            <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[1.2px] text-[#a27e3d] transition-all group-hover:gap-3">Open workspace <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Closing note -->
+            <section class="mt-16 grid gap-6 border-y border-[#e9e4f0] py-8 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-[2px] text-[#8064c1]">A THOUGHTFUL TOOLKIT</p>
+                    <h2 class="quans-editorial mt-2 text-[27px] leading-tight text-[#282335] sm:text-[31px]">Start with the work. Let the tool help with the rest.</h2>
+                    <p class="mt-2 max-w-2xl text-[13px] leading-6 text-[#858091]">Not sure which workspace fits? Visit Explore for a closer look at the tools and the tasks they are designed to support.</p>
+                </div>
+                <a href="explore.html" class="inline-flex items-center justify-center gap-3 border border-[#d9d0e8] bg-white px-5 py-3 text-[12px] font-bold text-[#6f579f] transition-all hover:border-[#8064c1] hover:bg-[#f6f2fc]">Explore Quans <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+            </section>
         </div>
     </main>
     
@@ -211,85 +399,37 @@
 </footer>
 
     <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-100 dark:border-slate-800 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100 dark:border-slate-800">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+        <div id="sidebarOverlay" class="absolute inset-0 bg-[#211c2c]/45 backdrop-blur-sm"></div>
+        <aside class="absolute right-0 top-0 flex h-screen w-[min(88vw,360px)] translate-x-full transform flex-col border-l border-[#e7e0ef] bg-[#fbfaff] p-6 shadow-2xl transition-transform duration-200 ease-out">
+            <div class="flex items-center justify-between border-b border-[#e9e4f0] pb-5">
+                <a href="index.html" class="text-[25px] font-extrabold tracking-[-1.8px] text-[#282335]">QUANS<span class="text-[#9675df]">.</span></a>
+                <button id="closeMobileMenu" type="button" aria-label="Close navigation menu" class="flex h-9 w-9 items-center justify-center border border-[#e5dfed] bg-white text-[#777184] transition-colors hover:border-[#cbbde6] hover:text-[#8064c1]">
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
-            <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-house-chimney"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Home</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+            <p class="mt-7 text-[10px] font-bold uppercase tracking-[2px] text-[#a097ae]">Navigate</p>
+            <nav class="flex flex-1 flex-col gap-2 py-4" aria-label="Mobile navigation">
+                <a id="mobile-nav-home" href="index.html" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#e8e1f1] bg-white text-[#8064c1]"><i class="fa-solid fa-house text-sm"></i></span><span class="text-[13px] font-semibold">Home</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Tools</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+                <a id="mobile-nav-tool" href="tool.html" aria-current="page" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#dcd1f0] bg-[#eee9ff] text-[#8064c1]"><i class="fa-solid fa-layer-group text-sm"></i></span><span class="text-[13px] font-bold">Tools</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-compass"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Explore</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+                <a id="mobile-nav-explore" href="explore.html" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#d5ebe8] bg-[#e8f6f4] text-[#388f8a]"><i class="fa-solid fa-compass text-sm"></i></span><span class="text-[13px] font-semibold">Explore</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Pricing</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+                <a id="mobile-nav-price" href="pricing.html" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#eee3c9] bg-[#faf5e9] text-[#a27e3d]"><i class="fa-solid fa-tag text-sm"></i></span><span class="text-[13px] font-semibold">Pricing</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Contact Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+                <a id="mobile-nav-contact" href="contact.html" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#f0dce4] bg-[#fbf0f3] text-[#bd7892]"><i class="fa-solid fa-envelope text-sm"></i></span><span class="text-[13px] font-semibold">Contact Us</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">About Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
+                <a id="mobile-nav-about" href="about.html" class="group flex items-center justify-between border border-slate-100 bg-slate-50 px-4 py-3 text-slate-800 transition-colors hover:border-[#d8cdec] hover:bg-[#f4f0fb]">
+                    <span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center border border-[#e8e1f1] bg-white text-[#8064c1]"><i class="fa-solid fa-circle-info text-sm"></i></span><span class="text-[13px] font-semibold">About Us</span></span><i class="fa-solid fa-arrow-right text-[10px] text-[#b4a9c4] transition-transform group-hover:translate-x-1"></i>
                 </a>
-            </div>
-            <div class="text-xs text-slate-400 font-medium tracking-tight">
-                &copy; 2026 QUANS Inc.
-            </div>
-        </div>
+            </nav>
+            <div class="border-t border-[#e9e4f0] pt-5 text-[10px] font-medium tracking-wide text-[#a097ae]">&copy; 2026 QUANS Inc.</div>
+        </aside>
     </div>
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
@@ -779,8 +919,8 @@
             button.addEventListener('click', (e) => {
                 if (window.userIsAuthenticated) {
                     const tool = button.getAttribute('data-tool');
-                    if (tool === 'ai-assistant') {
-                        window.location.href = 'ai.html';
+                    if (tool === 'resume-builder') {
+                        window.location.href = 'resume.html';
                     } else if (tool === 'social-generator'){
                         window.location.href = 'social.html'
                     } else if (tool === 'proposal-idea'){
