@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quans — Your AI Workspace</title>
+    <title>QUANS | Free Business Tools</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -65,8 +65,7 @@
             scrollbar-color: #CBD5E1 transparent;
         }
     </style>
-<script src="https://unpkg.com/lucide@1.77.0/dist/umd/lucide.js" defer></script>
-<style id="quans-tools-design-system">
+<style id="quans-home-only-styles">
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
@@ -394,316 +393,251 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .workspace-preview { transform: scale(.5) rotate(-2deg); }
   .floating-note-bottom { max-width: 150px; }
 }
-
-
-/* Workspace page extensions: same Quans visual system, adapted for the tools directory. */
-:root { --q-shadow: 0 18px 45px rgba(46,34,101,.08); }
-body.site-page.workspace-page {
-  color: var(--q-ink);
-  background:
-    radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem),
-    radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem),
-    #fbfaff;
-}
-.workspace-background { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.workspace-background > div { position: absolute; will-change: transform; }
-.workspace-orb-one { width: 430px; height: 430px; left: -190px; top: 160px; border: 1px solid rgba(118,85,232,.13); transform: rotate(18deg); background: linear-gradient(135deg,rgba(217,204,255,.12),transparent 65%); }
-.workspace-orb-two { width: 350px; height: 350px; left: 9%; top: 66vh; border: 1px solid rgba(106,215,231,.22); transform: rotate(-14deg); }
-.workspace-orb-three { width: 135px; height: 135px; right: 8%; top: 18vh; border: 1px solid rgba(255,139,118,.28); transform: rotate(45deg); }
-.workspace-orb-four { width: 230px; height: 230px; right: 4%; top: 72vh; border: 1px solid rgba(118,85,232,.15); transform: rotate(-12deg); }
-.workspace-orbit { width: 360px; height: 360px; right: 19%; top: 135px; border: 1px dashed rgba(118,85,232,.18); border-radius: 42% 58% 55% 45%; animation: orbitDrift 44s linear infinite; }
-.workspace-background::after { content:""; position:absolute; inset:auto 0 0; height:38vh; background:linear-gradient(to top,rgba(118,85,232,.045),transparent); }
-
-.quans-site-header { position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; min-height:82px; padding:16px clamp(18px,4vw,64px); background:rgba(251,250,255,.9); border-bottom:1px solid rgba(226,222,239,.8); backdrop-filter:blur(18px); box-shadow:0 8px 32px rgba(27,20,69,.025); }
-.quans-brand { display:inline-flex; align-items:center; color:var(--q-ink); text-decoration:none; font-size:25px; font-weight:900; letter-spacing:-.09em; line-height:1; }
-.quans-brand span { color:var(--q-violet); }
-.quans-nav { display:flex; align-items:center; justify-content:center; gap:clamp(14px,2vw,30px); flex:1 1 auto; padding:0 20px; }
-.quans-nav a { color:#6d6a82; font-size:12px; font-weight:700; text-decoration:none; transition:color .2s ease; }
-.quans-nav a:hover,.quans-nav a.active,.quans-nav a.text-brand-blue { color:var(--q-violet)!important; }
-#navAuthGroup { display:flex; align-items:center; gap:10px; z-index:2; }
-#navAuthGroup > button:not(#openMobileMenu) { min-height:42px; padding:0 16px; border-radius:8px!important; font-size:12px!important; font-weight:800!important; transition:transform .2s ease,background .2s ease,border-color .2s ease; }
-#navAuthGroup > button[onclick*="openLoginPopup"] { color:#514c69!important; border:1px solid #e3dfed; background:#fff; }
-#navAuthGroup > button[onclick*="openAuthPopup"] { color:#fff!important; background:var(--q-ink)!important; box-shadow:0 8px 16px rgba(25,22,52,.1); }
-#navAuthGroup > button:hover { transform:translateY(-2px); }
-#navAuthGroup #openMobileMenu { border-radius:8px!important; border:1px solid #e5e1ef!important; color:var(--q-ink)!important; background:#fff; width:40px; height:40px; display:none; align-items:center; justify-content:center; }
-#navAuthGroup > div { display:flex; align-items:center; gap:12px; }
-#navAuthGroup .relative.inline-block { position:relative; }
-#navAuthGroup .relative.inline-block > button { color:var(--q-ink)!important; font-size:12px!important; font-weight:800!important; }
-#userDropdownMenu { border-radius:8px!important; border-color:#e8e3f0!important; box-shadow:0 18px 45px rgba(40,31,83,.13)!important; }
-#userDropdownMenu button { font-size:12px!important; }
-
-.workspace-page-main { position:relative; overflow:hidden; padding-bottom:10px; }
-.workspace-hero { min-height:570px; display:grid; grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr); gap:clamp(28px,5vw,74px); align-items:center; padding-top:clamp(58px,7vw,88px); padding-bottom:66px; }
-.workspace-hero-copy { position:relative; z-index:2; max-width:560px; }
-.workspace-hero-copy h1 { margin:23px 0 0; color:var(--q-ink); font-size:clamp(43px,5.2vw,68px); line-height:.99; letter-spacing:-.065em; font-weight:800; }
-.workspace-hero-copy h1 em { font-family:var(--q-serif); font-weight:400; font-style:italic; letter-spacing:-.055em; color:var(--q-violet); }
-.workspace-hero-copy p { max-width:510px; margin:23px 0 0; color:#77748b; font-size:15px; line-height:1.82; }
-.workspace-hero-copy .hero-actions { margin-top:30px; }
-.workspace-hero-notes { display:flex; gap:28px; flex-wrap:wrap; margin-top:44px; padding-top:20px; border-top:1px solid #e9e5f1; }
-.workspace-hero-notes > div { display:flex; align-items:flex-start; gap:10px; }
-.workspace-hero-notes strong,.workspace-hero-notes small { display:block; }
-.workspace-hero-notes strong { color:#343149; font-size:11px; font-weight:800; }
-.workspace-hero-notes small { margin-top:4px; color:#9995aa; font-size:10px; }
-.workspace-hero-stage { min-height:470px; position:relative; isolation:isolate; display:grid; place-items:center; }
-.workspace-hero-stage .workspace-preview { width:min(100%,560px); }
-.workspace-hero-stage .stage-orbit { width:410px; height:410px; }
-.workspace-hero-stage .stage-orbit-two { width:320px; height:320px; }
-.workspace-kicker-row { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:20px; }
-.workspace-kicker-row .section-kicker { color:#817b9c; }
-.workspace-kicker-row .catalog-count { color:#918ba2; font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-.workspace-proof { display:grid; grid-template-columns:minmax(220px,1.7fr) repeat(3,minmax(120px,1fr)); gap:24px; align-items:center; padding:24px 0 30px; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
-.workspace-proof .proof-intro p { margin:8px 0 0; max-width:390px; color:#77748b; font-size:12px; line-height:1.6; }
-.workspace-proof .proof-stat { padding-left:20px; border-left:1px solid #e9e5f0; }
-.workspace-proof .proof-stat strong { display:block; color:var(--q-ink); font-size:28px; font-weight:800; letter-spacing:-.06em; }
-.workspace-proof .proof-stat span { display:block; color:#8b879b; font-size:10px; margin-top:2px; }
-.workspace-catalog { padding-top:90px; padding-bottom:96px; }
-.workspace-catalog .section-heading { margin-bottom:30px; }
-.workspace-catalog .section-heading h2 { font-size:clamp(36px,4.5vw,54px); }
-.workspace-catalog .tool-grid-home { grid-template-columns:repeat(4,minmax(0,1fr)); }
-.workspace-catalog .tool-feature { width:100%; min-height:385px; font:inherit; text-align:left; cursor:pointer; border-radius:0!important; appearance:none; }
-.workspace-catalog .tool-feature:focus-visible { outline:3px solid rgba(118,85,232,.42); outline-offset:4px; }
-.workspace-catalog .tool-feature h3 { color:var(--q-ink); }
-.workspace-catalog .tool-feature p { color:#858197; }
-.workspace-catalog .tool-feature .tool-card-title { display:block; margin:0; color:var(--q-ink); font-size:20px; line-height:1.08; font-weight:800; letter-spacing:-.045em; }
-.workspace-catalog .tool-feature .tool-card-description { display:block; margin:9px 0 17px; color:#858197; font-size:10px; line-height:1.7; font-weight:400; }
-.workspace-catalog .tool-feature .tool-open { width:100%; }
-.workspace-catalog .tool-number { text-transform:uppercase; }
-.workspace-method { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:70px; padding:70px clamp(22px,5vw,60px); background:#17162d; color:#fff; position:relative; overflow:hidden; }
-.workspace-method:after { content:""; position:absolute; right:-170px; top:-170px; width:440px; height:440px; border:1px solid rgba(163,137,255,.32); transform:rotate(45deg); box-shadow:0 0 0 30px rgba(163,137,255,.025),0 0 0 60px rgba(163,137,255,.025); }
-.workspace-method .section-kicker { color:#a9a3cb; }
-.workspace-method h2 { color:#fff; margin-top:15px; font-size:clamp(36px,4.5vw,54px); }
-.workspace-method h2 em { color:#b8a6ff; font-family:var(--q-serif); font-weight:400; }
-.workspace-method p { max-width:420px; color:#aaa6c2; font-size:13px; line-height:1.8; margin:18px 0 26px; }
-.workspace-method .button { position:relative; z-index:1; }
-.workspace-method .method-flow { position:relative; z-index:1; padding-left:20px; }
-.workspace-method .flow-step { display:flex; gap:17px; align-items:flex-start; }
-.workspace-method .flow-step > span { color:#9c8be2; font-size:10px; font-weight:900; letter-spacing:.12em; padding-top:6px; }
-.workspace-method .flow-step > div { flex:1; display:grid; grid-template-columns:35px 1fr; column-gap:13px; padding:17px 18px; border:1px solid #383653; background:rgba(255,255,255,.035); }
-.workspace-method .flow-step svg { grid-row:span 2; width:18px; height:18px; color:#ad9bff; margin-top:2px; }
-.workspace-method .flow-step b { color:#f5f3ff; font-size:12px; }
-.workspace-method .flow-step small { display:block; margin-top:5px; color:#9b97b2; font-size:10px; }
-.workspace-method .flow-connector { width:1px; height:18px; margin-left:38px; background:#62578e; }
-.workspace-contact { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:82px; margin-bottom:34px; padding:32px 0; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
-.workspace-contact h2 { font-size:27px; margin:9px 0 5px; letter-spacing:-.04em; color:var(--q-ink); }
-.workspace-contact p { color:#89859a; font-size:11px; line-height:1.6; max-width:620px; }
-.workspace-disclaimer { padding-bottom:30px; color:#aaa6b5; font-size:9px; line-height:1.6; }
-
-/* Mobile navigation retains the existing JS hooks and transforms. */
-#mobileSidebar { position:fixed; inset:0; z-index:150; opacity:0; pointer-events:none; transition:opacity .25s ease; }
-#mobileSidebar #sidebarOverlay { position:absolute; inset:0; background:rgba(25,21,34,.42); backdrop-filter:blur(5px); }
-#mobileSidebar .mobile-sidebar-panel { position:absolute; top:0; right:0; width:min(350px,88vw); height:100%; overflow-y:auto; padding:24px; display:flex; flex-direction:column; background:#fbfaff; border-left:1px solid #e8e2f0; box-shadow:-20px 0 60px rgba(25,21,52,.12); transition:transform .28s cubic-bezier(.2,.7,.2,1); }
-#mobileSidebar .mobile-sidebar-panel .transform { transform:translateX(100%); }
-#mobileSidebar .mobile-sidebar-panel:not(.translate-x-full) { transform:translateX(0); }
-#mobileSidebar .mobile-sidebar-panel.translate-x-full { transform:translateX(100%); }
-#mobileSidebar .mobile-sidebar-panel a { display:flex; align-items:center; gap:13px; padding:13px 12px; margin:3px 0; border:1px solid transparent; color:#5c5870; font-size:13px; font-weight:700; text-decoration:none; transition:all .18s ease; }
-#mobileSidebar .mobile-sidebar-panel a:hover,#mobileSidebar .mobile-sidebar-panel a.text-brand-blue { color:var(--q-violet)!important; background:#f0ecff!important; border-color:#e2dafa!important; }
-#mobileSidebar .mobile-sidebar-panel a .mobile-icon { width:34px; height:34px; display:grid; place-items:center; background:#f0ecff; color:#7053da; }
-#mobileSidebar .mobile-sidebar-panel a .mobile-arrow { margin-left:auto; color:#aaa4b5; }
-#mobileSidebar .mobile-sidebar-panel .mobile-close { width:36px; height:36px; display:grid; place-items:center; border:1px solid #e8e3ef; background:#fff; color:#777184; }
-
-/* Authentication dialogs: two-panel composition matching the homepage design language. */
-#authModal,#loginModal { padding:12px; }
-#authModal > .auth-dialog,#loginModal > .auth-dialog { width:min(920px,100%); max-height:calc(100vh - 24px); overflow:auto; background:#fbfaff; border:1px solid rgba(255,255,255,.7); border-radius:22px; box-shadow:0 30px 100px rgba(25,21,34,.24); transform:scale(.95); transition:transform .28s ease; z-index:10; position:relative; }
-#authModal > .auth-dialog.scale-95,#loginModal > .auth-dialog.scale-95 { transform:scale(.95); }
-#authModal > .auth-dialog.scale-100,#loginModal > .auth-dialog.scale-100 { transform:scale(1); }
-#authModal > .auth-dialog .auth-layout,#loginModal > .auth-dialog .auth-layout { display:grid; grid-template-columns:.92fr 1.08fr; min-height:570px; }
-.auth-brand-panel { display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; padding:38px 42px; background:#eee9ff; border-right:1px solid #e3dcf5; }
-.auth-brand-panel:before,.auth-brand-panel:after { content:""; position:absolute; pointer-events:none; border:1px solid rgba(184,168,232,.45); transform:rotate(45deg); }
-.auth-brand-panel:before { width:250px; height:250px; right:-100px; top:-90px; }
-.auth-brand-panel:after { width:180px; height:180px; right:-65px; top:-45px; }
-.auth-brand-copy,.auth-brand-visual { position:relative; z-index:1; }
-.auth-brand-copy .auth-brand-logo { color:#252031; font-size:25px; font-weight:900; letter-spacing:-.09em; text-decoration:none; }
-.auth-brand-copy .auth-brand-logo span { color:var(--q-violet); }
-.auth-brand-copy .auth-brand-kicker { display:inline-flex; align-items:center; gap:9px; margin-top:76px; color:#7965b0; font-size:9px; font-weight:900; letter-spacing:.18em; text-transform:uppercase; }
-.auth-brand-copy .auth-brand-kicker:before { content:""; width:7px; height:7px; background:var(--q-violet); }
-.auth-brand-copy h2 { margin-top:20px; color:#252031; font-family:var(--q-serif); font-size:43px; line-height:1.08; letter-spacing:-.045em; font-weight:400; }
-.auth-brand-copy h2 em { display:block; color:#8969ce; }
-.auth-brand-copy p { max-width:290px; margin-top:18px; color:#726b82; font-size:13px; line-height:1.8; }
-.auth-brand-visual { margin-top:35px; padding:15px; background:#242033; border:1px solid #383248; box-shadow:0 15px 35px rgba(81,66,119,.15); }
-.auth-brand-visual-top { display:flex; align-items:center; justify-content:space-between; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.7); font-size:9px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; }
-.auth-brand-visual-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:12px; }
-.auth-brand-visual-grid > div { padding:10px; background:#302b40; border:1px solid rgba(255,255,255,.05); }
-.auth-brand-visual-grid i { display:grid; place-items:center; width:27px; height:27px; margin-bottom:9px; color:#c3aaff; background:rgba(128,101,191,.25); }
-.auth-brand-visual-grid b,.auth-brand-visual-grid small { display:block; }
-.auth-brand-visual-grid b { color:#fff; font-size:10px; }
-.auth-brand-visual-grid small { color:rgba(255,255,255,.4); font-size:8px; margin-top:3px; }
-.auth-brand-footnote { margin-top:12px; color:#827895; font-size:9px; letter-spacing:.04em; }
-.auth-form-panel { position:relative; display:flex; flex-direction:column; justify-content:center; padding:44px clamp(24px,4vw,50px); background:#fbfaff; }
-.auth-close { position:absolute; top:18px; right:18px; width:36px; height:36px; display:grid; place-items:center; color:#777183; background:#fff; border:1px solid #e9e5ef; transition:all .2s ease; }
-.auth-close:hover { color:#292437; background:#f2eff8; }
-.auth-form-inner { width:100%; max-width:390px; margin:0 auto; }
-.auth-kicker { color:#9675df; font-size:9px; font-weight:900; letter-spacing:.19em; text-transform:uppercase; }
-.auth-form-inner h3 { margin-top:14px; color:#252031; font-family:var(--q-serif); font-size:37px; line-height:1.08; letter-spacing:-.04em; font-weight:400; }
-.auth-form-inner h3 span { color:#a383e5; }
-.auth-form-inner .auth-lede { margin-top:12px; color:#858091; font-size:12px; line-height:1.7; }
-.auth-google { display:flex; align-items:center; justify-content:center; gap:11px; width:100%; min-height:47px; margin-top:25px; color:#363142; background:#fff; border:1px solid #e6e1ed; font-size:12px; font-weight:800; transition:all .2s ease; }
-.auth-google:hover { background:#f8f6fc; border-color:#cfc3e8; }
-.auth-google i { color:#4285f4; }
-.auth-divider { display:flex; align-items:center; gap:14px; margin:21px 0; color:#aaa4b3; font-size:9px; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
-.auth-divider:before,.auth-divider:after { content:""; flex:1; height:1px; background:#e9e5ef; }
-.auth-form-inner form { display:grid; gap:15px; text-align:left; }
-.auth-form-inner form label { display:block; margin-bottom:7px; color:#777184; font-size:9px; font-weight:900; letter-spacing:.15em; text-transform:uppercase; }
-.auth-form-inner input { width:100%; height:48px; padding:0 14px; color:#292437; background:#fff; border:1px solid #e4dfeb; outline:none; font-size:12px; transition:border-color .2s,box-shadow .2s; }
-.auth-form-inner input:focus { border-color:#a88be3; box-shadow:0 0 0 3px rgba(168,139,227,.13); }
-.auth-password-wrap { position:relative; }
-.auth-password-wrap input { padding-right:48px; }
-.auth-password-wrap button { position:absolute; top:50%; right:8px; transform:translateY(-50%); width:32px; height:32px; display:grid; place-items:center; color:#9992a3; }
-.auth-submit { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; min-height:49px; margin-top:3px; color:#fff; background:#8064c1; box-shadow:0 8px 20px rgba(128,100,193,.18); font-size:12px; font-weight:900; letter-spacing:.03em; transition:all .2s ease; }
-.auth-submit:hover { background:#7053b2; box-shadow:0 10px 25px rgba(128,100,193,.25); transform:translateY(-1px); }
-.auth-switch { margin-top:22px; padding-top:18px; border-top:1px solid #eeeaf2; text-align:center; color:#858091; font-size:11px; }
-.auth-switch button { margin-left:4px; color:#8064c1; font-weight:900; text-decoration:underline; text-decoration-color:#c5b5e8; text-underline-offset:4px; }
-.auth-legal { margin-top:18px; color:#aaa4b2; font-size:9px; line-height:1.6; text-align:center; }
-#signupErrorMsg,#loginErrorMsg { padding:12px 13px!important; border-radius:0!important; font-size:11px!important; }
-#signupErrorMsg:not(.hidden),#loginErrorMsg:not(.hidden) { display:flex!important; }
-#signupForm #signupEmailInput,#signupForm #signupPasswordInput,#loginForm #loginEmailInput,#loginForm #loginPasswordInput { border-radius:0!important; }
-#forgotPasswordLink { color:#8064c1!important; font-size:10px!important; font-weight:800!important; text-decoration:underline; text-underline-offset:4px; }
-#otpCodeInput { border-radius:0!important; border-color:#e4dfeb!important; }
-#verifyOtpBtn,#closeForgotSuccessBtn { border-radius:0!important; background:#8064c1!important; color:white!important; }
-#resendOtpBtn { color:#8064c1!important; }
-#signupForm > div:has(#otpCodeInput),#loginForm > div:has(#closeForgotSuccessBtn) { background:#f5f1ff!important; border:1px solid #e6def7!important; border-radius:0!important; box-shadow:none!important; }
-
-/* Settings and account deletion surfaces inherit the new product styling without changing IDs or behavior. */
-#settingsPopupModal > div { border-radius:18px!important; background:#fbfaff!important; border-color:#e7e2ef!important; box-shadow:0 28px 90px rgba(25,21,34,.2)!important; }
-#settingsPopupModal h2,#settingsPopupModal h3 { color:#252031!important; font-family:var(--q-serif)!important; font-weight:400!important; }
-#settingsPopupModal button { border-radius:4px!important; }
-#settingsPopupModal #tabBtnAccount { background:#8064c1!important; }
-#settingsPopupModal #panelSectionAccount button,#settingsPopupModal #panelSectionAppearance button { border-color:#e7e2ef!important; }
-#settingsPopupModal #settingsEmailTextDisplay { color:#37324a!important; }
-#settingsHardDeleteModal > div { border-radius:12px!important; border-color:#f0dfe1!important; }
-
-/* Keyboard focus and reduced motion. */
-.workspace-page button:focus-visible,.workspace-page a:focus-visible,#authModal button:focus-visible,#loginModal button:focus-visible { outline:3px solid rgba(118,85,232,.38); outline-offset:3px; }
-@media (prefers-reduced-motion:reduce) { .workspace-page *,#authModal *,#loginModal * { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
-@media (max-width:1050px) { .workspace-hero { grid-template-columns:minmax(0,1fr) minmax(340px,.94fr); gap:26px; } .workspace-catalog .tool-grid-home { grid-template-columns:repeat(2,minmax(0,1fr)); } .workspace-catalog .tool-feature { min-height:360px; } .workspace-hero-stage .workspace-preview { transform:scale(.96) rotate(-2deg); } }
-@media (max-width:860px) { .quans-site-header { min-height:70px; padding:12px 18px; } .quans-nav { display:none; } #navAuthGroup #openMobileMenu { display:flex; } .workspace-hero { grid-template-columns:1fr; padding-top:56px; padding-bottom:55px; } .workspace-hero-copy { max-width:680px; } .workspace-hero-stage { min-height:400px; margin-top:5px; } .workspace-proof { grid-template-columns:1fr 1fr; } .workspace-proof .proof-intro { grid-column:1/-1; } .workspace-proof .proof-stat { padding-top:10px; padding-bottom:10px; } .workspace-method { grid-template-columns:1fr; gap:35px; } }
-@media (max-width:700px) { #authModal > .auth-dialog .auth-layout,#loginModal > .auth-dialog .auth-layout { display:block; min-height:0; } .auth-brand-panel { display:none; } .auth-form-panel { padding:54px 24px 28px; } .auth-form-inner h3 { font-size:34px; } }
-@media (max-width:560px) { .site-container { width:calc(100% - 32px); } .workspace-hero-copy h1 { font-size:45px; } .workspace-hero-copy p { font-size:13px; } .workspace-hero-copy .hero-actions { display:grid; grid-template-columns:1fr; } .workspace-hero-copy .hero-actions .button { width:100%; } .workspace-hero-notes { gap:16px; margin-top:32px; } .workspace-hero-stage { min-height:310px; margin-inline:-8px; overflow:hidden; } .workspace-hero-stage .workspace-preview { width:570px; max-width:none; transform:scale(.7) rotate(-2deg); } .workspace-hero-stage .stage-orbit-one { width:305px; height:305px; } .workspace-hero-stage .stage-orbit-two { width:245px; height:245px; } .floating-note { padding:8px; gap:7px; } .floating-note-top { top:7px; right:-4px; } .floating-note-bottom { bottom:3px; left:-4px; } .float-icon { width:28px; height:28px; } .floating-note b { font-size:8px; } .floating-note small { font-size:7px; } .workspace-proof { gap:10px; } .workspace-proof .proof-stat { padding-left:12px; } .workspace-proof .proof-stat strong { font-size:24px; } .workspace-catalog { padding-top:64px; padding-bottom:66px; } .workspace-catalog .section-heading { align-items:flex-start; flex-direction:column; } .workspace-catalog .section-heading h2 { font-size:40px; } .workspace-catalog .tool-grid-home { grid-template-columns:1fr; } .workspace-catalog .tool-feature { min-height:335px; } .workspace-method { padding:42px 20px; } .workspace-method h2 { font-size:42px; } .workspace-method .method-flow { padding-left:0; } .workspace-contact { align-items:flex-start; flex-direction:column; margin-top:60px; } .workspace-contact .button { width:100%; } .auth-form-panel { padding-inline:20px; } }
-@media (max-width:390px) { .workspace-hero-stage { min-height:275px; } .workspace-hero-stage .workspace-preview { transform:scale(.58) rotate(-2deg); } .floating-note-bottom { max-width:150px; } }
 </style>
-</head>
-<body class="site-page workspace-page min-h-screen flex flex-col antialiased"> 
 
- <div class="workspace-background" aria-hidden="true">
-    <div id="scroll-box-1" class="workspace-orb-one"></div>
-    <div id="scroll-box-2" class="workspace-orb-two"></div>
-    <div id="scroll-box-right-1" class="workspace-orb-three"></div>
-    <div id="scroll-box-right-2" class="workspace-orb-four"></div>
-    <div id="scroll-circle" class="workspace-orbit"></div>
-</div>
+<style id="quans-tools-page-styles">
+/* Page-specific composition: retain the reference site's design language. */
+.tool-page-main { position: relative; overflow: hidden; padding-bottom: 10px; }
+#toolkit-grid { scroll-margin-top: 100px; }
+.tool-page-main .home-hero { min-height: 625px; }
+.tool-page-main .hero-copy h1 { max-width: 590px; }
+.tool-page-main .hero-copy h1 em { display: inline-block; }
+.tool-page-main .hero-notes { margin-top: 42px; }
+.tool-page-main .home-proof { margin-top: 0; }
+.tool-page-main .home-toolkit { padding-top: 88px; padding-bottom: 96px; }
+.tool-page-main .tool-grid-home { align-items: stretch; }
+.tool-page-main .tool-feature {
+  appearance: none;
+  width: 100%;
+  min-height: 380px;
+  border-radius: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.tool-page-main .tool-feature:focus-visible { outline: 3px solid rgba(118,85,232,.38); outline-offset: 4px; }
+.tool-page-main .tool-feature-top { width: 100%; }
+.tool-page-main .tool-feature h3 { text-align: left; }
+.tool-page-main .tool-feature p { text-align: left; }
+.tool-page-main .tool-open { width: 100%; }
+.tool-page-main .tool-art { flex: 0 0 auto; }
+
+/* Small, custom assistant illustration in the same visual language as the other cards. */
+.assistant-art { background: linear-gradient(135deg,#e9e1ff,#faf7ff); }
+.assistant-window { width: 78%; padding: 12px; background: #fff; border: 1px solid #e3dcf9; box-shadow: 0 9px 18px rgba(77,55,154,.12); }
+.assistant-window-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #efebf7; color: #7868ad; font-size: 7px; font-weight: 900; letter-spacing: .12em; }
+.assistant-window-top span:last-child { display: flex; gap: 3px; }
+.assistant-window-top i { width: 4px; height: 4px; border-radius: 50%; background: #c8b7f4; }
+.assistant-prompt { display: flex; align-items: flex-start; gap: 7px; margin-top: 10px; }
+.assistant-prompt b { width: 19px; height: 19px; display: grid; place-items: center; background: #eee8ff; color: #7459cf; font-size: 9px; }
+.assistant-prompt span { display: block; flex: 1; height: 5px; margin-top: 3px; background: #e9e4f3; }
+.assistant-prompt span:last-child { width: 65%; }
+.assistant-answer { margin: 9px 0 0 26px; padding: 8px; background: #f7f4ff; border-left: 2px solid #9a81e8; }
+.assistant-answer i { display: block; height: 4px; margin: 4px 0; background: #ded6f3; }
+.assistant-answer i:nth-child(2) { width: 82%; }
+.assistant-answer i:nth-child(3) { width: 58%; }
+
+/* The reference modal layout intentionally stays light, editorial and split-panel. */
+#authModal, #loginModal { padding: 12px; }
+#authModal .relative, #loginModal .relative { overscroll-behavior: contain; }
+#authModal input:focus, #loginModal input:focus { box-shadow: 0 0 0 3px rgba(168,139,227,.14); }
+@media (max-width: 800px) {
+  .tool-page-main .home-hero { min-height: 0; }
+  .tool-page-main .home-toolkit { padding-top: 68px; padding-bottom: 70px; }
+}
+@media (max-width: 560px) {
+  .tool-page-main .hero-notes { margin-top: 30px; }
+  .tool-page-main .home-proof { margin-top: 2px; }
+  .tool-page-main .home-toolkit { padding-top: 58px; }
+  .tool-page-main .tool-feature { min-height: 335px; }
+  #authModal, #loginModal { padding: 8px; }
+}
+</style>
+
+</head>
+<body class="site-page site-tools-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+
+ <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
+    
+    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform"></div>
+    
+    <div id="scroll-box-2" class="absolute top-[50vh] left-[5%] w-[40vw] h-[40vw] max-w-[500px] bg-gradient-to-tl from-sky-400/15 to-transparent rounded-[3rem] -rotate-12 transform will-change-transform"></div>
+
+    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 dark:from-blue-600/10 dark:to-transparent rounded-2xl rotate-45 transform will-change-transform"></div>
+
+    <div id="scroll-box-right-2" class="absolute top-[65vh] right-[12%] w-[18vw] h-[18vw] max-w-[220px] bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-[2rem] -rotate-12 transform will-change-transform"></div>
+
+    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 dark:border-blue-500/15 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
+    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 dark:border-blue-400/5 rounded-full"></div>
+    
+    <div class="absolute bottom-0 left-[-5%] w-[110%] h-[40vh] bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent"></div>
 </div>
 
 <div class="min-h-screen w-full relative flex flex-col antialiased">
 
-    <header class="quans-site-header">
-    <div class="flex items-center">
-        <a class="quans-brand" href="index.html" aria-label="Quans home">QUANS<span>.</span></a>
-    </div>
-    <nav class="quans-nav" aria-label="Main navigation">
-        <a id="nav-home" href="index.html">Home</a>
-        <a id="nav-tool" href="tool.html" class="active">Tools</a>
-        <a id="nav-explore" href="explore.html">Explore</a>
-        <a id="nav-price" href="pricing.html">Pricing</a>
-        <a id="nav-contact" href="contact.html">Contact Us</a>
-        <a id="nav-about" href="about.html">About Us</a>
-    </nav>
-    <div id="navAuthGroup">
-        <button type="button" onclick="openLoginPopup()">Login</button>
-        <button type="button" onclick="openAuthPopup(event)">Sign up</button>
-        <button id="openMobileMenu" type="button" aria-label="Open navigation menu"><i class="fa-solid fa-bars-staggered"></i></button>
-    </div>
-</header>
-
-    <main class="workspace-page-main">
-  <section class="workspace-hero site-container">
-    <div class="workspace-hero-copy">
-      <h1>Find your focus.<br><em>Make progress.</em></h1>
-      <p>Choose a focused AI tool for the work in front of you — from career documents and content creation to proposals and repurposing. Each workflow is built around a clear task, so you can spend less time setting things up and more time moving forward.</p>
-      <div class="hero-actions">
-        <a class="button button-primary" href="#workspace-tools">Explore the tools <i data-lucide="arrow-down-right"></i></a>
-        <button class="button button-secondary" type="button" onclick="openAuthPopup(event)">Create your account</button>
-      </div>
-      <div class="workspace-hero-notes">
-        <div><span class="note-index" aria-hidden="true">✦</span><span><strong>Purpose-built workflows</strong><small>One clear job per tool</small></span></div>
-        <div><span class="note-index note-violet" aria-hidden="true">↗</span><span><strong>Your work, in context</strong><small>Save and revisit your outputs</small></span></div>
-      </div>
-    </div>
-    <div class="workspace-hero-stage" aria-label="Illustration of the Quans tools workspace">
-      <div class="stage-grid"></div>
-      <div class="stage-orbit stage-orbit-one"></div><div class="stage-orbit stage-orbit-two"></div>
-      <div class="workspace-preview">
-        <div class="preview-topbar"><div class="preview-brand"><span class="brand-symbol">Q</span> quans <span class="preview-status">WORKSPACE</span></div><div class="preview-window-dots"><b></b><b></b><b></b></div></div>
-        <div class="preview-body">
-          <div class="preview-sidebar"><span class="sidebar-label">YOUR TOOLKIT</span><div class="sidebar-item active"><i data-lucide="file-user"></i> Resume Studio</div><div class="sidebar-item"><i data-lucide="pen-line"></i> Post Studio</div><div class="sidebar-item"><i data-lucide="files"></i> Proposals</div><div class="sidebar-item"><i data-lucide="repeat-2"></i> Repurpose</div><div class="sidebar-rule"></div><span class="sidebar-label">WORKFLOWS</span><span class="sidebar-muted">Career development</span><span class="sidebar-muted">Content production</span><span class="sidebar-muted">Business documents</span></div>
-          <div class="preview-content"><div class="preview-kicker">YOUR WORKSPACE <span>● READY TO START</span></div><h3>Good work starts<br>with a clear next step.</h3><p>Pick a workflow, bring your context and shape an output you can make your own.</p><div class="resume-sheet"><div class="sheet-heading"><span class="sheet-avatar">Q</span><span><b>Choose a workflow</b><small>Four focused tools · One workspace</small></span><i data-lucide="check-circle-2"></i></div><div class="sheet-line sheet-line-long"></div><div class="sheet-line sheet-line-medium"></div><div class="sheet-columns"><div><small>START WITH</small><div class="sheet-line"></div><div class="sheet-line sheet-line-long"></div><div class="sheet-line sheet-line-medium"></div></div><div><small>TOOLKIT</small><div class="skill-chip">Resume</div><div class="skill-chip">Content</div><div class="skill-chip">Proposals</div></div></div></div><div class="preview-footer"><span>Quans workspace</span><span><i data-lucide="sparkles"></i> Make it useful</span></div></div>
+    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10 dark:border-slate-900/10">
+        <div class="flex items-center">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black dark:text-white">.</span></span>
         </div>
-      </div>
-      <div class="floating-note floating-note-top"><span class="float-icon float-coral"><i data-lucide="file-check-2"></i></span><span><b>Focused workflows</b><small>Built for real tasks</small></span></div>
-      <div class="floating-note floating-note-bottom"><span class="float-icon float-violet"><i data-lucide="wand-sparkles"></i></span><span><b>One connected space</b><small>Less friction. More clarity.</small></span></div>
-      <div class="stage-accent"></div>
-    </div>
-  </section>
 
-  <section class="workspace-proof site-container">
-    <div class="proof-intro"><span class="section-kicker">A WORKSPACE WITH A POINT OF VIEW</span><p>Not another endless chat window. A practical toolkit built around the work you actually need to finish.</p></div>
-    <div class="proof-stat"><strong>04</strong><span>Focused tools</span></div>
-    <div class="proof-stat"><strong>01</strong><span>Connected workspace</span></div>
-    <div class="proof-stat"><strong>∞</strong><span>Ways to shape your work</span></div>
-  </section>
+        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Home
+            </a>
+            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Tools
+            </a>
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Explore
+            </a>
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Pricing
+            </a>
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Contact Us
+            </a>
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                About Us
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
+            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors">
+                Login
+            </button>
+            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
+                Signup
+            </button>
+            
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+        </div>
+    </header>
 
-  <section id="workspace-tools" class="workspace-catalog site-container">
-    <div class="section-heading">
-      <div><span class="section-kicker">CHOOSE YOUR WORKFLOW</span><h2>One workspace.<br><em>Four useful directions.</em></h2></div>
-      <span class="catalog-count">04 tools · Ready when you are</span>
-    </div>
-    <div class="tool-grid-home">
-      <button type="button" data-tool="ai-assistant" class="tool-feature tool-feature-resume tool-btn">
-        <span class="tool-feature-top"><span class="tool-number">CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></span>
-        <span class="tool-art resume-art"><span class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i><span class="mini-row"></span><span class="mini-row short"></span><span class="mini-bullets"><b></b><b></b><b></b></span></span></span>
-        <span class="tool-card-title">Resume Builder<br>&amp; Toolkit</span>
-        <span class="tool-card-description">Create resumes, tailor them to roles, draft cover letters and prepare for interviews.</span>
-        <span class="tool-open">Open career toolkit <i data-lucide="arrow-right"></i></span>
-      </button>
-      <button type="button" data-tool="social-generator" class="tool-feature tool-feature-post tool-btn">
-        <span class="tool-feature-top"><span class="tool-number">CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></span>
-        <span class="tool-art post-art"><span class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><span class="post-copy"></span><span class="post-copy mid"></span><span class="post-graphic"><i data-lucide="pen-line"></i></span></span></span>
-        <span class="tool-card-title">Post Studio</span>
-        <span class="tool-card-description">Shape platform-aware posts with hooks, body copy, calls to action and creative direction.</span>
-        <span class="tool-open">Open Post Studio <i data-lucide="arrow-right"></i></span>
-      </button>
-      <button type="button" data-tool="proposal-idea" class="tool-feature tool-feature-proposal tool-btn">
-        <span class="tool-feature-top"><span class="tool-number">BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></span>
-        <span class="tool-art proposal-art"><span class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><span class="paper-row"><b></b><b></b><b></b></span><span class="paper-rule"></span></span></span>
-        <span class="tool-card-title">Proposal Studio</span>
-        <span class="tool-card-description">Turn project requirements into structured proposals with a clearer scope and next steps.</span>
-        <span class="tool-open">Open Proposal Studio <i data-lucide="arrow-right"></i></span>
-      </button>
-      <button type="button" data-tool="text-repurpose" class="tool-feature tool-feature-repurpose tool-btn">
-        <span class="tool-feature-top"><span class="tool-number">CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></span>
-        <span class="tool-art repurpose-art"><span class="repurpose-source">LONG-FORM<br>CONTENT</span><span class="repurpose-lines"><i></i><i></i><i></i></span><span class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></span></span>
-        <span class="tool-card-title">Text Repurposer</span>
-        <span class="tool-card-description">Adapt one source into distinct formats while keeping your key message intact.</span>
-        <span class="tool-open">Open Text Repurposer <i data-lucide="arrow-right"></i></span>
-      </button>
-    </div>
-  </section>
+    <main class="quans-home tool-page-main">
+      <section class="home-hero site-container">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> THE QUANS WORKSPACE</span>
+          <h1>Your creative<br><em>workspace.</em></h1>
+          <p class="hero-lede">A focused set of AI tools for the work that moves you forward — from everyday thinking and content creation to proposals and practical writing.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#toolkit-grid">Browse the toolkit <i data-lucide="arrow-down-right"></i></a>
+            <a class="button button-secondary" href="explore.html">Explore Quans <i data-lucide="arrow-up-right"></i></a>
+          </div>
+          <div class="hero-notes">
+            <div><span class="note-index" aria-hidden="true">✦</span><span><strong>Purpose-built tools</strong><small>One clear job per workflow</small></span></div>
+            <div><span class="note-index note-violet" aria-hidden="true">↗</span><span><strong>Your work, in context</strong><small>Choose a tool and get started</small></span></div>
+          </div>
+        </div>
 
-  <section class="workspace-method site-container">
-    <div class="method-copy"><span class="section-kicker">A MORE USEFUL WAY TO WORK</span><h2>From task to<br><em>finished work.</em></h2><p>Each tool starts with a specific task, gives you structured controls and returns an output you can review, edit and make your own.</p><a class="button button-dark" href="#workspace-tools">Choose a workflow <i data-lucide="arrow-up-right"></i></a></div>
-    <div class="method-flow">
-      <div class="flow-step"><span>01</span><div><i data-lucide="file-input"></i><b>Bring your context</b><small>A brief, source text or career details.</small></div></div>
-      <div class="flow-connector"></div>
-      <div class="flow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Choose your direction</b><small>Set tone, format and what matters.</small></div></div>
-      <div class="flow-connector"></div>
-      <div class="flow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review the result</b><small>Copy, refine and keep control.</small></div></div>
-    </div>
-  </section>
+        <div class="hero-stage" aria-label="Illustration of the Quans tools workspace">
+          <div class="stage-grid"></div>
+          <div class="stage-orbit stage-orbit-one"></div><div class="stage-orbit stage-orbit-two"></div>
+          <div class="workspace-preview">
+            <div class="preview-topbar"><div class="preview-brand"><span class="brand-symbol">Q</span> quans <span class="preview-status">WORKSPACE</span></div><div class="preview-window-dots"><b></b><b></b><b></b></div></div>
+            <div class="preview-body">
+              <div class="preview-sidebar">
+                <span class="sidebar-label">YOUR TOOLKIT</span>
+                <div class="sidebar-item active"><i data-lucide="sparkles"></i> AI Assistant</div>
+                <div class="sidebar-item"><i data-lucide="pen-line"></i> Post Studio</div>
+                <div class="sidebar-item"><i data-lucide="files"></i> Proposals</div>
+                <div class="sidebar-item"><i data-lucide="repeat-2"></i> Repurpose</div>
+                <div class="sidebar-rule"></div>
+                <span class="sidebar-label">WORKSPACE</span>
+                <span class="sidebar-muted">Four focused workflows</span>
+                <span class="sidebar-muted">One connected space</span>
+              </div>
+              <div class="preview-content">
+                <div class="preview-kicker">WORKSPACE OVERVIEW <span>● READY TO USE</span></div>
+                <h3>Make your next<br>move count.</h3>
+                <p>Choose a focused workflow, bring your context and shape an output that is ready for your review.</p>
+                <div class="resume-sheet">
+                  <div class="sheet-heading"><span class="sheet-avatar">Q</span><span><b>Your Quans workspace</b><small>Four tools · One place</small></span><i data-lucide="check-circle-2"></i></div>
+                  <div class="sheet-line sheet-line-long"></div>
+                  <div class="sheet-line sheet-line-medium"></div>
+                  <div class="sheet-columns">
+                    <div><small>YOUR WORKFLOW</small><div class="sheet-line"></div><div class="sheet-line sheet-line-long"></div><div class="sheet-line sheet-line-medium"></div></div>
+                    <div><small>YOUR TOOLKIT</small><div class="skill-chip">AI Assistant</div><div class="skill-chip">Post Studio</div><div class="skill-chip">Proposals</div></div>
+                  </div>
+                </div>
+                <div class="preview-footer"><span>Workspace ready</span><span><i data-lucide="sparkles"></i> Made for real work</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-note floating-note-top"><span class="float-icon float-coral"><i data-lucide="wand-sparkles"></i></span><span><b>Everyday assistant</b><small>Think · Draft · Refine</small></span></div>
+          <div class="floating-note floating-note-bottom"><span class="float-icon float-violet"><i data-lucide="layers"></i></span><span><b>Four focused tools</b><small>One connected workspace</small></span></div>
+          <div class="stage-accent"></div>
+        </div>
+      </section>
 
-  <section class="workspace-contact site-container">
-    <div><span class="section-kicker">BUILT TO BE USEFUL</span><h2>Have a workflow in mind?</h2><p>Tell us what would make Quans more helpful. Product feedback and thoughtful suggestions are always welcome.</p></div>
-    <a class="button button-primary" href="contact.html">Talk to the team <i data-lucide="arrow-up-right"></i></a>
-  </section>
-  <p class="workspace-disclaimer site-container">Quans is a human-oriented AI workspace. It brings focused tools into one place; AI-generated outputs should always be reviewed before use.</p>
-</main>
+      <section class="home-proof site-container">
+        <div class="proof-intro"><span class="section-kicker">A WORKSPACE WITH A POINT OF VIEW</span><p>Not another endless chat window. A practical toolkit built around the work you actually need to finish.</p></div>
+        <div class="proof-stat"><strong>04</strong><span>Focused tools</span></div>
+        <div class="proof-stat"><strong>01</strong><span>Connected workspace</span></div>
+        <div class="proof-stat"><strong>∞</strong><span>Ways to shape your work</span></div>
+      </section>
+
+      <section id="toolkit-grid" class="home-toolkit site-container">
+        <div class="section-heading">
+          <div><span class="section-kicker">THE QUANS TOOLKIT</span><h2>Choose your workflow.<br><em>Get into the work.</em></h2></div>
+          <a class="text-link" href="explore.html">Explore all tools <i data-lucide="arrow-up-right"></i></a>
+        </div>
+
+        <div class="tool-grid-home">
+          <button type="button" data-tool="ai-assistant" class="tool-feature tool-feature-resume tool-btn">
+            <div class="tool-feature-top"><span class="tool-number">EVERYDAY PRODUCTIVITY</span><i data-lucide="arrow-up-right"></i></div>
+            <div class="tool-art assistant-art">
+              <div class="assistant-window">
+                <div class="assistant-window-top"><span>QUANS ASSISTANT</span><span><i></i><i></i><i></i></span></div>
+                <div class="assistant-prompt"><b>Q</b><span></span></div>
+                <div class="assistant-prompt"><b>✦</b><span></span></div>
+                <div class="assistant-answer"><i></i><i></i><i></i></div>
+              </div>
+            </div>
+            <h3>AI Assistant</h3>
+            <p>Your intelligent everyday companion for questions, thinking, drafting and getting unstuck.</p>
+            <span class="tool-open">Open AI Assistant <i data-lucide="arrow-right"></i></span>
+          </button>
+
+          <button type="button" data-tool="social-generator" class="tool-feature tool-feature-post tool-btn">
+            <div class="tool-feature-top"><span class="tool-number">CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div>
+            <div class="tool-art post-art"><div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div></div></div>
+            <h3>Post Studio</h3>
+            <p>Shape platform-aware posts with hooks, captions, calls to action and creative direction.</p>
+            <span class="tool-open">Open Post Studio <i data-lucide="arrow-right"></i></span>
+          </button>
+
+          <button type="button" data-tool="proposal-idea" class="tool-feature tool-feature-proposal tool-btn">
+            <div class="tool-feature-top"><span class="tool-number">BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div>
+            <div class="tool-art proposal-art"><div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span></div></div>
+            <h3>Proposal Generator</h3>
+            <p>Turn project requirements into structured proposals with a clearer scope and next steps.</p>
+            <span class="tool-open">Open Proposal Generator <i data-lucide="arrow-right"></i></span>
+          </button>
+
+          <button type="button" data-tool="text-repurpose" class="tool-feature tool-feature-repurpose tool-btn">
+            <div class="tool-feature-top"><span class="tool-number">CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div>
+            <div class="tool-art repurpose-art"><div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div></div>
+            <h3>Text Repurposer</h3>
+            <p>Adapt one source into distinct formats while keeping your key message intact.</p>
+            <span class="tool-open">Open Text Repurposer <i data-lucide="arrow-right"></i></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="home-method site-container">
+        <div class="method-copy"><span class="section-kicker">A MORE USEFUL WAY TO WORK</span><h2>From rough idea<br>to <em>ready-to-use.</em></h2><p>Each tool starts with a specific task, gives you structured controls and returns an output you can review, edit and make your own.</p><a class="button button-dark" href="explore.html">Find your workflow <i data-lucide="arrow-up-right"></i></a></div>
+        <div class="method-flow">
+          <div class="flow-step"><span>01</span><div><i data-lucide="file-input"></i><b>Bring your context</b><small>A question, brief, source text or project details.</small></div></div>
+          <div class="flow-connector"></div>
+          <div class="flow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Choose your direction</b><small>Set the format, tone and what matters.</small></div></div>
+          <div class="flow-connector"></div>
+          <div class="flow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review the result</b><small>Copy, refine and keep control.</small></div></div>
+        </div>
+      </section>
+      <p class="home-disclaimer site-container">Quans is a human-oriented AI workspace. AI-generated outputs should always be reviewed before use.</p>
+    </main>
     
     <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
     <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
@@ -722,109 +656,570 @@ body.site-page.workspace-page {
     </div>
 </footer>
 
-    <div id="mobileSidebar">
-    <div id="sidebarOverlay"></div>
-    <div class="mobile-sidebar-panel transform translate-x-full">
-        <div class="flex items-center justify-between pb-5 border-b border-[#e9e5f0]">
-            <a class="quans-brand" href="index.html">QUANS<span>.</span></a>
-            <button id="closeMobileMenu" type="button" class="mobile-close" aria-label="Close navigation"><i class="fa-solid fa-xmark"></i></button>
+    <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
+        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
+        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-100 dark:border-slate-800 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
+            <div class="flex items-center justify-end pb-6 border-b border-slate-100 dark:border-slate-800">
+                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <div class="flex-1 py-8 flex flex-col space-y-3">
+                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-house-chimney"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Home</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Tools</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Explore</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-tag"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Pricing</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Contact Us</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">About Us</span>
+                    </div>
+                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="text-xs text-slate-400 font-medium tracking-tight">
+                &copy; 2026 QUANS Inc.
+            </div>
         </div>
-        <div class="flex-1 py-6">
-            <a id="mobile-nav-home" href="index.html"><span class="mobile-icon"><i class="fa-solid fa-house"></i></span><span>Home</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-            <a id="mobile-nav-tool" href="tool.html" class="text-brand-blue"><span class="mobile-icon"><i class="fa-solid fa-grid-2"></i></span><span>Tools</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-            <a id="mobile-nav-explore" href="explore.html"><span class="mobile-icon"><i class="fa-regular fa-compass"></i></span><span>Explore</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-            <a id="mobile-nav-price" href="pricing.html"><span class="mobile-icon"><i class="fa-solid fa-tag"></i></span><span>Pricing</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-            <a id="mobile-nav-contact" href="contact.html"><span class="mobile-icon"><i class="fa-regular fa-envelope"></i></span><span>Contact Us</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-            <a id="mobile-nav-about" href="about.html"><span class="mobile-icon"><i class="fa-regular fa-circle-question"></i></span><span>About Us</span><i class="fa-solid fa-arrow-right mobile-arrow"></i></a>
-        </div>
-        <div class="pt-5 border-t border-[#e9e5f0] text-[10px] tracking-wide text-[#aaa4b5]">© 2026 QUANS. All rights reserved.</div>
     </div>
-</div>
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
-    <div id="authModalOverlay" class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md"></div>
-    <div class="auth-dialog relative modal transform scale-95 transition-transform duration-300">
-        <div class="auth-layout">
-            <aside class="auth-brand-panel">
-                <div class="auth-brand-copy">
-                    <a href="index.html" class="auth-brand-logo">QUANS<span>.</span></a>
-                    <span class="auth-brand-kicker">HUMONOID AI WORKSPACE</span>
-                    <h2>Make room for <em>better ideas.</em></h2>
-                    <p>Bring your ideas, writing and everyday work together with a collection of thoughtful AI-powered tools.</p>
-                </div>
-                <div class="auth-brand-visual">
-                    <div class="auth-brand-visual-top"><span>Your workspace</span><span>QUANS / 01</span></div>
-                    <div class="auth-brand-visual-grid">
-                        <div><i class="fa-solid fa-file-lines"></i><b>Resume Toolkit</b><small>Build your next step</small></div>
-                        <div><i class="fa-solid fa-pen-nib"></i><b>Post Studio</b><small>Shape your ideas</small></div>
-                        <div><i class="fa-solid fa-file-contract"></i><b>Proposals</b><small>Build with clarity</small></div>
-                        <div><i class="fa-solid fa-repeat"></i><b>Repurposer</b><small>Create more from less</small></div>
+    
+        <!-- Background overlay -->
+        <div id="authModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Signup dialog: keep relative and scale-95 for existing animation JS -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <!-- Decorative background -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
                     </div>
-                </div>
-                <p class="auth-brand-footnote">One workspace. Different ways to create.</p>
-            </aside>
-            <section class="auth-form-panel">
-                <button id="closeAuthModal" type="button" aria-label="Close signup" class="auth-close"><i class="fa-solid fa-xmark"></i></button>
-                <div class="auth-form-inner">
-                    <span class="auth-kicker">YOUR WORKSPACE STARTS HERE</span>
-                    <h3>Create your account<span>.</span></h3>
-                    <p class="auth-lede">Sign up to explore your tools and bring your next idea to life.</p>
-                    <button id="googleSignupBtn" type="button" class="auth-google option-btn"><i class="fa-brands fa-google"></i><span>Continue with Google</span></button>
-                    <div class="auth-divider">Or use email</div>
-                    <form id="signupForm">
-                        <div id="signupErrorMsg" class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-1"><i class="fa-solid fa-circle-exclamation flex-shrink-0"></i><span class="error-text"></span></div>
-                        <div><label for="signupEmailInput">Email address</label><input id="signupEmailInput" type="email" required autocomplete="email" placeholder="name@company.com"></div>
-                        <div><label for="signupPasswordInput">Password</label><div class="auth-password-wrap"><input id="signupPasswordInput" type="password" required autocomplete="new-password" placeholder="Create a password"><button type="button" id="toggleSignupPassword" aria-label="Toggle password visibility"><i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i></button></div></div>
-                        <button type="submit" class="auth-submit"><span>Create account</span><i class="fa-solid fa-arrow-right text-xs"></i></button>
-                    </form>
-                    <div class="auth-switch">Already have an account? <button id="switchToLogin" type="button">Log in</button></div>
-                    <p class="auth-legal">By creating an account, you agree to use Quans responsibly.</p>
-                </div>
-            </section>
+    
+                    <div class="relative z-10">
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                HUMONOID AI WORKSPACE
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Make room for
+                                <span class="block italic text-[#8969ce]">better ideas.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Bring your ideas, writing and everyday work together with a collection of thoughtful AI-powered tools.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Mini workspace visual -->
+                    <div class="relative z-10 mt-12">
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="grid grid-cols-2 gap-2 mt-4">
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#8065bf]/25 text-[#c3aaff] mb-3">
+                                        <i class="fa-solid fa-pen-nib text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Content Studio</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Shape your ideas</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#6bcac7]/20 text-[#8ce2de] mb-3">
+                                        <i class="fa-solid fa-file-lines text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Proposals</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Build with clarity</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#f1a7c4]/20 text-[#f4b8d0] mb-3">
+                                        <i class="fa-solid fa-repeat text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Repurposer</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Create more from less</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#e9c98c]/20 text-[#eecf9a] mb-3">
+                                        <i class="fa-solid fa-user-tie text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Resume Toolkit</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Move forward</p>
+                                </div>
+    
+                            </div>
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+                    </div>
+                </aside>
+    
+                <!-- RIGHT: Signup form -->
+                <section class="relative flex flex-col justify-center px-6 py-9 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close button -->
+                    <button id="closeAuthModal"
+                        type="button"
+                        aria-label="Close signup"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile brand -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <div class="mb-7">
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE STARTS HERE
+                            </span>
+    
+                            <h3 class="mt-4 text-[34px] sm:text-[39px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Create your account<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign up to explore your tools and bring your next idea to life.
+                            </p>
+                        </div>
+    
+                        <!-- Google signup -->
+                        <button id="googleSignupBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or use email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original signup form and IDs retained -->
+                        <form id="signupForm" class="space-y-4 text-left">
+    
+                            <div id="signupErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <div>
+                                <label for="signupEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="signupEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <div>
+                                <label for="signupPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+                                    <input id="signupPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="new-password"
+                                        placeholder="Create a password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleSignupPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- Signup CTA -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-3 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Create account</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Login switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+                            <p class="text-sm text-[#858091]">
+                                Already have an account?
+    
+                                <button id="switchToLogin"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Log in
+                                </button>
+                            </p>
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            By creating an account, you agree to use Quans responsibly.
+                        </p>
+    
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-</div>
-
+    
     <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
-    <div id="loginModalOverlay" class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md"></div>
-    <div class="auth-dialog relative modal transform scale-95 transition-transform duration-300">
-        <div class="auth-layout">
-            <aside class="auth-brand-panel">
-                <div class="auth-brand-copy">
-                    <a href="index.html" class="auth-brand-logo">QUANS<span>.</span></a>
-                    <span class="auth-brand-kicker">GOOD TO HAVE YOU BACK</span>
-                    <h2>Your ideas are <em>waiting for you.</em></h2>
-                    <p>Pick up where you left off. Your creative workspace and specialized tools are ready when you are.</p>
-                </div>
-                <div class="auth-brand-visual">
-                    <div class="auth-brand-visual-top"><span>Keep creating</span><span>QUANS / 01</span></div>
-                    <p class="text-xl text-white mt-4" style="font-family:Georgia,serif">Good ideas deserve <em class="text-[#bba5f4]">room to grow.</em></p>
-                    <div class="flex items-center gap-2 mt-5"><span class="h-1 flex-1 bg-[#9275d1]"></span><span class="h-1 flex-1 bg-[#6dcac7]"></span><span class="h-1 flex-1 bg-[#e5a6c2]"></span><span class="h-1 flex-1 bg-[#d9bc83]"></span></div>
-                </div>
-                <p class="auth-brand-footnote">One workspace. Different ways to create.</p>
-            </aside>
-            <section class="auth-form-panel">
-                <button id="closeLoginModal" type="button" aria-label="Close login" class="auth-close"><i class="fa-solid fa-xmark"></i></button>
-                <div class="auth-form-inner">
-                    <span class="auth-kicker">YOUR WORKSPACE AWAITS</span>
-                    <h3>Welcome back<span>.</span></h3>
-                    <p class="auth-lede">Sign in to continue creating, refining and getting things done.</p>
-                    <button id="googleLoginBtn" type="button" class="auth-google option-btn"><i class="fa-brands fa-google"></i><span>Continue with Google</span></button>
-                    <div class="auth-divider">Or sign in with email</div>
-                    <form id="loginForm">
-                        <div id="loginErrorMsg" class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-1"><i class="fa-solid fa-circle-exclamation flex-shrink-0"></i><span class="error-text"></span></div>
-                        <div><label for="loginEmailInput">Email address</label><input id="loginEmailInput" type="email" required autocomplete="email" placeholder="name@company.com"></div>
-                        <div><label for="loginPasswordInput">Password</label><div class="auth-password-wrap"><input id="loginPasswordInput" type="password" required autocomplete="current-password" placeholder="Enter your password"><button type="button" id="toggleLoginPassword" aria-label="Toggle password visibility"><i class="fa-solid fa-eye text-sm" id="eyeIcon"></i></button></div></div>
-                        <div class="text-right"><a id="forgotPasswordLink" class="cursor-pointer">Forgot password?</a></div>
-                        <button type="submit" class="auth-submit"><span>Sign in to Quans</span><i class="fa-solid fa-arrow-right text-xs"></i></button>
-                    </form>
-                    <div class="auth-switch">New to Quans? <button id="switchToSignup" type="button">Create an account</button></div>
-                    <p class="auth-legal">Your workspace is just one sign-in away.</p>
-                </div>
-            </section>
+    
+        <!-- Overlay -->
+        <div id="loginModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Login dialog -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
+                    </div>
+    
+                    <div class="relative z-10">
+    
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+    
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                GOOD TO HAVE YOU BACK
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Your ideas are
+                                <span class="block italic text-[#8969ce]">waiting for you.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Pick up where you left off. Your creative workspace and specialized tools are ready when you are.
+                            </p>
+    
+                        </div>
+                    </div>
+    
+                    <!-- Workspace preview -->
+                    <div class="relative z-10 mt-12">
+    
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="mt-5">
+                                <p class="text-[10px] text-white/40 uppercase tracking-[1.5px]">
+                                    Keep creating
+                                </p>
+    
+                                <p class="mt-2 text-xl text-white leading-snug"
+                                    style="font-family: Georgia, 'Times New Roman', serif;">
+                                    Good ideas deserve
+                                    <span class="italic text-[#bba5f4]">room to grow.</span>
+                                </p>
+                            </div>
+    
+                            <div class="mt-5 flex items-center gap-2">
+                                <div class="h-1 flex-1 bg-[#9275d1]"></div>
+                                <div class="h-1 flex-1 bg-[#6dcac7]"></div>
+                                <div class="h-1 flex-1 bg-[#e5a6c2]"></div>
+                                <div class="h-1 flex-1 bg-[#d9bc83]"></div>
+                            </div>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+    
+                    </div>
+    
+                </aside>
+    
+                <!-- RIGHT: Login form -->
+                <section class="relative flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close -->
+                    <button id="closeLoginModal"
+                        type="button"
+                        aria-label="Close login"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile branding -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <!-- Heading -->
+                        <div class="mb-7">
+    
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE AWAITS
+                            </span>
+    
+                            <h3 class="mt-4 text-[36px] sm:text-[41px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Welcome back<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign in to continue creating, refining and getting things done.
+                            </p>
+    
+                        </div>
+    
+                        <!-- Google login -->
+                        <button id="googleLoginBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or sign in with email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original login form -->
+                        <form id="loginForm" class="space-y-4 text-left">
+    
+                            <div id="loginErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <!-- Email -->
+                            <div>
+                                <label for="loginEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="loginEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <!-- Password -->
+                            <div>
+                                <label for="loginPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+    
+                                    <input id="loginPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="current-password"
+                                        placeholder="Enter your password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleLoginPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                                    </button>
+    
+                                </div>
+                            </div>
+    
+                            <!-- Forgot password -->
+                            <div class="text-right pt-1">
+                                <a id="forgotPasswordLink"
+                                    class="cursor-pointer text-xs font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Forgot password?
+                                </a>
+                            </div>
+    
+                            <!-- Login button -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-2 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Sign in to Quans</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Signup switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+    
+                            <p class="text-sm text-[#858091]">
+                                New to Quans?
+    
+                                <button id="switchToSignup"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Create an account
+                                </button>
+                            </p>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            Your workspace is just one sign-in away.
+                        </p>
+    
+                    </div>
+                </section>
+    
+            </div>
         </div>
     </div>
-</div>
 
     <div id="settingsPopupModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300">
     <div class="relative w-full h-full md:h-auto md:max-w-3xl md:rounded-3xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xl border border-transparent md:dark:border-slate-800 flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
@@ -2005,13 +2400,5 @@ body.site-page.workspace-page {
         const cachedUserThemeSelection = localStorage.getItem('quans-app-theme') || 'light';
         processThemeApplication(cachedUserThemeSelection);
     </script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    if (window.lucide && typeof window.lucide.createIcons === "function") {
-        window.lucide.createIcons();
-    }
-});
-</script>
 </body>
 </html>
