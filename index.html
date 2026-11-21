@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Free Business Tools</title>
+    <title>Quans — Humonoid AI Workspace</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -65,8 +65,339 @@
             scrollbar-color: #CBD5E1 transparent;
         }
     </style>
+    <script src="https://unpkg.com/lucide@1.77.0/dist/umd/lucide.js" defer></script>
+
+<style id="quans-home-only-styles">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --q-ink: #17162b;
+  --q-ink-soft: #29263f;
+  --q-muted: #77758b;
+  --q-muted-light: #9e9bac;
+  --q-line: #e9e6f0;
+  --q-paper: #fbfaff;
+  --q-white: #ffffff;
+  --q-violet: #7655e8;
+  --q-violet-dark: #5e40ce;
+  --q-cyan: #6ad7e7;
+  --q-coral: #ff8b76;
+  --q-lilac: #d9ccff;
+  --q-green: #6ebc9e;
+  --q-serif: Georgia, 'Times New Roman', serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(118,85,232,.22); color: var(--q-ink); }
+
+/* Shared marketing-site shell */
+.site-page {
+  min-height: 100vh;
+  color: var(--q-ink);
+  background:
+    radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem),
+    radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem),
+    #fbfaff;
+}
+.site-page > .min-h-screen { min-height: 100vh; }
+.site-page header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 82px;
+  padding: 16px clamp(18px,4vw,64px);
+  background: rgba(251,250,255,.9);
+  border-bottom: 1px solid rgba(226,222,239,.8);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(27,20,69,.025);
+}
+.site-page header > div:first-child { flex: 0 0 auto; z-index: 2; }
+.site-page header > div:first-child > span,
+.site-page header > div:first-child > a {
+  color: var(--q-ink) !important;
+  font-size: 25px !important;
+  font-weight: 900 !important;
+  letter-spacing: -.09em !important;
+  text-decoration: none;
+}
+.site-page header > div:first-child > span::first-letter,
+.site-page header > div:first-child > a::first-letter { color: var(--q-violet); }
+.site-page header > div:first-child span span { color: var(--q-violet) !important; }
+.site-page header > div.hidden.md\:flex,
+.site-page header > .hidden.md\:flex {
+  position: static !important;
+  inset: auto !important;
+  display: flex !important;
+  gap: clamp(14px,2vw,30px) !important;
+  justify-content: center;
+  pointer-events: auto !important;
+  flex: 1 1 auto;
+  padding: 0 20px;
+}
+.site-page header nav a,
+.site-page header .hidden.md\:flex a {
+  color: #6d6a82 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.site-page header .hidden.md\:flex a:hover,
+.site-page header .hidden.md\:flex a.active,
+.site-page header .hidden.md\:flex a.text-brand-blue { color: var(--q-violet) !important; }
+.site-page header #navAuthGroup { gap: 10px !important; z-index: 2; }
+.site-page header #navAuthGroup > button:not(#openMobileMenu) {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.site-page header #navAuthGroup > button[onclick*="openLoginPopup"] {
+  color: #514c69 !important;
+  border: 1px solid #e3dfed;
+  background: #fff;
+}
+.site-page header #navAuthGroup > button[onclick*="openAuthPopup"] {
+  color: white !important;
+  background: var(--q-ink) !important;
+  box-shadow: 0 8px 16px rgba(25,22,52,.1);
+}
+.site-page header #navAuthGroup > button:hover { transform: translateY(-2px); }
+.site-page header #openMobileMenu {
+  border-radius: 8px !important;
+  border-color: #e5e1ef !important;
+  color: var(--q-ink) !important;
+}
+
+/* Accessible focus treatment for the page header and links. */
+.site-page button:focus-visible,
+.site-page a:focus-visible,
+.workspace-page button:focus-visible,
+.workspace-page a:focus-visible { outline: 3px solid rgba(118,85,232,.38); outline-offset: 3px; }
+
+/* Home landing page */
+.quans-home { position: relative; overflow: hidden; padding-bottom: 10px; }
+.site-container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+.home-hero {
+  min-height: 650px;
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(440px, 1.08fr);
+  gap: clamp(28px,5vw,74px);
+  align-items: center;
+  padding-top: clamp(58px,8vw,100px);
+  padding-bottom: 80px;
+}
+.hero-copy { position: relative; z-index: 2; max-width: 560px; }
+.eyebrow, .section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #817b9c;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .18em;
+  line-height: 1.4;
+}
+.eyebrow { padding: 9px 12px; border: 1px solid #e5e0f3; background: rgba(255,255,255,.75); color: #6a5d9a; }
+.eyebrow-mark { width: 7px; height: 7px; display: inline-block; background: var(--q-coral); box-shadow: 0 0 0 4px rgba(255,139,118,.14); }
+.hero-copy h1, .section-heading h2, .method-copy h2, .catalog-heading h1, .contact-copy h1 {
+  margin: 23px 0 0;
+  color: var(--q-ink);
+  font-size: clamp(44px,5.4vw,72px);
+  line-height: .99;
+  letter-spacing: -.065em;
+  font-weight: 800;
+}
+.hero-copy h1 em, .section-heading h2 em, .method-copy h2 em, .catalog-heading h1 em, .contact-copy h1 em {
+  font-family: var(--q-serif);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.055em;
+  color: var(--q-violet);
+}
+.hero-lede { max-width: 510px; margin: 23px 0 0; color: #77748b; font-size: 15px; line-height: 1.82; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 32px; }
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px !important;
+  padding: 0 18px;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.button svg { width: 16px; height: 16px; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { color: white; background: linear-gradient(110deg,#7354e7,#8d65f4); box-shadow: 0 12px 24px rgba(112,80,220,.18); }
+.button-primary:hover { box-shadow: 0 16px 28px rgba(112,80,220,.26); }
+.button-secondary { color: #302d48; background: white; border-color: #e6e1f0; }
+.button-dark { color: white; background: var(--q-ink); }
+.hero-notes { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 52px; padding-top: 22px; border-top: 1px solid #e9e5f1; }
+.hero-notes > div { display: flex; align-items: flex-start; gap: 11px; }
+.note-index { color: var(--q-coral); font-size: 10px; font-weight: 900; letter-spacing: .1em; padding-top: 3px; }
+.note-index.note-violet { color: var(--q-violet); }
+.hero-notes strong, .hero-notes small { display: block; }
+.hero-notes strong { color: #343149; font-size: 11px; font-weight: 800; }
+.hero-notes small { color: #9995aa; margin-top: 4px; font-size: 10px; }
+.hero-stage { min-height: 490px; position: relative; isolation: isolate; display: grid; place-items: center; }
+.stage-grid, .contact-art-grid { position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 31px 31px; mask-image: linear-gradient(110deg,transparent,#000 32%,#000 75%,transparent); }
+.stage-orbit { position: absolute; width: 435px; height: 435px; border: 1px solid rgba(125,100,208,.2); transform: rotate(-18deg); z-index: -1; }
+.stage-orbit-one { border-radius: 36% 64% 44% 56% / 49% 40% 60% 51%; animation: orbitDrift 22s linear infinite; }
+.stage-orbit-two { width: 335px; height: 335px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation: orbitDrift 30s linear infinite reverse; }
+.workspace-preview { width: min(100%,560px); position: relative; z-index: 2; background: #17162d; padding: 8px; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.22); transform: rotate(-2deg); animation: previewFloat 8s ease-in-out infinite; }
+.preview-topbar { height: 43px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; border-bottom: 1px solid #34314d; color: #f7f5ff; }
+.preview-brand { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 900; letter-spacing: -.04em; }
+.brand-symbol { display: inline-grid; place-items: center; width: 19px; height: 19px; color: #fff; background: linear-gradient(135deg,#8b6af1,#d27ce8); font-family: Georgia,serif; font-weight: 800; }
+.preview-status { margin-left: 7px; color: #8581a8; font-size: 8px; letter-spacing: .16em; }
+.preview-window-dots { display: flex; gap: 5px; }
+.preview-window-dots b { width: 5px; height: 5px; background: #4e4a68; }
+.preview-window-dots b:first-child { background: var(--q-coral); }
+.preview-body { min-height: 354px; display: grid; grid-template-columns: 154px 1fr; background: #1d1c39; }
+.preview-sidebar { padding: 18px 12px; border-right: 1px solid #33304c; }
+.sidebar-label { display: block; margin: 0 0 12px 5px; color: #706c90; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 9px 8px; margin: 0 0 5px; color: #a8a4c2; font-size: 9px; }
+.sidebar-item svg { width: 12px; height: 12px; }
+.sidebar-item.active { color: #fff; background: #39325c; border-left: 2px solid #9d83ff; }
+.sidebar-rule { height: 1px; margin: 17px 4px; background: #34314d; }
+.sidebar-muted { display: block; padding: 6px 5px; color: #777493; font-size: 8px; }
+.preview-content { padding: 23px 25px; color: #fff; }
+.preview-kicker { color: #aaa5c4; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.preview-kicker span { float: right; color: #7dc5a8; letter-spacing: .08em; }
+.preview-content h3 { margin: 14px 0 9px; color: #fff; font-size: 26px; line-height: 1.02; letter-spacing: -.055em; font-weight: 800; }
+.preview-content > p { color: #a5a1bf; font-size: 9px; line-height: 1.6; max-width: 290px; }
+.resume-sheet { margin-top: 21px; padding: 14px; background: #f7f6fc; color: #211f37; box-shadow: 0 12px 22px rgba(5,4,23,.2); }
+.sheet-heading { display: flex; align-items: center; gap: 8px; }
+.sheet-avatar { width: 28px; height: 28px; display: grid; place-items: center; background: #e1d9ff; color: #6049bb; font-size: 8px; font-weight: 900; }
+.sheet-heading b, .sheet-heading small { display: block; }
+.sheet-heading b { font-size: 9px; }.sheet-heading small { margin-top: 2px; color: #8d8a9d; font-size: 7px; }
+.sheet-heading svg { margin-left: auto; width: 14px; color: #5eac8b; }
+.sheet-line { height: 4px; width: 72%; margin-top: 7px; background: #e1deeb; }
+.sheet-line-long { width: 100%; }.sheet-line-medium { width: 56%; }
+.sheet-columns { display: grid; grid-template-columns: 1.3fr .7fr; gap: 18px; margin-top: 15px; }
+.sheet-columns small { display: block; margin-bottom: 4px; color: #9b97a9; font-size: 6px; font-weight: 900; letter-spacing: .14em; }
+.skill-chip { margin: 3px 0; padding: 4px 5px; background: #ece8fb; color: #6555a6; font-size: 6px; }
+.preview-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #8985a7; font-size: 8px; }
+.preview-footer span:last-child { color: #c7b9ff; display: flex; align-items: center; gap: 5px; }.preview-footer svg { width: 11px; }
+.floating-note { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(255,255,255,.94); border: 1px solid #e6e1f1; box-shadow: 0 15px 35px rgba(38,30,84,.11); animation: noteFloat 6s ease-in-out infinite; }
+.floating-note-top { top: 45px; right: -10px; }.floating-note-bottom { bottom: 38px; left: -22px; animation-delay: -2s; }
+.float-icon { width: 34px; height: 34px; display: grid; place-items: center; }.float-icon svg { width: 17px; }.float-coral { background: #fff0eb; color: #e87964; }.float-violet { background: #f0ecff; color: #7053da; }
+.floating-note b, .floating-note small { display: block; }.floating-note b { color: #29263f; font-size: 10px; }.floating-note small { margin-top: 4px; color: #918da3; font-size: 8px; }
+.stage-accent { position: absolute; bottom: 5px; right: 10%; width: 75px; height: 75px; border: 1px solid rgba(255,139,118,.45); transform: rotate(45deg); }
+@keyframes previewFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
+@keyframes noteFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes orbitDrift { to { transform: rotate(342deg); } }
+
+.home-proof { display: grid; grid-template-columns: minmax(220px,1.7fr) repeat(3,minmax(120px,1fr)); gap: 24px; align-items: center; padding: 24px 0 30px; border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }
+.proof-intro p { margin: 8px 0 0; max-width: 380px; color: #77748b; font-size: 12px; line-height: 1.6; }
+.proof-stat { padding-left: 20px; border-left: 1px solid #e9e5f0; }.proof-stat strong { display: block; color: var(--q-ink); font-size: 28px; font-weight: 800; letter-spacing: -.06em; }.proof-stat span { display: block; color: #8b879b; font-size: 10px; margin-top: 2px; }
+.home-toolkit { padding-top: 102px; padding-bottom: 105px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 35px; }
+.section-heading h2, .method-copy h2 { margin-top: 15px; font-size: clamp(36px,4.5vw,54px); }
+.text-link { display: flex; align-items: center; gap: 10px; color: #5944b4; font-size: 11px; font-weight: 900; text-decoration: none; border-bottom: 1px solid #cfc5f5; padding-bottom: 8px; }.text-link svg { width: 15px; }
+.tool-grid-home { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.tool-feature { min-height: 385px; position: relative; display: flex; flex-direction: column; padding: 18px; overflow: hidden; border: 1px solid #e8e4f0; background: #fff; color: var(--q-ink); text-decoration: none; transition: transform .24s, box-shadow .24s, border-color .24s; }
+.tool-feature:hover { transform: translateY(-5px); border-color: #cfc3fb; box-shadow: 0 18px 35px rgba(46,34,101,.08); }
+.tool-feature-top { display: flex; justify-content: space-between; color: #9792aa; font-size: 8px; letter-spacing: .15em; font-weight: 900; }.tool-feature-top svg { width: 15px; }
+.tool-art { position: relative; height: 137px; display: grid; place-items: center; margin: 18px -4px 20px; overflow: hidden; }
+.resume-art { background: linear-gradient(135deg,#e8e0ff,#f8f3ff); }.resume-mini { width: 76%; padding: 14px; background: #fff; border: 1px solid #e3dcf9; box-shadow: 0 9px 18px rgba(77,55,154,.12); }.mini-avatar { width: 22px; height: 22px; display: inline-grid; place-items: center; background: #dad0ff; color: #5f49b0; font-size: 7px; margin-right: 7px; }.resume-mini span:nth-child(2) b,.resume-mini span:nth-child(2) small { display: block; }.resume-mini b { font-size: 8px; }.resume-mini small { font-size: 6px; color: #9691a6; }.resume-mini svg { float: right; width: 13px; color: #54ad8b; }.mini-row { height: 4px; background: #eae7f3; margin: 10px 0 0 0; }.mini-row.short { width: 64%; margin-top: 5px; }.mini-bullets { display: flex; gap: 5px; margin-top: 11px; }.mini-bullets b { width: 27%; height: 12px; background: #f1edfb; }
+.post-art { background: linear-gradient(130deg,#d8f5f6,#f0fbfd); }.post-window { width: 77%; height: 98px; padding: 11px; background: #fff; border: 1px solid #d7ecee; box-shadow: 0 8px 18px rgba(33,113,122,.12); }.post-dot { display: inline-block; width: 5px; height: 5px; margin-right: 3px; background: #abdfe1; }.post-copy { width: 75%; height: 5px; background: #dceff0; margin-top: 12px; }.post-copy.mid { width: 54%; margin-top: 5px; }.post-graphic { float: right; margin-top: -30px; width: 44px; height: 44px; display: grid; place-items: center; color: #087d8b; background: #c7f1f0; }.post-graphic svg { width: 19px; }
+.proposal-art { background: linear-gradient(135deg,#ffede7,#fff9f5); }.proposal-paper { width: 65%; height: 105px; padding: 13px; background: #fff; border: 1px solid #f3ddd4; transform: rotate(4deg); box-shadow: 0 8px 18px rgba(129,70,50,.12); }.paper-title { display: block; width: 45%; height: 8px; background: #e8a18c; }.paper-rule { display: block; width: 100%; height: 4px; background: #f1e5e0; margin-top: 8px; }.paper-rule.short { width: 65%; margin-top: 5px; }.paper-row { display: flex; gap: 5px; margin: 12px 0; }.paper-row b { flex: 1; height: 14px; background: #fff0ea; }
+.repurpose-art { background: linear-gradient(125deg,#e4f4ed,#f4fbf7); display: flex; align-items: center; justify-content: center; gap: 7px; }.repurpose-source { padding: 12px 9px; background: #fff; color: #367d65; font-size: 8px; font-weight: 900; border: 1px solid #d4e9df; line-height: 1.35; }.repurpose-lines { width: 34px; display: grid; gap: 9px; }.repurpose-lines i { height: 1px; background: #7cbaa2; }.repurpose-targets { display: grid; gap: 5px; }.repurpose-targets b { padding: 5px 7px; background: #fff; border: 1px solid #d4e9df; color: #538b75; font-size: 7px; }
+.tool-feature h3 { margin: 0; font-size: 20px; line-height: 1.08; font-weight: 800; letter-spacing: -.045em; }.tool-feature p { margin: 9px 0 17px; color: #858197; font-size: 10px; line-height: 1.7; }.tool-open { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 12px; color: #6451be; border-top: 1px solid #efecf4; font-size: 9px; font-weight: 900; letter-spacing: .02em; }.tool-open svg { width: 14px; }
+.home-method { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 70px; padding: 70px clamp(22px,5vw,60px); background: #17162d; color: white; position: relative; overflow: hidden; }
+.home-method:after { content: ""; position: absolute; right: -170px; top: -170px; width: 440px; height: 440px; border: 1px solid rgba(163,137,255,.32); transform: rotate(45deg); box-shadow: 0 0 0 30px rgba(163,137,255,.025),0 0 0 60px rgba(163,137,255,.025); }
+.home-method .section-kicker { color: #a9a3cb; }.method-copy h2 { color: white; }.method-copy h2 em { color: #b8a6ff; }.method-copy p { max-width: 420px; color: #aaa6c2; font-size: 13px; line-height: 1.8; margin: 18px 0 26px; }.home-method .button { position: relative; z-index: 1; }
+.method-flow { position: relative; z-index: 1; padding-left: 20px; }.flow-step { display: flex; gap: 17px; align-items: flex-start; }.flow-step > span { color: #9c8be2; font-size: 10px; font-weight: 900; letter-spacing: .12em; padding-top: 6px; }.flow-step > div { flex: 1; display: grid; grid-template-columns: 35px 1fr; column-gap: 13px; padding: 17px 18px; border: 1px solid #383653; background: rgba(255,255,255,.035); }.flow-step svg { grid-row: span 2; width: 18px; height: 18px; color: #ad9bff; margin-top: 2px; }.flow-step b { color: #f5f3ff; font-size: 12px; }.flow-step small { display: block; margin-top: 5px; color: #9b97b2; font-size: 10px; }.flow-connector { width: 1px; height: 18px; margin-left: 38px; background: #62578e; }
+.home-contact { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 90px; margin-bottom: 40px; padding: 35px 0 34px; border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }.home-contact h2 { font-size: 27px; margin: 9px 0 5px; letter-spacing: -.04em; }.home-contact p { color: #89859a; font-size: 11px; line-height: 1.6; }.home-disclaimer { padding-bottom: 34px; color: #aaa6b5; font-size: 9px; line-height: 1.6; }
+
+
+/* Lucide icons and reduced-motion support */
+/* Lucide icon sizing */
+[data-lucide], svg.lucide-icon { width: 1em; height: 1em; stroke-width: 1.8; vertical-align: middle; }
+.site-page svg.lucide, .workspace-page svg.lucide { flex: 0 0 auto; }
+
+/* Reveal and reduced-motion handling */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* Responsive homepage layouts */
+@media (max-width: 1050px) {
+  .home-hero { grid-template-columns: minmax(0,1fr) minmax(360px,.94fr); gap: 26px; }
+  .tool-grid-home { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .tool-feature { min-height: 360px; }
+  .workspace-preview { transform: scale(.96) rotate(-2deg); }
+}
+@media (max-width: 800px) {
+  .site-page header { min-height: 70px; padding: 12px 18px; }
+  .site-page header > .hidden.md\:flex { display: none !important; }
+  .home-hero { grid-template-columns: 1fr; padding-top: 58px; padding-bottom: 58px; }
+  .hero-copy { max-width: 680px; }
+  .hero-stage { min-height: 400px; margin-top: 10px; }
+  .workspace-preview { width: min(100%,570px); }
+  .stage-orbit { width: 390px; height: 390px; }
+  .home-proof { grid-template-columns: 1fr 1fr; }
+  .proof-intro { grid-column: 1 / -1; }
+  .proof-stat { padding-top: 10px; padding-bottom: 10px; }
+  .home-method { grid-template-columns: 1fr; gap: 35px; }
+}
+@media (max-width: 560px) {
+  .site-container { width: calc(100% - 32px); }
+  .site-page header #navAuthGroup > button:not(#openMobileMenu) { min-height: 38px; padding-inline: 11px; font-size: 10px !important; }
+  .site-page header #navAuthGroup { gap: 6px !important; }
+  .hero-copy h1 { font-size: 45px; }
+  .hero-lede { font-size: 13px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions .button { width: 100%; }
+  .hero-notes { gap: 17px; margin-top: 34px; }
+  .hero-stage { min-height: 310px; margin-inline: -8px; overflow: hidden; }
+  .workspace-preview { transform: scale(clamp(.5, calc(.0467 + .1416vw), .84)) rotate(-2deg); width: 570px; max-width: none; }
+  .stage-orbit-one { width: 305px; height: 305px; }
+  .stage-orbit-two { width: 245px; height: 245px; }
+  .floating-note { padding: 8px; gap: 7px; }
+  .floating-note-top { top: 7px; right: -4px; }
+  .floating-note-bottom { bottom: 3px; left: -4px; }
+  .float-icon { width: 28px; height: 28px; }
+  .floating-note b { font-size: 8px; }
+  .floating-note small { font-size: 7px; }
+  .home-proof { gap: 10px; }
+  .proof-stat { padding-left: 12px; }
+  .proof-stat strong { font-size: 24px; }
+  .home-toolkit { padding-top: 65px; padding-bottom: 65px; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
+  .section-heading h2 { font-size: 40px; }
+  .tool-grid-home { grid-template-columns: 1fr; }
+  .tool-feature { min-height: 335px; }
+  .home-method { padding: 42px 20px; }
+  .method-copy h2 { font-size: 42px; }
+  .method-flow { padding-left: 0; }
+  .home-contact { align-items: flex-start; flex-direction: column; }
+  .home-contact .button { width: 100%; }
+}
+@media (max-width: 390px) {
+  .hero-stage { min-height: 275px; }
+  .workspace-preview { transform: scale(.5) rotate(-2deg); }
+  .floating-note-bottom { max-width: 150px; }
+}
+</style>
 </head>
-<body class="min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+<body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
  <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
     
@@ -126,248 +457,54 @@
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-20 max-w-5xl mx-auto text-center">
-        
-        <h1 class="fade-in text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            Create better content in minutes, <span class="text-brand-blue">not hours.</span>
-        </h1>
-        
-        <p class="fade-in delay-1 text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-16 leading-relaxed">
-            AI-powered tools for creators, founders, freelancers, and businesses. Write, refine, and repurpose content with confidence.
-        </p>
-
-        <h1 class="fade-in text-2xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            Get started by <span class="text-brand-blue">Signing Up.</span>
-        </h1>
-
-        <div class="fade-in delay-2 mt-4 flex flex-col items-center justify-center space-y-4">
-            <a href="tool.html" class="group text-lg font-bold bg-brand-blue text-white px-10 py-4 rounded-full hover:bg-brand-hover shadow-lg hover:shadow-blue-200 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center space-x-3">
-                <span>View All Tools</span>
-                <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
-            </a>
+    <main class="quans-home">
+  <section class="home-hero site-container">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="eyebrow-mark"></span> HUMONOID AI WORKSPACE</div>
+      <h1>Do better work.<br><em>Move with clarity.</em></h1>
+      <p class="hero-lede">A focused set of AI tools for the work that moves you forward — from career documents to content, proposals and everyday writing.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="tool.html">Explore the workspace <i data-lucide="arrow-up-right"></i></a>
+        <button class="button button-secondary" type="button" onclick="openAuthPopup(event)">Create your account</button>
+      </div>
+      <div class="hero-notes">
+        <div><span class="note-index" aria-hidden="true">✦</span><span><strong>Purpose-built tools</strong><small>One clear job per workflow</small></span></div>
+        <div><span class="note-index note-violet" aria-hidden="true">↗</span><span><strong>Your work, in context</strong><small>Save and revisit your outputs</small></span></div>
+      </div>
+    </div>
+    <div class="hero-stage" aria-label="Illustration of the Quans workspace">
+      <div class="stage-grid"></div>
+      <div class="stage-orbit stage-orbit-one"></div><div class="stage-orbit stage-orbit-two"></div>
+      <div class="workspace-preview">
+        <div class="preview-topbar"><div class="preview-brand"><span class="brand-symbol">Q</span> quans <span class="preview-status">WORKSPACE</span></div><div class="preview-window-dots"><b></b><b></b><b></b></div></div>
+        <div class="preview-body">
+          <div class="preview-sidebar"><span class="sidebar-label">YOUR TOOLKIT</span><div class="sidebar-item active"><i data-lucide="file-user"></i> Resume Studio</div><div class="sidebar-item"><i data-lucide="pen-line"></i> Post Studio</div><div class="sidebar-item"><i data-lucide="files"></i> Proposals</div><div class="sidebar-item"><i data-lucide="repeat-2"></i> Repurpose</div><div class="sidebar-rule"></div><span class="sidebar-label">RECENT WORK</span><span class="sidebar-muted">Brand strategist resume</span><span class="sidebar-muted">Launch proposal draft</span></div>
+          <div class="preview-content"><div class="preview-kicker">CAREER DOCUMENTS <span>● READY TO EDIT</span></div><h3>Make your next<br>move count.</h3><p>Build a clear, confident resume with a workflow that keeps your experience at the centre.</p><div class="resume-sheet"><div class="sheet-heading"><span class="sheet-avatar">AM</span><span><b>Alex Morgan</b><small>Product Designer</small></span><i data-lucide="check-circle-2"></i></div><div class="sheet-line sheet-line-long"></div><div class="sheet-line sheet-line-medium"></div><div class="sheet-columns"><div><small>EXPERIENCE</small><div class="sheet-line"></div><div class="sheet-line sheet-line-long"></div><div class="sheet-line sheet-line-medium"></div></div><div><small>SKILLS</small><div class="skill-chip">Product strategy</div><div class="skill-chip">Prototyping</div><div class="skill-chip">Research</div></div></div></div><div class="preview-footer"><span>Draft saved</span><span><i data-lucide="sparkles"></i> Refine with Quans</span></div></div>
         </div>
+      </div>
+      <div class="floating-note floating-note-top"><span class="float-icon float-coral"><i data-lucide="file-check-2"></i></span><span><b>Resume toolkit</b><small>Build · Tailor · Prepare</small></span></div>
+      <div class="floating-note floating-note-bottom"><span class="float-icon float-violet"><i data-lucide="wand-sparkles"></i></span><span><b>Made for real work</b><small>Clear output. Less friction.</small></span></div>
+      <div class="stage-accent"></div>
+    </div>
+  </section>
 
-        <section class="w-full max-w-7xl mx-auto px-6 py-12 font-['DM_Sans',sans-serif] flex justify-center">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl justify-items-center justify-center">
-        
-                <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
-                        🤖
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Multiple AI Tools</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">An all-in-one suite featuring specialized assistants, generation engines, and repurposing toolsets.</p>
-                </div>
-        
-                <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
-                        🌍
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Creators & Businesses</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Engineered seamlessly to optimize workflows, scale content output, and boost overall productivity.</p>
-                </div>
-        
-                <div class="group bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgba(148,163,184,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 w-full sm:col-span-2 md:col-span-1">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-100 transition-colors">
-                        💡
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Regular Features</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Consistently updating our toolsets with fresh capabilities to keep you ahead of the digital curve.</p>
-                </div>
-        
-            </div>
-        </section>
-        
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
-            
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white mb-12">
-                Why Quans<span class="text-brand-blue">?</span>
-            </h2>
-        
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                
-                <div class="group p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.02] md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/50">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-xl flex items-center justify-center text-xl mb-5 shadow-xs">
-                        <span>⚡</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Fast</h3>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Generate highly optimized content and data files in a matter of seconds.
-                    </p>
-                </div>
-        
-                <div class="group p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.02] md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/50">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-xl flex items-center justify-center text-xl mb-5 shadow-xs">
-                        <span>🎯</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Platform Aware</h3>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Optimized parsing styles specific to LinkedIn, Instagram, Facebook, and more.
-                    </p>
-                </div>
-        
-                <div class="group p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.02] md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/50">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-xl flex items-center justify-center text-xl mb-5 shadow-xs">
-                        <span>✍</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Human Writing</h3>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Produces natural, engaging target content without generic or repetitive AI phrasing shortcuts.
-                    </p>
-                </div>
-        
-                <div class="group p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.02] md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/50">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-xl flex items-center justify-center text-xl mb-5 shadow-xs">
-                        <span>🔄</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Growing Toolkit</h3>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-                        New custom specialized AI utilities and modules are updated and added regularly.
-                    </p>
-                </div>
-        
-            </div>
-        </section>
+  <section class="home-proof site-container"><div class="proof-intro"><span class="section-kicker">A WORKSPACE WITH A POINT OF VIEW</span><p>Not another endless chat window. A practical toolkit built around the work you actually need to finish.</p></div><div class="proof-stat"><strong>04</strong><span>Focused tools</span></div><div class="proof-stat"><strong>01</strong><span>Connected workspace</span></div><div class="proof-stat"><strong>∞</strong><span>Ways to shape your work</span></div></section>
 
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
-            
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white mb-12">
-                Who is it for<span class="text-brand-blue">?</span>
-            </h2>
-        
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
-                
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>👨‍💻</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Developers</h3>
-                </div>
-        
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>🚀</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Founders</h3>
-                </div>
-        
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>🎨</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Creators</h3>
-                </div>
-        
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>📈</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Marketers</h3>
-                </div>
-        
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>💼</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Agencies</h3>
-                </div>
-        
-                <div class="group p-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:scale-[1.03] md:hover:border-brand-blue md:hover:shadow-md md:hover:shadow-blue-100/40">
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-2xs">
-                        <span>🏢</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors group-hover:text-brand-blue">Businesses</h3>
-                </div>
-        
-            </div>
-        </section>
+  <section class="home-toolkit site-container">
+    <div class="section-heading"><div><span class="section-kicker">THE QUANS TOOLKIT</span><h2>One workspace.<br><em>Four useful directions.</em></h2></div><a class="text-link" href="tool.html">View all tools <i data-lucide="arrow-up-right"></i></a></div>
+    <div class="tool-grid-home">
+      <a class="tool-feature tool-feature-resume" href="ai.html"><div class="tool-feature-top"><span class="tool-number">CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></div><div class="tool-art resume-art"><div class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i></div><div class="mini-row"></div><div class="mini-row short"></div><div class="mini-bullets"><b></b><b></b><b></b></div></div><h3>Resume Builder<br>& Toolkit</h3><p>Create resumes, tailor them to roles, draft cover letters and prepare for interviews.</p><span class="tool-open">Open career toolkit <i data-lucide="arrow-right"></i></span></a>
+      <a class="tool-feature tool-feature-post" href="social.html"><div class="tool-feature-top"><span class="tool-number">CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div><div class="tool-art post-art"><div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div></div></div><h3>Post Studio</h3><p>Shape platform-aware posts with hooks, body copy, calls to action and creative direction.</p><span class="tool-open">Open Post Studio <i data-lucide="arrow-right"></i></span></a>
+      <a class="tool-feature tool-feature-proposal" href="proposal.html"><div class="tool-feature-top"><span class="tool-number">BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div><div class="tool-art proposal-art"><div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span></div></div><h3>Proposal Studio</h3><p>Turn project requirements into structured proposals with a clearer scope and next steps.</p><span class="tool-open">Open Proposal Studio <i data-lucide="arrow-right"></i></span></a>
+      <a class="tool-feature tool-feature-repurpose" href="textrep.html"><div class="tool-feature-top"><span class="tool-number">CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div><div class="tool-art repurpose-art"><div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div></div><h3>Text Repurposer</h3><p>Adapt one source into distinct formats while keeping your key message intact.</p><span class="tool-open">Open Text Repurposer <i data-lucide="arrow-right"></i></span></a>
+    </div>
+  </section>
 
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
-            
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white mb-14">
-                How it works<span class="text-brand-blue">?</span>
-            </h2>
-        
-            <div class="flex flex-col lg:flex-row justify-between items-center gap-y-6 lg:gap-x-4 max-w-4xl mx-auto">
-                
-                <div class="group flex flex-col items-center w-full max-w-[260px] p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/40">
-                    <div class="w-14 h-14 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform group-hover:scale-110">
-                        <span>1️⃣</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Choose a Tool</h3>
-                    <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-tight leading-relaxed">
-                        Browse our suite and open the specialized AI engine built for your task.
-                    </p>
-                </div>
-        
-                <div class="text-slate-300 dark:text-slate-700 text-2xl font-bold transform rotate-90 lg:rotate-0 my-2 lg:my-0 lg:px-2 animate-pulse">
-                    <i class="fa-solid fa-arrow-right-long hidden lg:block"></i>
-                    <i class="fa-solid fa-arrow-down-long lg:hidden"></i>
-                </div>
-        
-                <div class="group flex flex-col items-center w-full max-w-[260px] p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/40">
-                    <div class="w-14 h-14 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform group-hover:scale-110">
-                        <span>2️⃣</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Enter your idea</h3>
-                    <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-tight leading-relaxed">
-                        Type raw thoughts, rough notes, or basic descriptions into the dashboard.
-                    </p>
-                </div>
-        
-                <div class="text-slate-300 dark:text-slate-700 text-2xl font-bold transform rotate-90 lg:rotate-0 my-2 lg:my-0 lg:px-2 animate-pulse">
-                    <i class="fa-solid fa-arrow-right-long hidden lg:block"></i>
-                    <i class="fa-solid fa-arrow-down-long lg:hidden"></i>
-                </div>
-        
-                <div class="group flex flex-col items-center w-full max-w-[260px] p-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-300 md:hover:border-brand-blue md:hover:shadow-lg md:hover:shadow-blue-100/40">
-                    <div class="w-14 h-14 bg-blue-50 dark:bg-blue-950/40 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform group-hover:scale-110">
-                        <span>3️⃣</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Copy & Publish</h3>
-                    <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-tight leading-relaxed">
-                        Grab your refined, human-grade generated response and deploy it instantly.
-                    </p>
-                </div>
-        
-            </div>
-        </section>
+  <section class="home-method site-container"><div class="method-copy"><span class="section-kicker">A MORE USEFUL WAY TO WORK</span><h2>From rough idea<br>to <em>ready-to-use.</em></h2><p>Each tool starts with a specific task, gives you structured controls and returns an output you can review, edit and make your own.</p><a class="button button-dark" href="tool.html">Find your workflow <i data-lucide="arrow-up-right"></i></a></div><div class="method-flow"><div class="flow-step"><span>01</span><div><i data-lucide="file-input"></i><b>Bring your context</b><small>A brief, source text or career details.</small></div></div><div class="flow-connector"></div><div class="flow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Choose your direction</b><small>Set tone, format and what matters.</small></div></div><div class="flow-connector"></div><div class="flow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review the result</b><small>Copy, refine and keep control.</small></div></div></div></section>
 
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
-            
-            <div class="w-full bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-white/40 dark:border-slate-800/40 rounded-[36px] p-8 sm:p-12 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center relative overflow-hidden">
-                
-                <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand-light dark:bg-blue-950/20 rounded-full blur-3xl opacity-60"></div>
-                <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-100 dark:bg-indigo-950/20 rounded-full blur-3xl opacity-50"></div>
-        
-                <p class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-3xl leading-snug relative z-10">
-                    Trusted AI tools that help you create <br class="hidden md:inline" /> 
-                    better content, <span class="text-brand-blue">faster.</span>
-                </p>
-                
-            </div>
-        </section>
-
-        <section class="fade-in delay-3 w-full max-w-5xl mx-auto px-4 mt-24 mb-16 text-center">
-            <div class="flex flex-col items-center justify-center space-y-4">
-                
-                <h3 class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-                    Building something you'd love to use?
-                </h3>
-                
-                <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xl mx-auto">
-                    Suggest a new tool—we're always improving <span class="font-bold text-brand-blue">QUANS</span> based on user feedback.
-                </p>
-                
-                <div class="pt-2">
-                    <a href="contact.html" class="group text-sm font-bold bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-6 py-3 rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center space-x-2 cursor-pointer">
-                        <i class="fa-solid fa-lightbulb text-amber-400 transition-transform group-hover:scale-110"></i>
-                        <span>Submit a Suggestion</span>
-                    </a>
-                </div>
-        
-            </div>
-        </section>
-    </main>
+  <section class="home-contact site-container"><div><span class="section-kicker">BUILT TO BE USEFUL</span><h2>Have a workflow in mind?</h2><p>Tell us what would make Quans more helpful. Product feedback and thoughtful suggestions are always welcome.</p></div><a class="button button-primary" href="contact.html">Talk to the team <i data-lucide="arrow-up-right"></i></a></section>
+  <p class="home-disclaimer site-container">Quans is a human-oriented AI workspace. It brings focused tools into one place; AI-generated outputs should always be reviewed before use.</p>
+</main>
 
     <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 font-semibold text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
     <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
@@ -1751,5 +1888,20 @@
         const cachedUserThemeSelection = localStorage.getItem('quans-app-theme') || 'light';
         processThemeApplication(cachedUserThemeSelection);
     </script>
+
+<script id="quansLucideInit">
+(function () {
+  function renderQuansIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ icons: window.lucide.icons, attrs: { 'aria-hidden': 'true' } });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderQuansIcons, { once: true });
+  } else {
+    renderQuansIcons();
+  }
+})();
+</script>
 </body>
 </html>
