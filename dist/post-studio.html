@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Quans — Post Studio</title>
+<script>
+tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
+                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
+                }
+            }
+        };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth Mobile Sidebar Animation Transitions */
+        .sidebar-overlay-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .sidebar-panel-active {
+            transform: translateX(0) !important;
+        }
+    </style>
+  <script src="https://unpkg.com/lucide@1.77.0/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="/assets/css/quans-brand.css">
+</head>
+<body class="workspace-page post-studio-page h-screen w-screen overflow-x-hidden md:overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
+<header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
+<div class="flex items-center">
+<a class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs" href="tools.html">
+<i class="fa-solid fa-arrow-left text-[10px]"></i>
+<span class="hidden sm:inline">Home</span>
+</a>
+</div>
+<div class="text-center">
+<h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">Post Studio</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative" id="profileDropdownRoot">
+<button class="flex items-center gap-1.5 px-3 py-2 hover:bg-slate-50 transition-all cursor-pointer bg-white shadow-xs" id="profileTriggerBtn">
+<span class="text-sm font-semibold text-slate-700" id="userHelloDisplay">Hello!</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
+</button>
+<div class="hidden absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-xl py-1 z-50" id="profileDropdownMenu">
+<button class="w-full px-3 py-2 text-left text-xs text-rose-500 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors" id="logoutActionBtn">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</button>
+</div>
+</div>
+<button class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs" id="mobileDrawerOpenBtn">
+<i class="fa-solid fa-clock-rotate-left text-xs"></i>
+</button>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col md:flex-row overflow-y-auto md:overflow-hidden relative p-3 sm:p-4 gap-3 sm:gap-4">
+<section class="w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-auto md:h-full">
+<div class="space-y-4 pb-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
+<textarea class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs" id="topicInputField" placeholder="What is your business..." rows="3"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
+<span class="selected-display-value truncate">LinkedIn</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+</button>
+<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
+<span class="selected-display-value truncate">Professional</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+</button>
+<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
+<span class="selected-display-value truncate">Developers</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+</button>
+<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
+<span class="selected-display-value truncate">Get comments</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+</button>
+<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
+<span class="selected-display-value truncate">Short</span>
+<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+</button>
+<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
+<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-1">
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input class="sr-only peer" id="addCtaCheckbox" type="checkbox"/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
+<span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
+</label>
+</div>
+<div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
+<h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner (Optional)</h3>
+<div>
+<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
+<input class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs" id="brandContextInput" placeholder="e.g., https://mybrand.com" type="url"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
+<textarea class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs" id="sampleWritingStyleInput" placeholder="Paste a past post here to copy your natural syntax voice..." rows="2"></textarea>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 md:mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0" id="generationTriggerBtn">
+<i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
+<span>Generate Content</span>
+</button>
+</section>
+<section class="flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[500px] md:min-h-0 h-auto md:h-full">
+<div class="h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
+<div class="flex items-center gap-2 min-w-0 pr-2">
+<div class="w-2 h-2 rounded-full bg-slate-300 shrink-0" id="statusDotIndicator"></div>
+<span class="text-[13px] sm:text-[15px] font-bold text-slate-500 truncate" id="statusLabelIndicator">Waiting for inputs...</span>
+</div>
+<button class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs" id="copyToClipboardBtn">
+<i class="fa-regular fa-copy"></i>
+<span id="copyBtnLabelText">Copy Full Blueprint</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center" id="outputDisplayScreenFrame">
+<div class="text-center max-w-xs mx-auto text-slate-400 py-12" id="fallbackEmptyStatePanel">
+<p class="text-xs font-semibold tracking-wide text-slate-400">Your generated social blueprint will appear here.</p>
+</div>
+<div class="hidden w-full space-y-4 text-xs sm:text-sm select-text" id="contentRendererDisplayBlock">
+<div class="space-y-2.5">
+<span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Generated Hook Stream Options</span>
+<div class="grid grid-cols-1 gap-2.5">
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText1"></div>
+<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText1')"><i class="fa-regular fa-copy"></i></button>
+</div>
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText2"></div>
+<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText2')"><i class="fa-regular fa-copy"></i></button>
+</div>
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText3"></div>
+<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText3')"><i class="fa-regular fa-copy"></i></button>
+</div>
+</div>
+</div>
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+<div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+<span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
+<button class="text-slate-400 hover:text-slate-600 text-xs transition-colors" onclick="copyIndividualSegmentBlock('generatedMainBodyText')"><i class="fa-regular fa-copy"></i></button>
+</div>
+<div class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed" id="generatedMainBodyText"></div>
+</div>
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+<div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+<span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
+<button class="text-slate-400 hover:text-slate-600 text-xs transition-colors" onclick="copyIndividualSegmentBlock('generatedCtaText')"><i class="fa-regular fa-copy"></i></button>
+</div>
+<div class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap" id="generatedCtaText"></div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+<span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
+<div class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap" id="generatedHashtags"></div>
+</div>
+<div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
+<span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
+<div class="text-[11px] text-slate-500 italic whitespace-pre-wrap" id="generatedImageSuggestion"></div>
+</div>
+</div>
+<!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
+<div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('shorter')">
+<i class="fa-solid fa-compress text-[10px]"></i>
+<span>Shorter</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('professional')">
+<i class="fa-solid fa-briefcase text-[10px]"></i>
+<span>Executive</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('funny')">
+<i class="fa-solid fa-face-smile text-[10px]"></i>
+<span>Wittier</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('hook')">
+<i class="fa-solid fa-magnet text-[10px]"></i>
+<span>Punchy Hook</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('sales')">
+<i class="fa-solid fa-gavel text-[10px]"></i>
+<span>Sales Pitch</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('story')">
+<i class="fa-solid fa-book text-[10px]"></i>
+<span>Narrative</span>
+</button>
+</div>
+</div>
+</div>
+<div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
+<button class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer" id="desktopDropupTriggerBtn">
+<i class="fa-solid fa-folder-open text-[11px]"></i>
+<span>Your Generations</span>
+<i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
+</button>
+<div class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300" id="desktopDropupPanel">
+<div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
+<h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
+<div class="relative">
+<input class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white" id="desktopHistorySearchBox" placeholder="Search archive logs..." type="text"/>
+<i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1" id="desktopGenerationsScrollList"></div>
+</div>
+</div>
+</section>
+</main>
+<div class="md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end" id="mobileSidebarDrawerOverlay">
+<div class="w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out" id="mobileSidebarDrawerPanel">
+<div class="h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
+<span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
+<button class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs" id="mobileDrawerCloseBtn">
+<i class="fa-solid fa-xmark text-xs"></i>
+</button>
+</div>
+<div class="p-3 bg-white border-b border-slate-100 shrink-0">
+<div class="relative">
+<input class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue" id="mobileHistorySearchBox" placeholder="Filter archived builds..." type="text"/>
+<i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50" id="mobileGenerationsScrollList"></div>
+</div>
+</div>
+
+<script src="/assets/js/pages/post-studio.js"></script>
+<script src="/assets/js/main.js" type="module"></script>
+</body>
+</html>
