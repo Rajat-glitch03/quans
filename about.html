@@ -1,9 +1,9 @@
 <!DOCTYPE html> 
-<html lang="en">  
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Free Business Tools</title>
+    <title>QUANS | About Us</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -65,24 +65,721 @@
             scrollbar-color: #CBD5E1 transparent;
         }
     </style>
+
+
+<style id="quans-about-page-styles">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
+:root {
+  --q-ink: #17162b;
+  --q-ink-soft: #29263f;
+  --q-muted: #77758b;
+  --q-muted-light: #9e9bac;
+  --q-line: #e9e6f0;
+  --q-paper: #fbfaff;
+  --q-white: #ffffff;
+  --q-violet: #7655e8;
+  --q-violet-dark: #5e40ce;
+  --q-cyan: #6ad7e7;
+  --q-coral: #ff8b76;
+  --q-lilac: #d9ccff;
+  --q-green: #6ebc9e;
+  --q-serif: Georgia, 'Times New Roman', serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(118,85,232,.22); color: var(--q-ink); }
+
+/* Shared marketing-site shell */
+.site-page {
+  min-height: 100vh;
+  color: var(--q-ink);
+  background:
+    radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem),
+    radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem),
+    #fbfaff;
+}
+.site-page > .min-h-screen { min-height: 100vh; }
+.site-page header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 82px;
+  padding: 16px clamp(18px,4vw,64px);
+  background: rgba(251,250,255,.9);
+  border-bottom: 1px solid rgba(226,222,239,.8);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(27,20,69,.025);
+}
+.site-page header > div:first-child { flex: 0 0 auto; z-index: 2; }
+.site-page header > div:first-child > span,
+.site-page header > div:first-child > a {
+  color: var(--q-ink) !important;
+  font-size: 25px !important;
+  font-weight: 900 !important;
+  letter-spacing: -.09em !important;
+  text-decoration: none;
+}
+.site-page header > div:first-child > span::first-letter,
+.site-page header > div:first-child > a::first-letter { color: var(--q-violet); }
+.site-page header > div:first-child span span { color: var(--q-violet) !important; }
+.site-page header > div.hidden.md\:flex,
+.site-page header > .hidden.md\:flex {
+  position: static !important;
+  inset: auto !important;
+  display: flex !important;
+  gap: clamp(14px,2vw,30px) !important;
+  justify-content: center;
+  pointer-events: auto !important;
+  flex: 1 1 auto;
+  padding: 0 20px;
+}
+.site-page header nav a,
+.site-page header .hidden.md\:flex a {
+  color: #6d6a82 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.site-page header .hidden.md\:flex a:hover,
+.site-page header .hidden.md\:flex a.active,
+.site-page header .hidden.md\:flex a.text-brand-blue { color: var(--q-violet) !important; }
+.site-page header #navAuthGroup { gap: 10px !important; z-index: 2; }
+.site-page header #navAuthGroup > button:not(#openMobileMenu) {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.site-page header #navAuthGroup > button[onclick*="openLoginPopup"] {
+  color: #514c69 !important;
+  border: 1px solid #e3dfed;
+  background: #fff;
+}
+.site-page header #navAuthGroup > button[onclick*="openAuthPopup"] {
+  color: white !important;
+  background: var(--q-ink) !important;
+  box-shadow: 0 8px 16px rgba(25,22,52,.1);
+}
+.site-page header #navAuthGroup > button:hover { transform: translateY(-2px); }
+.site-page header #openMobileMenu {
+  border-radius: 8px !important;
+  border-color: #e5e1ef !important;
+  color: var(--q-ink) !important;
+}
+
+/* Accessible focus treatment for the page header and links. */
+.site-page button:focus-visible,
+.site-page a:focus-visible,
+.workspace-page button:focus-visible,
+.workspace-page a:focus-visible { outline: 3px solid rgba(118,85,232,.38); outline-offset: 3px; }
+
+
+
+.about-page {
+  min-height: 100vh;
+  isolation: isolate;
+  color: #17162b;
+  background:
+    radial-gradient(circle at 82% 5%, rgba(207,190,255,.25), transparent 29rem),
+    radial-gradient(circle at 8% 42%, rgba(112,218,228,.13), transparent 26rem),
+    #fbfaff;
+}
+.about-page > .min-h-screen { min-height: 100vh; }
+.about-background { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.about-background-grid {
+  position: absolute; inset: 0; opacity: .2;
+  background-image: linear-gradient(rgba(130,110,190,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.11) 1px,transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(110deg,transparent,#000 22%,#000 78%,transparent);
+}
+.about-background-orbit { position: absolute; border: 1px solid rgba(125,100,208,.12); border-radius: 50%; }
+.about-background-orbit-one { width: 600px; height: 600px; top: 70px; right: -390px; border-style: dashed; animation: aboutSlowSpin 120s linear infinite; }
+.about-background-orbit-two { width: 420px; height: 420px; bottom: -280px; left: -240px; border-color: rgba(106,215,231,.2); }
+.about-background-glow { position: absolute; width: 250px; height: 250px; border-radius: 50%; filter: blur(85px); opacity: .28; }
+.about-background-glow-left { top: 40%; left: -80px; background: #c8f4f3; }
+.about-background-glow-right { top: 60%; right: 0; background: #d7c7ff; }
+@keyframes aboutSlowSpin { to { transform: rotate(360deg); } }
+
+.about-workspace { position: relative; overflow: hidden; padding: 0 0 80px; }
+.about-container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+.about-hero {
+  min-height: 430px;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(360px,.9fr);
+  gap: clamp(36px,6vw,84px);
+  align-items: center;
+  padding-top: clamp(55px,7vw,88px);
+  padding-bottom: 62px;
+}
+.about-hero-copy { position: relative; z-index: 2; max-width: 620px; }
+.about-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 9px 12px; color: #6a5d9a; background: rgba(255,255,255,.78);
+  border: 1px solid #e5e0f3; font-size: 10px; font-weight: 900; letter-spacing: .18em;
+}
+.about-eyebrow span { width: 7px; height: 7px; background: #ff8b76; box-shadow: 0 0 0 4px rgba(255,139,118,.14); }
+.about-eyebrow i { display: block; width: 44px; height: 1px; background: #d6cafa; }
+.about-hero-copy h1 {
+  margin: 25px 0 0; color: #17162b; font-size: clamp(56px,6.7vw,82px);
+  line-height: .98; letter-spacing: -.07em; font-weight: 800;
+}
+.about-hero-copy p {
+  max-width: 480px; margin: 23px 0 0; color: #7655e8;
+  font-size: clamp(16px,1.7vw,19px); line-height: 1.65; font-weight: 700;
+}
+.about-hero-rule { width: 100px; height: 3px; margin-top: 31px; background: linear-gradient(90deg,#7655e8,#6ad7e7,#ff8b76); }
+.about-hero-visual { min-height: 350px; position: relative; display: grid; place-items: center; isolation: isolate; }
+.about-visual-grid {
+  position: absolute; inset: 0; opacity: .42;
+  background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px);
+  background-size: 30px 30px; mask-image: radial-gradient(ellipse,#000 25%,transparent 72%);
+}
+.about-visual-orbit { position: absolute; border: 1px solid rgba(125,100,208,.22); transform: rotate(-18deg); }
+.about-visual-orbit-one { width: 315px; height: 315px; border-radius: 38% 62% 45% 55% / 49% 40% 60% 51%; animation: aboutOrbit 26s linear infinite; }
+.about-visual-orbit-two { width: 250px; height: 250px; border-style: dashed; border-color: rgba(255,139,118,.35); border-radius: 50%; animation: aboutOrbit 34s linear infinite reverse; }
+.about-visual-orbit-three { width: 365px; height: 365px; border-color: rgba(106,215,231,.16); border-radius: 50%; }
+@keyframes aboutOrbit { to { transform: rotate(342deg); } }
+.about-visual-core {
+  width: 174px; height: 174px; display: grid; place-items: center; position: relative; z-index: 1;
+  border: 1px solid rgba(255,255,255,.8); border-radius: 43% 57% 51% 49% / 48% 44% 56% 52%;
+  background: linear-gradient(145deg,rgba(255,255,255,.95),rgba(239,232,255,.92));
+  box-shadow: 0 24px 65px rgba(59,43,121,.14), inset 0 0 0 8px rgba(255,255,255,.35);
+  animation: aboutCoreFloat 7s ease-in-out infinite;
+}
+.about-visual-core span {
+  color: #7655e8; font-family: Georgia,'Times New Roman',serif; font-size: 118px;
+  line-height: 1; font-weight: 700; letter-spacing: -.12em; transform: translateX(-5px);
+  text-shadow: 0 9px 25px rgba(118,85,232,.12);
+}
+.about-visual-core i { position: absolute; right: 26px; bottom: 30px; width: 14px; height: 14px; background: #6ad7e7; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(106,215,231,.17); }
+@keyframes aboutCoreFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-9px) rotate(1deg); } }
+.about-visual-spark { position: absolute; z-index: 2; font-family: Georgia,serif; }
+.about-spark-one { top: 35px; right: 18%; color: #ff8b76; font-size: 25px; }
+.about-spark-two { bottom: 28px; left: 17%; color: #7655e8; font-size: 20px; }
+.about-visual-square { position: absolute; right: 10%; bottom: 12%; width: 46px; height: 46px; border: 1px solid rgba(255,139,118,.48); transform: rotate(45deg); }
+
+.about-story { position: relative; display: grid; grid-template-columns: 54px minmax(0,1fr); gap: 22px; align-items: stretch; }
+.about-story-rail { display: flex; flex-direction: column; align-items: center; padding-top: 40px; }
+.about-story-rail span {
+  width: 42px; height: 42px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg,#7354e7,#9677f0); font-family: Georgia,serif; font-size: 24px;
+  box-shadow: 0 9px 20px rgba(112,80,220,.18);
+}
+.about-story-rail i { width: 1px; flex: 1; margin-top: 17px; background: linear-gradient(#cfc3fb,rgba(207,195,251,0)); }
+.about-story-card {
+  min-width: 0; position: relative; overflow: hidden; padding: clamp(30px,5vw,60px);
+  background: rgba(255,255,255,.88); border: 1px solid #e8e3f0;
+  box-shadow: 0 22px 70px rgba(39,27,90,.055); backdrop-filter: blur(16px);
+}
+.about-story-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,#7655e8 0%,#bba9ff 45%,#6ad7e7 78%,#ff8b76 100%); }
+.about-story-card > div:first-of-type:not(.about-story-card-accent) { max-width: 820px; }
+.about-story-card > div.space-y-6 {
+  position: relative; z-index: 1; max-width: 820px; margin: 0 auto;
+  color: #716d81 !important; font-size: 14px !important; line-height: 1.95 !important;
+  letter-spacing: -.005em; white-space: pre-line;
+}
+.about-story-card > div.space-y-6 strong {
+  display: block; width: fit-content; max-width: 100%; margin-top: 31px !important; margin-bottom: 9px;
+  padding-left: 13px; border-left: 3px solid #7655e8; color: #7655e8 !important;
+  font-size: 14px !important; line-height: 1.35; font-weight: 800 !important; letter-spacing: -.025em;
+}
+.about-story-card > div.space-y-6 strong:first-child { margin-top: 0 !important; }
+.about-page footer {
+  color: #77738a !important; background: rgba(255,255,255,.58) !important;
+  border-top: 1px solid #e9e5f0 !important; box-shadow: none !important; backdrop-filter: blur(18px);
+}
+.about-page footer a { color: #77738a; text-decoration: none; }
+.about-page footer a:hover { color: #7655e8; }
+
+/* Split-panel auth surfaces and matching account settings. */
+#authModal, #loginModal { z-index: 120; }
+#authModal .relative, #loginModal .relative { border-radius: 22px !important; scrollbar-width: thin; scrollbar-color: #cbc3dc transparent; }
+#authModal .relative::-webkit-scrollbar, #loginModal .relative::-webkit-scrollbar { width: 6px; }
+#authModal .relative::-webkit-scrollbar-thumb, #loginModal .relative::-webkit-scrollbar-thumb { border-radius: 10px; background: #cbc3dc; }
+#authModal button:focus-visible, #loginModal button:focus-visible { outline: 2px solid rgba(118,85,232,.5); outline-offset: 3px; }
+#signupForm #verifyOtpBtn { background: #7655e8 !important; }
+#signupForm #otpCodeInput:focus { border-color: #a88be3 !important; box-shadow: 0 0 0 3px rgba(118,85,232,.12) !important; }
+#signupForm #resendOtpBtn { color: #7655e8 !important; }
+#settingsPopupModal { background: rgba(23,22,43,.55) !important; backdrop-filter: blur(10px); }
+#settingsPopupModal > div { border: 1px solid #e7e1f1 !important; border-radius: 18px !important; box-shadow: 0 28px 90px rgba(31,23,69,.2) !important; }
+#settingsPopupModal .bg-slate-50\/70 { background: #f4f0fc !important; }
+#settingsPopupModal button.bg-brand-blue, #settingsPopupModal button[class*="bg-brand-blue"] { background: #7655e8 !important; }
+#settingsPopupModal button:hover { transition: .2s ease; }
+#settingsPopupModal button[id="tabBtnAccount"], #settingsPopupModal button[id="tabBtnAppearance"] { border-radius: 9px !important; }
+#settingsPopupModal #settingsAlertMsg { border-radius: 9px !important; }
+#settingsPopupModal #settingsEmailTextDisplay { color: #343149 !important; }
+#settingsPopupModal #panelSectionAccount button, #settingsPopupModal #panelSectionAppearance button { border-radius: 10px !important; }
+#settingsHardDeleteModal { background: rgba(23,22,43,.72) !important; backdrop-filter: blur(10px); }
+#settingsHardDeleteModal > div { border-radius: 18px !important; }
+
+@media (max-width: 1000px) {
+  .about-hero { grid-template-columns: minmax(0,1fr) minmax(300px,.82fr); gap: 25px; }
+  .about-hero-visual { min-height: 310px; }
+  .about-visual-orbit-one { width: 285px; height: 285px; }
+  .about-visual-orbit-three { width: 325px; height: 325px; }
+}
+@media (max-width: 800px) {
+  .about-container { width: min(100% - 36px, 700px); }
+  .about-hero { min-height: 0; grid-template-columns: 1fr; gap: 12px; padding-top: 58px; padding-bottom: 38px; }
+  .about-hero-copy { max-width: none; }
+  .about-hero-copy h1 { font-size: clamp(49px,9vw,68px); }
+  .about-hero-visual { min-height: 285px; margin: 0 -8px; }
+  .about-visual-orbit-one { width: 260px; height: 260px; }
+  .about-visual-orbit-two { width: 210px; height: 210px; }
+  .about-visual-orbit-three { width: 300px; height: 300px; }
+  .about-story { grid-template-columns: minmax(0,1fr); gap: 0; }
+  .about-story-rail { display: none; }
+  .about-story-card { padding: 31px 26px; }
+  .about-story-card > div.space-y-6 { font-size: 13px !important; line-height: 1.9 !important; }
+  .about-story-card > div.space-y-6 strong { margin-top: 27px !important; }
+}
+@media (max-width: 560px) {
+  .about-workspace { padding-bottom: 48px; }
+  .about-container { width: calc(100% - 32px); }
+  .about-hero { padding-top: 42px; padding-bottom: 25px; }
+  .about-hero-copy h1 { font-size: 49px; }
+  .about-hero-copy p { margin-top: 17px; font-size: 15px; }
+  .about-hero-visual { min-height: 245px; }
+  .about-visual-core { width: 145px; height: 145px; }
+  .about-visual-core span { font-size: 98px; }
+  .about-visual-orbit-one { width: 225px; height: 225px; }
+  .about-visual-orbit-two { width: 185px; height: 185px; }
+  .about-visual-orbit-three { width: 265px; height: 265px; }
+  .about-story-card { padding: 26px 20px; }
+  .about-story-card > div.space-y-6 { font-size: 12.5px !important; }
+  .about-story-card > div.space-y-6 strong { font-size: 13px !important; }
+  .about-page footer .max-w-7xl { text-align: center; }
+  #authModal, #loginModal { padding: 12px !important; }
+  #authModal .relative, #loginModal .relative { border-radius: 17px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+.dark .about-page { color: #f2efff; background: radial-gradient(circle at 82% 5%, rgba(99,75,168,.19), transparent 29rem), radial-gradient(circle at 8% 42%, rgba(58,139,145,.1), transparent 26rem), #141326; }
+.dark .about-page header { background: rgba(20,19,38,.91); border-color: rgba(75,68,105,.55); }
+.dark .about-page header > div:first-child > span { color: #f5f2ff !important; }
+.dark .about-page header .hidden.md\\:flex a { color: #b9b4ca !important; }
+.dark .about-page header #navAuthGroup > button[onclick*="openLoginPopup"] { color: #e8e3f4 !important; background: #211f38; border-color: #3c3656; }
+.dark .about-page header #openMobileMenu { color: #f0ecff !important; background: #211f38 !important; border-color: #3c3656 !important; }
+.dark .about-hero-copy h1 { color: #f1edff; }
+.dark .about-hero-copy p { color: #c7b9ff; }
+.dark .about-story-card { background: rgba(28,26,49,.9); border-color: #38334f; box-shadow: 0 22px 70px rgba(0,0,0,.16); }
+.dark .about-story-card > div.space-y-6 { color: #bcb6cf !important; }
+.dark .about-story-card > div.space-y-6 strong { color: #c7b9ff !important; border-color: #9d83f1; }
+.dark .about-page footer { color: #a9a4bd !important; background: rgba(24,22,43,.78) !important; border-color: #38334f !important; }
+.dark .about-page footer a { color: #b8b1cb; }
+.dark #settingsPopupModal > div { background: #1c1a31 !important; border-color: #38334f !important; color: #eeeaff !important; }
+.dark #settingsPopupModal .bg-slate-50\\/70 { background: #171529 !important; }
+.dark #settingsPopupModal #settingsEmailTextDisplay { color: #eeeaff !important; }
+</style>
+
+<style id="quans-mobile-navigation-styles">
+  /* Mobile header: retain the Quans mark and menu control, not the desktop nav/auth row. */
+  @media (max-width: 800px) {
+    .site-page header > div.absolute.inset-x-0 {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > button:not(#openMobileMenu),
+    .site-page header #navAuthGroup > .mobile-auth-wrap > div:first-child {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > .mobile-auth-wrap {
+      display: flex !important;
+      align-items: center;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup {
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup #openMobileMenu {
+      display: inline-flex !important;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e0ef !important;
+      border-radius: 10px !important;
+      color: #29263f !important;
+      background: rgba(255,255,255,.88) !important;
+      box-shadow: 0 5px 14px rgba(39,27,90,.06);
+    }
+
+    .mobile-sidebar {
+      z-index: 1000;
+      isolation: isolate;
+    }
+
+    .mobile-sidebar:not(.opacity-0) {
+      visibility: visible;
+    }
+
+    .mobile-sidebar-overlay {
+      border: 0;
+      padding: 0;
+      background: rgba(23,22,43,.38);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      opacity: 0;
+      transition: opacity .3s ease;
+      cursor: default;
+    }
+
+    .mobile-sidebar:not(.opacity-0) .mobile-sidebar-overlay {
+      opacity: 1;
+    }
+
+    .mobile-drawer-panel {
+      box-sizing: border-box;
+      width: min(390px, 92vw);
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
+      color: #17162b;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(217,204,255,.34), transparent 230px),
+        linear-gradient(160deg, #fff 0%, #fbfaff 56%, #f8fbff 100%);
+      border-left: 1px solid rgba(226,222,239,.9);
+      border-radius: 22px 0 0 22px;
+      box-shadow: -24px 0 70px rgba(23,22,43,.18);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ece8f3;
+    }
+
+    .mobile-drawer-brand {
+      color: #17162b;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.09em;
+      text-decoration: none;
+    }
+
+    .mobile-drawer-brand span { color: #7655e8; }
+
+    .mobile-drawer-close {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f1;
+      border-radius: 10px;
+      color: #514c69;
+      background: rgba(255,255,255,.85);
+      font-size: 16px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .mobile-drawer-close:hover {
+      color: #5e40ce;
+      background: #f1edff;
+      transform: rotate(4deg);
+    }
+
+    .mobile-drawer-intro { padding: 29px 0 22px; }
+
+    .mobile-drawer-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #817b9c;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .mobile-drawer-kicker span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff8b76;
+      box-shadow: 0 0 0 4px rgba(255,139,118,.13);
+    }
+
+    .mobile-drawer-intro h2 {
+      margin: 13px 0 7px;
+      color: #17162b;
+      font-size: 34px;
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -.065em;
+    }
+
+    .mobile-drawer-intro h2 em {
+      color: #7655e8;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .mobile-drawer-intro p {
+      margin: 0;
+      color: #858197;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .mobile-drawer-nav {
+      display: grid;
+      gap: 5px;
+      padding: 2px 0 20px;
+    }
+
+    .mobile-drawer-panel .mobile-nav-link {
+      position: relative;
+      display: grid;
+      background: transparent !important;
+      border-color: transparent !important;
+      grid-template-columns: 42px minmax(0,1fr) 16px;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 9px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #39364f;
+      background: transparent;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover {
+      background: rgba(255,255,255,.86);
+      border-color: #ece7f5;
+      transform: translateX(2px);
+    }
+
+    .mobile-nav-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f3;
+      border-radius: 11px;
+      color: #7655e8;
+      background: #f3efff;
+      font-size: 14px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .mobile-nav-copy { min-width: 0; display: block; }
+    .mobile-nav-copy strong {
+      display: block;
+      color: #29263f;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .mobile-nav-copy small {
+      display: block;
+      margin-top: 4px;
+      color: #9691a6;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .mobile-nav-arrow {
+      color: #b0aabd;
+      font-size: 10px;
+      transition: color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover .mobile-nav-arrow {
+      color: #7655e8;
+      transform: translate(2px,-2px);
+    }
+
+    .mobile-drawer-panel .mobile-nav-link.is-active {
+      border-color: #e4dcfb !important;
+      background: linear-gradient(100deg, rgba(240,236,255,.96), rgba(255,255,255,.9)) !important;
+      box-shadow: inset 3px 0 0 #7655e8;
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-icon {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg,#7354e7,#9677f0);
+      box-shadow: 0 7px 14px rgba(112,80,220,.16);
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-copy strong,
+    .mobile-nav-link.is-active .mobile-nav-arrow { color: #5e40ce; }
+
+    .mobile-drawer-actions,
+    .mobile-drawer-account {
+      margin-top: auto;
+      padding: 17px;
+      border: 1px solid #e9e3f3;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 10px 24px rgba(39,27,90,.045);
+    }
+
+    .mobile-drawer-actions p {
+      margin: 0 0 13px;
+      color: #5d5873;
+      font-size: 11px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-primary,
+    .mobile-drawer-secondary {
+      display: flex;
+      width: 100%;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .mobile-drawer-primary {
+      color: #fff;
+      border: 1px solid transparent;
+      background: linear-gradient(110deg,#7354e7,#8d65f4);
+      box-shadow: 0 9px 18px rgba(112,80,220,.18);
+    }
+
+    .mobile-drawer-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(112,80,220,.24); }
+
+    .mobile-drawer-secondary {
+      margin-top: 7px;
+      color: #514c69;
+      border: 1px solid #e9e4f1;
+      background: #fff;
+    }
+
+    .mobile-account-kicker {
+      display: block;
+      color: #8b83a4;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .18em;
+    }
+
+    #mobileSidebarUserEmail {
+      margin: 7px 0 12px;
+      overflow-wrap: anywhere;
+      color: #39364f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-account button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 2px;
+      color: #5d5873;
+      border: 0;
+      border-top: 1px solid #f0edf5;
+      background: transparent;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mobile-drawer-account button i { width: 16px; color: #7655e8; }
+    .mobile-drawer-account button[data-mobile-logout] i { color: #ff8b76; }
+
+    .mobile-drawer-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 17px;
+      margin-top: 17px;
+      color: #aaa5b6;
+      border-top: 1px solid #ece8f3;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    body.mobile-menu-open { overflow: hidden; }
+  }
+
+  @media (max-width: 380px) {
+    .mobile-drawer-panel { padding-left: 18px; padding-right: 18px; }
+    .mobile-drawer-intro h2 { font-size: 31px; }
+    .mobile-nav-link { grid-template-columns: 38px minmax(0,1fr) 14px; gap: 10px; padding-inline: 9px; }
+    .mobile-nav-icon { width: 36px; height: 36px; }
+  }
+
+  @media (min-width: 801px) {
+    #mobileSidebar { display: none !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-sidebar-overlay, .mobile-drawer-panel, .mobile-nav-link,
+    .mobile-nav-icon, .mobile-nav-arrow, .mobile-drawer-close,
+    .mobile-drawer-primary, .mobile-drawer-secondary { transition-duration: .01ms !important; }
+  }
+</style>
+
+<style id="quans-mobile-navigation-dark-styles">
+.dark .mobile-drawer-panel {
+  color: #f2efff;
+  background: radial-gradient(circle at 100% 0%, rgba(104,81,168,.25), transparent 230px), linear-gradient(160deg,#211f38 0%,#1b192f 56%,#171629 100%);
+  border-color: #38334f;
+}
+.dark .mobile-drawer-top, .dark .mobile-drawer-footer { border-color: #38334f; }
+.dark .mobile-drawer-brand, .dark .mobile-drawer-intro h2 { color: #f1edff; }
+.dark .mobile-drawer-close { color: #e7e1f3; background: #2b2745; border-color: #494263; }
+.dark .mobile-drawer-intro p, .dark .mobile-nav-copy small { color: #aaa5c1; }
+.dark .mobile-nav-copy strong { color: #e8e3f5; }
+.dark .mobile-nav-icon { color: #c7b9ff; background: #302a4d; border-color: #4a4168; }
+.dark .mobile-nav-link:hover { background: rgba(255,255,255,.045); border-color: #494263; }
+.dark .mobile-drawer-panel .mobile-nav-link.is-active { background: linear-gradient(100deg,rgba(77,61,125,.62),rgba(39,35,63,.8)) !important; border-color: #6652a7 !important; }
+.dark .mobile-nav-link.is-active .mobile-nav-copy strong, .dark .mobile-nav-link.is-active .mobile-nav-arrow { color: #d6caff; }
+.dark .mobile-drawer-actions, .dark .mobile-drawer-account { background: rgba(39,35,63,.92); border-color: #494263; }
+.dark .mobile-drawer-actions p, .dark #mobileSidebarUserEmail { color: #d7d0e8; }
+.dark .mobile-drawer-secondary { color: #e8e3f5; background: #2a2643; border-color: #494263; }
+.dark .mobile-drawer-account button { color: #d7d0e8; border-color: #403a59; }
+.dark .mobile-drawer-footer { color: #8f89a8; }
+</style>
+
 </head>
-<body class="min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+<body class="site-page about-page min-h-screen text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
- <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
-    
-    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform"></div>
-    
-    <div id="scroll-box-2" class="absolute top-[50vh] left-[5%] w-[40vw] h-[40vw] max-w-[500px] bg-gradient-to-tl from-sky-400/15 to-transparent rounded-[3rem] -rotate-12 transform will-change-transform"></div>
-
-    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 dark:from-blue-600/10 dark:to-transparent rounded-2xl rotate-45 transform will-change-transform"></div>
-
-    <div id="scroll-box-right-2" class="absolute top-[65vh] right-[12%] w-[18vw] h-[18vw] max-w-[220px] bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-[2rem] -rotate-12 transform will-change-transform"></div>
-
-    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 dark:border-blue-500/15 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
-    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 dark:border-blue-400/5 rounded-full"></div>
-    
-    <div class="absolute bottom-0 left-[-5%] w-[110%] h-[40vh] bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent"></div>
-</div>
+ <div class="about-background" aria-hidden="true">
+    <div class="about-background-grid"></div>
+    <div class="about-background-orbit about-background-orbit-one"></div>
+    <div class="about-background-orbit about-background-orbit-two"></div>
+    <div class="about-background-glow about-background-glow-left"></div>
+    <div class="about-background-glow about-background-glow-right"></div>
+ </div>
 
 <div class="min-h-screen w-full relative flex flex-col antialiased">
 
@@ -120,23 +817,41 @@
                 Signup
             </button>
             
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
                 <i class="fa-solid fa-bars-staggered text-lg"></i>
             </button>
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center justify-start px-4 py-16 font-['DM_Sans',sans-serif]">
-    <div class="w-full max-w-3xl bg-white/80 backdrop-blur-md rounded-3xl shadow-[0_4px_30px_rgba(148,163,184,0.08)] border border-slate-100/80 p-8 md:p-12">
-        
-        <!-- HEADER BLOCK -->
-        <div class="border-b border-slate-100 pb-8 mb-8">
-            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">About QUANS</h1>
-            <p class="text-base font-semibold text-blue-600">AI built to help people create better.</p>
-        </div>
+    <main class="about-workspace flex-grow">
+        <section class="about-hero about-container">
+            <div class="about-hero-copy">
+                <span class="about-eyebrow" aria-hidden="true"><span></span><i></i></span>
+                <h1>About QUANS</h1>
+                <p>AI built to help people create better.</p>
+                <div class="about-hero-rule" aria-hidden="true"></div>
+            </div>
 
-        <!-- UNALTERED ABOUT US TEXT MATRIX -->
-        <div class="space-y-6 text-slate-600 text-sm leading-relaxed whitespace-pre-line">At QUANS, we believe AI should simplify work—not make it more complicated.
+            <div class="about-hero-visual" aria-hidden="true">
+                <div class="about-visual-grid"></div>
+                <div class="about-visual-orbit about-visual-orbit-one"></div>
+                <div class="about-visual-orbit about-visual-orbit-two"></div>
+                <div class="about-visual-orbit about-visual-orbit-three"></div>
+                <div class="about-visual-core"><span>Q</span><i></i></div>
+                <span class="about-visual-spark about-spark-one">✦</span>
+                <span class="about-visual-spark about-spark-two">✧</span>
+                <span class="about-visual-square"></span>
+            </div>
+        </section>
+
+        <section class="about-story about-container" aria-label="About QUANS story">
+            <div class="about-story-rail" aria-hidden="true">
+                <span>Q</span>
+                <i></i>
+            </div>
+            <article class="about-story-card">
+                <div class="about-story-card-accent" aria-hidden="true"></div>
+                <div class="space-y-6 text-slate-600 text-sm leading-relaxed whitespace-pre-line">At QUANS, we believe AI should simplify work—not make it more complicated.
 We built QUANS to give creators, founders, freelancers, marketers, and businesses a collection of AI-powered tools that are practical, fast, and genuinely useful. Instead of jumping between different platforms or struggling with complex prompts, you can focus on what matters most: creating, building, and growing.
 
 <strong class="text-base font-bold text-blue-600 block mt-6">Our Mission</strong>Our mission is simple:
@@ -165,10 +880,10 @@ We're committed to continuously improving the platform while keeping it fast, re
 
 <strong class="text-base font-bold text-blue-600 block mt-6">Thank You</strong>Whether you're writing your first post, building your business, or exploring AI for the first time, thank you for choosing QUANS.
 We're excited to build the future alongside you.</div>
+            </article>
+        </section>
+    </main>
 
-    </div>
-</main>
-    
     <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 font-semibold text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
     <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
         
@@ -186,195 +901,557 @@ We're excited to build the future alongside you.</div>
     </div>
 </footer>
 
-    <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-100 dark:border-slate-800 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100 dark:border-slate-800">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                    <i class="fa-solid fa-xmark text-base"></i>
+    <div id="mobileSidebar" class="mobile-sidebar fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+        <button id="sidebarOverlay" class="mobile-sidebar-overlay absolute inset-0" type="button" aria-label="Close navigation menu"></button>
+
+        <aside class="mobile-drawer-panel absolute top-0 right-0 h-screen h-[100dvh] w-[min(390px,92vw)] overflow-y-auto flex flex-col transform translate-x-full transition-transform duration-300 ease-out" role="dialog" aria-modal="true" aria-labelledby="mobileSidebarTitle" tabindex="-1">
+            <div class="mobile-drawer-top">
+                <a href="index.html" class="mobile-drawer-brand" aria-label="Quans home">QUANS<span>.</span></a>
+                <button id="closeMobileMenu" class="mobile-drawer-close" type="button" aria-label="Close navigation menu">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-house-chimney"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Home</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Tools</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-compass"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Explore</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Pricing</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Contact Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">About Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
+
+            <div class="mobile-drawer-intro">
+                <h2 id="mobileSidebarTitle">Explore <em>Quans.</em></h2>
+                <p>Everything you need to move your work forward.</p>
             </div>
-            <div class="text-xs text-slate-400 font-medium tracking-tight">
-                &copy; 2026 QUANS Inc.
+
+            <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
+                <a id="mobile-nav-home" href="index.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Home</strong><small>Your Quans overview</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-tool" href="tool.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Tools</strong><small>Explore focused workflows</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Explore</strong><small>Discover what you can create</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-price" href="pricing.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-tag" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Pricing</strong><small>Plans and access</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Contact Us</strong><small>Questions, feedback and ideas</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-about" href="about.html" class="mobile-nav-link is-active">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>About Us</strong><small>The story behind Quans</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+            </nav>
+
+            <div id="mobileSidebarGuestActions" class="mobile-drawer-actions">
+                <p>Ready to make room for better ideas?</p>
+                <button type="button" class="mobile-drawer-primary" data-mobile-signup>Get started <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                <button type="button" class="mobile-drawer-secondary" data-mobile-login>Log in to your account</button>
             </div>
-        </div>
+
+            <div id="mobileSidebarAccountActions" class="mobile-drawer-account hidden">
+                <span class="mobile-account-kicker">YOUR ACCOUNT</span>
+                <p id="mobileSidebarUserEmail">Signed in to Quans</p>
+                <button type="button" data-mobile-settings><i class="fa-solid fa-gear" aria-hidden="true"></i> Account settings</button>
+                <button type="button" data-mobile-logout><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Log out</button>
+            </div>
+
+            <div class="mobile-drawer-footer">
+                <span>© 2026 QUANS</span>
+                <span>Thoughtful tools. Better work.</span>
+            </div>
+        </aside>
     </div>
 
-    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="authModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[32px] border border-slate-100 dark:border-slate-800 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeAuthModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Create an account<span class="text-brand-blue">.</span></h3>
-            <p class="text-slate-500 dark:text-slate-400 mt-1 text-sm leading-relaxed">Join us today.</p>
-            
-            <button id="googleSignupBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Signup with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">or</span>
-                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
-            </div>
-            
-            <form id="signupForm" class="space-y-4 text-left">
-                <div id="signupErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Email Address</label>
-                    <input id="signupEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="signupPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
-                        <button type="button" id="toggleSignupPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
-                        </button>
+        <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Background overlay -->
+        <div id="authModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Signup dialog: keep relative and scale-95 for existing animation JS -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <!-- Decorative background -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
                     </div>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 dark:shadow-none hover:bg-brand-hover transform hover:-translate-y-0.5 mt-4 transition-all">
-                    Sign Up
-                </button>
-            </form>
-            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-6">
-                Already a user? 
-                <button id="switchToLogin" class="text-brand-blue font-bold hover:underline underline-offset-2">Login</button>
-            </p>
+    
+                    <div class="relative z-10">
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                HUMONOID AI WORKSPACE
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Make room for
+                                <span class="block italic text-[#8969ce]">better ideas.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Bring your ideas, writing and everyday work together with a collection of thoughtful AI-powered tools.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Mini workspace visual -->
+                    <div class="relative z-10 mt-12">
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="grid grid-cols-2 gap-2 mt-4">
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#8065bf]/25 text-[#c3aaff] mb-3">
+                                        <i class="fa-solid fa-pen-nib text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Content Studio</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Shape your ideas</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#6bcac7]/20 text-[#8ce2de] mb-3">
+                                        <i class="fa-solid fa-file-lines text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Proposals</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Build with clarity</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#f1a7c4]/20 text-[#f4b8d0] mb-3">
+                                        <i class="fa-solid fa-repeat text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Repurposer</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Create more from less</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#e9c98c]/20 text-[#eecf9a] mb-3">
+                                        <i class="fa-solid fa-user-tie text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Resume Toolkit</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Move forward</p>
+                                </div>
+    
+                            </div>
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+                    </div>
+                </aside>
+    
+                <!-- RIGHT: Signup form -->
+                <section class="relative flex flex-col justify-center px-6 py-9 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close button -->
+                    <button id="closeAuthModal"
+                        type="button"
+                        aria-label="Close signup"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile brand -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <div class="mb-7">
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE STARTS HERE
+                            </span>
+    
+                            <h3 class="mt-4 text-[34px] sm:text-[39px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Create your account<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign up to explore your tools and bring your next idea to life.
+                            </p>
+                        </div>
+    
+                        <!-- Google signup -->
+                        <button id="googleSignupBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or use email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original signup form and IDs retained -->
+                        <form id="signupForm" class="space-y-4 text-left">
+    
+                            <div id="signupErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <div>
+                                <label for="signupEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="signupEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <div>
+                                <label for="signupPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+                                    <input id="signupPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="new-password"
+                                        placeholder="Create a password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleSignupPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- Signup CTA -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-3 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Create account</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Login switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+                            <p class="text-sm text-[#858091]">
+                                Already have an account?
+    
+                                <button id="switchToLogin"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Log in
+                                </button>
+                            </p>
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            By creating an account, you agree to use Quans responsibly.
+                        </p>
+    
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-
-    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-        <div id="loginModalOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[32px] border border-slate-100 dark:border-slate-800 p-8 shadow-2xl transform scale-95 transition-transform duration-200 z-10 text-center max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <button id="closeLoginModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/40 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-            <h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Welcome back<span class="text-brand-blue">!</span></h3>
-            <p class="text-slate-500 dark:text-slate-400 mt-1 text-sm leading-relaxed">Enter your credentials.</p>
-            
-            <button id="googleLoginBtn" class="w-full mt-6 flex items-center justify-center space-x-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 option-btn">
-                <i class="fa-brands fa-google text-lg text-red-500"></i>
-                <span>Sign in with Google</span>
-            </button>
-            
-            <div class="relative flex py-4 items-center">
-                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
-                <span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">or</span>
-                <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
-            </div>
-            
-            <form id="loginForm" class="space-y-4 text-left">
-                <div id="loginErrorMsg" class="hidden flex items-center space-x-2 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 text-left fade-in">
-                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
-                    <span class="error-text"></span>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Email Address</label>
-                    <input id="loginEmailInput" type="email" required placeholder="name@company.com" class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 pl-1">Password</label>
-                    <div class="relative w-full">
-                        <input id="loginPasswordInput" type="password" required placeholder="••••••••" class="w-full pl-5 pr-12 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400">
-                        <button type="button" id="toggleLoginPassword" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
-                            <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
-                        </button>
+    
+    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Overlay -->
+        <div id="loginModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Login dialog -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
                     </div>
-                </div>
-                <div class="text-right">
-                    <a id="forgotPasswordLink" class="cursor-pointer text-xs font-bold text-brand-blue tracking-tight">Forgot Password?</a>
-                </div>
-                <button type="submit" class="w-full bg-brand-blue text-white font-bold py-3.5 px-6 rounded-full shadow-md shadow-blue-100 dark:shadow-none hover:bg-brand-hover transform hover:-translate-y-0.5 mt-2 transition-all">
-                    Log In
-                </button>
-            </form>
-            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-6">
-                Don't have an account? 
-                <button id="switchToSignup" class="text-brand-blue font-bold hover:underline underline-offset-2">Signup</button>
-            </p>
+    
+                    <div class="relative z-10">
+    
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+    
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                GOOD TO HAVE YOU BACK
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Your ideas are
+                                <span class="block italic text-[#8969ce]">waiting for you.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Pick up where you left off. Your creative workspace and specialized tools are ready when you are.
+                            </p>
+    
+                        </div>
+                    </div>
+    
+                    <!-- Workspace preview -->
+                    <div class="relative z-10 mt-12">
+    
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="mt-5">
+                                <p class="text-[10px] text-white/40 uppercase tracking-[1.5px]">
+                                    Keep creating
+                                </p>
+    
+                                <p class="mt-2 text-xl text-white leading-snug"
+                                    style="font-family: Georgia, 'Times New Roman', serif;">
+                                    Good ideas deserve
+                                    <span class="italic text-[#bba5f4]">room to grow.</span>
+                                </p>
+                            </div>
+    
+                            <div class="mt-5 flex items-center gap-2">
+                                <div class="h-1 flex-1 bg-[#9275d1]"></div>
+                                <div class="h-1 flex-1 bg-[#6dcac7]"></div>
+                                <div class="h-1 flex-1 bg-[#e5a6c2]"></div>
+                                <div class="h-1 flex-1 bg-[#d9bc83]"></div>
+                            </div>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+    
+                    </div>
+    
+                </aside>
+    
+                <!-- RIGHT: Login form -->
+                <section class="relative flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close -->
+                    <button id="closeLoginModal"
+                        type="button"
+                        aria-label="Close login"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile branding -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <!-- Heading -->
+                        <div class="mb-7">
+    
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE AWAITS
+                            </span>
+    
+                            <h3 class="mt-4 text-[36px] sm:text-[41px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Welcome back<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign in to continue creating, refining and getting things done.
+                            </p>
+    
+                        </div>
+    
+                        <!-- Google login -->
+                        <button id="googleLoginBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or sign in with email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original login form -->
+                        <form id="loginForm" class="space-y-4 text-left">
+    
+                            <div id="loginErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <!-- Email -->
+                            <div>
+                                <label for="loginEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="loginEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <!-- Password -->
+                            <div>
+                                <label for="loginPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+    
+                                    <input id="loginPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="current-password"
+                                        placeholder="Enter your password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleLoginPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                                    </button>
+    
+                                </div>
+                            </div>
+    
+                            <!-- Forgot password -->
+                            <div class="text-right pt-1">
+                                <a id="forgotPasswordLink"
+                                    class="cursor-pointer text-xs font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Forgot password?
+                                </a>
+                            </div>
+    
+                            <!-- Login button -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-2 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Sign in to Quans</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Signup switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+    
+                            <p class="text-sm text-[#858091]">
+                                New to Quans?
+    
+                                <button id="switchToSignup"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Create an account
+                                </button>
+                            </p>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            Your workspace is just one sign-in away.
+                        </p>
+    
+                    </div>
+                </section>
+    
+            </div>
         </div>
     </div>
- </div>
 
     <div id="settingsPopupModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300">
     <div class="relative w-full h-full md:h-auto md:max-w-3xl md:rounded-3xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xl border border-transparent md:dark:border-slate-800 flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
@@ -520,7 +1597,7 @@ We're excited to build the future alongside you.</div>
             theme: {
                 extend: {
                     fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
-                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
+                    colors: { brand: { blue: '#7655E8', hover: '#5E40CE', light: '#F0ECFF' } }
                 }
             }
         }
@@ -613,17 +1690,45 @@ We're excited to build the future alongside you.</div>
         document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
 
         const mobileSidebar = document.getElementById('mobileSidebar');
-        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.transform') : null;
-        
+        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.mobile-drawer-panel') : null;
+        let sidebarReturnFocus = null;
+
         const toggleSidebar = (open) => {
             if (!mobileSidebar || !sidebarPanel) return;
+            const menuButtons = document.querySelectorAll('#openMobileMenu');
+
             if (open) {
+                sidebarReturnFocus = document.activeElement;
                 mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'false');
                 sidebarPanel.classList.remove('translate-x-full');
+                document.body.classList.add('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'true'));
+                const closeButton = document.getElementById('closeMobileMenu');
+                if (closeButton) closeButton.focus({ preventScroll: true });
             } else {
                 mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'true');
                 sidebarPanel.classList.add('translate-x-full');
+                document.body.classList.remove('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
+                if (sidebarReturnFocus && typeof sidebarReturnFocus.focus === 'function') {
+                    sidebarReturnFocus.focus({ preventScroll: true });
+                }
+                sidebarReturnFocus = null;
             }
+        };
+
+        // Keep the drawer's bottom section in sync with Firebase authentication state.
+        window.syncMobileSidebarAccount = function(user) {
+            const guestActions = document.getElementById('mobileSidebarGuestActions');
+            const accountActions = document.getElementById('mobileSidebarAccountActions');
+            const emailLabel = document.getElementById('mobileSidebarUserEmail');
+            if (!guestActions || !accountActions) return;
+
+            guestActions.classList.toggle('hidden', Boolean(user));
+            accountActions.classList.toggle('hidden', !user);
+            if (emailLabel) emailLabel.textContent = user && user.email ? user.email : 'Signed in to Quans';
         };
 
         // Global dropdown toggle handler
@@ -633,19 +1738,40 @@ We're excited to build the future alongside you.</div>
             if(menu) menu.classList.toggle('hidden');
         }
 
-        // Single global click handler managing sidebar delegation and user dropdown closing
+        // One delegated click handler keeps the drawer working after Firebase updates the header.
         document.addEventListener('click', (e) => {
-            // Sidebar logic: works even if Firebase rerenders the parent container
             if (e.target.closest('#openMobileMenu')) {
                 toggleSidebar(true);
             } else if (e.target.closest('#closeMobileMenu') || e.target.closest('#sidebarOverlay')) {
                 toggleSidebar(false);
+            } else if (e.target.closest('[data-mobile-signup]')) {
+                toggleSidebar(false);
+                window.openAuthPopup();
+            } else if (e.target.closest('[data-mobile-login]')) {
+                toggleSidebar(false);
+                window.openLoginPopup();
+            } else if (e.target.closest('[data-mobile-settings]')) {
+                toggleSidebar(false);
+                const settingsTrigger = document.getElementById('firebaseSettingsTriggerBtn');
+                if (settingsTrigger) settingsTrigger.click();
+            } else if (e.target.closest('[data-mobile-logout]')) {
+                toggleSidebar(false);
+                const logoutTrigger = document.getElementById('firebaseLogoutBtn');
+                if (logoutTrigger) logoutTrigger.click();
+            } else if (e.target.closest('#mobileSidebar a')) {
+                toggleSidebar(false);
             }
 
-            // Dropdown logic: closes user dropdown menu when clicking outside
+            // Dropdown logic: closes the desktop account dropdown when clicking elsewhere.
             const menu = document.getElementById('userDropdownMenu');
-            if (menu && !menu.classList.contains('hidden')) {
+            if (menu && !menu.classList.contains('hidden') && !e.target.closest('#userDropdownMenu')) {
                 menu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileSidebar && !mobileSidebar.classList.contains('pointer-events-none')) {
+                toggleSidebar(false);
             }
         });
 
@@ -707,7 +1833,7 @@ We're excited to build the future alongside you.</div>
                 pcElement.classList.add("text-slate-600");
             }
             if (mobileElement) {
-                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200");
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "is-active");
                 mobileElement.classList.add("bg-slate-50", "border-slate-100");
             }
     
@@ -721,7 +1847,7 @@ We're excited to build the future alongside you.</div>
                 // Activate Mobile darker border combination
                 if (mobileElement) {
                     mobileElement.classList.remove("bg-slate-50", "border-slate-100");
-                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200");
+                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200", "is-active");
                 }
             }
         });
@@ -1259,13 +2385,14 @@ We're excited to build the future alongside you.</div>
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 window.userIsAuthenticated = true;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(user);
                 
                 if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
                 if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
         
                 if (navAuthGroup) {
                     navAuthGroup.innerHTML = `
-                        <div class="flex items-center space-x-3 fade-in">
+                        <div class="mobile-auth-wrap flex items-center space-x-3 fade-in">
                             <div class="relative inline-block text-left">
                                 <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-blue tracking-tight outline-none group">
                                     <span>Hello!</span>
@@ -1283,7 +2410,7 @@ We're excited to build the future alongside you.</div>
                                     </button>
                                 </div>
                             </div>
-                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs">
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
                                 <i class="fa-solid fa-bars text-sm"></i>
                             </button>
                         </div>
@@ -1308,6 +2435,7 @@ We're excited to build the future alongside you.</div>
 
             } else {
                 window.userIsAuthenticated = false;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(null);
                 if (navAuthGroup) navAuthGroup.innerHTML = initialNavHTML;
                 closeSettingsPopupSystem();
             }
