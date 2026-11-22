@@ -274,7 +274,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .tools-section-heading p { margin: 11px 0 0; color: #858197; font-size: 12px; }
 .tools-count { display: flex; align-items: center; gap: 11px; padding: 0 0 6px 18px; border-left: 1px solid #e9e5f0; }
 .tools-count strong { color: var(--q-ink); font-size: 31px; line-height: 1; letter-spacing: -.06em; }.tools-count span { color: #9894a8; font-size: 8px; font-weight: 900; line-height: 1.45; letter-spacing: .13em; }
-.tool-card-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.tool-card-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .tool-card {
   min-width: 0; min-height: 390px; position: relative; display: flex; flex-direction: column;
   padding: 17px; overflow: hidden; border: 1px solid #e8e4f0; background: rgba(255,255,255,.94);
@@ -431,6 +431,63 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .dark #settingsPopupModal > div { background: #1c1a31 !important; border-color: #38334f !important; color: #eeeaff !important; }
 .dark #settingsPopupModal .bg-slate-50\/70 { background: #171529 !important; }
 .dark #settingsPopupModal #settingsEmailTextDisplay { color: #eeeaff !important; }
+
+
+/* Simplified tools landing layout: intro first, then a balanced 2 × 2 card grid. */
+.tools-hero.tools-hero-simple {
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: clamp(58px, 8vw, 92px);
+  padding-bottom: 30px;
+}
+.tools-hero-simple .tools-hero-copy {
+  width: 100%;
+  max-width: 790px;
+  text-align: center;
+}
+.tools-hero-simple .eyebrow { margin-inline: auto; }
+.tools-hero-simple .tools-hero-copy h1 { font-size: clamp(48px, 5.8vw, 70px); }
+.tools-hero-simple .tools-hero-lede {
+  max-width: 660px;
+  margin: 22px auto 0;
+}
+.tools-hero-support {
+  margin: 16px 0 0;
+  color: #8b879b;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.tools-hero-support a {
+  color: #6650c5;
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: 1px solid #d3c9f4;
+  padding-bottom: 2px;
+}
+.tools-hero-support a i { margin-left: 3px; font-size: 10px; }
+.tools-library {
+  padding-top: 12px;
+  border-top: 0;
+}
+.tool-card-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.tool-card { min-height: 370px; padding: 20px; }
+.tool-card-art { height: 150px; }
+.dark .tools-hero-support { color: #aaa5c1; }
+.dark .tools-hero-support a { color: #c7b9ff; border-color: #62558e; }
+@media (max-width: 560px) {
+  .tools-hero.tools-hero-simple { padding-top: 43px; padding-bottom: 20px; }
+  .tools-hero-simple .tools-hero-copy h1 { font-size: clamp(42px, 10vw, 47px); }
+  .tools-hero-simple .tools-hero-lede { font-size: 13px; line-height: 1.75; }
+  .tools-hero-support { font-size: 11px; }
+  .tools-library { padding-top: 18px; padding-bottom: 50px; }
+  .tool-card-grid { grid-template-columns: 1fr; gap: 11px; }
+  .tool-card { min-height: 350px; padding: 16px; }
+  .tool-card-art { height: 135px; }
+}
+@media (max-width: 390px) {
+  .tools-hero-simple .tools-hero-copy h1 { font-size: 42px; }
+}
 </style>
 
 </head>
@@ -487,80 +544,26 @@ button, a { -webkit-tap-highlight-color: transparent; }
     </header>
 
          <main class="tool-workspace">
-        <section class="tools-hero site-container">
+        <section class="tools-hero tools-hero-simple site-container">
             <div class="tools-hero-copy">
                 <span class="eyebrow"><span class="eyebrow-mark"></span> THE QUANS TOOLKIT</span>
                 <h1>Make room for<br><em>better work.</em></h1>
-                <p class="tools-hero-lede">Four focused AI workflows, brought together in one calm workspace. Choose a starting point and turn the work in front of you into something ready to use.</p>
-                <div class="tools-hero-actions">
-                    <a href="#tool-library" class="button button-primary">Choose a workflow <i class="fa-solid fa-arrow-down"></i></a>
-                    <a href="explore.html" class="button button-secondary">Explore Quans <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                </div>
-                <div class="tools-hero-notes">
-                    <div><span class="note-index">01</span><span><strong>Focused by design</strong><small>One clear job per tool</small></span></div>
-                    <div><span class="note-index note-violet">02</span><span><strong>Made to be shaped</strong><small>Review, refine and make it yours</small></span></div>
-                </div>
-            </div>
-
-            <div class="tools-hero-visual" aria-label="Preview of the Quans toolkit">
-                <div class="tools-visual-grid"></div>
-                <div class="tools-visual-orbit tools-visual-orbit-one"></div>
-                <div class="tools-visual-orbit tools-visual-orbit-two"></div>
-                <div class="toolkit-preview">
-                    <div class="toolkit-preview-topbar">
-                        <div class="toolkit-preview-brand"><span class="toolkit-brand-mark">Q</span><span>quans</span><small>WORKSPACE</small></div>
-                        <div class="toolkit-window-dots"><b></b><b></b><b></b></div>
-                    </div>
-                    <div class="toolkit-preview-body">
-                        <div class="toolkit-preview-sidebar">
-                            <span class="toolkit-sidebar-label">YOUR TOOLKIT</span>
-                            <div class="toolkit-sidebar-item active"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Assistant</div>
-                            <div class="toolkit-sidebar-item"><i class="fa-solid fa-pen-nib"></i> Post Studio</div>
-                            <div class="toolkit-sidebar-item"><i class="fa-regular fa-file-lines"></i> Proposals</div>
-                            <div class="toolkit-sidebar-item"><i class="fa-solid fa-repeat"></i> Repurpose</div>
-                            <div class="toolkit-sidebar-rule"></div>
-                            <span class="toolkit-sidebar-label">WORKSPACE</span>
-                            <span class="toolkit-sidebar-muted">Your next idea starts here</span>
-                        </div>
-                        <div class="toolkit-preview-content">
-                            <div class="toolkit-preview-kicker">A CLEARER WAY TO CREATE <span>● READY</span></div>
-                            <h2>What will you<br>work on today?</h2>
-                            <p>Pick a focused workflow. Keep your context, direction and final output in view.</p>
-                            <div class="toolkit-preview-list">
-                                <div><span class="toolkit-list-icon list-violet"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span><b>AI Assistant</b><small>Think, write and explore</small></span><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-                                <div><span class="toolkit-list-icon list-cyan"><i class="fa-solid fa-pen-nib"></i></span><span><b>Post Studio</b><small>Shape your next post</small></span><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-                                <div><span class="toolkit-list-icon list-coral"><i class="fa-regular fa-file-lines"></i></span><span><b>Proposal Studio</b><small>Build a clear proposal</small></span><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-                            </div>
-                            <div class="toolkit-preview-footer"><span>FOCUSED TOOLS / 04</span><span><i class="fa-solid fa-sparkles"></i> Made for real work</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="toolkit-float-note toolkit-float-top"><span class="toolkit-float-icon float-violet"><i class="fa-solid fa-layer-group"></i></span><span><b>One workspace</b><small>Four focused directions</small></span></div>
-                <div class="toolkit-float-note toolkit-float-bottom"><span class="toolkit-float-icon float-coral"><i class="fa-solid fa-check"></i></span><span><b>Your work, your way</b><small>Review · Refine · Use</small></span></div>
-                <div class="toolkit-stage-accent"></div>
+                <p class="tools-hero-lede">Four focused AI tools, brought together in one calm workspace. Choose the workflow that fits what you need to create, improve or move forward.</p>
+                <p class="tools-hero-support">Looking to understand each tool before getting started? Visit the <a href="explore.html">Explore page <i class="fa-solid fa-arrow-up-right-from-square"></i></a>.</p>
             </div>
         </section>
 
         <section id="tool-library" class="tools-library site-container">
-            <div class="tools-section-heading">
-                <div>
-                    <span class="section-kicker">FIND YOUR FLOW</span>
-                    <h2>Choose a <em>workflow.</em></h2>
-                    <p>Start with the task you want to move forward.</p>
-                </div>
-                <div class="tools-count"><strong>04</strong><span>TOOLS<br>AVAILABLE</span></div>
-            </div>
-
             <div class="tool-card-grid">
                 <button type="button" data-tool="ai-assistant" class="tool-card tool-card-assistant tool-btn">
-                    <span class="tool-card-top"><span>01 / EVERYDAY WORK</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <span class="tool-card-top"><span>01 / CAREER DEVELOPMENT</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
                     <span class="tool-card-art assistant-art" aria-hidden="true">
                         <span class="assistant-art-orbit"></span>
                         <span class="assistant-spark spark-one">✦</span><span class="assistant-spark spark-two">✧</span>
-                        <span class="assistant-chat-card"><span class="assistant-chat-head"><i class="fa-solid fa-wand-magic-sparkles"></i><b>QUANS ASSISTANT</b><small>READY</small></span><span class="assistant-chat-line line-long"></span><span class="assistant-chat-line line-mid"></span><span class="assistant-chat-answer"><i class="fa-solid fa-sparkles"></i><span><b>Let's work through it.</b><small>Ideas, writing and everyday tasks.</small></span></span></span>
+                        <span class="assistant-chat-card"><span class="assistant-chat-head"><i class="fa-solid fa-wand-magic-sparkles"></i><b>QUANS RESUME BUILDER</b><small>READY</small></span><span class="assistant-chat-line line-long"></span><span class="assistant-chat-line line-mid"></span><span class="assistant-chat-answer"><i class="fa-solid fa-sparkles"></i><span><b>Build your next move.</b><small>Experience, skills and achievements.</small></span></span></span>
                     </span>
-                    <span class="tool-card-copy"><span class="tool-card-category">THINK · WRITE · EXPLORE</span><strong>AI Assistant</strong><span class="tool-card-description">Your everyday companion for thinking through ideas, shaping writing and getting useful work started.</span></span>
-                    <span class="tool-card-action"><span>Open AI Assistant</span><i class="fa-solid fa-arrow-right"></i></span>
+                    <span class="tool-card-copy"><span class="tool-card-category">BUILD · TAILOR · PREPARE</span><strong>AI Resume Builder</strong><span class="tool-card-description">Build a clear resume, tailor your experience to a role and prepare for your next opportunity.</span></span>
+                    <span class="tool-card-action"><span>Open AI Resume Builder</span><i class="fa-solid fa-arrow-right"></i></span>
                 </button>
 
                 <button type="button" data-tool="social-generator" class="tool-card tool-card-post tool-btn">
