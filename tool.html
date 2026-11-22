@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUANS | Contact</title>
+    <title>QUANS | Free Business Tools</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -65,6 +65,7 @@
             scrollbar-color: #CBD5E1 transparent;
         }
     </style>
+
 <style id="quans-tool-workspace-styles">
 :root {
   --q-ink: #17162b;
@@ -314,7 +315,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .site-page footer { color: #77738a !important; background: rgba(255,255,255,.58) !important; border-top: 1px solid #e9e5f0 !important; box-shadow: none !important; backdrop-filter: blur(18px); }
 .site-page footer a { color: #77738a; text-decoration: none; }.site-page footer a:hover { color: var(--q-violet); }
 
-/* Desktop account dropdown styling. */
+/* Mobile navigation and authenticated dropdown follow the same quiet, square-edged system. */
+#mobileSidebar { z-index: 150; }
+#mobileSidebar > div:first-child { background: rgba(23,22,43,.36) !important; backdrop-filter: blur(5px); }
+#mobileSidebar .absolute.top-0.right-0 { background: #fbfaff !important; border-color: #e8e3f0 !important; box-shadow: -18px 0 50px rgba(35,27,72,.12); }
+#mobileSidebar a { border-radius: 10px !important; border-color: #e9e5f0 !important; background: rgba(255,255,255,.72) !important; }
+#mobileSidebar a:hover { border-color: #cfc3fb !important; background: #f5f1ff !important; }
+#mobileSidebar a > div:first-child > div { border-radius: 9px !important; background: #f0ecff !important; color: #7053da !important; }
+#mobileSidebar a span { color: #343149 !important; }
+#mobileSidebar a[id="mobile-nav-tool"] { background: #f0ecff !important; border-color: #d8cdfa !important; }
 #navAuthGroup #userDropdownMenu { width: 168px; margin-top: 12px; padding: 5px; border: 1px solid #e8e3f0; border-radius: 10px; background: #fff; box-shadow: 0 18px 42px rgba(35,27,72,.13); }
 #navAuthGroup #userDropdownMenu button { border-radius: 7px; color: #514c69; font-size: 11px; padding: 10px 11px; }
 #navAuthGroup #userDropdownMenu button:hover { background: #f5f1ff; color: var(--q-violet); }
@@ -412,6 +421,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .dark .tool-card-action, .dark .tools-library, .dark .tools-guidance { border-color: #38334f; }
 .dark .site-page footer { color: #a9a4bd !important; background: rgba(24,22,43,.78) !important; border-color: #38334f !important; }
 .dark .site-page footer a { color: #b8b1cb; }
+.dark #mobileSidebar .absolute.top-0.right-0 { background: #1c1a31 !important; border-color: #38334f !important; }
+.dark #mobileSidebar a { background: #24213c !important; border-color: #38334f !important; }
+.dark #mobileSidebar a span { color: #e9e5f5 !important; }
+.dark #mobileSidebar a[id="mobile-nav-tool"] { background: #332b55 !important; border-color: #6652a7 !important; }
 .dark #navAuthGroup #userDropdownMenu { background: #211f38; border-color: #3b3657; }
 .dark #navAuthGroup #userDropdownMenu button { color: #e4def2; }
 .dark #navAuthGroup #userDropdownMenu button:hover { background: #332b55; }
@@ -475,160 +488,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 390px) {
   .tools-hero-simple .tools-hero-copy h1 { font-size: 42px; }
 }
-</style>
-<style id="quans-contact-page-styles">
-.contact-workspace { position: relative; overflow: hidden; padding-bottom: 10px; }
-.contact-hero {
-  min-height: 590px; display: grid; grid-template-columns: minmax(0,.94fr) minmax(420px,1.06fr);
-  gap: clamp(30px,5vw,74px); align-items: center;
-  padding-top: clamp(62px,8vw,98px); padding-bottom: 72px;
-}
-.contact-copy { position: relative; z-index: 2; max-width: 560px; }
-.contact-copy h1 {
-  margin: 23px 0 0; color: var(--q-ink); font-size: clamp(48px,5.5vw,72px);
-  line-height: .99; letter-spacing: -.065em; font-weight: 800;
-}
-.contact-copy h1 em {
-  color: var(--q-violet); font-family: var(--q-serif); font-weight: 400;
-  font-style: italic; letter-spacing: -.055em;
-}
-.contact-copy > p { max-width: 500px; margin: 24px 0 0; color: #77748b; font-size: 15px; line-height: 1.85; }
-.contact-note { display: flex; align-items: flex-start; gap: 13px; max-width: 420px; margin-top: 38px; padding-top: 21px; border-top: 1px solid #e9e5f1; }
-.contact-note-index { color: var(--q-coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; padding-top: 3px; }
-.contact-note strong, .contact-note small { display: block; }
-.contact-note strong { color: #343149; font-size: 11px; font-weight: 800; }
-.contact-note small { margin-top: 4px; color: #9995aa; font-size: 10px; line-height: 1.5; }
-.contact-visual { min-height: 455px; position: relative; isolation: isolate; display: grid; place-items: center; }
-.contact-visual-grid { position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 31px 31px; mask-image: linear-gradient(110deg,transparent,#000 28%,#000 78%,transparent); }
-.contact-orbit { position: absolute; width: 405px; height: 405px; border: 1px solid rgba(125,100,208,.2); border-radius: 41% 59% 47% 53% / 49% 42% 58% 51%; transform: rotate(-16deg); z-index: -1; animation: contactOrbit 24s linear infinite; }
-.contact-orbit-two { width: 315px; height: 315px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation-duration: 31s; animation-direction: reverse; }
-@keyframes contactOrbit { to { transform: rotate(344deg); } }
-.contact-window { width: min(100%,480px); position: relative; z-index: 2; padding: 9px; background: #17162d; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.2); transform: rotate(1.5deg); animation: contactWindowFloat 8s ease-in-out infinite; }
-@keyframes contactWindowFloat { 0%,100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-9px) rotate(.8deg); } }
-.contact-window-top { height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; border-bottom: 1px solid #34314d; color: #f7f5ff; }
-.contact-window-brand { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 900; letter-spacing: -.03em; }
-.contact-window-brand span { display: inline-grid; place-items: center; width: 19px; height: 19px; background: linear-gradient(135deg,#8b6af1,#d27ce8); color: white; font-family: Georgia,serif; font-size: 11px; }
-.contact-window-status { color: #83c6a8; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
-.contact-window-body { padding: clamp(22px,3vw,31px); background: #1d1c39; color: #fff; }
-.contact-window-kicker { color: #aaa5c4; font-size: 8px; font-weight: 900; letter-spacing: .16em; }
-.contact-window-title { margin: 17px 0 9px; color: #fff; font-family: var(--q-serif); font-size: clamp(31px,3.5vw,39px); line-height: 1.04; letter-spacing: -.045em; }
-.contact-window-title em { color: #b8a6ff; font-weight: 400; }
-.contact-window-copy { max-width: 330px; margin: 0; color: #a5a1bf; font-size: 10px; line-height: 1.75; }
-.contact-email-panel { display: flex; align-items: center; gap: 12px; margin-top: 25px; padding: 14px; background: #f7f6fc; color: #211f37; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 12px 22px rgba(5,4,23,.18); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
-.contact-email-panel:hover { transform: translateY(-3px); box-shadow: 0 16px 27px rgba(5,4,23,.24); }
-.contact-email-icon { flex: 0 0 39px; width: 39px; height: 39px; display: grid; place-items: center; background: #e9e1ff; color: #6b50ca; font-size: 15px; }
-.contact-email-copy { min-width: 0; flex: 1; }
-.contact-email-copy small, .contact-email-copy strong { display: block; }
-.contact-email-copy small { margin-bottom: 5px; color: #9691a6; font-size: 7px; font-weight: 900; letter-spacing: .14em; }
-.contact-email-copy strong { color: #302d48; font-size: clamp(10px,1.2vw,13px); font-weight: 800; overflow-wrap: anywhere; }
-.contact-email-panel > i { color: #7053da; font-size: 13px; }
-.contact-window-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 15px; color: #8985a7; font-size: 8px; }
-.contact-window-foot span:last-child { display: flex; align-items: center; gap: 6px; color: #c7b9ff; }
-.contact-float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 9px; padding: 10px 13px; background: rgba(255,255,255,.95); border: 1px solid #e6e1f1; box-shadow: 0 15px 35px rgba(38,30,84,.1); animation: contactFloat 6s ease-in-out infinite; }
-.contact-float-top { top: 42px; right: -6px; }
-.contact-float-bottom { bottom: 35px; left: -12px; animation-delay: -2.3s; }
-@keyframes contactFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.contact-float-icon { width: 31px; height: 31px; display: grid; place-items: center; font-size: 13px; }
-.contact-float-coral { background: #fff0eb; color: #e87964; }
-.contact-float-violet { background: #f0ecff; color: #7053da; }
-.contact-float b, .contact-float small { display: block; }
-.contact-float b { color: #29263f; font-size: 9px; }
-.contact-float small { margin-top: 3px; color: #918da3; font-size: 7px; }
-.contact-topics { padding-top: 33px; padding-bottom: 86px; border-top: 1px solid #e9e5f0; }
-.contact-topics-heading { display: flex; align-items: end; justify-content: space-between; gap: 26px; margin-bottom: 27px; }
-.contact-topics-heading h2 { margin: 12px 0 0; color: var(--q-ink); font-size: clamp(31px,4vw,43px); line-height: 1.04; letter-spacing: -.055em; font-weight: 800; }
-.contact-topics-heading h2 em { color: var(--q-violet); font-family: var(--q-serif); font-style: italic; font-weight: 400; }
-.contact-topics-heading p { max-width: 355px; margin: 0 0 3px; color: #858197; font-size: 11px; line-height: 1.8; }
-.contact-topic-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }
-.contact-topic { min-height: 142px; padding: 23px 22px 22px 0; }
-.contact-topic + .contact-topic { padding-left: 22px; border-left: 1px solid #e9e5f0; }
-.contact-topic-index { display: block; color: var(--q-coral); font-size: 9px; font-weight: 900; letter-spacing: .14em; }
-.contact-topic h3 { margin: 11px 0 6px; color: #343149; font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
-.contact-topic p { max-width: 270px; margin: 0; color: #89859a; font-size: 10px; line-height: 1.7; }
-.contact-bottom { padding-bottom: 35px; }
-.contact-bottom-inner { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 28px 0; border-top: 1px solid #e9e5f0; }
-.contact-bottom-inner h2 { margin: 8px 0 0; color: var(--q-ink); font-size: 24px; font-weight: 800; letter-spacing: -.045em; }
-.contact-button { display: inline-flex; align-items: center; justify-content: center; gap: 11px; min-height: 46px; padding: 0 17px; color: #fff; background: linear-gradient(110deg,#7354e7,#8d65f4); box-shadow: 0 12px 24px rgba(112,80,220,.18); font-size: 11px; font-weight: 800; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
-.contact-button:hover { transform: translateY(-2px); box-shadow: 0 16px 28px rgba(112,80,220,.26); }
-.contact-button i { font-size: 13px; }
-
-/* The older signup flow creates its OTP panel dynamically; keep that view in the same palette. */
-#signupForm #verifyOtpBtn { background: var(--q-violet) !important; }
-#signupForm #otpCodeInput:focus { border-color: #a88be3 !important; box-shadow: 0 0 0 3px rgba(118,85,232,.12) !important; }
-#signupForm #resendOtpBtn { color: var(--q-violet) !important; }
-
-.dark .contact-copy h1, .dark .contact-topics-heading h2, .dark .contact-bottom-inner h2 { color: #f1edff; }
-.dark .contact-copy > p, .dark .contact-topics-heading p, .dark .contact-topic p { color: #aaa5c1; }
-.dark .contact-note { border-color: #38334f; }
-.dark .contact-note strong, .dark .contact-topic h3 { color: #e6e1f2; }
-.dark .contact-note small { color: #aaa5c1; }
-.dark .contact-topics, .dark .contact-topic-grid, .dark .contact-topic + .contact-topic, .dark .contact-bottom-inner { border-color: #38334f; }
-.dark .contact-float { background: rgba(34,31,58,.96); border-color: #3b3657; }
-.dark .contact-float b { color: #e8e3f4; }
-.dark .contact-float small { color: #aaa5c1; }
-
-@media (max-width: 1000px) {
-  .contact-hero { grid-template-columns: minmax(0,1fr) minmax(350px,.95fr); gap: 24px; }
-  .contact-float-top { right: -2px; }
-  .contact-float-bottom { left: -2px; }
-}
-@media (max-width: 800px) {
-  .contact-hero { grid-template-columns: 1fr; padding-top: 55px; padding-bottom: 55px; }
-  .contact-copy { max-width: 680px; }
-  .contact-visual { min-height: 420px; margin-top: 3px; }
-  .contact-topics { padding-top: 28px; padding-bottom: 65px; }
-}
-@media (max-width: 560px) {
-  .contact-hero { padding-top: 43px; gap: 16px; }
-  .contact-copy h1 { font-size: 46px; }
-  .contact-copy > p { font-size: 13px; line-height: 1.8; }
-  .contact-note { margin-top: 27px; }
-  .contact-visual { min-height: 345px; margin-inline: -8px; overflow: hidden; }
-  .contact-window { width: 460px; max-width: none; transform: scale(.76) rotate(1.5deg); }
-  .contact-orbit { width: 310px; height: 310px; }
-  .contact-orbit-two { width: 245px; height: 245px; }
-  .contact-float { padding: 7px 8px; gap: 6px; }
-  .contact-float-top { top: 4px; right: 0; }
-  .contact-float-bottom { bottom: 2px; left: 0; }
-  .contact-float-icon { width: 26px; height: 26px; }
-  .contact-float b { font-size: 8px; }
-  .contact-float small { font-size: 6px; }
-  .contact-topics-heading { align-items: flex-start; flex-direction: column; gap: 11px; }
-  .contact-topic-grid { grid-template-columns: 1fr; }
-  .contact-topic, .contact-topic + .contact-topic { min-height: 0; padding: 18px 0; border-left: 0; }
-  .contact-topic + .contact-topic { border-top: 1px solid #e9e5f0; }
-  .dark .contact-topic + .contact-topic { border-color: #38334f; }
-  .contact-bottom-inner { align-items: flex-start; flex-direction: column; }
-  .contact-bottom-inner .contact-button { width: 100%; }
-}
-@media (max-width: 390px) {
-  .contact-copy h1 { font-size: 41px; }
-  .contact-visual { min-height: 300px; }
-  .contact-window { transform: scale(.65) rotate(1.5deg); }
-  .contact-float-bottom { max-width: 145px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .contact-orbit, .contact-window, .contact-float { animation: none !important; }
-}
-</style>
-
-<style id="quans-contact-backdrop-styles">
-.contact-page-backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(circle at 80% 12%, rgba(217,204,255,.18), transparent 29rem), radial-gradient(circle at 9% 50%, rgba(106,215,231,.1), transparent 26rem); }
-.contact-backdrop-shape { position: absolute; pointer-events: none; }
-#scroll-box-1 { top: -7%; left: -11%; width: min(50vw,650px); aspect-ratio: 1; max-width: 650px; border-radius: 4rem; background: linear-gradient(135deg,rgba(217,204,255,.36),rgba(217,204,255,0)); }
-#scroll-box-2 { top: 50vh; left: 5%; width: min(40vw,500px); aspect-ratio: 1; border-radius: 3rem; background: linear-gradient(135deg,rgba(106,215,231,.14),transparent 70%); }
-#scroll-box-right-1 { top: 15vh; right: 8%; width: min(12vw,150px); aspect-ratio: 1; border-radius: 1.1rem; background: linear-gradient(135deg,rgba(118,85,232,.12),rgba(106,215,231,.06)); }
-#scroll-box-right-2 { top: 65vh; right: 12%; width: min(18vw,220px); aspect-ratio: 1; border-radius: 2rem; background: linear-gradient(135deg,rgba(255,139,118,.1),transparent); }
-#scroll-circle { position: absolute; top: 10rem; right: 25%; width: 24rem; height: 24rem; border: 1px dashed rgba(118,85,232,.16); border-radius: 50%; }
-.contact-backdrop-inner-circle { position: absolute; top: 13rem; right: 27%; width: 18rem; height: 18rem; border: 1px solid rgba(106,215,231,.15); border-radius: 50%; }
-.contact-backdrop-floor { position: absolute; bottom: 0; left: -5%; width: 110%; height: 40vh; background: linear-gradient(to top,rgba(118,85,232,.035),transparent); }
-.dark .contact-page-backdrop { background: radial-gradient(circle at 78% 18%,rgba(99,75,168,.18),transparent 28rem),radial-gradient(circle at 12% 56%,rgba(58,139,145,.1),transparent 25rem),#141326; }
-.dark #scroll-box-1 { background: linear-gradient(135deg,rgba(118,85,232,.13),transparent); }
-.dark #scroll-box-2 { background: linear-gradient(135deg,rgba(58,139,145,.12),transparent 70%); }
-.dark #scroll-box-right-1 { background: linear-gradient(135deg,rgba(118,85,232,.12),rgba(106,215,231,.04)); }
-.dark #scroll-box-right-2 { background: linear-gradient(135deg,rgba(255,139,118,.07),transparent); }
-.dark #scroll-circle { border-color: rgba(118,85,232,.17); }
-@media (max-width: 560px) { #scroll-circle { width: 17rem; height: 17rem; right: -1rem; top: 18rem; } .contact-backdrop-inner-circle { width: 13rem; height: 13rem; right: 0; top: 20rem; } }
 </style>
 
 <style id="quans-mobile-navigation-styles">
@@ -1032,16 +891,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 </style>
 
 </head>
-<body class="site-page contact-page min-h-screen text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+<body class="site-page workspace-page min-h-screen text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
- <div class="contact-page-backdrop" aria-hidden="true">
-    <div id="scroll-box-1" class="contact-backdrop-shape contact-backdrop-shape-one"></div>
-    <div id="scroll-box-2" class="contact-backdrop-shape contact-backdrop-shape-two"></div>
-    <div id="scroll-box-right-1" class="contact-backdrop-shape contact-backdrop-shape-three"></div>
-    <div id="scroll-box-right-2" class="contact-backdrop-shape contact-backdrop-shape-four"></div>
-    <div id="scroll-circle" class="contact-backdrop-circle"></div>
-    <div class="contact-backdrop-inner-circle"></div>
-    <div class="contact-backdrop-floor"></div>
+ <div class="tool-page-backdrop" aria-hidden="true">
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-orbit backdrop-orbit-a"></div>
+    <div class="backdrop-orbit backdrop-orbit-b"></div>
+    <div class="backdrop-glow backdrop-glow-left"></div>
+    <div class="backdrop-glow backdrop-glow-right"></div>
  </div>
 
 <div class="min-h-screen w-full relative flex flex-col antialiased">
@@ -1081,95 +938,75 @@ button, a { -webkit-tap-highlight-color: transparent; }
             </button>
             
             <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
+                <i class="fa-solid fa-bars-staggered text-lg" aria-hidden="true"></i>
             </button>
         </div>
     </header>
 
-    <main class="contact-workspace">
-        <section class="contact-hero site-container">
-            <div class="contact-copy">
-                <h1>Good work starts<br><em>with a conversation.</em></h1>
-                <p>Questions about Quans, thoughts on how we can make it better, or an idea you'd like to share? We'd love to hear from you.</p>
-                <div class="contact-note">
-                    <span class="contact-note-index" aria-hidden="true">01</span>
-                    <span><strong>A direct line to Quans</strong><small>Reach out with questions, feedback or suggestions.</small></span>
-                </div>
-            </div>
-
-            <div class="contact-visual" aria-label="Quans contact information">
-                <div class="contact-visual-grid"></div>
-                <div class="contact-orbit"></div>
-                <div class="contact-orbit contact-orbit-two"></div>
-
-                <div class="contact-window">
-                    <div class="contact-window-top">
-                        <div class="contact-window-brand"><span>Q</span> QUANS <small style="color:#8581a8;font-size:8px;letter-spacing:.12em;margin-left:3px;">CONTACT</small></div>
-                        <div class="contact-window-status"><i class="fa-solid fa-circle" style="font-size:5px;margin-right:5px;"></i> OPEN CHANNEL</div>
-                    </div>
-                    <div class="contact-window-body">
-                        <span class="contact-window-kicker">YOUR MESSAGE MATTERS</span>
-                        <h2 class="contact-window-title">Let's start<br><em>with a hello.</em></h2>
-                        <p class="contact-window-copy">Send your questions, feedback or ideas directly to our inbox. We'd be glad to hear what you have in mind.</p>
-                        <a class="contact-email-panel" href="mailto:wangikarrajat@gmail.com" aria-label="Email Quans at wangikarrajat@gmail.com">
-                            <span class="contact-email-icon"><i class="fa-solid fa-envelope"></i></span>
-                            <span class="contact-email-copy"><small>EMAIL ADDRESS</small><strong>wangikarrajat@gmail.com</strong></span>
-                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                        </a>
-                        <div class="contact-window-foot"><span>QUANS / 2026</span><span><i class="fa-solid fa-paper-plane"></i> SAY HELLO</span></div>
-                    </div>
-                </div>
-
-                <div class="contact-float contact-float-top">
-                    <span class="contact-float-icon contact-float-coral"><i class="fa-solid fa-comment-dots"></i></span>
-                    <span><b>Questions welcome</b><small>We're listening.</small></span>
-                </div>
-                <div class="contact-float contact-float-bottom">
-                    <span class="contact-float-icon contact-float-violet"><i class="fa-solid fa-lightbulb"></i></span>
-                    <span><b>Have an idea?</b><small>Tell us what could be better.</small></span>
-                </div>
+         <main class="tool-workspace">
+        <section class="tools-hero tools-hero-simple site-container">
+            <div class="tools-hero-copy">
+                <h1>Make room for<br><em>better work.</em></h1>
+                <p class="tools-hero-lede">Four focused AI tools, brought together in one calm workspace. Choose the workflow that fits what you need to create, improve or move forward.</p>
+                <p class="tools-hero-support">Looking to understand each tool before getting started? Visit the <a href="explore.html">Explore page <i class="fa-solid fa-arrow-up-right-from-square"></i></a>.</p>
             </div>
         </section>
 
-        <section class="contact-topics site-container">
-            <div class="contact-topics-heading">
-                <div>
-                    <span class="section-kicker">WHAT CAN YOU REACH OUT ABOUT?</span>
-                    <h2>Start wherever<br><em>you are.</em></h2>
-                </div>
-                <p>You don't need a perfect brief. A question, a quick thought or a detailed suggestion are all good places to start.</p>
-            </div>
-            <div class="contact-topic-grid">
-                <article class="contact-topic">
-                    <span class="contact-topic-index">01 / QUESTIONS</span>
-                    <h3>Something you'd like to know?</h3>
-                    <p>Ask about Quans, its tools or how to get started with a workflow.</p>
-                </article>
-                <article class="contact-topic">
-                    <span class="contact-topic-index">02 / FEEDBACK</span>
-                    <h3>Help us make it better.</h3>
-                    <p>Share what feels useful and what could be clearer or easier to use.</p>
-                </article>
-                <article class="contact-topic">
-                    <span class="contact-topic-index">03 / IDEAS</span>
-                    <h3>Something you'd like to see?</h3>
-                    <p>Tell us about a tool, feature or workflow that would help your work.</p>
-                </article>
+        <section id="tool-library" class="tools-library site-container">
+            <div class="tool-card-grid">
+                <button type="button" data-tool="ai-assistant" class="tool-card tool-card-assistant tool-btn">
+                    <span class="tool-card-top"><span>01 / CAREER DEVELOPMENT</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <span class="tool-card-art assistant-art" aria-hidden="true">
+                        <span class="assistant-art-orbit"></span>
+                        <span class="assistant-spark spark-one">✦</span><span class="assistant-spark spark-two">✧</span>
+                        <span class="assistant-chat-card"><span class="assistant-chat-head"><i class="fa-solid fa-wand-magic-sparkles"></i><b>QUANS RESUME BUILDER</b><small>READY</small></span><span class="assistant-chat-line line-long"></span><span class="assistant-chat-line line-mid"></span><span class="assistant-chat-answer"><i class="fa-solid fa-sparkles"></i><span><b>Build your next move.</b><small>Experience, skills and achievements.</small></span></span></span>
+                    </span>
+                    <span class="tool-card-copy"><span class="tool-card-category">BUILD · TAILOR · PREPARE</span><strong>AI Resume Builder</strong><span class="tool-card-description">Build a clear resume, tailor your experience to a role and prepare for your next opportunity.</span></span>
+                    <span class="tool-card-action"><span>Open AI Resume Builder</span><i class="fa-solid fa-arrow-right"></i></span>
+                </button>
+
+                <button type="button" data-tool="social-generator" class="tool-card tool-card-post tool-btn">
+                    <span class="tool-card-top"><span>02 / CONTENT CREATION</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <span class="tool-card-art post-studio-art" aria-hidden="true">
+                        <span class="social-window"><span class="social-window-top"><i></i><i></i><i></i><b>POST STUDIO</b></span><span class="social-window-content"><span class="social-avatar">Q</span><span class="social-copy"><b>Your next idea,<br>ready to share.</b><small>Shape a post with a clear point of view.</small></span></span><span class="social-window-tags"><i>HOOK</i><i>STORY</i><i>CTA</i></span></span>
+                        <span class="post-art-sticker"><i class="fa-solid fa-pen-nib"></i></span>
+                    </span>
+                    <span class="tool-card-copy"><span class="tool-card-category">HOOKS · POSTS · DIRECTION</span><strong>Post Studio</strong><span class="tool-card-description">Create platform-aware content with stronger hooks, clear copy, calls to action and creative direction.</span></span>
+                    <span class="tool-card-action"><span>Open Post Studio</span><i class="fa-solid fa-arrow-right"></i></span>
+                </button>
+
+                <button type="button" data-tool="proposal-idea" class="tool-card tool-card-proposal tool-btn">
+                    <span class="tool-card-top"><span>03 / BUSINESS DOCUMENTS</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <span class="tool-card-art proposal-studio-art" aria-hidden="true">
+                        <span class="proposal-sheet"><span class="proposal-sheet-brand"><i class="fa-solid fa-shapes"></i><b>QUANS / STUDIO</b></span><span class="proposal-title-line"></span><span class="proposal-sub-line"></span><span class="proposal-rule"></span><span class="proposal-section-label">PROJECT OVERVIEW</span><span class="proposal-lines"><i></i><i></i><i></i></span><span class="proposal-bottom-row"><i></i><i></i><i></i></span></span>
+                        <span class="proposal-seal"><i class="fa-solid fa-check"></i></span>
+                    </span>
+                    <span class="tool-card-copy"><span class="tool-card-category">SCOPE · STRUCTURE · NEXT STEPS</span><strong>Proposal Generator</strong><span class="tool-card-description">Turn project requirements into structured proposals with a clearer scope, deliverables and next steps.</span></span>
+                    <span class="tool-card-action"><span>Open Proposal Studio</span><i class="fa-solid fa-arrow-right"></i></span>
+                </button>
+
+                <button type="button" data-tool="text-repurpose" class="tool-card tool-card-repurpose tool-btn">
+                    <span class="tool-card-top"><span>04 / CONTENT ADAPTATION</span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <span class="tool-card-art repurpose-studio-art" aria-hidden="true">
+                        <span class="repurpose-source-card"><i class="fa-regular fa-file-lines"></i><b>ONE SOURCE</b><small>Long-form content</small></span>
+                        <span class="repurpose-flow-lines"><i></i><i></i><i></i></span>
+                        <span class="repurpose-output-stack"><b><i class="fa-brands fa-linkedin-in"></i> POST</b><b><i class="fa-regular fa-envelope"></i> EMAIL</b><b><i class="fa-solid fa-list"></i> THREAD</b></span>
+                        <span class="repurpose-star">✦</span>
+                    </span>
+                    <span class="tool-card-copy"><span class="tool-card-category">REWORK · ADAPT · REUSE</span><strong>Text Repurposer</strong><span class="tool-card-description">Adapt one source into multiple formats while keeping your central message consistent.</span></span>
+                    <span class="tool-card-action"><span>Open Text Repurposer</span><i class="fa-solid fa-arrow-right"></i></span>
+                </button>
             </div>
         </section>
 
-        <section class="contact-bottom site-container">
-            <div class="contact-bottom-inner">
-                <div>
-                    <span class="section-kicker">WHENEVER YOU'RE READY</span>
-                    <h2>We'd love to hear from you.</h2>
-                </div>
-                <a class="contact-button" href="mailto:wangikarrajat@gmail.com">Send us an email <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-            </div>
+        <section class="tools-guidance site-container">
+            <div class="guidance-mark"><i class="fa-solid fa-lightbulb"></i></div>
+            <div><span class="section-kicker">A NOTE ON AI-GENERATED WORK</span><h3>Keep the final say.</h3><p>Use each result as a starting point. Review the details, make the edits that matter and ensure the finished work reflects your intent.</p></div>
+            <a href="explore.html" class="guidance-link">Learn more about Quans <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         </section>
-    </main>
+     </main>
     
-    <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 font-semibold text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
+    <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
     <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
         
         <p>&copy; 2026 QUANS. All rights reserved.</p>
@@ -1223,7 +1060,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
                     <span class="mobile-nav-copy"><strong>Pricing</strong><small>Plans and access</small></span>
                     <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
                 </a>
-                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link is-active">
+                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link">
                     <span class="mobile-nav-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
                     <span class="mobile-nav-copy"><strong>Contact Us</strong><small>Questions, feedback and ideas</small></span>
                     <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
@@ -1955,6 +1792,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
                         window.location.href = 'ai.html';
                     } else if (tool === 'social-generator'){
                         window.location.href = 'social.html'
+                    } else if (tool === 'proposal-idea'){
+                        window.location.href = 'proposal.html'
+                    } else if (tool === 'text-repurpose'){
+                        window.location.href = 'textrep.html'
                     } else {
                         window.location.href = `tools/${tool}.html`;
                     }
@@ -2127,8 +1968,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 pcElement.classList.add("text-slate-600");
             }
             if (mobileElement) {
-                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "is-active");
-                mobileElement.classList.add("bg-slate-50", "border-slate-100");
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "bg-slate-50", "border-slate-100");
+                mobileElement.classList.remove("is-active");
             }
     
             // Check if our clean page name matches the pair configuration
@@ -2140,8 +1981,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 }
                 // Activate Mobile darker border combination
                 if (mobileElement) {
-                    mobileElement.classList.remove("bg-slate-50", "border-slate-100");
-                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200", "is-active");
+                    mobileElement.classList.add("is-active");
                 }
             }
         });
@@ -2705,7 +2545,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
                                 </div>
                             </div>
                             <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
-                                <i class="fa-solid fa-bars text-sm"></i>
+                                <i class="fa-solid fa-bars text-sm" aria-hidden="true"></i>
                             </button>
                         </div>
                     `;
