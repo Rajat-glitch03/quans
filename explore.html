@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Quans — Focused AI Tools for Your Work</title>
+    <title>QUANS | Explore</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -764,118 +764,401 @@ button, a { -webkit-tap-highlight-color: transparent; }
 </style>
 
 
-<style id="quans-explore-page-styles">
-.quans-explore { position:relative; overflow:hidden; padding-bottom:12px; }
-.explore-hero { min-height:600px; display:grid; grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr); gap:clamp(30px,5vw,78px); align-items:center; padding-top:78px; padding-bottom:76px; }
-.explore-hero-copy { position:relative; z-index:2; max-width:570px; }
-.explore-hero-copy h1 { margin:24px 0 0; color:var(--q-ink); font-size:clamp(46px,5.5vw,72px); line-height:.98; letter-spacing:-.068em; font-weight:800; }
-.explore-hero-copy h1 em,.explore-intro h2 em,.explore-section-head h2 em,.explore-guide-heading h2 em,.explore-workflow-copy h2 em,.explore-bottom-cta h2 em { color:var(--q-violet); font-family:var(--q-serif); font-style:italic; font-weight:400; letter-spacing:-.055em; }
-.explore-hero-copy .hero-lede { max-width:490px; }
+<style id="quans-account-ui-redesign">
+/* Signed-in account dropdown — QUANS visual system */
+#navAuthGroup .q-account-menu-wrap { position: relative; }
+#navAuthGroup .q-account-trigger {
+    display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
+    padding: 5px 13px 5px 6px; border: 1px solid #e9e6f0; border-radius: 999px;
+    background: rgba(255,255,255,.94); color: #29263f; font-family: 'DM Sans',sans-serif;
+    font-size: 12px; font-weight: 800; letter-spacing: -.01em;
+    box-shadow: 0 5px 16px rgba(43,31,91,.055);
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, background .2s ease;
+}
+#navAuthGroup .q-account-trigger:hover,
+#navAuthGroup .q-account-trigger[aria-expanded="true"] {
+    border-color: #d6cafa; background: #fff;
+    box-shadow: 0 8px 22px rgba(91,65,169,.12); transform: translateY(-1px);
+}
+#navAuthGroup .q-account-avatar {
+    display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px;
+    border-radius: 50%; color: #fff; font-size: 12px;
+    background: linear-gradient(135deg,#7655e8 0%,#8f72ed 58%,#6ad7e7 135%);
+    box-shadow: 0 4px 10px rgba(118,85,232,.2);
+}
+#navAuthGroup .q-account-greeting { color: #29263f; }
+#navAuthGroup .q-account-chevron {
+    margin-left: 1px; color: #8d86a4; font-size: 9px;
+    transition: transform .2s ease, color .2s ease;
+}
+#navAuthGroup .q-account-trigger[aria-expanded="true"] .q-account-chevron { transform: rotate(180deg); color: #7655e8; }
+#navAuthGroup .q-account-dropdown {
+    top: calc(100% + 12px); width: 278px; max-width: calc(100vw - 24px);
+    overflow: hidden; border: 1px solid #e8e2f3; border-radius: 19px;
+    background: #fff; box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06);
+    transform-origin: top right;
+}
+#navAuthGroup .q-account-dropdown:not(.hidden) { animation: qAccountDropdownIn .18s ease-out both; }
+@keyframes qAccountDropdownIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+#navAuthGroup .q-account-dropdown-head {
+    display: flex; align-items: center; gap: 12px; padding: 17px 17px 15px;
+    background: radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff);
+    border-bottom: 1px solid #eeeaf5;
+}
+#navAuthGroup .q-account-dropdown-mark {
+    display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px;
+    border: 1px solid rgba(255,255,255,.9); border-radius: 14px;
+    color: #7655e8; background: #fff; box-shadow: 0 5px 14px rgba(83,61,145,.09); font-size: 15px;
+}
+#navAuthGroup .q-account-dropdown-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+#navAuthGroup .q-account-eyebrow { color: #8a81a5; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
+#navAuthGroup .q-account-dropdown-copy strong { color: #29263f; font-size: 13px; font-weight: 800; }
+#navAuthGroup .q-account-dropdown-copy > span:last-child { max-width: 185px; overflow: hidden; color: #89859a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+#navAuthGroup .q-account-dropdown-actions { padding: 8px; }
+#navAuthGroup .q-account-dropdown-item {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px;
+    border: 0; border-radius: 12px; background: transparent; text-align: left;
+    transition: background .18s ease, transform .18s ease;
+}
+#navAuthGroup .q-account-dropdown-item:hover { background: #f8f6fd; transform: translateX(2px); }
+#navAuthGroup .q-account-action-icon {
+    display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 35px;
+    border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 12px;
+}
+#navAuthGroup .q-account-action-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 2px; }
+#navAuthGroup .q-account-action-copy strong { color: #302d48; font-size: 12px; font-weight: 800; }
+#navAuthGroup .q-account-action-copy small { color: #9b97aa; font-size: 10px; }
+#navAuthGroup .q-account-action-arrow { color: #b5aec7; font-size: 10px; transition: transform .18s ease,color .18s ease; }
+#navAuthGroup .q-account-dropdown-item:hover .q-account-action-arrow { color: #7655e8; transform: translateX(2px); }
+#navAuthGroup .q-account-dropdown-divider { height: 1px; margin: 3px 7px; background: #eeeaf5; }
+#navAuthGroup .q-account-logout .q-account-action-icon { color: #cf6877; background: #fff0f2; }
+#navAuthGroup .q-account-logout .q-account-action-copy strong { color: #a94f5c; }
+#navAuthGroup .q-account-logout:hover { background: #fff8f8; }
+#navAuthGroup .q-account-logout:hover .q-account-action-arrow { color: #cf6877; }
+
+/* Account settings popup */
+#settingsPopupModal { background: rgba(23,22,43,.58) !important; backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
+#settingsPopupModal .q-settings-dialog {
+    color: #29263f; background: #fff; border: 1px solid rgba(233,230,240,.95);
+    box-shadow: 0 30px 100px rgba(23,22,43,.24);
+}
+#settingsPopupModal .q-settings-sidebar {
+    position: relative; display: flex; width: 232px; flex: 0 0 232px; flex-direction: column;
+    padding: 28px 18px 19px; border-right: 1px solid #e9e6f0;
+    background: radial-gradient(circle at 5% 8%,rgba(217,204,255,.55),transparent 13rem),linear-gradient(155deg,#fbfaff 0%,#f5f1ff 100%);
+}
+#settingsPopupModal .q-settings-sidebar-brand { display: flex; align-items: center; gap: 11px; padding: 0 7px 34px; }
+#settingsPopupModal .q-settings-brand-mark {
+    display: grid; place-items: center; width: 41px; height: 41px; flex: 0 0 41px;
+    border: 1px solid rgba(255,255,255,.88); border-radius: 13px;
+    color: #fff; background: linear-gradient(135deg,#7655e8,#9275ee 68%,#6ad7e7 145%);
+    box-shadow: 0 7px 17px rgba(118,85,232,.2); font-size: 22px; font-weight: 900; letter-spacing: -.12em;
+}
+#settingsPopupModal .q-settings-sidebar-brand > div { display: flex; flex-direction: column; gap: 2px; }
+#settingsPopupModal .q-settings-sidebar-brand strong { color: #29263f; font-size: 15px; font-weight: 900; letter-spacing: -.06em; }
+#settingsPopupModal .q-settings-sidebar-brand small { color: #928da5; font-size: 10px; }
+#settingsPopupModal .q-settings-sidebar-label { margin: 0 9px 10px; color: #a19bb2; font-size: 9px; font-weight: 900; letter-spacing: .17em; }
+#settingsPopupModal .q-settings-nav-button {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px 11px;
+    border: 1px solid transparent; border-radius: 12px; color: #77758b;
+    background: transparent; text-align: left; font-size: 12px; font-weight: 800;
+}
+#settingsPopupModal .q-settings-nav-button.active {
+    color: #fff; background: linear-gradient(110deg,#7655e8,#6849d7);
+    box-shadow: 0 8px 18px rgba(118,85,232,.2);
+}
+#settingsPopupModal .q-settings-nav-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-nav-button.active .q-settings-nav-icon { color: #7655e8; }
+#settingsPopupModal .q-settings-nav-arrow { margin-left: auto; font-size: 9px; opacity: .65; }
+#settingsPopupModal .q-settings-sidebar-note {
+    margin-top: auto; padding: 15px 13px; border: 1px solid rgba(217,204,255,.8); border-radius: 15px;
+    background: rgba(255,255,255,.72);
+}
+#settingsPopupModal .q-settings-note-icon { display: grid; place-items: center; width: 29px; height: 29px; margin-bottom: 10px; border-radius: 9px; color: #7655e8; background: #f0ebff; font-size: 12px; }
+#settingsPopupModal .q-settings-sidebar-note strong { display: block; color: #48415f; font-size: 10px; font-weight: 800; }
+#settingsPopupModal .q-settings-sidebar-note p { margin: 5px 0 0; color: #8d879e; font-size: 10px; line-height: 1.55; }
+#settingsPopupModal .q-settings-sidebar-footer { padding: 19px 7px 0; color: #aaa5b8; font-size: 8px; font-weight: 900; letter-spacing: .13em; }
+#settingsPopupModal .q-settings-sidebar-footer span { padding: 0 4px; color: #c3b8e6; }
+#settingsPopupModal .q-settings-main { position: relative; min-width: 0; flex: 1; padding: 47px 45px 38px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d9ccff transparent; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar { width: 6px; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar-thumb { border-radius: 20px; background: #d9ccff; }
+#settingsPopupModal .q-settings-desktop-close,
+#settingsPopupModal .q-settings-close {
+    display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px;
+    border: 1px solid #eeeaf5; border-radius: 11px; color: #89839c; background: #fbfaff;
+    transition: all .2s ease;
+}
+#settingsPopupModal .q-settings-close:hover { border-color: #d9ccff; color: #5e40ce; background: #f2edff; }
+#settingsPopupModal .q-settings-desktop-close { position: absolute; top: 19px; right: 20px; }
+#settingsPopupModal .q-settings-heading { margin-bottom: 29px; padding-right: 35px; }
+#settingsPopupModal .q-settings-kicker { display: inline-flex; align-items: center; gap: 9px; color: #817b9c; font-size: 9px; font-weight: 900; letter-spacing: .18em; }
+#settingsPopupModal .q-settings-kicker span { width: 7px; height: 7px; border-radius: 50%; background: #ff8b76; box-shadow: 0 0 0 4px rgba(255,139,118,.13); }
+#settingsPopupModal .q-settings-heading h2 { margin: 12px 0 7px; color: #17162b; font-size: 25px; font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
+#settingsPopupModal .q-settings-heading p { max-width: 440px; margin: 0; color: #858197; font-size: 12px; line-height: 1.7; }
+#settingsPopupModal .q-settings-field-label { display: block; margin-bottom: 10px; color: #9691a6; font-size: 9px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+#settingsPopupModal .q-settings-email-card {
+    display: flex; max-width: 510px; min-height: 60px; align-items: center; gap: 12px; padding: 10px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; background: #f9f7fd;
+    box-shadow: inset 0 1px 2px rgba(39,29,80,.025);
+}
+#settingsPopupModal .q-settings-email-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid #eeeaf5; border-radius: 10px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-email-value { min-width: 0; flex: 1; overflow: hidden; color: #343149 !important; font-size: 12px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+#settingsPopupModal .q-settings-verified-icon { color: #6ebc9e; font-size: 13px; }
+#settingsPopupModal .q-settings-actions { display: grid; max-width: 510px; gap: 10px; margin-top: 27px; }
+#settingsPopupModal .q-settings-action {
+    display: flex; width: 100%; min-height: 63px; align-items: center; gap: 13px; padding: 11px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; color: #343149; background: #fff; text-align: left;
+    transition: transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+#settingsPopupModal .q-settings-action:hover { transform: translateY(-1px); border-color: #d7cbf7; background: #fdfcff; box-shadow: 0 8px 19px rgba(60,44,110,.055); }
+#settingsPopupModal .q-settings-action-icon { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 13px; }
+#settingsPopupModal .q-settings-action-title { flex: 1; color: #343149; font-size: 12px; font-weight: 800; }
+#settingsPopupModal .q-settings-action-chevron { color: #c1bbcf; font-size: 10px; transition: transform .2s ease,color .2s ease; }
+#settingsPopupModal .q-settings-action:hover .q-settings-action-chevron { transform: translateX(3px); color: #7655e8; }
+#settingsPopupModal .q-settings-action-danger { border-color: #f3e3e6; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-icon { color: #d66d7a; background: #fff0f2; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-title { color: #bd5866; }
+#settingsPopupModal .q-settings-action-danger:hover { border-color: #efcbd0; background: #fff9f9; }
+#settingsPopupModal #settingsAlertMsg { border-radius: 13px !important; line-height: 1.5; }
+#settingsPopupModal #settingsAlertMsg.bg-emerald-50 { border: 1px solid #ccebdd; background: #f0fbf5; color: #388b67; }
+#settingsPopupModal #settingsAlertMsg.bg-rose-50 { border: 1px solid #f3d6da; background: #fff5f6; color: #bd5866; }
+
+@media (max-width: 767px) {
+    #navAuthGroup .q-account-dropdown { right: -3px; }
+    #settingsPopupModal { padding: 0 !important; }
+    #settingsPopupModal .q-settings-dialog { width: 100%; height: 100%; max-height: none; min-height: 0; border: 0; border-radius: 0; }
+    #settingsPopupModal .q-settings-mobile-header { display: flex; min-height: 69px; align-items: center; justify-content: space-between; padding: 12px 19px; border-bottom: 1px solid #eeeaf5; background: #fff; }
+    #settingsPopupModal .q-settings-mobile-brand { display: flex; align-items: center; gap: 10px; }
+    #settingsPopupModal .q-settings-mobile-brand .q-settings-brand-mark { width: 36px; height: 36px; flex-basis: 36px; border-radius: 11px; font-size: 19px; }
+    #settingsPopupModal .q-settings-mobile-title { display: flex; flex-direction: column; gap: 1px; }
+    #settingsPopupModal .q-settings-mobile-title strong { color: #29263f; font-size: 13px; font-weight: 800; }
+    #settingsPopupModal .q-settings-mobile-title small { color: #9691a6; font-size: 10px; }
+    #settingsPopupModal .q-settings-sidebar { width: 100%; flex: 0 0 auto; flex-direction: row; align-items: center; padding: 10px 17px; border-right: 0; border-bottom: 1px solid #e9e6f0; background: #fbfaff; }
+    #settingsPopupModal .q-settings-sidebar-brand,
+    #settingsPopupModal .q-settings-sidebar-label,
+    #settingsPopupModal .q-settings-sidebar-note,
+    #settingsPopupModal .q-settings-sidebar-footer { display: none; }
+    #settingsPopupModal .q-settings-nav-button { width: auto; min-width: 112px; padding: 7px 10px; }
+    #settingsPopupModal .q-settings-main { padding: 28px 21px 34px; }
+    #settingsPopupModal .q-settings-desktop-close { display: none; }
+    #settingsPopupModal .q-settings-heading { margin-bottom: 24px; }
+    #settingsPopupModal .q-settings-heading h2 { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #navAuthGroup .q-account-dropdown:not(.hidden) { animation: none; }
+    #navAuthGroup .q-account-trigger,
+    #navAuthGroup .q-account-dropdown-item,
+    #settingsPopupModal * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Higher-specificity refinements over the legacy header/settings utility rules. */
+#navAuthGroup #userDropdownMenu.q-account-dropdown {
+    width: 278px !important; max-width: calc(100vw - 24px); margin-top: 0 !important; padding: 0 !important;
+    border: 1px solid #e8e2f3 !important; border-radius: 19px !important; background: #fff !important;
+    box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06) !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item {
+    padding: 10px !important; border: 0 !important; border-radius: 12px !important;
+    color: inherit !important; background: transparent; font-size: 12px !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item:hover {
+    background: #f8f6fd !important; color: inherit !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-logout:hover { background: #fff8f8 !important; }
+#settingsPopupModal > .q-settings-dialog {
+    border: 1px solid rgba(233,230,240,.95) !important; border-radius: 28px !important;
+    box-shadow: 0 30px 100px rgba(23,22,43,.24) !important;
+}
+#settingsPopupModal button#tabBtnAccount.q-settings-nav-button { border-radius: 12px !important; }
+#settingsPopupModal #panelSectionAccount button.q-settings-action { border-radius: 14px !important; }
+@media (max-width: 767px) {
+    #settingsPopupModal > .q-settings-dialog { border: 0 !important; border-radius: 0 !important; }
+}
+</style>
+
+\n<style id="quans-explore-page-styles">
+.explore-page {
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 88px;
+}
+.explore-container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+.explore-hero {
+  display: grid;
+  grid-template-columns: minmax(0,1.02fr) minmax(360px,.82fr);
+  align-items: center;
+  gap: clamp(34px,6vw,82px);
+  padding-top: clamp(58px,7vw,92px);
+  padding-bottom: 70px;
+}
+.explore-hero-copy { position: relative; z-index: 2; max-width: 650px; }
+.explore-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: #817b9c; font-size: 10px; font-weight: 900;
+  letter-spacing: .18em; line-height: 1.4;
+}
+.explore-kicker::before { content:""; width:7px; height:7px; background:#ff8b76; box-shadow:0 0 0 4px rgba(255,139,118,.14); }
+.explore-hero h1 {
+  margin: 23px 0 0; color: var(--q-ink);
+  font-size: clamp(45px,5.5vw,72px); line-height:.99;
+  letter-spacing:-.067em; font-weight:800;
+}
+.explore-hero h1 em, .explore-section-heading h2 em, .explore-final-cta h2 em {
+  color: var(--q-violet); font-family: var(--q-serif);
+  font-weight:400; font-style:italic; letter-spacing:-.055em;
+}
+.explore-hero-copy > p {
+  max-width: 550px; margin: 23px 0 0; color:#77748b;
+  font-size:15px; line-height:1.85;
+}
 .explore-hero-actions { display:flex; flex-wrap:wrap; gap:11px; margin-top:30px; }
-.explore-hero-meta { display:flex; align-items:center; gap:18px; margin-top:40px; padding-top:18px; border-top:1px solid var(--q-line); color:#8b879b; font-size:10px; font-weight:600; }
-.explore-hero-meta b { color:var(--q-ink); font-size:15px; margin-right:5px; }
-.explore-hero-meta i { width:1px; height:20px; background:var(--q-line); }
-.explore-hero-art { min-height:450px; position:relative; display:grid; place-items:center; isolation:isolate; }
-.explore-art-grid { position:absolute; inset:0; opacity:.42; background-image:linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size:31px 31px; mask-image:linear-gradient(110deg,transparent,#000 28%,#000 76%,transparent); }
-.explore-art-orbit { position:absolute; width:410px; height:410px; border:1px solid rgba(125,100,208,.2); border-radius:42% 58% 48% 52%; transform:rotate(-18deg); z-index:-1; }
-.explore-art-orbit-a { animation:orbitDrift 26s linear infinite; }
-.explore-art-orbit-b { width:320px; height:320px; border-style:dashed; border-color:rgba(255,139,118,.32); animation:orbitDrift 32s linear infinite reverse; }
-.explore-art-board { width:min(100%,470px); padding:13px; background:#19182f; border:1px solid #383452; box-shadow:0 28px 70px rgba(39,27,90,.2); transform:rotate(-2deg); animation:previewFloat 8s ease-in-out infinite; }
-.explore-board-head { height:38px; display:flex; align-items:center; gap:8px; padding:0 7px 12px; color:#f8f6ff; border-bottom:1px solid #36334e; font-size:12px; }
-.explore-board-head .brand-symbol { width:22px; height:22px; }
-.explore-board-head small { margin-left:8px; color:#8581a8; font-size:7px; letter-spacing:.16em; }
-.board-dots { margin-left:auto; color:#77728f; letter-spacing:3px; }
-.explore-board-list { display:grid; gap:8px; padding:17px 5px; }
-.explore-board-item { min-height:68px; display:flex; align-items:center; gap:12px; padding:10px 12px; background:#23213e; border:1px solid #393651; color:#fff; }
-.explore-board-item > span { width:36px; height:36px; display:grid; place-items:center; }
-.explore-board-item > span svg { width:17px; height:17px; }
-.explore-board-item div { flex:1; }
+.explore-action {
+  min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:11px;
+  padding:0 18px; border:1px solid transparent; border-radius:8px;
+  font-size:12px; font-weight:800; text-decoration:none;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.explore-action:hover { transform:translateY(-2px); }
+.explore-action-primary { color:#fff; background:linear-gradient(110deg,#7354e7,#8d65f4); box-shadow:0 12px 24px rgba(112,80,220,.18); }
+.explore-action-primary:hover { box-shadow:0 16px 28px rgba(112,80,220,.25); }
+.explore-action-secondary { color:#302d48; background:#fff; border-color:#e6e1f0; }
+.explore-hero-notes { display:flex; flex-wrap:wrap; gap:25px; margin-top:42px; padding-top:19px; border-top:1px solid #e9e5f1; }
+.explore-hero-note { display:flex; align-items:flex-start; gap:10px; }
+.explore-hero-note > span { color:#ff8b76; font-size:11px; font-weight:900; padding-top:2px; }
+.explore-hero-note:nth-child(2) > span { color:#7655e8; }
+.explore-hero-note:nth-child(3) > span { color:#4da9b6; }
+.explore-hero-note b,.explore-hero-note small { display:block; }
+.explore-hero-note b { color:#343149; font-size:11px; font-weight:800; }
+.explore-hero-note small { margin-top:4px; color:#9995aa; font-size:10px; }
+.explore-hero-board {
+  position:relative; isolation:isolate; overflow:hidden;
+  padding:26px; color:#fff; background:#17162d;
+  border:1px solid #393459; box-shadow:0 28px 70px rgba(39,27,90,.17);
+}
+.explore-hero-board::before,.explore-hero-board::after { content:""; position:absolute; z-index:-1; border:1px solid rgba(178,157,255,.17); transform:rotate(35deg); }
+.explore-hero-board::before { width:330px; height:330px; right:-220px; top:-190px; }
+.explore-hero-board::after { width:210px; height:210px; right:-150px; bottom:-145px; border-color:rgba(106,215,231,.19); }
+.explore-board-top { display:flex; justify-content:space-between; align-items:center; padding-bottom:18px; border-bottom:1px solid #37344f; }
+.explore-board-brand { display:flex; align-items:center; gap:9px; color:#f8f6ff; font-size:12px; font-weight:900; letter-spacing:-.04em; }
+.explore-board-mark { display:grid; place-items:center; width:25px; height:25px; color:#fff; background:linear-gradient(135deg,#8b6af1,#d27ce8); font-family:Georgia,serif; font-size:15px; }
+.explore-board-status { color:#8581a8; font-size:8px; font-weight:800; letter-spacing:.15em; }
+.explore-board-heading { margin:25px 0 19px; }
+.explore-board-heading small { color:#9e99bc; font-size:8px; font-weight:900; letter-spacing:.17em; }
+.explore-board-heading h2 { margin:8px 0 0; color:#fff; font-size:25px; line-height:1.12; letter-spacing:-.05em; font-weight:800; }
+.explore-board-list { display:grid; }
+.explore-board-item { display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:12px; align-items:center; padding:14px 0; border-top:1px solid rgba(255,255,255,.09); }
+.explore-board-icon { width:32px; height:32px; display:grid; place-items:center; color:#c4b5ff; background:#302b50; border:1px solid #464064; }
+.explore-board-item:nth-child(2) .explore-board-icon { color:#8fe0e4; background:#203a48; border-color:#315565; }
+.explore-board-item:nth-child(3) .explore-board-icon { color:#ffb09e; background:#49313c; border-color:#63424b; }
+.explore-board-item:nth-child(4) .explore-board-icon { color:#a8d9bd; background:#263f3b; border-color:#385952; }
 .explore-board-item b,.explore-board-item small { display:block; }
-.explore-board-item b { font-size:11px; }.explore-board-item small { margin-top:4px; color:#918da9; font-size:8px; }
-.explore-board-item > svg { width:13px; color:#8e87b4; }
-.item-resume > span { background:#3c315f; color:#cbbdff; }.item-post > span { background:#244d55; color:#9ae1e4; }.item-proposal > span { background:#593a3a; color:#ffb9a8; }.item-repurpose > span { background:#2d5145; color:#a7ddc5; }
-.explore-board-foot { display:flex; justify-content:space-between; align-items:center; padding:12px 7px 2px; border-top:1px solid #36334e; color:#aaa5c2; font-size:8px; }
-.explore-board-foot span { display:flex; align-items:center; gap:6px; }.explore-board-foot svg { width:12px; color:#c5b8ff; }.explore-board-foot b { color:#7dc5a8; font-size:7px; letter-spacing:.12em; }
-.explore-float { position:absolute; z-index:3; display:flex; align-items:center; gap:10px; padding:11px 14px; background:rgba(255,255,255,.96); border:1px solid #e6e1f1; box-shadow:0 15px 35px rgba(38,30,84,.1); animation:noteFloat 6s ease-in-out infinite; }
-.explore-float > span { width:32px; height:32px; display:grid; place-items:center; color:#7053da; background:#f0ecff; }.explore-float svg { width:16px; }.explore-float b,.explore-float small { display:block; }.explore-float b { color:#29263f; font-size:9px; }.explore-float small { margin-top:3px; color:#918da3; font-size:8px; }
-.explore-float-top { top:34px; right:-5px; }.explore-float-bottom { bottom:32px; left:-14px; animation-delay:-2s; }.explore-float-bottom > span { color:#398b70; background:#e8f6ef; }
-.explore-intro { display:grid; grid-template-columns:1fr .8fr; gap:70px; align-items:end; padding:30px 0 86px; border-top:1px solid var(--q-line); }
-.explore-intro h2,.explore-section-head h2,.explore-guide-heading h2,.explore-workflow-copy h2 { margin:14px 0 0; color:var(--q-ink); font-size:clamp(34px,4.2vw,52px); line-height:1.02; letter-spacing:-.06em; font-weight:800; }
-.explore-intro > p { max-width:480px; margin:0 0 4px; color:#77748b; font-size:13px; line-height:1.85; }
-.explore-tools { padding-bottom:100px; }
-.explore-section-head { display:flex; justify-content:space-between; align-items:end; gap:25px; margin-bottom:32px; }
-.explore-section-head > p { max-width:270px; margin:0 0 4px; color:#8b879b; font-size:11px; line-height:1.7; }
-.explore-tool-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-.explore-tool-card { display:flex; flex-direction:column; min-width:0; background:#fff; border:1px solid #e8e4f0; transition:transform .24s,border-color .24s,box-shadow .24s; }
-.explore-tool-card:hover { transform:translateY(-4px); border-color:#cfc3fb; box-shadow:0 18px 35px rgba(46,34,101,.07); }
-.explore-card-top { display:flex; justify-content:space-between; align-items:center; padding:17px 19px 0; color:#918da4; font-size:8px; font-weight:900; letter-spacing:.14em; }
-.explore-card-top svg { width:15px; height:15px; }
-.explore-card-art { height:175px; position:relative; display:flex; justify-content:center; align-items:center; margin:13px 18px 0; overflow:hidden; }
-.explore-card-art .resume-mini { width:190px; max-width:68%; padding:13px; position:relative; }
-.explore-card-art .resume-mini > .mini-row { margin-top:12px; }
-.explore-card-art .resume-mini > .mini-bullets { margin-top:10px; }
-.explore-card-art .post-window { width:205px; height:120px; position:relative; }
-.explore-card-art .post-copy.lower { width:35%; margin-top:5px; }
-.explore-card-art .proposal-paper { width:165px; height:130px; }
-.explore-card-art.repurpose-art { gap:10px; }
-.explore-card-art .repurpose-source { padding:14px 11px; font-size:9px; }
-.explore-card-art .repurpose-targets b { padding:6px 9px; font-size:8px; }
-.art-stamp { position:absolute; right:18px; bottom:15px; color:rgba(55,47,91,.45); font-size:8px; font-weight:900; letter-spacing:.14em; line-height:1.4; text-align:right; }
-.explore-card-copy { display:flex; flex-direction:column; flex:1; padding:22px 22px 20px; }
-.explore-card-kicker { color:#918ba7; font-size:8px; font-weight:900; letter-spacing:.14em; }
-.explore-card-copy h3 { margin:10px 0 0; color:var(--q-ink); font-size:27px; line-height:1.03; letter-spacing:-.055em; font-weight:800; }
-.explore-card-copy > p { min-height:48px; margin:11px 0 18px; color:#77748b; font-size:11px; line-height:1.75; }
-.explore-includes { padding:14px 0 17px; border-top:1px solid #efecf4; }
-.explore-includes > b { color:#4c4862; font-size:9px; font-weight:900; }
-.explore-includes ul { display:grid; gap:7px; margin:10px 0 0; padding:0; list-style:none; }
-.explore-includes li { position:relative; padding-left:16px; color:#77748b; font-size:10px; line-height:1.5; }
-.explore-includes li:before { content:""; position:absolute; left:0; top:5px; width:6px; height:6px; background:#9a84ec; }
-.explore-card-link { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:15px; border-top:1px solid #efecf4; color:#6451be; font-size:10px; font-weight:900; text-decoration:none; }
-.explore-card-link svg { width:15px; transition:transform .2s; }.explore-card-link:hover svg { transform:translateX(4px); }
-.explore-guide { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(35px,7vw,100px); align-items:center; padding-top:78px; padding-bottom:88px; border-top:1px solid var(--q-line); }
-.explore-guide-heading h2 { font-size:clamp(34px,4vw,49px); }.explore-guide-heading > p { max-width:360px; margin:17px 0 0; color:#77748b; font-size:12px; line-height:1.8; }
-.explore-guide-list { border-top:1px solid #e8e4f0; }
-.explore-guide-list a { display:flex; align-items:center; gap:17px; min-height:76px; padding:13px 4px; border-bottom:1px solid #e8e4f0; text-decoration:none; transition:padding .2s,background .2s; }
-.explore-guide-list a:hover { padding-left:11px; background:rgba(255,255,255,.55); }
-.guide-number { align-self:flex-start; padding-top:4px; color:#b0a8ca; font-size:9px; font-weight:900; letter-spacing:.1em; }
-.explore-guide-list a > span:nth-child(2) { flex:1; }.explore-guide-list b,.explore-guide-list small { display:block; }.explore-guide-list b { color:#302d48; font-size:11px; }.explore-guide-list small { margin-top:5px; color:#918da3; font-size:9px; }.explore-guide-list svg { width:15px; color:#7962ce; }
-.explore-workflow { display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(35px,7vw,95px); align-items:center; padding-top:78px; padding-bottom:85px; background:#f3f0fb; }
-.explore-workflow-copy { padding:0 0 0 clamp(0px,2vw,25px); }.explore-workflow-copy h2 { font-size:clamp(35px,4.2vw,51px); }.explore-workflow-copy > p { max-width:400px; margin:17px 0 25px; color:#77748b; font-size:12px; line-height:1.8; }
-.explore-workflow-steps { padding-right:clamp(0px,2vw,25px); }
-.workflow-step { display:flex; align-items:center; gap:17px; }.workflow-step > span { color:#a49abb; font-size:9px; font-weight:900; }.workflow-step > div { flex:1; display:grid; grid-template-columns:34px 1fr; column-gap:12px; align-items:center; padding:13px 15px; background:#fff; border:1px solid #e8e2f4; }.workflow-step > div > i { grid-row:span 2; width:18px; color:#7655e8; }.workflow-step b { color:#343149; font-size:10px; }.workflow-step small { margin-top:4px; color:#918da3; font-size:9px; }.workflow-connector { height:15px; margin-left:27px; border-left:1px dashed #c7bddf; }
-.explore-bottom-cta { display:flex; justify-content:space-between; align-items:center; gap:25px; padding-top:90px; padding-bottom:85px; }
-.explore-bottom-cta h2 { margin:13px 0 0; color:var(--q-ink); font-size:clamp(38px,4.5vw,56px); line-height:1; letter-spacing:-.06em; font-weight:800; }
-.explore-bottom-cta p { margin:13px 0 0; color:#77748b; font-size:12px; line-height:1.7; }
-@media(max-width:900px) {
- .explore-hero { grid-template-columns:1fr 1fr; gap:25px; min-height:550px; }
- .explore-art-board { width:100%; }.explore-float-top { right:-3px; }.explore-float-bottom { left:-3px; }
- .explore-intro { gap:35px; }.explore-guide,.explore-workflow { gap:35px; }
+.explore-board-item b { color:#f4f1ff; font-size:11px; font-weight:800; }
+.explore-board-item small { margin-top:4px; color:#9a96b5; font-size:9px; line-height:1.45; }
+.explore-board-arrow { color:#777193; font-size:10px; }
+.explore-board-footer { display:flex; justify-content:space-between; gap:10px; margin-top:19px; padding-top:15px; border-top:1px solid #37344f; color:#8985a7; font-size:8px; letter-spacing:.06em; }
+.explore-directory { padding:36px 0 90px; border-top:1px solid #e9e5f0; }
+.explore-section-heading { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:31px; }
+.explore-section-heading h2 { margin:13px 0 0; color:var(--q-ink); font-size:clamp(34px,4.2vw,51px); line-height:1.04; letter-spacing:-.06em; font-weight:800; }
+.explore-section-heading p { max-width:390px; margin:0 0 4px; color:#858197; font-size:12px; line-height:1.75; }
+.explore-tool-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+.explore-tool-card {
+  min-width:0; display:flex; flex-direction:column; position:relative; overflow:hidden;
+  padding:21px; border:1px solid #e8e4f0; background:#fff; color:var(--q-ink);
+  transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
 }
-@media(max-width:700px) {
- .explore-hero { grid-template-columns:1fr; min-height:0; padding-top:55px; padding-bottom:55px; gap:28px; }
- .explore-hero-copy h1 { font-size:clamp(43px,12vw,62px); }
- .explore-hero-art { min-height:370px; margin:0 5px; }
- .explore-art-board { width:min(100%,440px); }.explore-art-orbit { width:340px; height:340px; }.explore-art-orbit-b { width:270px; height:270px; }
- .explore-float-top { top:6px; right:-2px; }.explore-float-bottom { bottom:5px; left:-2px; }
- .explore-intro { grid-template-columns:1fr; gap:16px; padding-top:28px; padding-bottom:58px; }
- .explore-intro h2,.explore-section-head h2 { font-size:39px; }
- .explore-tools { padding-bottom:65px; }.explore-section-head { display:block; margin-bottom:22px; }.explore-section-head > p { margin-top:12px; }
- .explore-tool-grid { grid-template-columns:1fr; gap:13px; }.explore-card-art { height:160px; }
- .explore-card-copy { padding:20px 18px 18px; }.explore-card-copy h3 { font-size:25px; }.explore-card-copy > p { min-height:0; }
- .explore-guide { grid-template-columns:1fr; gap:25px; padding-top:58px; padding-bottom:60px; }
- .explore-guide-heading h2 { font-size:39px; }
- .explore-workflow { grid-template-columns:1fr; gap:28px; padding:55px 24px; }
- .explore-workflow-copy { padding:0; }.explore-workflow-copy h2 { font-size:39px; }.explore-workflow-steps { padding:0; }
- .explore-bottom-cta { display:block; padding-top:62px; padding-bottom:58px; }.explore-bottom-cta .button { margin-top:22px; }
+.explore-tool-card:hover { transform:translateY(-4px); border-color:#cfc3fb; box-shadow:0 18px 38px rgba(46,34,101,.08); }
+.explore-card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; color:#9792aa; font-size:8px; font-weight:900; letter-spacing:.16em; }
+.explore-card-number { color:#b2a9c5; font-variant-numeric:tabular-nums; }
+.explore-tool-visual { position:relative; min-height:142px; display:grid; place-items:center; overflow:hidden; margin:18px 0 18px; }
+.explore-tool-visual.resume { background:linear-gradient(135deg,#e8e0ff,#f8f3ff); }
+.explore-tool-visual.post { background:linear-gradient(130deg,#d8f5f6,#f0fbfd); }
+.explore-tool-visual.proposal { background:linear-gradient(135deg,#ffede7,#fff9f5); }
+.explore-tool-visual.repurpose { background:linear-gradient(125deg,#e4f4ed,#f4fbf7); }
+.explore-resume-sheet { width:66%; padding:13px 14px; background:#fff; border:1px solid #e3dcf9; box-shadow:0 9px 20px rgba(77,55,154,.12); transform:rotate(-2deg); }
+.explore-sheet-head { display:flex; align-items:center; gap:8px; }
+.explore-sheet-avatar { width:23px; height:23px; display:grid; place-items:center; color:#6049bb; background:#dad0ff; font-size:7px; font-weight:900; }
+.explore-sheet-head b,.explore-sheet-head small { display:block; }
+.explore-sheet-head b { color:#302b45; font-size:8px; }.explore-sheet-head small { margin-top:2px; color:#9691a6; font-size:6px; }
+.explore-sheet-lines { display:grid; gap:5px; margin-top:12px; }.explore-sheet-lines i { height:4px; background:#eae7f3; }.explore-sheet-lines i:nth-child(2) { width:65%; }
+.explore-sheet-columns { display:grid; grid-template-columns:1.3fr .7fr; gap:13px; margin-top:12px; }.explore-sheet-columns span { display:block; height:4px; margin-top:5px; background:#eeeaf6; }.explore-sheet-columns span:nth-child(2) { width:80%; }
+.explore-post-card { width:72%; min-height:105px; padding:12px; background:#fff; border:1px solid #d7ecee; box-shadow:0 8px 18px rgba(33,113,122,.12); }
+.explore-post-dots { display:flex; gap:4px; }.explore-post-dots i { width:5px; height:5px; border-radius:50%; background:#abdfe1; }
+.explore-post-body { display:grid; grid-template-columns:1fr 48px; gap:12px; align-items:center; margin-top:11px; }.explore-post-lines { display:grid; gap:6px; }.explore-post-lines i { height:4px; background:#dceff0; }.explore-post-lines i:nth-child(2) { width:75%; }.explore-post-graphic { width:44px; height:44px; display:grid; place-items:center; color:#087d8b; background:#c7f1f0; font-size:18px; }
+.explore-proposal-sheet { width:63%; min-height:108px; padding:14px; background:#fff; border:1px solid #f3ddd4; box-shadow:0 8px 18px rgba(129,70,50,.12); transform:rotate(3deg); }.explore-proposal-title { width:45%; height:8px; background:#e8a18c; }.explore-proposal-line { height:4px; width:100%; margin-top:9px; background:#f1e5e0; }.explore-proposal-line.short { width:65%; margin-top:5px; }.explore-proposal-row { display:flex; gap:5px; margin-top:12px; }.explore-proposal-row i { flex:1; height:14px; background:#fff0ea; }
+.explore-repurpose-flow { display:flex; align-items:center; gap:10px; }.explore-repurpose-source { padding:13px 11px; color:#367d65; background:#fff; border:1px solid #d4e9df; font-size:9px; font-weight:900; }.explore-repurpose-arrow { color:#6eaa92; font-size:19px; }.explore-repurpose-targets { display:grid; gap:5px; }.explore-repurpose-targets i { padding:5px 8px; color:#538b75; background:#fff; border:1px solid #d4e9df; font-size:7px; font-style:normal; font-weight:800; }
+.explore-card-title { margin:0; color:#29263f; font-size:23px; line-height:1.1; font-weight:800; letter-spacing:-.05em; }
+.explore-card-description { margin:10px 0 0; color:#858197; font-size:11px; line-height:1.75; }
+.explore-card-use { margin-top:15px; padding:12px 13px; background:#faf9fd; border-left:2px solid #b9a7f0; }
+.explore-card-use b { display:block; color:#655b80; font-size:9px; text-transform:uppercase; letter-spacing:.13em; }
+.explore-card-use span { display:block; margin-top:5px; color:#77748b; font-size:10px; line-height:1.6; }
+.explore-card-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:18px; padding-top:14px; border-top:1px solid #efecf4; }
+.explore-card-footer a { color:#6451be; font-size:10px; font-weight:900; text-decoration:none; }
+.explore-card-footer a:hover { color:#4f36ba; }.explore-card-footer a i { margin-left:5px; transition:transform .2s; }.explore-card-footer a:hover i { transform:translateX(3px); }
+.explore-guide-section { padding:78px 0 82px; background:#f3f0fa; border-top:1px solid #ebe6f3; border-bottom:1px solid #ebe6f3; }
+.explore-guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.explore-guide-card { padding:21px; border:1px solid #e6e0ef; background:rgba(255,255,255,.88); }
+.explore-guide-top { display:flex; align-items:center; gap:12px; margin-bottom:15px; }
+.explore-guide-number { display:grid; place-items:center; width:34px; height:34px; color:#fff; background:linear-gradient(135deg,#7354e7,#9879ed); font-size:10px; font-weight:900; }
+.explore-guide-top small { display:block; color:#918aa5; font-size:8px; font-weight:900; letter-spacing:.15em; }
+.explore-guide-top h3 { margin:3px 0 0; color:#29263f; font-size:16px; font-weight:800; letter-spacing:-.03em; }
+.explore-guide-steps { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+.explore-guide-steps li { display:grid; grid-template-columns:20px minmax(0,1fr); gap:9px; color:#77748b; font-size:10px; line-height:1.65; }
+.explore-guide-steps li > span { display:grid; place-items:center; width:18px; height:18px; border-radius:50%; color:#7156c9; background:#f0ebff; font-size:8px; font-weight:900; }
+.explore-guide-tip { margin-top:14px; padding-top:12px; border-top:1px solid #efebf4; color:#77748b; font-size:9px; line-height:1.6; }
+.explore-guide-tip b { color:#6551b6; }
+.explore-better-section { padding:82px 0 78px; }
+.explore-better-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; margin-top:27px; }
+.explore-better-item { padding:20px; border:1px solid #e9e5f0; background:#fff; }
+.explore-better-icon { width:35px; height:35px; display:grid; place-items:center; color:#7655e8; background:#f0ecff; font-size:14px; }
+.explore-better-item:nth-child(2) .explore-better-icon { color:#168b9a; background:#e8f8f9; }
+.explore-better-item:nth-child(3) .explore-better-icon { color:#d87865; background:#fff0eb; }
+.explore-better-item h3 { margin:13px 0 0; color:#302d48; font-size:13px; font-weight:800; }
+.explore-better-item p { margin:7px 0 0; color:#89859a; font-size:10px; line-height:1.7; }
+.explore-final-cta { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-top:12px; padding:33px 36px; color:#fff; background:#17162d; position:relative; overflow:hidden; }
+.explore-final-cta::after { content:""; position:absolute; width:240px; height:240px; right:-130px; top:-150px; border:1px solid rgba(185,166,255,.32); transform:rotate(45deg); box-shadow:0 0 0 24px rgba(185,166,255,.03),0 0 0 48px rgba(185,166,255,.025); }
+.explore-final-cta > div { position:relative; z-index:1; }
+.explore-final-cta small { color:#aaa3cb; font-size:8px; font-weight:900; letter-spacing:.16em; }
+.explore-final-cta h2 { margin:8px 0 0; color:#fff; font-size:clamp(25px,3vw,35px); line-height:1.1; letter-spacing:-.05em; }
+.explore-final-cta h2 em { color:#bba8ff; }
+.explore-final-cta p { margin:9px 0 0; color:#aaa6c2; font-size:10px; line-height:1.65; }
+.explore-final-cta .explore-action { position:relative; z-index:2; white-space:nowrap; color:#29263f; background:#fff; }
+@media (max-width: 900px) {
+  .explore-hero { grid-template-columns:1fr minmax(300px,.82fr); gap:28px; }
+  .explore-board-item { grid-template-columns:30px minmax(0,1fr) auto; gap:9px; }
+  .explore-hero-board { padding:21px; }
 }
-@media(prefers-reduced-motion:reduce) {
- .explore-art-board,.explore-float,.explore-art-orbit { animation:none !important; }
- .explore-tool-card,.explore-guide-list a { transition:none !important; }
+@media (max-width: 760px) {
+  .explore-container { width:calc(100% - 36px); }
+  .explore-hero { grid-template-columns:1fr; padding-top:54px; padding-bottom:48px; }
+  .explore-hero-copy { max-width:680px; }
+  .explore-hero-board { max-width:580px; width:100%; justify-self:center; }
+  .explore-directory { padding:30px 0 65px; }
+  .explore-section-heading { align-items:flex-start; flex-direction:column; gap:12px; }
+  .explore-section-heading p { max-width:560px; }
+  .explore-guide-section { padding:60px 0; }
+  .explore-better-section { padding:60px 0; }
+}
+@media (max-width: 620px) {
+  .explore-container { width:calc(100% - 30px); }
+  .explore-hero h1 { font-size:45px; }
+  .explore-hero-copy > p { font-size:13px; }
+  .explore-hero-actions { display:grid; grid-template-columns:1fr; }
+  .explore-action { width:100%; }
+  .explore-hero-notes { gap:15px; margin-top:30px; }
+  .explore-tool-grid,.explore-guide-grid { grid-template-columns:1fr; }
+  .explore-tool-card { padding:17px; }
+  .explore-tool-visual { min-height:130px; }
+  .explore-better-grid { grid-template-columns:1fr; }
+  .explore-final-cta { align-items:flex-start; flex-direction:column; padding:27px 22px; }
+  .explore-final-cta .explore-action { width:100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explore-tool-card,.explore-action,.explore-card-footer a i { transition-duration:.01ms !important; }
 }
 </style>
 
 </head>
-<body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+<body class="site-page site-explore-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
  <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
     
@@ -907,7 +1190,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
             <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
                 Tools
             </a>
-            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight active" aria-current="page">
                 Explore
             </a>
             <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
@@ -935,141 +1218,165 @@ button, a { -webkit-tap-highlight-color: transparent; }
         </div>
     </header>
 
-    <main class="quans-explore">
-  <section class="explore-hero site-container">
+    <main class="explore-page">
+  <section class="explore-hero explore-container">
     <div class="explore-hero-copy">
-      <span class="eyebrow"><span class="eyebrow-mark"></span> THE QUANS TOOLKIT</span>
-      <h1>Find the right tool<br>for your <em>next move.</em></h1>
-      <p class="hero-lede">Four focused tools. Four different kinds of work. Explore what each one is built to help you finish, then jump straight into the workflow that fits.</p>
+      <span class="explore-kicker">THE QUANS TOOLKIT</span>
+      <h1>Find the right tool for <em>the work ahead.</em></h1>
+      <p>Four focused AI tools, each built around a different kind of work. Explore what each one does, what to prepare, and how to get started — then open the tool when you are ready.</p>
       <div class="explore-hero-actions">
-        <a class="button button-primary" href="#the-tools">Explore all four tools <i data-lucide="arrow-down"></i></a>
-        <a class="button button-secondary" href="tool.html">Open your workspace <i data-lucide="arrow-up-right"></i></a>
+        <a class="explore-action explore-action-primary" href="#tool-directory">Explore all four tools <i class="fa-solid fa-arrow-down"></i></a>
+        <a class="explore-action explore-action-secondary" href="tool.html">Open your workspace <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
       </div>
-      <div class="explore-hero-meta">
-        <span><b>04</b> purpose-built tools</span>
-        <i></i>
-        <span><b>01</b> connected workspace</span>
+      <div class="explore-hero-notes">
+        <div class="explore-hero-note"><span>01</span><div><b>Career</b><small>Build your resume</small></div></div>
+        <div class="explore-hero-note"><span>02</span><div><b>Content</b><small>Create social posts</small></div></div>
+        <div class="explore-hero-note"><span>03</span><div><b>Business</b><small>Prepare proposals</small></div></div>
       </div>
     </div>
-    <div class="explore-hero-art" aria-label="A visual overview of the four Quans tools">
-      <div class="explore-art-grid"></div>
-      <div class="explore-art-orbit explore-art-orbit-a"></div>
-      <div class="explore-art-orbit explore-art-orbit-b"></div>
-      <div class="explore-art-board">
-        <div class="explore-board-head"><span class="brand-symbol">Q</span><b>quans</b><small>YOUR TOOLKIT</small><span class="board-dots">•••</span></div>
-        <div class="explore-board-list">
-          <div class="explore-board-item item-resume"><span><i data-lucide="file-user"></i></span><div><b>Resume Builder</b><small>Career development</small></div><i data-lucide="arrow-up-right"></i></div>
-          <div class="explore-board-item item-post"><span><i data-lucide="pen-line"></i></span><div><b>Post Studio</b><small>Content creation</small></div><i data-lucide="arrow-up-right"></i></div>
-          <div class="explore-board-item item-proposal"><span><i data-lucide="files"></i></span><div><b>Proposal Studio</b><small>Business documents</small></div><i data-lucide="arrow-up-right"></i></div>
-          <div class="explore-board-item item-repurpose"><span><i data-lucide="repeat-2"></i></span><div><b>Text Repurposer</b><small>Content adaptation</small></div><i data-lucide="arrow-up-right"></i></div>
-        </div>
-        <div class="explore-board-foot"><span><i data-lucide="sparkles"></i> Built around the task</span><b>READY WHEN YOU ARE</b></div>
+
+    <div class="explore-hero-board" aria-label="Overview of the four QUANS tools">
+      <div class="explore-board-top">
+        <div class="explore-board-brand"><span class="explore-board-mark">Q</span> quans <span class="explore-board-status">YOUR TOOLKIT</span></div>
+        <span class="explore-board-status">04 WORKFLOWS</span>
       </div>
-      <div class="explore-float explore-float-top"><span><i data-lucide="layers-3"></i></span><div><b>One workspace</b><small>Different ways to work</small></div></div>
-      <div class="explore-float explore-float-bottom"><span><i data-lucide="check-check"></i></span><div><b>Clearer next steps</b><small>From input to useful output</small></div></div>
+      <div class="explore-board-heading">
+        <small>START WITH WHAT YOU NEED TO DO</small>
+        <h2>One clear tool.<br>One useful next step.</h2>
+      </div>
+      <div class="explore-board-list">
+        <div class="explore-board-item"><span class="explore-board-icon"><i class="fa-solid fa-file-lines"></i></span><span><b>Resume Builder</b><small>Turn your experience into a clear resume.</small></span><i class="fa-solid fa-arrow-up-right-from-square explore-board-arrow"></i></div>
+        <div class="explore-board-item"><span class="explore-board-icon"><i class="fa-solid fa-pen-nib"></i></span><span><b>Post Studio</b><small>Create content for your chosen platform.</small></span><i class="fa-solid fa-arrow-up-right-from-square explore-board-arrow"></i></div>
+        <div class="explore-board-item"><span class="explore-board-icon"><i class="fa-solid fa-file-signature"></i></span><span><b>Proposal Generator</b><small>Shape a response around a client brief.</small></span><i class="fa-solid fa-arrow-up-right-from-square explore-board-arrow"></i></div>
+        <div class="explore-board-item"><span class="explore-board-icon"><i class="fa-solid fa-arrows-rotate"></i></span><span><b>Text Repurposer</b><small>Adapt existing content for another channel.</small></span><i class="fa-solid fa-arrow-up-right-from-square explore-board-arrow"></i></div>
+      </div>
+      <div class="explore-board-footer"><span>BUILT AROUND YOUR WORK</span><span>QUANS / 01</span></div>
     </div>
   </section>
 
-  <section class="explore-intro site-container">
-    <div><span class="section-kicker">A TOOL FOR THE WORK IN FRONT OF YOU</span><h2>Less searching.<br><em>More getting done.</em></h2></div>
-    <p>Quans brings practical workflows together in one place. Start with the task you need to complete, add your context, and use the result as a strong first draft you can review and make your own.</p>
-  </section>
-
-  <section class="explore-tools site-container" id="the-tools">
-    <div class="explore-section-head">
-      <div><span class="section-kicker">EXPLORE THE TOOLKIT · 01—04</span><h2>Four tools. <em>Clear purpose.</em></h2></div>
-      <p>Choose a workflow to see what it can help you create.</p>
+  <section class="explore-directory explore-container" id="tool-directory">
+    <div class="explore-section-heading">
+      <div><span class="section-kicker">CHOOSE YOUR WORKFLOW</span><h2>Four tools. <em>Clear ways forward.</em></h2></div>
+      <p>Not sure where to begin? Start with the outcome you need. Each card explains when to use the tool and what information helps you get a more useful result.</p>
     </div>
 
     <div class="explore-tool-grid">
-      <article class="explore-tool-card explore-card-resume">
-        <div class="explore-card-top"><span>01 / CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="explore-card-art resume-art">
-          <div class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i><div class="mini-row"></div><div class="mini-row short"></div><div class="mini-bullets"><b></b><b></b><b></b></div></div>
-          <span class="art-stamp">CAREER<br>TOOLKIT</span>
+      <article class="explore-tool-card">
+        <div class="explore-card-top"><span>CAREER DEVELOPMENT</span><span class="explore-card-number">01 / 04</span></div>
+        <div class="explore-tool-visual resume" aria-hidden="true">
+          <div class="explore-resume-sheet">
+            <div class="explore-sheet-head"><span class="explore-sheet-avatar">AM</span><span><b>Alex Morgan</b><small>Frontend Developer</small></span></div>
+            <div class="explore-sheet-lines"><i></i><i></i></div>
+            <div class="explore-sheet-columns"><div><span></span><span></span><span></span></div><div><span></span><span></span></div></div>
+          </div>
         </div>
-        <div class="explore-card-copy">
-          <span class="explore-card-kicker">MAKE YOUR EXPERIENCE CLEAR</span>
-          <h3>Resume Builder<br>&amp; Toolkit</h3>
-          <p>Build a resume that presents your experience clearly, then shape it around the opportunity you're applying for.</p>
-          <div class="explore-includes"><b>What you can do</b><ul><li>Create and structure a resume</li><li>Tailor content to a target role</li><li>Draft cover letters and prepare for interviews</li></ul></div>
-          <a class="explore-card-link" href="ai.html">Explore Resume Builder <i data-lucide="arrow-right"></i></a>
-        </div>
+        <h3 class="explore-card-title">Resume Builder &amp; Toolkit</h3>
+        <p class="explore-card-description">Create a professional, ATS-friendly resume from your real background. Add your experience, education, skills and projects, then optionally tailor the draft to a target job description.</p>
+        <div class="explore-card-use"><b>Use this when</b><span>You are applying for a role, updating your resume, or organising your experience into a clear professional document.</span></div>
+        <div class="explore-card-footer"><a href="ai.html">Open Resume Builder <i class="fa-solid fa-arrow-right"></i></a><a href="#guide-resume">How to use it</a></div>
       </article>
 
-      <article class="explore-tool-card explore-card-post">
-        <div class="explore-card-top"><span>02 / CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="explore-card-art post-art">
-          <div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div><div class="post-copy lower"></div></div>
-          <span class="art-stamp">POST<br>STUDIO</span>
+      <article class="explore-tool-card">
+        <div class="explore-card-top"><span>CONTENT CREATION</span><span class="explore-card-number">02 / 04</span></div>
+        <div class="explore-tool-visual post" aria-hidden="true">
+          <div class="explore-post-card"><div class="explore-post-dots"><i></i><i></i><i></i></div><div class="explore-post-body"><div class="explore-post-lines"><i></i><i></i><i></i><i></i></div><span class="explore-post-graphic"><i class="fa-solid fa-pen-nib"></i></span></div></div>
         </div>
-        <div class="explore-card-copy">
-          <span class="explore-card-kicker">TURN IDEAS INTO POSTS</span>
-          <h3>Post Studio</h3>
-          <p>Go from a rough idea or a short brief to social content with a clear angle, platform fit and a stronger message.</p>
-          <div class="explore-includes"><b>What you can do</b><ul><li>Generate hooks and post copy</li><li>Adapt tone for different platforms</li><li>Shape calls to action and creative direction</li></ul></div>
-          <a class="explore-card-link" href="social.html">Explore Post Studio <i data-lucide="arrow-right"></i></a>
-        </div>
+        <h3 class="explore-card-title">Post Studio</h3>
+        <p class="explore-card-description">Turn a topic or business idea into a social post shaped for a platform, audience and goal. Set the tone and length, choose whether to add a CTA, and optionally provide brand context or a writing sample.</p>
+        <div class="explore-card-use"><b>Use this when</b><span>You need a new social post and want to shape its message for LinkedIn, Instagram, Facebook or X.</span></div>
+        <div class="explore-card-footer"><a href="social.html">Open Post Studio <i class="fa-solid fa-arrow-right"></i></a><a href="#guide-post">How to use it</a></div>
       </article>
 
-      <article class="explore-tool-card explore-card-proposal">
-        <div class="explore-card-top"><span>03 / BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="explore-card-art proposal-art">
-          <div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span><span class="paper-rule short"></span></div>
-          <span class="art-stamp">PROJECT<br>BRIEF</span>
+      <article class="explore-tool-card">
+        <div class="explore-card-top"><span>BUSINESS DOCUMENTS</span><span class="explore-card-number">03 / 04</span></div>
+        <div class="explore-tool-visual proposal" aria-hidden="true">
+          <div class="explore-proposal-sheet"><div class="explore-proposal-title"></div><div class="explore-proposal-line"></div><div class="explore-proposal-line short"></div><div class="explore-proposal-row"><i></i><i></i><i></i></div><div class="explore-proposal-line"></div><div class="explore-proposal-line short"></div></div>
         </div>
-        <div class="explore-card-copy">
-          <span class="explore-card-kicker">MAKE THE PLAN EASY TO FOLLOW</span>
-          <h3>Proposal Studio</h3>
-          <p>Turn project requirements and client context into a more organised proposal that explains the work and what happens next.</p>
-          <div class="explore-includes"><b>What you can do</b><ul><li>Organise project details and objectives</li><li>Outline scope, deliverables and timelines</li><li>Present a clear structure for review</li></ul></div>
-          <a class="explore-card-link" href="proposal.html">Explore Proposal Studio <i data-lucide="arrow-right"></i></a>
-        </div>
+        <h3 class="explore-card-title">Proposal Generator</h3>
+        <p class="explore-card-description">Build a client-focused proposal from the project requirements. Choose the platform, tone and length, add a call to action, and optionally include your portfolio URL or a past proposal sample.</p>
+        <div class="explore-card-use"><b>Use this when</b><span>A client has shared a project brief and you need a tailored proposal for Upwork, Fiverr, Freelancer, LinkedIn, email or another channel.</span></div>
+        <div class="explore-card-footer"><a href="proposal.html">Open Proposal Generator <i class="fa-solid fa-arrow-right"></i></a><a href="#guide-proposal">How to use it</a></div>
       </article>
 
-      <article class="explore-tool-card explore-card-repurpose">
-        <div class="explore-card-top"><span>04 / CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="explore-card-art repurpose-art">
-          <div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div>
-          <span class="art-stamp">ONE IDEA<br>MORE FORMATS</span>
+      <article class="explore-tool-card">
+        <div class="explore-card-top"><span>CONTENT REPURPOSING</span><span class="explore-card-number">04 / 04</span></div>
+        <div class="explore-tool-visual repurpose" aria-hidden="true">
+          <div class="explore-repurpose-flow"><span class="explore-repurpose-source">ONE<br>IDEA</span><i class="fa-solid fa-arrow-right explore-repurpose-arrow"></i><span class="explore-repurpose-targets"><i>LinkedIn</i><i>Newsletter</i><i>Instagram</i></span></div>
         </div>
-        <div class="explore-card-copy">
-          <span class="explore-card-kicker">MAKE MORE FROM WHAT YOU HAVE</span>
-          <h3>Text Repurposer</h3>
-          <p>Start with existing writing and reshape it for different channels without losing the central idea or important details.</p>
-          <div class="explore-includes"><b>What you can do</b><ul><li>Adapt long-form text into shorter formats</li><li>Create post, email and thread variations</li><li>Keep the core message consistent</li></ul></div>
-          <a class="explore-card-link" href="textrep.html">Explore Text Repurposer <i data-lucide="arrow-right"></i></a>
-        </div>
+        <h3 class="explore-card-title">Text Repurposer</h3>
+        <p class="explore-card-description">Adapt content you already have for a different platform or format. Choose the source and target platforms, audience, tone, repurposing mode and output length, with optional brand and writing-style context.</p>
+        <div class="explore-card-use"><b>Use this when</b><span>You have a blog, newsletter, post or other piece of text and want to reshape it for another channel without starting from scratch.</span></div>
+        <div class="explore-card-footer"><a href="textrep.html">Open Text Repurposer <i class="fa-solid fa-arrow-right"></i></a><a href="#guide-repurpose">How to use it</a></div>
       </article>
     </div>
   </section>
 
-  <section class="explore-guide site-container">
-    <div class="explore-guide-heading"><span class="section-kicker">NOT SURE WHERE TO START?</span><h2>Start with the outcome<br>you <em>want to create.</em></h2><p>You don't need to learn every tool. Pick the one that matches the work on your desk right now.</p></div>
-    <div class="explore-guide-list">
-      <a href="ai.html"><span class="guide-number">01</span><span><b>I need a stronger resume or application</b><small>Start with Resume Builder &amp; Toolkit</small></span><i data-lucide="arrow-up-right"></i></a>
-      <a href="social.html"><span class="guide-number">02</span><span><b>I need to create social content</b><small>Start with Post Studio</small></span><i data-lucide="arrow-up-right"></i></a>
-      <a href="proposal.html"><span class="guide-number">03</span><span><b>I need to explain a project or service</b><small>Start with Proposal Studio</small></span><i data-lucide="arrow-up-right"></i></a>
-      <a href="textrep.html"><span class="guide-number">04</span><span><b>I already have content to adapt</b><small>Start with Text Repurposer</small></span><i data-lucide="arrow-up-right"></i></a>
+  <section class="explore-guide-section" id="tool-guides">
+    <div class="explore-container">
+      <div class="explore-section-heading">
+        <div><span class="section-kicker">QUICK START GUIDES</span><h2>Know what to add. <em>Know what to do.</em></h2></div>
+        <p>Each workflow starts with your context. Add the details you know, choose the options that fit your goal, then review the result before using it.</p>
+      </div>
+      <div class="explore-guide-grid">
+        <article class="explore-guide-card" id="guide-resume">
+          <div class="explore-guide-top"><span class="explore-guide-number">01</span><div><small>CAREER DEVELOPMENT</small><h3>Using Resume Builder</h3></div></div>
+          <ol class="explore-guide-steps">
+            <li><span>1</span><div>Enter your name and target role, then add the contact details you want shown.</div></li>
+            <li><span>2</span><div>Fill in your summary, experience, education, skills and projects. Add certifications or achievements when relevant.</div></li>
+            <li><span>3</span><div>Optionally paste a target job description, select <strong>Generate Resume</strong>, review the draft, then copy it or download the text file.</div></li>
+          </ol>
+          <p class="explore-guide-tip"><b>Helpful tip:</b> Use real details and measurable results only when you can verify them.</p>
+        </article>
+
+        <article class="explore-guide-card" id="guide-post">
+          <div class="explore-guide-top"><span class="explore-guide-number">02</span><div><small>CONTENT CREATION</small><h3>Using Post Studio</h3></div></div>
+          <ol class="explore-guide-steps">
+            <li><span>1</span><div>Describe your topic, business or idea in the context box.</div></li>
+            <li><span>2</span><div>Choose the platform, tone, audience, goal and post length. Turn on Add CTA when you want a call to action.</div></li>
+            <li><span>3</span><div>Optionally add your profile URL and a writing sample, then select <strong>Generate Content</strong>. Review and use the refinement options if needed.</div></li>
+          </ol>
+          <p class="explore-guide-tip"><b>Helpful tip:</b> Include the key point you want people to remember and who the post is for.</p>
+        </article>
+
+        <article class="explore-guide-card" id="guide-proposal">
+          <div class="explore-guide-top"><span class="explore-guide-number">03</span><div><small>BUSINESS DOCUMENTS</small><h3>Using Proposal Generator</h3></div></div>
+          <ol class="explore-guide-steps">
+            <li><span>1</span><div>Paste the client's project description or requirements into the Client Requirement box.</div></li>
+            <li><span>2</span><div>Select the platform, tone and proposal length. Choose whether to include a CTA.</div></li>
+            <li><span>3</span><div>Optionally add your portfolio or website URL and a past proposal sample, then select <strong>Generate Proposal</strong>. Review, copy or refine the result.</div></li>
+          </ol>
+          <p class="explore-guide-tip"><b>Helpful tip:</b> Keep the client's scope, expected deliverables and constraints in the brief.</p>
+        </article>
+
+        <article class="explore-guide-card" id="guide-repurpose">
+          <div class="explore-guide-top"><span class="explore-guide-number">04</span><div><small>CONTENT REPURPOSING</small><h3>Using Text Repurposer</h3></div></div>
+          <ol class="explore-guide-steps">
+            <li><span>1</span><div>Paste the content you want to adapt into the main content box.</div></li>
+            <li><span>2</span><div>Choose the source and target platforms, audience, tone, repurpose mode and output length. Set Add CTA if required.</div></li>
+            <li><span>3</span><div>Optionally add profile context and a writing sample, then select <strong>Repurpose</strong>. Review and refine the new version.</div></li>
+          </ol>
+          <p class="explore-guide-tip"><b>Helpful tip:</b> Start with complete source content and choose one clear target platform at a time.</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="explore-workflow site-container">
-    <div class="explore-workflow-copy"><span class="section-kicker">HOW QUANS FITS INTO YOUR DAY</span><h2>Bring the context.<br><em>Keep the control.</em></h2><p>Each workflow is designed to help you move from a starting point to a useful draft. You stay in charge of the decisions, edits and final result.</p><a class="button button-dark" href="tool.html">Visit the workspace <i data-lucide="arrow-up-right"></i></a></div>
-    <div class="explore-workflow-steps">
-      <div class="workflow-step"><span>01</span><div><i data-lucide="clipboard-pen-line"></i><b>Start with your input</b><small>Add your details, brief or source material.</small></div></div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Shape the direction</b><small>Choose the tone, format and details that matter.</small></div></div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review and refine</b><small>Check the output, make edits and use it your way.</small></div></div>
+  <section class="explore-better-section explore-container">
+    <div class="explore-section-heading">
+      <div><span class="section-kicker">MAKE THE MOST OF EACH TOOL</span><h2>Better context. <em>More useful drafts.</em></h2></div>
+      <p>QUANS helps shape the information you provide. Your context and final review still matter.</p>
+    </div>
+    <div class="explore-better-grid">
+      <article class="explore-better-item"><span class="explore-better-icon"><i class="fa-solid fa-bullseye"></i></span><h3>Be clear about the goal</h3><p>Say what you are creating, who it is for and what you want the reader to do or understand.</p></article>
+      <article class="explore-better-item"><span class="explore-better-icon"><i class="fa-solid fa-list-check"></i></span><h3>Add relevant details</h3><p>Include the useful facts, requirements, examples and constraints instead of relying on a vague prompt.</p></article>
+      <article class="explore-better-item"><span class="explore-better-icon"><i class="fa-solid fa-eye"></i></span><h3>Review before sharing</h3><p>Check names, dates, claims, links and tone. Edit the generated draft so it accurately represents you or your business.</p></article>
+    </div>
+
+    <div class="explore-final-cta">
+      <div><small>READY WHEN YOU ARE</small><h2>Your next piece of work starts <em>here.</em></h2><p>Choose a workflow and turn your context into a useful first draft.</p></div>
+      <a class="explore-action" href="tool.html">Go to your workspace <i class="fa-solid fa-arrow-right"></i></a>
     </div>
   </section>
-
-  <section class="explore-bottom-cta site-container">
-    <div><span class="section-kicker">YOUR NEXT TASK IS A GOOD PLACE TO BEGIN</span><h2>Ready to make<br><em>something useful?</em></h2><p>Choose a tool and get started with the work you already have in mind.</p></div>
-    <a class="button button-primary" href="tool.html">Open Quans workspace <i data-lucide="arrow-up-right"></i></a>
-  </section>
-  <p class="home-disclaimer site-container">Quans is a human-oriented AI workspace. AI-generated outputs are starting points and should be reviewed for accuracy, context and suitability before use.</p>
 </main>
 
     <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
@@ -1116,7 +1423,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
                     <span class="mobile-nav-copy"><strong>Tools</strong><small>Explore focused workflows</small></span>
                     <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
                 </a>
-                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link">
+                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link is-active" aria-current="page">
                     <span class="mobile-nav-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
                     <span class="mobile-nav-copy"><strong>Explore</strong><small>Discover what you can create</small></span>
                     <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
@@ -1641,114 +1948,97 @@ button, a { -webkit-tap-highlight-color: transparent; }
         </div>
     </div>
 
-    <div id="settingsPopupModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300">
-    <div class="relative w-full h-full md:h-auto md:max-w-3xl md:rounded-3xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xl border border-transparent md:dark:border-slate-800 flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
-        
-        <div class="md:hidden flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
-            <h3 class="text-lg font-bold tracking-tight" style="font-family: 'DM Sans', sans-serif;">Settings</h3>
-            <button id="closeSettingsMobileBtn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                <i class="fa-solid fa-xmark text-sm"></i>
+    <div id="settingsPopupModal" class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-5 transition-opacity duration-300">
+    <div class="q-settings-dialog relative w-full h-full md:h-auto md:min-h-[540px] md:max-h-[calc(100vh-40px)] md:max-w-[820px] md:rounded-[28px] flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+
+        <!-- Mobile settings header -->
+        <div class="q-settings-mobile-header md:hidden">
+            <div class="q-settings-mobile-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <span class="q-settings-mobile-title">
+                    <strong>Settings</strong>
+                    <small>Account and security</small>
+                </span>
+            </div>
+            <button id="closeSettingsMobileBtn" type="button" class="q-settings-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
-        <div class="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/40 p-3 md:p-5 flex flex-row md:flex-col gap-1 md:gap-2 overflow-x-auto md:overflow-x-visible whitespace-nowrap md:whitespace-normal">
-            <button id="tabBtnAccount" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all bg-blue-600 text-white shadow-sm">
-                <i class="fa-solid fa-circle-user text-base"></i>
+        <!-- Account sidebar -->
+        <aside class="q-settings-sidebar">
+            <div class="q-settings-sidebar-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <div>
+                    <strong>QUANS</strong>
+                    <small>Account center</small>
+                </div>
+            </div>
+
+            <div class="q-settings-sidebar-label">YOUR ACCOUNT</div>
+            <button id="tabBtnAccount" type="button" class="q-settings-nav-button active" aria-current="page">
+                <span class="q-settings-nav-icon"><i class="fa-solid fa-circle-user"></i></span>
                 <span>Account</span>
+                <i class="fa-solid fa-chevron-right q-settings-nav-arrow"></i>
             </button>
-            
-            <button id="closeSettingsDesktopBtn" class="hidden md:flex absolute top-5 right-5 w-9 h-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all">
-                <i class="fa-solid fa-xmark text-base"></i>
-            </button>
-        </div>
 
-        <div class="flex-1 p-5 md:p-8 overflow-y-auto md:max-h-[520px]" style="font-family: 'DM Sans', sans-serif;">
-            
-            <div id="panelSectionAccount" class="space-y-6">
-                <!-- Website style message container -->
-                <div id="settingsAlertMsg" class="hidden flex items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+            <div class="q-settings-sidebar-note">
+                <span class="q-settings-note-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                <strong>Your account, your control.</strong>
+                <p>Manage your sign-in details and account access from one place.</p>
+            </div>
+
+            <div class="q-settings-sidebar-footer">QUANS <span>·</span> ACCOUNT CENTER</div>
+        </aside>
+
+        <!-- Main account content -->
+        <main class="q-settings-main">
+            <button id="closeSettingsDesktopBtn" type="button" class="q-settings-close q-settings-desktop-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="panelSectionAccount" class="q-settings-account-panel">
+                <div class="q-settings-heading">
+                    <span class="q-settings-kicker"><span></span> ACCOUNT SETTINGS</span>
+                    <h2>Account Profiles</h2>
+                    <p>Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div id="settingsAlertMsg" class="hidden items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
                     <i class="fa-solid fa-circle-info flex-shrink-0"></i>
                     <span class="alert-text"></span>
                 </div>
 
-                <div>
-                    <h2 class="text-xl font-bold tracking-tight mb-1">Account Profiles</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Manage your system registration settings configuration metadata layers.</p>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Registered Email Address</label>
-                    <div class="flex items-center space-x-3 max-w-md bg-slate-50 dark:bg-slate-950 px-4 py-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-inner">
-                        <i class="fa-solid fa-envelope text-slate-400 dark:text-slate-600 text-base"></i>
-                        <span id="settingsEmailTextDisplay" class="flex-1 font-semibold text-sm tracking-tight text-slate-700 dark:text-slate-300 truncate">loading...</span>
+                <section class="q-settings-email-section">
+                    <label class="q-settings-field-label">Registered Email Address</label>
+                    <div class="q-settings-email-card">
+                        <span class="q-settings-email-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span id="settingsEmailTextDisplay" class="q-settings-email-value">loading...</span>
+                        <span class="q-settings-verified-icon" aria-label="Account"><i class="fa-solid fa-shield-halved"></i></span>
                     </div>
-                </div>
+                </section>
 
-                <div class="pt-2 space-y-3 max-w-md">
-                    <button id="settingsChangePasswordBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
-                                <i class="fa-solid fa-key text-sm"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold tracking-tight">Change Password</h4>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                <section class="q-settings-actions" aria-label="Account actions">
+                    <button id="settingsChangePasswordBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
+                        <span class="q-settings-action-title">Change Password</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
                     </button>
 
-                    <button id="settingsLogoutBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
-                                <i class="fa-solid fa-right-from-bracket text-sm"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold tracking-tight">Log Out</h4>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                    <button id="settingsLogoutBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span class="q-settings-action-title">Log Out</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
                     </button>
 
-                    <button id="settingsOpenDeleteModalBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-rose-100 dark:border-rose-950/40 hover:bg-rose-50/30 dark:hover:bg-rose-950/20 transition-all text-left group">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-rose-50 dark:bg-rose-950/50 text-rose-500 rounded-xl flex items-center justify-center">
-                                <i class="fa-solid fa-trash-can text-sm"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-rose-600 tracking-tight">Delete Account</h4>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs text-rose-300 dark:text-rose-800 group-hover:translate-x-0.5 transition-transform"></i>
+                    <button id="settingsOpenDeleteModalBtn" type="button" class="q-settings-action q-settings-action-danger">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="q-settings-action-title">Delete Account</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
                     </button>
-                </div>
+                </section>
             </div>
-
-            <div id="panelSectionAppearance" class="hidden space-y-6">
-                <div>
-                    <h2 class="text-xl font-bold tracking-tight mb-1">Theme Preferences</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Optimize display presentation configuration modes across system themes.</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-                    <button id="themeSelectorBtnLight" data-theme-target="light" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-white border-slate-200">
-                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center mb-3 shadow-xs">
-                            <i class="fa-solid fa-sun text-base"></i>
-                        </div>
-                        <span class="text-sm font-bold tracking-tight text-slate-800">☀️ Light</span>
-                        <p class="text-xs text-slate-400 mt-0.5 leading-snug">Crisp white profile structures.</p>
-                    </button>
-
-                    <button id="themeSelectorBtnDark" data-theme-target="dark" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-slate-900 border-transparent">
-                        <div class="w-9 h-9 rounded-xl bg-indigo-950 text-indigo-400 flex items-center justify-center mb-3 shadow-xs">
-                            <i class="fa-solid fa-moon text-base"></i>
-                        </div>
-                        <span class="text-sm font-bold tracking-tight text-slate-200">🌙 Dark</span>
-                        <p class="text-xs text-slate-500 mt-0.5 leading-snug">Calm workspace themes.</p>
-                    </button>
-                </div>
-            </div>
-
-        </div>
+        </main>
     </div>
 </div>
 
@@ -1928,12 +2218,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
             if (emailLabel) emailLabel.textContent = user && user.email ? user.email : 'Signed in to Quans';
         };
 
-        // Global dropdown toggle handler
+        // Global dropdown toggle handler.
         window.toggleUserDropdown = function(e) {
-            if (e) { e.stopPropagation(); }
+            if (e) e.stopPropagation();
             const menu = document.getElementById('userDropdownMenu');
-            if(menu) menu.classList.toggle('hidden');
-        }
+            const trigger = document.getElementById('userDropdownTrigger');
+            if (!menu) return;
+            const willOpen = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !willOpen);
+            if (trigger) trigger.setAttribute('aria-expanded', String(willOpen));
+        };
 
         // One delegated click handler keeps the drawer working after Firebase updates the header.
         document.addEventListener('click', (e) => {
@@ -1963,6 +2257,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
             const menu = document.getElementById('userDropdownMenu');
             if (menu && !menu.classList.contains('hidden') && !e.target.closest('#userDropdownMenu')) {
                 menu.classList.add('hidden');
+                const trigger = document.getElementById('userDropdownTrigger');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
             }
         });
 
@@ -2590,21 +2886,34 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 if (navAuthGroup) {
                     navAuthGroup.innerHTML = `
                         <div class="mobile-auth-wrap flex items-center space-x-3 fade-in">
-                            <div class="relative inline-block text-left">
-                                <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-blue tracking-tight outline-none group">
-                                    <span>Hello!</span>
-                                    <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
+                            <div class="q-account-menu-wrap relative inline-block text-left">
+                                <button id="userDropdownTrigger" type="button" onclick="toggleUserDropdown(event)" class="q-account-trigger" aria-haspopup="true" aria-controls="userDropdownMenu" aria-expanded="false">
+                                    <span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
+                                    <span class="q-account-greeting">Hello!</span>
+                                    <i class="fa-solid fa-chevron-down q-account-chevron"></i>
                                 </button>
-                                <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-40 origin-top-right rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
-                                    <button id="firebaseSettingsTriggerBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
-                                        <i class="fa-solid fa-gear text-xs text-slate-500 dark:text-slate-400"></i>
-                                        <span>Settings</span>
-                                    </button>
-                                    <hr class="border-slate-100/80 dark:border-slate-800">
-                                    <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
-                                        <i class="fa-solid fa-right-from-bracket text-xs text-slate-400 dark:text-slate-500"></i>
-                                        <span>Log out</span>
-                                    </button>
+                                <div id="userDropdownMenu" class="q-account-dropdown hidden absolute right-0 origin-top-right z-50" role="menu" aria-labelledby="userDropdownTrigger">
+                                    <div class="q-account-dropdown-head">
+                                        <div class="q-account-dropdown-mark"><i class="fa-solid fa-user-check"></i></div>
+                                        <div class="q-account-dropdown-copy">
+                                            <span class="q-account-eyebrow">YOUR ACCOUNT</span>
+                                            <strong>Welcome to QUANS</strong>
+                                            <span id="userDropdownEmail">Signed in to QUANS</span>
+                                        </div>
+                                    </div>
+                                    <div class="q-account-dropdown-actions">
+                                        <button id="firebaseSettingsTriggerBtn" type="button" class="q-account-dropdown-item" role="menuitem">
+                                            <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
+                                            <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
+                                            <i class="fa-solid fa-arrow-up-right-from-square q-account-action-arrow"></i>
+                                        </button>
+                                        <div class="q-account-dropdown-divider"></div>
+                                        <button id="firebaseLogoutBtn" type="button" class="q-account-dropdown-item q-account-logout" role="menuitem">
+                                            <span class="q-account-action-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                                            <span class="q-account-action-copy"><strong>Log out</strong><small>Sign out of QUANS</small></span>
+                                            <i class="fa-solid fa-arrow-right q-account-action-arrow"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
@@ -2612,11 +2921,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
                             </button>
                         </div>
                     `;
-                    
-                    document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', (e) => {
+
+document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', (e) => {
                         e.stopPropagation();
                         const dropdownMenu = document.getElementById('userDropdownMenu');
                         if (dropdownMenu) dropdownMenu.classList.add('hidden');
+                        const dropdownTrigger = document.getElementById('userDropdownTrigger');
+                        if (dropdownTrigger) dropdownTrigger.setAttribute('aria-expanded', 'false');
                         openSettingsPopupSystem();
                     });
 
@@ -2629,6 +2940,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 
                 const targetDisplayEmailSpan = document.getElementById("settingsEmailTextDisplay");
                 if (targetDisplayEmailSpan) targetDisplayEmailSpan.innerText = user.email || "No Email Provided";
+                const targetDropdownEmailSpan = document.getElementById("userDropdownEmail");
+                if (targetDropdownEmailSpan) targetDropdownEmailSpan.innerText = user.email || "Signed in to QUANS";
 
             } else {
                 window.userIsAuthenticated = false;
@@ -2644,10 +2957,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
         const settingsPopupModal = document.getElementById("settingsPopupModal");
         const settingsHardDeleteModal = document.getElementById("settingsHardDeleteModal");
         
-        const tabBtnAccount = document.getElementById("tabBtnAccount");
-        const tabBtnAppearance = document.getElementById("tabBtnAppearance");
         const panelSectionAccount = document.getElementById("panelSectionAccount");
-        const panelSectionAppearance = document.getElementById("panelSectionAppearance");
 
         function openSettingsPopupSystem() {
             if (!settingsPopupModal) return;
@@ -2656,7 +2966,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
             // Clear past alert banner messages whenever popup mounts
             const settingsAlertMsg = document.getElementById("settingsAlertMsg");
             if (settingsAlertMsg) settingsAlertMsg.classList.add("hidden");
-            switchSettingsActiveTab("account");
+            if (panelSectionAccount) panelSectionAccount.classList.remove("hidden");
         }
 
         function closeSettingsPopupSystem() {
@@ -2666,25 +2976,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
             }
             closeHardDeleteModalSystem();
         }
-
-        function switchSettingsActiveTab(targetViewMode) {
-            if (targetViewMode === "account") {
-                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
-                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
-                
-                panelSectionAccount.classList.remove("hidden");
-                panelSectionAppearance.classList.add("hidden");
-            } else {
-                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
-                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
-                
-                panelSectionAppearance.classList.remove("hidden");
-                panelSectionAccount.classList.add("hidden");
-            }
-        }
-
-        if(tabBtnAccount) tabBtnAccount.addEventListener("click", () => switchSettingsActiveTab("account"));
-        if(tabBtnAppearance) tabBtnAppearance.addEventListener("click", () => switchSettingsActiveTab("appearance"));
 
         const closeTriggers = ["closeSettingsDesktopBtn", "closeSettingsMobileBtn"];
         closeTriggers.forEach(btnId => {
@@ -2833,49 +3124,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
             });
         }
 
-        // =========================================================================
-        // PRODUCTION THEME SWITCHING ENGINE
-        // =========================================================================
-        const btnThemeLight = document.getElementById('themeSelectorBtnLight');
-        const btnThemeDark = document.getElementById('themeSelectorBtnDark');
-
-        function processThemeApplication(selectedTheme) {
-            const documentHtmlElement = document.documentElement;
-            
-            if (selectedTheme === 'dark') {
-                documentHtmlElement.classList.add('dark');
-            } else {
-                documentHtmlElement.classList.remove('dark');
-            }
-            
-            localStorage.setItem('quans-app-theme', selectedTheme);
-            syncThemeVisualInterface(selectedTheme);
-        }
-
-        function syncThemeVisualInterface(activeTheme) {
-            const buttonsArray = [btnThemeLight, btnThemeDark];
-            buttonsArray.forEach(btn => {
-                if (btn) {
-                    btn.classList.remove('border-brand-blue');
-                    btn.classList.add('border-transparent');
-                }
-            });
-
-            if (activeTheme === 'light' && btnThemeLight) {
-                btnThemeLight.classList.remove('border-transparent');
-                btnThemeLight.classList.add('border-brand-blue');
-            } else if (activeTheme === 'dark' && btnThemeDark) {
-                btnThemeDark.classList.remove('border-transparent');
-                btnThemeDark.classList.add('border-brand-blue');
-            }
-        }
-
-        if (btnThemeLight) btnThemeLight.addEventListener('click', () => processThemeApplication('light'));
-        if (btnThemeDark) btnThemeDark.addEventListener('click', () => processThemeApplication('dark'));
-
-        const cachedUserThemeSelection = localStorage.getItem('quans-app-theme') || 'light';
-        processThemeApplication(cachedUserThemeSelection);
-    </script>
+</script>
 
 <script id="quansLucideInit">
 (function () {
