@@ -1,1 +1,3053 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Quans — Humonoid AI Workspace</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          // paste your real public key string here
+          emailjs.init("XsUxpZC5-ZTRy_7bd");
+       })();
+    </script>
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+
+        /* Custom Scrollbar for login and signup modals only */
+        #authModal .relative::-webkit-scrollbar,
+        #loginModal .relative::-webkit-scrollbar {
+            width: 6px;
+        }
+        #authModal .relative::-webkit-scrollbar-track,
+        #loginModal .relative::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb,
+        #loginModal .relative::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb:hover,
+        #loginModal .relative::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        #authModal .relative,
+        #loginModal .relative {
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E1 transparent;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@1.77.0/dist/umd/lucide.js" defer></script>
+
+<style id="quans-home-only-styles">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --q-ink: #17162b;
+  --q-ink-soft: #29263f;
+  --q-muted: #77758b;
+  --q-muted-light: #9e9bac;
+  --q-line: #e9e6f0;
+  --q-paper: #fbfaff;
+  --q-white: #ffffff;
+  --q-violet: #7655e8;
+  --q-violet-dark: #5e40ce;
+  --q-cyan: #6ad7e7;
+  --q-coral: #ff8b76;
+  --q-lilac: #d9ccff;
+  --q-green: #6ebc9e;
+  --q-serif: Georgia, 'Times New Roman', serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(118,85,232,.22); color: var(--q-ink); }
+
+/* Shared marketing-site shell */
+.site-page {
+  min-height: 100vh;
+  color: var(--q-ink);
+  background:
+    radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem),
+    radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem),
+    #fbfaff;
+}
+.site-page > .min-h-screen { min-height: 100vh; }
+.site-page header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 82px;
+  padding: 16px clamp(18px,4vw,64px);
+  background: rgba(251,250,255,.9);
+  border-bottom: 1px solid rgba(226,222,239,.8);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(27,20,69,.025);
+}
+.site-page header > div:first-child { flex: 0 0 auto; z-index: 2; }
+.site-page header > div:first-child > span,
+.site-page header > div:first-child > a {
+  color: var(--q-ink) !important;
+  font-size: 25px !important;
+  font-weight: 900 !important;
+  letter-spacing: -.09em !important;
+  text-decoration: none;
+}
+.site-page header > div:first-child > span::first-letter,
+.site-page header > div:first-child > a::first-letter { color: var(--q-violet); }
+.site-page header > div:first-child span span { color: var(--q-violet) !important; }
+.site-page header > div.hidden.md\:flex,
+.site-page header > .hidden.md\:flex {
+  position: static !important;
+  inset: auto !important;
+  display: flex !important;
+  gap: clamp(14px,2vw,30px) !important;
+  justify-content: center;
+  pointer-events: auto !important;
+  flex: 1 1 auto;
+  padding: 0 20px;
+}
+.site-page header nav a,
+.site-page header .hidden.md\:flex a {
+  color: #6d6a82 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.site-page header .hidden.md\:flex a:hover,
+.site-page header .hidden.md\:flex a.active,
+.site-page header .hidden.md\:flex a.text-brand-blue { color: var(--q-violet) !important; }
+.site-page header #navAuthGroup { gap: 10px !important; z-index: 2; }
+.site-page header #navAuthGroup > button:not(#openMobileMenu) {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.site-page header #navAuthGroup > button[onclick*="openLoginPopup"] {
+  color: #514c69 !important;
+  border: 1px solid #e3dfed;
+  background: #fff;
+}
+.site-page header #navAuthGroup > button[onclick*="openAuthPopup"] {
+  color: white !important;
+  background: var(--q-ink) !important;
+  box-shadow: 0 8px 16px rgba(25,22,52,.1);
+}
+.site-page header #navAuthGroup > button:hover { transform: translateY(-2px); }
+.site-page header #openMobileMenu {
+  border-radius: 8px !important;
+  border-color: #e5e1ef !important;
+  color: var(--q-ink) !important;
+}
+
+/* Accessible focus treatment for the page header and links. */
+.site-page button:focus-visible,
+.site-page a:focus-visible,
+.workspace-page button:focus-visible,
+.workspace-page a:focus-visible { outline: 3px solid rgba(118,85,232,.38); outline-offset: 3px; }
+
+/* Home landing page */
+.quans-home { position: relative; overflow: hidden; padding-bottom: 10px; }
+.site-container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+.home-hero {
+  min-height: 650px;
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(440px, 1.08fr);
+  gap: clamp(28px,5vw,74px);
+  align-items: center;
+  padding-top: clamp(58px,8vw,100px);
+  padding-bottom: 80px;
+}
+.hero-copy { position: relative; z-index: 2; max-width: 560px; }
+.eyebrow, .section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #817b9c;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .18em;
+  line-height: 1.4;
+}
+.eyebrow { padding: 9px 12px; border: 1px solid #e5e0f3; background: rgba(255,255,255,.75); color: #6a5d9a; }
+.eyebrow-mark { width: 7px; height: 7px; display: inline-block; background: var(--q-coral); box-shadow: 0 0 0 4px rgba(255,139,118,.14); }
+.hero-copy h1, .section-heading h2, .method-copy h2, .catalog-heading h1, .contact-copy h1 {
+  margin: 23px 0 0;
+  color: var(--q-ink);
+  font-size: clamp(44px,5.4vw,72px);
+  line-height: .99;
+  letter-spacing: -.065em;
+  font-weight: 800;
+}
+.hero-copy h1 em, .section-heading h2 em, .method-copy h2 em, .catalog-heading h1 em, .contact-copy h1 em {
+  font-family: var(--q-serif);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.055em;
+  color: var(--q-violet);
+}
+.hero-lede { max-width: 510px; margin: 23px 0 0; color: #77748b; font-size: 15px; line-height: 1.82; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 32px; }
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px !important;
+  padding: 0 18px;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.button svg { width: 16px; height: 16px; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { color: white; background: linear-gradient(110deg,#7354e7,#8d65f4); box-shadow: 0 12px 24px rgba(112,80,220,.18); }
+.button-primary:hover { box-shadow: 0 16px 28px rgba(112,80,220,.26); }
+.button-secondary { color: #302d48; background: white; border-color: #e6e1f0; }
+.button-dark { color: white; background: var(--q-ink); }
+.hero-notes { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 52px; padding-top: 22px; border-top: 1px solid #e9e5f1; }
+.hero-notes > div { display: flex; align-items: flex-start; gap: 11px; }
+.note-index { color: var(--q-coral); font-size: 10px; font-weight: 900; letter-spacing: .1em; padding-top: 3px; }
+.note-index.note-violet { color: var(--q-violet); }
+.hero-notes strong, .hero-notes small { display: block; }
+.hero-notes strong { color: #343149; font-size: 11px; font-weight: 800; }
+.hero-notes small { color: #9995aa; margin-top: 4px; font-size: 10px; }
+.hero-stage { min-height: 490px; position: relative; isolation: isolate; display: grid; place-items: center; }
+.stage-grid, .contact-art-grid { position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 31px 31px; mask-image: linear-gradient(110deg,transparent,#000 32%,#000 75%,transparent); }
+.stage-orbit { position: absolute; width: 435px; height: 435px; border: 1px solid rgba(125,100,208,.2); transform: rotate(-18deg); z-index: -1; }
+.stage-orbit-one { border-radius: 36% 64% 44% 56% / 49% 40% 60% 51%; animation: orbitDrift 22s linear infinite; }
+.stage-orbit-two { width: 335px; height: 335px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation: orbitDrift 30s linear infinite reverse; }
+.workspace-preview { width: min(100%,560px); position: relative; z-index: 2; background: #17162d; padding: 8px; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.22); transform: rotate(-2deg); animation: previewFloat 8s ease-in-out infinite; }
+.preview-topbar { height: 43px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; border-bottom: 1px solid #34314d; color: #f7f5ff; }
+.preview-brand { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 900; letter-spacing: -.04em; }
+.brand-symbol { display: inline-grid; place-items: center; width: 19px; height: 19px; color: #fff; background: linear-gradient(135deg,#8b6af1,#d27ce8); font-family: Georgia,serif; font-weight: 800; }
+.preview-status { margin-left: 7px; color: #8581a8; font-size: 8px; letter-spacing: .16em; }
+.preview-window-dots { display: flex; gap: 5px; }
+.preview-window-dots b { width: 5px; height: 5px; background: #4e4a68; }
+.preview-window-dots b:first-child { background: var(--q-coral); }
+.preview-body { min-height: 354px; display: grid; grid-template-columns: 154px 1fr; background: #1d1c39; }
+.preview-sidebar { padding: 18px 12px; border-right: 1px solid #33304c; }
+.sidebar-label { display: block; margin: 0 0 12px 5px; color: #706c90; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 9px 8px; margin: 0 0 5px; color: #a8a4c2; font-size: 9px; }
+.sidebar-item svg { width: 12px; height: 12px; }
+.sidebar-item.active { color: #fff; background: #39325c; border-left: 2px solid #9d83ff; }
+.sidebar-rule { height: 1px; margin: 17px 4px; background: #34314d; }
+.sidebar-muted { display: block; padding: 6px 5px; color: #777493; font-size: 8px; }
+.preview-content { padding: 23px 25px; color: #fff; }
+.preview-kicker { color: #aaa5c4; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.preview-kicker span { float: right; color: #7dc5a8; letter-spacing: .08em; }
+.preview-content h3 { margin: 14px 0 9px; color: #fff; font-size: 26px; line-height: 1.02; letter-spacing: -.055em; font-weight: 800; }
+.preview-content > p { color: #a5a1bf; font-size: 9px; line-height: 1.6; max-width: 290px; }
+.resume-sheet { margin-top: 21px; padding: 14px; background: #f7f6fc; color: #211f37; box-shadow: 0 12px 22px rgba(5,4,23,.2); }
+.sheet-heading { display: flex; align-items: center; gap: 8px; }
+.sheet-avatar { width: 28px; height: 28px; display: grid; place-items: center; background: #e1d9ff; color: #6049bb; font-size: 8px; font-weight: 900; }
+.sheet-heading b, .sheet-heading small { display: block; }
+.sheet-heading b { font-size: 9px; }.sheet-heading small { margin-top: 2px; color: #8d8a9d; font-size: 7px; }
+.sheet-heading svg { margin-left: auto; width: 14px; color: #5eac8b; }
+.sheet-line { height: 4px; width: 72%; margin-top: 7px; background: #e1deeb; }
+.sheet-line-long { width: 100%; }.sheet-line-medium { width: 56%; }
+.sheet-columns { display: grid; grid-template-columns: 1.3fr .7fr; gap: 18px; margin-top: 15px; }
+.sheet-columns small { display: block; margin-bottom: 4px; color: #9b97a9; font-size: 6px; font-weight: 900; letter-spacing: .14em; }
+.skill-chip { margin: 3px 0; padding: 4px 5px; background: #ece8fb; color: #6555a6; font-size: 6px; }
+.preview-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #8985a7; font-size: 8px; }
+.preview-footer span:last-child { color: #c7b9ff; display: flex; align-items: center; gap: 5px; }.preview-footer svg { width: 11px; }
+.floating-note { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(255,255,255,.94); border: 1px solid #e6e1f1; box-shadow: 0 15px 35px rgba(38,30,84,.11); animation: noteFloat 6s ease-in-out infinite; }
+.floating-note-top { top: 45px; right: -10px; }.floating-note-bottom { bottom: 38px; left: -22px; animation-delay: -2s; }
+.float-icon { width: 34px; height: 34px; display: grid; place-items: center; }.float-icon svg { width: 17px; }.float-coral { background: #fff0eb; color: #e87964; }.float-violet { background: #f0ecff; color: #7053da; }
+.floating-note b, .floating-note small { display: block; }.floating-note b { color: #29263f; font-size: 10px; }.floating-note small { margin-top: 4px; color: #918da3; font-size: 8px; }
+.stage-accent { position: absolute; bottom: 5px; right: 10%; width: 75px; height: 75px; border: 1px solid rgba(255,139,118,.45); transform: rotate(45deg); }
+@keyframes previewFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
+@keyframes noteFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes orbitDrift { to { transform: rotate(342deg); } }
+
+.home-proof { display: grid; grid-template-columns: minmax(220px,1.7fr) repeat(3,minmax(120px,1fr)); gap: 24px; align-items: center; padding: 24px 0 30px; border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }
+.proof-intro p { margin: 8px 0 0; max-width: 380px; color: #77748b; font-size: 12px; line-height: 1.6; }
+.proof-stat { padding-left: 20px; border-left: 1px solid #e9e5f0; }.proof-stat strong { display: block; color: var(--q-ink); font-size: 28px; font-weight: 800; letter-spacing: -.06em; }.proof-stat span { display: block; color: #8b879b; font-size: 10px; margin-top: 2px; }
+.home-toolkit { padding-top: 102px; padding-bottom: 105px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 35px; }
+.section-heading h2, .method-copy h2 { margin-top: 15px; font-size: clamp(36px,4.5vw,54px); }
+.text-link { display: flex; align-items: center; gap: 10px; color: #5944b4; font-size: 11px; font-weight: 900; text-decoration: none; border-bottom: 1px solid #cfc5f5; padding-bottom: 8px; }.text-link svg { width: 15px; }
+.tool-grid-home { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.tool-feature { min-height: 385px; position: relative; display: flex; flex-direction: column; padding: 18px; overflow: hidden; border: 1px solid #e8e4f0; background: #fff; color: var(--q-ink); text-decoration: none; transition: transform .24s, box-shadow .24s, border-color .24s; }
+.tool-feature:hover { transform: translateY(-5px); border-color: #cfc3fb; box-shadow: 0 18px 35px rgba(46,34,101,.08); }
+.tool-feature-top { display: flex; justify-content: space-between; color: #9792aa; font-size: 8px; letter-spacing: .15em; font-weight: 900; }.tool-feature-top svg { width: 15px; }
+.tool-art { position: relative; height: 137px; display: grid; place-items: center; margin: 18px -4px 20px; overflow: hidden; }
+.resume-art { background: linear-gradient(135deg,#e8e0ff,#f8f3ff); }.resume-mini { width: 76%; padding: 14px; background: #fff; border: 1px solid #e3dcf9; box-shadow: 0 9px 18px rgba(77,55,154,.12); }.mini-avatar { width: 22px; height: 22px; display: inline-grid; place-items: center; background: #dad0ff; color: #5f49b0; font-size: 7px; margin-right: 7px; }.resume-mini span:nth-child(2) b,.resume-mini span:nth-child(2) small { display: block; }.resume-mini b { font-size: 8px; }.resume-mini small { font-size: 6px; color: #9691a6; }.resume-mini svg { float: right; width: 13px; color: #54ad8b; }.mini-row { height: 4px; background: #eae7f3; margin: 10px 0 0 0; }.mini-row.short { width: 64%; margin-top: 5px; }.mini-bullets { display: flex; gap: 5px; margin-top: 11px; }.mini-bullets b { width: 27%; height: 12px; background: #f1edfb; }
+.post-art { background: linear-gradient(130deg,#d8f5f6,#f0fbfd); }.post-window { width: 77%; height: 98px; padding: 11px; background: #fff; border: 1px solid #d7ecee; box-shadow: 0 8px 18px rgba(33,113,122,.12); }.post-dot { display: inline-block; width: 5px; height: 5px; margin-right: 3px; background: #abdfe1; }.post-copy { width: 75%; height: 5px; background: #dceff0; margin-top: 12px; }.post-copy.mid { width: 54%; margin-top: 5px; }.post-graphic { float: right; margin-top: -30px; width: 44px; height: 44px; display: grid; place-items: center; color: #087d8b; background: #c7f1f0; }.post-graphic svg { width: 19px; }
+.proposal-art { background: linear-gradient(135deg,#ffede7,#fff9f5); }.proposal-paper { width: 65%; height: 105px; padding: 13px; background: #fff; border: 1px solid #f3ddd4; transform: rotate(4deg); box-shadow: 0 8px 18px rgba(129,70,50,.12); }.paper-title { display: block; width: 45%; height: 8px; background: #e8a18c; }.paper-rule { display: block; width: 100%; height: 4px; background: #f1e5e0; margin-top: 8px; }.paper-rule.short { width: 65%; margin-top: 5px; }.paper-row { display: flex; gap: 5px; margin: 12px 0; }.paper-row b { flex: 1; height: 14px; background: #fff0ea; }
+.repurpose-art { background: linear-gradient(125deg,#e4f4ed,#f4fbf7); display: flex; align-items: center; justify-content: center; gap: 7px; }.repurpose-source { padding: 12px 9px; background: #fff; color: #367d65; font-size: 8px; font-weight: 900; border: 1px solid #d4e9df; line-height: 1.35; }.repurpose-lines { width: 34px; display: grid; gap: 9px; }.repurpose-lines i { height: 1px; background: #7cbaa2; }.repurpose-targets { display: grid; gap: 5px; }.repurpose-targets b { padding: 5px 7px; background: #fff; border: 1px solid #d4e9df; color: #538b75; font-size: 7px; }
+.tool-feature h3 { margin: 0; font-size: 20px; line-height: 1.08; font-weight: 800; letter-spacing: -.045em; }.tool-feature p { margin: 9px 0 17px; color: #858197; font-size: 10px; line-height: 1.7; }.tool-open { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 12px; color: #6451be; border-top: 1px solid #efecf4; font-size: 9px; font-weight: 900; letter-spacing: .02em; }.tool-open svg { width: 14px; }
+.home-method { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 70px; padding: 70px clamp(22px,5vw,60px); background: #17162d; color: white; position: relative; overflow: hidden; }
+.home-method:after { content: ""; position: absolute; right: -170px; top: -170px; width: 440px; height: 440px; border: 1px solid rgba(163,137,255,.32); transform: rotate(45deg); box-shadow: 0 0 0 30px rgba(163,137,255,.025),0 0 0 60px rgba(163,137,255,.025); }
+.home-method .section-kicker { color: #a9a3cb; }.method-copy h2 { color: white; }.method-copy h2 em { color: #b8a6ff; }.method-copy p { max-width: 420px; color: #aaa6c2; font-size: 13px; line-height: 1.8; margin: 18px 0 26px; }.home-method .button { position: relative; z-index: 1; }
+.method-flow { position: relative; z-index: 1; padding-left: 20px; }.flow-step { display: flex; gap: 17px; align-items: flex-start; }.flow-step > span { color: #9c8be2; font-size: 10px; font-weight: 900; letter-spacing: .12em; padding-top: 6px; }.flow-step > div { flex: 1; display: grid; grid-template-columns: 35px 1fr; column-gap: 13px; padding: 17px 18px; border: 1px solid #383653; background: rgba(255,255,255,.035); }.flow-step svg { grid-row: span 2; width: 18px; height: 18px; color: #ad9bff; margin-top: 2px; }.flow-step b { color: #f5f3ff; font-size: 12px; }.flow-step small { display: block; margin-top: 5px; color: #9b97b2; font-size: 10px; }.flow-connector { width: 1px; height: 18px; margin-left: 38px; background: #62578e; }
+.home-contact { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 90px; margin-bottom: 40px; padding: 35px 0 34px; border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }.home-contact h2 { font-size: 27px; margin: 9px 0 5px; letter-spacing: -.04em; }.home-contact p { color: #89859a; font-size: 11px; line-height: 1.6; }.home-disclaimer { padding-bottom: 34px; color: #aaa6b5; font-size: 9px; line-height: 1.6; }
+
+
+/* Lucide icons and reduced-motion support */
+/* Lucide icon sizing */
+[data-lucide], svg.lucide-icon { width: 1em; height: 1em; stroke-width: 1.8; vertical-align: middle; }
+.site-page svg.lucide, .workspace-page svg.lucide { flex: 0 0 auto; }
+
+/* Reveal and reduced-motion handling */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* Responsive homepage layouts */
+@media (max-width: 1050px) {
+  .home-hero { grid-template-columns: minmax(0,1fr) minmax(360px,.94fr); gap: 26px; }
+  .tool-grid-home { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .tool-feature { min-height: 360px; }
+  .workspace-preview { transform: scale(.96) rotate(-2deg); }
+}
+@media (max-width: 800px) {
+  .site-page header { min-height: 70px; padding: 12px 18px; }
+  .site-page header > .hidden.md\:flex { display: none !important; }
+  .home-hero { grid-template-columns: 1fr; padding-top: 58px; padding-bottom: 58px; }
+  .hero-copy { max-width: 680px; }
+  .hero-stage { min-height: 400px; margin-top: 10px; }
+  .workspace-preview { width: min(100%,570px); }
+  .stage-orbit { width: 390px; height: 390px; }
+  .home-proof { grid-template-columns: 1fr 1fr; }
+  .proof-intro { grid-column: 1 / -1; }
+  .proof-stat { padding-top: 10px; padding-bottom: 10px; }
+  .home-method { grid-template-columns: 1fr; gap: 35px; }
+}
+@media (max-width: 560px) {
+  .site-container { width: calc(100% - 32px); }
+  .site-page header #navAuthGroup > button:not(#openMobileMenu) { min-height: 38px; padding-inline: 11px; font-size: 10px !important; }
+  .site-page header #navAuthGroup { gap: 6px !important; }
+  .hero-copy h1 { font-size: 45px; }
+  .hero-lede { font-size: 13px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions .button { width: 100%; }
+  .hero-notes { gap: 17px; margin-top: 34px; }
+  .hero-stage { min-height: 310px; margin-inline: -8px; overflow: hidden; }
+  .workspace-preview { transform: scale(clamp(.5, calc(.0467 + .1416vw), .84)) rotate(-2deg); width: 570px; max-width: none; }
+  .stage-orbit-one { width: 305px; height: 305px; }
+  .stage-orbit-two { width: 245px; height: 245px; }
+  .floating-note { padding: 8px; gap: 7px; }
+  .floating-note-top { top: 7px; right: -4px; }
+  .floating-note-bottom { bottom: 3px; left: -4px; }
+  .float-icon { width: 28px; height: 28px; }
+  .floating-note b { font-size: 8px; }
+  .floating-note small { font-size: 7px; }
+  .home-proof { gap: 10px; }
+  .proof-stat { padding-left: 12px; }
+  .proof-stat strong { font-size: 24px; }
+  .home-toolkit { padding-top: 65px; padding-bottom: 65px; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
+  .section-heading h2 { font-size: 40px; }
+  .tool-grid-home { grid-template-columns: 1fr; }
+  .tool-feature { min-height: 335px; }
+  .home-method { padding: 42px 20px; }
+  .method-copy h2 { font-size: 42px; }
+  .method-flow { padding-left: 0; }
+  .home-contact { align-items: flex-start; flex-direction: column; }
+  .home-contact .button { width: 100%; }
+}
+@media (max-width: 390px) {
+  .hero-stage { min-height: 275px; }
+  .workspace-preview { transform: scale(.5) rotate(-2deg); }
+  .floating-note-bottom { max-width: 150px; }
+}
+</style>
+
+<style id="quans-mobile-navigation-styles">
+  /* Mobile header: retain the Quans mark and menu control, not the desktop nav/auth row. */
+  @media (max-width: 800px) {
+    .site-page header > div.absolute.inset-x-0 {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > button:not(#openMobileMenu),
+    .site-page header #navAuthGroup > .mobile-auth-wrap > div:first-child {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > .mobile-auth-wrap {
+      display: flex !important;
+      align-items: center;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup {
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup #openMobileMenu {
+      display: inline-flex !important;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e0ef !important;
+      border-radius: 10px !important;
+      color: #29263f !important;
+      background: rgba(255,255,255,.88) !important;
+      box-shadow: 0 5px 14px rgba(39,27,90,.06);
+    }
+
+    .mobile-sidebar {
+      z-index: 1000;
+      isolation: isolate;
+    }
+
+    .mobile-sidebar:not(.opacity-0) {
+      visibility: visible;
+    }
+
+    .mobile-sidebar-overlay {
+      border: 0;
+      padding: 0;
+      background: rgba(23,22,43,.38);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      opacity: 0;
+      transition: opacity .3s ease;
+      cursor: default;
+    }
+
+    .mobile-sidebar:not(.opacity-0) .mobile-sidebar-overlay {
+      opacity: 1;
+    }
+
+    .mobile-drawer-panel {
+      box-sizing: border-box;
+      width: min(390px, 92vw);
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
+      color: #17162b;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(217,204,255,.34), transparent 230px),
+        linear-gradient(160deg, #fff 0%, #fbfaff 56%, #f8fbff 100%);
+      border-left: 1px solid rgba(226,222,239,.9);
+      border-radius: 22px 0 0 22px;
+      box-shadow: -24px 0 70px rgba(23,22,43,.18);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ece8f3;
+    }
+
+    .mobile-drawer-brand {
+      color: #17162b;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.09em;
+      text-decoration: none;
+    }
+
+    .mobile-drawer-brand span { color: #7655e8; }
+
+    .mobile-drawer-close {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f1;
+      border-radius: 10px;
+      color: #514c69;
+      background: rgba(255,255,255,.85);
+      font-size: 16px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .mobile-drawer-close:hover {
+      color: #5e40ce;
+      background: #f1edff;
+      transform: rotate(4deg);
+    }
+
+    .mobile-drawer-intro { padding: 29px 0 22px; }
+
+    .mobile-drawer-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #817b9c;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .mobile-drawer-kicker span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff8b76;
+      box-shadow: 0 0 0 4px rgba(255,139,118,.13);
+    }
+
+    .mobile-drawer-intro h2 {
+      margin: 13px 0 7px;
+      color: #17162b;
+      font-size: 34px;
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -.065em;
+    }
+
+    .mobile-drawer-intro h2 em {
+      color: #7655e8;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .mobile-drawer-intro p {
+      margin: 0;
+      color: #858197;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .mobile-drawer-nav {
+      display: grid;
+      gap: 5px;
+      padding: 2px 0 20px;
+    }
+
+    .mobile-drawer-panel .mobile-nav-link {
+      position: relative;
+      display: grid;
+      background: transparent !important;
+      border-color: transparent !important;
+      grid-template-columns: 42px minmax(0,1fr) 16px;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 9px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #39364f;
+      background: transparent;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover {
+      background: rgba(255,255,255,.86);
+      border-color: #ece7f5;
+      transform: translateX(2px);
+    }
+
+    .mobile-nav-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f3;
+      border-radius: 11px;
+      color: #7655e8;
+      background: #f3efff;
+      font-size: 14px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .mobile-nav-copy { min-width: 0; display: block; }
+    .mobile-nav-copy strong {
+      display: block;
+      color: #29263f;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .mobile-nav-copy small {
+      display: block;
+      margin-top: 4px;
+      color: #9691a6;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .mobile-nav-arrow {
+      color: #b0aabd;
+      font-size: 10px;
+      transition: color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover .mobile-nav-arrow {
+      color: #7655e8;
+      transform: translate(2px,-2px);
+    }
+
+    .mobile-drawer-panel .mobile-nav-link.is-active {
+      border-color: #e4dcfb !important;
+      background: linear-gradient(100deg, rgba(240,236,255,.96), rgba(255,255,255,.9)) !important;
+      box-shadow: inset 3px 0 0 #7655e8;
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-icon {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg,#7354e7,#9677f0);
+      box-shadow: 0 7px 14px rgba(112,80,220,.16);
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-copy strong,
+    .mobile-nav-link.is-active .mobile-nav-arrow { color: #5e40ce; }
+
+    .mobile-drawer-actions,
+    .mobile-drawer-account {
+      margin-top: auto;
+      padding: 17px;
+      border: 1px solid #e9e3f3;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 10px 24px rgba(39,27,90,.045);
+    }
+
+    .mobile-drawer-actions p {
+      margin: 0 0 13px;
+      color: #5d5873;
+      font-size: 11px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-primary,
+    .mobile-drawer-secondary {
+      display: flex;
+      width: 100%;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .mobile-drawer-primary {
+      color: #fff;
+      border: 1px solid transparent;
+      background: linear-gradient(110deg,#7354e7,#8d65f4);
+      box-shadow: 0 9px 18px rgba(112,80,220,.18);
+    }
+
+    .mobile-drawer-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(112,80,220,.24); }
+
+    .mobile-drawer-secondary {
+      margin-top: 7px;
+      color: #514c69;
+      border: 1px solid #e9e4f1;
+      background: #fff;
+    }
+
+    .mobile-account-kicker {
+      display: block;
+      color: #8b83a4;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .18em;
+    }
+
+    #mobileSidebarUserEmail {
+      margin: 7px 0 12px;
+      overflow-wrap: anywhere;
+      color: #39364f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-account button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 2px;
+      color: #5d5873;
+      border: 0;
+      border-top: 1px solid #f0edf5;
+      background: transparent;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mobile-drawer-account button i { width: 16px; color: #7655e8; }
+    .mobile-drawer-account button[data-mobile-logout] i { color: #ff8b76; }
+
+    .mobile-drawer-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 17px;
+      margin-top: 17px;
+      color: #aaa5b6;
+      border-top: 1px solid #ece8f3;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    body.mobile-menu-open { overflow: hidden; }
+  }
+
+  @media (max-width: 380px) {
+    .mobile-drawer-panel { padding-left: 18px; padding-right: 18px; }
+    .mobile-drawer-intro h2 { font-size: 31px; }
+    .mobile-nav-link { grid-template-columns: 38px minmax(0,1fr) 14px; gap: 10px; padding-inline: 9px; }
+    .mobile-nav-icon { width: 36px; height: 36px; }
+  }
+
+  @media (min-width: 801px) {
+    #mobileSidebar { display: none !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-sidebar-overlay, .mobile-drawer-panel, .mobile-nav-link,
+    .mobile-nav-icon, .mobile-nav-arrow, .mobile-drawer-close,
+    .mobile-drawer-primary, .mobile-drawer-secondary { transition-duration: .01ms !important; }
+  }
+</style>
+
+
+<style id="quans-explore-page-styles">
+  .site-explore-page { background: radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem), radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem), #fbfaff; }
+  .quans-explore { position: relative; overflow: hidden; padding-bottom: 10px; color: var(--q-ink); }
+  .explore-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+  .explore-hero { min-height: 570px; display: grid; grid-template-columns: minmax(0,1fr) minmax(400px,.95fr); align-items: center; gap: clamp(30px,5vw,72px); padding-top: 70px; padding-bottom: 58px; }
+  .explore-hero-copy { position: relative; z-index: 2; max-width: 560px; }
+  .explore-hero-copy h1 { margin: 24px 0 0; color: var(--q-ink); font-size: clamp(46px,5.3vw,70px); line-height: .99; letter-spacing: -.067em; font-weight: 800; }
+  .explore-hero-copy h1 em, .explore-catalog-heading h2 em, .explore-pathway-copy h2 em { color: var(--q-violet); font-family: var(--q-serif); font-weight: 400; font-style: italic; letter-spacing: -.055em; }
+  .explore-lede { max-width: 510px; margin: 23px 0 0; color: #77748b; font-size: 15px; line-height: 1.82; }
+  .explore-hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 30px; }
+  .explore-hero-notes { display: flex; flex-wrap: wrap; gap: 27px; margin-top: 44px; padding-top: 21px; border-top: 1px solid #e9e5f1; }
+  .explore-hero-notes > div { display: flex; align-items: center; gap: 10px; }
+  .explore-note-mark { display: grid; width: 34px; height: 34px; place-items: center; background: #f0ecff; color: #7053da; }
+  .explore-note-mark svg { width: 16px; }
+  .explore-note-coral { background: #fff0eb; color: #e87964; }
+  .explore-hero-notes strong, .explore-hero-notes small { display: block; }
+  .explore-hero-notes strong { color: #343149; font-size: 10px; font-weight: 800; }
+  .explore-hero-notes small { margin-top: 4px; color: #9995aa; font-size: 9px; }
+  .explore-hero-visual { min-height: 455px; position: relative; isolation: isolate; display: grid; place-items: center; }
+  .explore-visual-grid { position: absolute; inset: 0; opacity: .4; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(110deg,transparent,#000 28%,#000 78%,transparent); }
+  .explore-visual-orbit { position: absolute; width: 425px; height: 425px; border: 1px solid rgba(125,100,208,.2); transform: rotate(-18deg); z-index: -1; }
+  .explore-visual-orbit-one { border-radius: 36% 64% 44% 56% / 49% 40% 60% 51%; animation: exploreOrbit 24s linear infinite; }
+  .explore-visual-orbit-two { width: 330px; height: 330px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation: exploreOrbit 32s linear infinite reverse; }
+  .explore-visual-board { width: min(100%,510px); position: relative; z-index: 2; padding: 8px; background: #17162d; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.2); transform: rotate(-1.6deg); animation: exploreBoardFloat 8s ease-in-out infinite; }
+  .explore-board-top { height: 42px; display:flex; align-items:center; justify-content:space-between; padding:0 12px; border-bottom:1px solid #34314d; color:#f7f5ff; }
+  .explore-board-body { padding: 22px 22px 14px; background: #1d1c39; }
+  .explore-board-heading span { display:block; color:#8985a9; font-size:7px; font-weight:900; letter-spacing:.17em; }
+  .explore-board-heading strong { display:block; margin-top:9px; color:#fff; font-size:24px; letter-spacing:-.055em; }
+  .explore-board-heading small { display:block; margin-top:5px; color:#a5a1bf; font-size:9px; }
+  .explore-board-items { display:grid; gap:8px; margin-top:18px; }
+  .explore-board-item { display:grid; grid-template-columns:34px 1fr 12px; align-items:center; gap:10px; padding:10px; background:#292744; border:1px solid #393653; }
+  .explore-board-item > span { width:32px; height:32px; display:grid; place-items:center; background:rgba(148,119,236,.18); color:#c5b7ff; }
+  .explore-board-item > span svg { width:15px; }
+  .explore-board-item > div b, .explore-board-item > div small { display:block; }
+  .explore-board-item > div b { color:#f5f3ff; font-size:10px; }
+  .explore-board-item > div small { margin-top:3px; color:#9b97b6; font-size:8px; }
+  .explore-board-item > i { color:#777292; font-size:9px; }
+  .explore-board-item.item-post > span { background:rgba(106,215,231,.15); color:#8fe1eb; }
+  .explore-board-item.item-proposal > span { background:rgba(255,139,118,.15); color:#ffad9b; }
+  .explore-board-item.item-repurpose > span { background:rgba(110,188,158,.15); color:#9bd8bb; }
+  .explore-board-footer { display:flex; align-items:center; justify-content:space-between; padding-top:13px; margin-top:13px; border-top:1px solid #34314d; color:#8985a7; font-size:8px; }
+  .explore-board-footer span:first-child { display:flex; align-items:center; gap:6px; color:#c7b9ff; }
+  .explore-board-footer svg { width:11px; }
+  .explore-float-tag { position:absolute; z-index:3; display:flex; align-items:center; gap:9px; padding:10px 12px; background:rgba(255,255,255,.95); border:1px solid #e6e1f1; box-shadow:0 15px 35px rgba(38,30,84,.1); animation: exploreTagFloat 6s ease-in-out infinite; }
+  .explore-float-top { top:44px; right:-6px; }.explore-float-bottom { bottom:33px; left:-13px; animation-delay:-2s; }
+  .explore-float-icon { width:32px; height:32px; display:grid; place-items:center; background:#f0ecff; color:#7053da; }.explore-float-icon svg { width:16px; }
+  .explore-float-icon-cyan { background:#e5f8fa; color:#288d9a; }
+  .explore-float-tag b,.explore-float-tag small { display:block; }.explore-float-tag b { color:#29263f; font-size:9px; }.explore-float-tag small { margin-top:3px; color:#918da3; font-size:8px; }
+  @keyframes exploreOrbit { to { transform:rotate(342deg); } }
+  @keyframes exploreBoardFloat { 0%,100% { transform:translateY(0) rotate(-1.6deg); } 50% { transform:translateY(-9px) rotate(-.8deg); } }
+  @keyframes exploreTagFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+
+  .explore-summary { display:grid; grid-template-columns:minmax(230px,1.6fr) repeat(3,minmax(120px,1fr)); align-items:center; gap:22px; padding:24px 0 29px; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
+  .explore-summary-intro p { max-width:360px; margin:8px 0 0; color:#77748b; font-size:12px; line-height:1.6; }
+  .explore-summary-stat { padding-left:20px; border-left:1px solid #e9e5f0; }
+  .explore-summary-stat strong { display:block; color:var(--q-ink); font-size:27px; font-weight:800; letter-spacing:-.06em; }
+  .explore-summary-stat span { display:block; margin-top:3px; color:#8b879b; font-size:10px; }
+
+  .explore-catalog { padding-top:93px; padding-bottom:88px; scroll-margin-top:100px; }
+  .explore-catalog-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:30px; }
+  .explore-catalog-heading h2 { margin:14px 0 0; color:var(--q-ink); font-size:clamp(38px,4.6vw,55px); line-height:1; letter-spacing:-.065em; font-weight:800; }
+  .explore-catalog-heading > div:first-child > p { max-width:530px; margin:13px 0 0; color:#858197; font-size:12px; line-height:1.7; }
+  .explore-catalog-side-note { display:flex; align-items:center; gap:11px; padding:12px 15px; border:1px solid #e8e3f0; background:rgba(255,255,255,.72); }
+  .explore-catalog-side-note > i { display:grid; place-items:center; width:32px; height:32px; background:#f0ecff; color:#7053da; }
+  .explore-catalog-side-note span { display:block; color:#4f4a67; font-size:10px; font-weight:800; }
+  .explore-catalog-side-note small { display:block; margin-top:4px; color:#9a95a9; font-size:8px; font-weight:500; }
+  .explore-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px; border:1px solid #e8e4f0; background:rgba(255,255,255,.8); }
+  .explore-search-wrap { display:flex; align-items:center; gap:10px; flex:1 1 300px; max-width:390px; min-width:180px; height:42px; padding:0 11px; border:1px solid #e9e5f0; background:#fbfaff; color:#918ca3; }
+  .explore-search-wrap > svg { width:15px; flex:0 0 auto; }
+  .explore-search-wrap input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#29263f; font-size:10px; }
+  .explore-search-wrap input::placeholder { color:#aaa5b5; }
+  .explore-search-wrap kbd { display:grid; width:20px; height:20px; place-items:center; border:1px solid #e5e1ed; color:#aaa5b5; background:#fff; font:9px 'DM Sans',sans-serif; }
+  .explore-filters { display:flex; flex-wrap:wrap; gap:6px; }
+  .explore-filter { display:flex; align-items:center; gap:8px; min-height:34px; padding:0 10px; border:1px solid transparent; background:transparent; color:#807b91; font-size:9px; font-weight:800; transition:all .2s ease; cursor:pointer; }
+  .explore-filter span { display:grid; width:18px; height:18px; place-items:center; background:#f0edf6; color:#8c86a0; font-size:8px; }
+  .explore-filter:hover { color:#5e40ce; background:#f8f5ff; }
+  .explore-filter.is-active { color:#5e40ce; border-color:#e5ddfb; background:#f2eeff; }
+  .explore-filter.is-active span { color:#fff; background:#8064c1; }
+  .explore-results-line { display:flex; justify-content:space-between; align-items:center; margin:18px 1px 12px; color:#9691a6; font-size:8px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  .explore-tool-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .explore-tool-card { min-height:410px; padding:20px; border:1px solid #e8e4f0; }
+  .explore-tool-card:hover { border-color:#cfc3fb; }
+  .explore-tool-card .tool-feature-top { font-size:8px; }
+  .explore-tool-card .tool-art { height:145px; margin:15px -3px 17px; }
+  .explore-tool-card .tool-feature-top > i { color:#918ca3; }
+  .explore-tool-content { display:block; }
+  .explore-tool-heading { display:flex; justify-content:space-between; align-items:start; gap:15px; }
+  .explore-tool-heading h3 { margin:0; color:#25223a; font-size:23px; line-height:1.08; font-weight:800; letter-spacing:-.05em; }
+  .explore-tool-index { padding-top:3px; color:#b1aabd; font-size:9px; font-weight:900; letter-spacing:.12em; }
+  .explore-tool-card p { max-width:500px; margin:10px 0 13px; color:#858197; font-size:11px; line-height:1.7; }
+  .explore-capabilities { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 15px; }
+  .explore-capabilities span { padding:6px 8px; border:1px solid #ece8f3; background:#fbfaff; color:#77718b; font-size:8px; font-weight:700; }
+  .explore-tool-card .tool-open { margin-top:auto; padding-top:13px; font-size:9px; }
+  .explore-tool-card.is-filtered-out { display:none; }
+  .explore-no-results { padding:48px 20px; border:1px dashed #dcd5ec; text-align:center; background:rgba(255,255,255,.65); }
+  .explore-no-results[hidden] { display:none; }
+  .explore-no-results > span { display:grid; width:44px; height:44px; margin:0 auto 13px; place-items:center; background:#f1edff; color:#7655e8; }
+  .explore-no-results svg { width:19px; }
+  .explore-no-results h3 { margin:0; color:#29263f; font-size:18px; }
+  .explore-no-results p { margin:7px 0 16px; color:#8b879b; font-size:11px; }
+  .explore-no-results button { color:#6749c2; border:0; border-bottom:1px solid #cfc5f5; background:transparent; font-size:10px; font-weight:800; cursor:pointer; }
+
+  .explore-pathway { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:clamp(35px,6vw,78px); padding:66px clamp(22px,5vw,60px); position:relative; overflow:hidden; background:#17162d; color:white; }
+  .explore-pathway:after { content:""; position:absolute; top:-180px; right:-150px; width:430px; height:430px; border:1px solid rgba(163,137,255,.3); transform:rotate(45deg); box-shadow:0 0 0 30px rgba(163,137,255,.025),0 0 0 60px rgba(163,137,255,.025); }
+  .explore-pathway-copy,.explore-pathway-steps { position:relative; z-index:1; }
+  .explore-pathway-copy .section-kicker { color:#aaa4c8; }
+  .explore-pathway-copy h2 { margin:16px 0 0; color:#fff; font-size:clamp(38px,4.2vw,52px); line-height:1.02; letter-spacing:-.065em; }
+  .explore-pathway-copy h2 em { color:#b8a6ff; }
+  .explore-pathway-copy p { max-width:420px; margin:18px 0 25px; color:#aaa6c2; font-size:12px; line-height:1.8; }
+  .explore-pathway-steps { padding-left:12px; }
+  .explore-path-step { display:grid; grid-template-columns:26px 38px 1fr; align-items:center; gap:13px; padding:15px 16px; border:1px solid #383653; background:rgba(255,255,255,.035); }
+  .explore-path-step > span { color:#9c8be2; font-size:9px; font-weight:900; letter-spacing:.12em; }
+  .explore-path-icon { display:grid; width:34px; height:34px; place-items:center; color:#b7a5ff; background:rgba(157,131,255,.13); }
+  .explore-path-icon svg { width:16px; }
+  .explore-path-step b,.explore-path-step small { display:block; }
+  .explore-path-step b { color:#f5f3ff; font-size:11px; }
+  .explore-path-step small { margin-top:4px; color:#9b97b2; font-size:9px; line-height:1.4; }
+  .explore-path-connector { width:1px; height:15px; margin-left:45px; background:#62578e; }
+  .explore-contact { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:82px; margin-bottom:34px; padding:32px 0; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
+  .explore-contact h2 { margin:9px 0 5px; color:#25223a; font-size:27px; letter-spacing:-.045em; }
+  .explore-contact p { color:#89859a; font-size:11px; line-height:1.7; }
+  .explore-disclaimer { padding-bottom:34px; color:#aaa6b5; font-size:9px; line-height:1.6; }
+
+  @media(max-width:1000px) {
+    .explore-hero { grid-template-columns:minmax(0,1fr) minmax(340px,.9fr); gap:24px; }
+    .explore-tool-card { min-height:420px; }
+    .explore-controls { align-items:flex-start; flex-direction:column; }
+    .explore-search-wrap { width:100%; max-width:none; }
+  }
+  @media(max-width:800px) {
+    .explore-hero { grid-template-columns:1fr; padding-top:55px; padding-bottom:48px; }
+    .explore-hero-copy { max-width:680px; }
+    .explore-hero-visual { min-height:410px; margin-top:8px; }
+    .explore-summary { grid-template-columns:1fr 1fr; }
+    .explore-summary-intro { grid-column:1/-1; }
+    .explore-summary-stat { padding-top:10px; padding-bottom:10px; }
+    .explore-catalog { padding-top:70px; padding-bottom:70px; }
+    .explore-catalog-heading { align-items:flex-start; flex-direction:column; }
+    .explore-pathway { grid-template-columns:1fr; gap:34px; }
+  }
+  @media(max-width:560px) {
+    .explore-shell { width:calc(100% - 32px); }
+    .explore-hero-copy h1 { font-size:45px; }
+    .explore-lede { font-size:13px; }
+    .explore-hero-actions { display:grid; grid-template-columns:1fr; }
+    .explore-hero-actions .button { width:100%; }
+    .explore-hero-notes { gap:15px; margin-top:32px; }
+    .explore-hero-visual { min-height:315px; margin-inline:-7px; overflow:hidden; }
+    .explore-visual-board { width:510px; max-width:none; transform:scale(.64) rotate(-1.6deg); }
+    .explore-visual-orbit-one { width:300px; height:300px; }
+    .explore-visual-orbit-two { width:245px; height:245px; }
+    .explore-float-tag { padding:7px 8px; gap:7px; }
+    .explore-float-top { top:4px; right:-2px; }.explore-float-bottom { bottom:2px; left:-2px; }
+    .explore-float-icon { width:27px; height:27px; }
+    .explore-float-tag b { font-size:8px; }.explore-float-tag small { font-size:7px; }
+    .explore-summary { gap:10px; }
+    .explore-summary-stat { padding-left:12px; }
+    .explore-summary-stat strong { font-size:24px; }
+    .explore-catalog-heading h2 { font-size:41px; }
+    .explore-catalog-side-note { width:100%; }
+    .explore-controls { padding:11px; }
+    .explore-filters { width:100%; }
+    .explore-filter { flex:1 1 auto; justify-content:center; padding-inline:7px; font-size:8px; }
+    .explore-results-line { font-size:7px; }
+    .explore-tool-grid { grid-template-columns:1fr; }
+    .explore-tool-card { min-height:390px; padding:17px; }
+    .explore-tool-card .tool-art { height:135px; }
+    .explore-pathway { padding:42px 19px; }
+    .explore-pathway-copy h2 { font-size:42px; }
+    .explore-pathway-steps { padding-left:0; }
+    .explore-contact { align-items:flex-start; flex-direction:column; margin-top:58px; }
+    .explore-contact .button { width:100%; }
+  }
+  @media(max-width:390px) {
+    .explore-hero-visual { min-height:280px; }
+    .explore-visual-board { transform:scale(.55) rotate(-1.6deg); }
+    .explore-float-bottom { max-width:145px; }
+    .explore-filter { gap:5px; }
+    .explore-filter span { width:16px; height:16px; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .explore-visual-orbit,.explore-visual-board,.explore-float-tag { animation-duration:.01ms !important; animation-iteration-count:1 !important; }
+  }
+</style>
+
+</head>
+<body class="site-page site-explore-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+
+ <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
+    
+    <div id="scroll-box-1" class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform"></div>
+    
+    <div id="scroll-box-2" class="absolute top-[50vh] left-[5%] w-[40vw] h-[40vw] max-w-[500px] bg-gradient-to-tl from-sky-400/15 to-transparent rounded-[3rem] -rotate-12 transform will-change-transform"></div>
+
+    <div id="scroll-box-right-1" class="absolute top-[15vh] right-[8%] w-[12vw] h-[12vw] max-w-[150px] bg-gradient-to-br from-blue-600/20 to-sky-400/10 dark:from-blue-600/10 dark:to-transparent rounded-2xl rotate-45 transform will-change-transform"></div>
+
+    <div id="scroll-box-right-2" class="absolute top-[65vh] right-[12%] w-[18vw] h-[18vw] max-w-[220px] bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-[2rem] -rotate-12 transform will-change-transform"></div>
+
+    <div id="scroll-circle" class="absolute top-40 right-[25%] w-96 h-96 border border-dashed border-blue-500/25 dark:border-blue-500/15 rounded-full animate-[spin_160s_linear_infinite] will-change-transform"></div>
+    <div class="absolute top-52 right-[27%] w-72 h-72 border border-blue-400/15 dark:border-blue-400/5 rounded-full"></div>
+    
+    <div class="absolute bottom-0 left-[-5%] w-[110%] h-[40vh] bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent"></div>
+</div>
+
+<div class="min-h-screen w-full relative flex flex-col antialiased">
+
+    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10 dark:border-slate-900/10">
+        <div class="flex items-center">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black dark:text-white">.</span></span>
+        </div>
+
+        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Home
+            </a>
+            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Tools
+            </a>
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Explore
+            </a>
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Pricing
+            </a>
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Contact Us
+            </a>
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                About Us
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
+            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors">
+                Login
+            </button>
+            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
+                Signup
+            </button>
+            
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="quans-explore">
+  <section class="explore-hero explore-shell">
+    <div class="explore-hero-copy">
+      <span class="eyebrow"><span class="eyebrow-mark"></span> EXPLORE THE QUANS TOOLKIT</span>
+      <h1>Find the right tool.<br><em>Move work forward.</em></h1>
+      <p class="explore-lede">Four focused AI workflows for the work you need to finish — from career documents and social content to proposals and repurposing.</p>
+      <div class="explore-hero-actions">
+        <a class="button button-primary" href="#explore-tools">Browse all tools <i data-lucide="arrow-down"></i></a>
+        <a class="button button-secondary" href="contact.html">Not sure where to start? <i data-lucide="arrow-up-right"></i></a>
+      </div>
+      <div class="explore-hero-notes">
+        <div><span class="explore-note-mark explore-note-violet"><i data-lucide="layers"></i></span><span><strong>One connected workspace</strong><small>Different workflows, one place</small></span></div>
+        <div><span class="explore-note-mark explore-note-coral"><i data-lucide="target"></i></span><span><strong>Purpose-built tools</strong><small>Start with the task at hand</small></span></div>
+      </div>
+    </div>
+
+    <div class="explore-hero-visual" aria-label="Illustration showing the four Quans tools">
+      <div class="explore-visual-grid"></div>
+      <div class="explore-visual-orbit explore-visual-orbit-one"></div>
+      <div class="explore-visual-orbit explore-visual-orbit-two"></div>
+      <div class="explore-visual-board">
+        <div class="explore-board-top">
+          <div class="preview-brand"><span class="brand-symbol">Q</span> quans <span class="preview-status">TOOLKIT</span></div>
+          <div class="preview-window-dots"><b></b><b></b><b></b></div>
+        </div>
+        <div class="explore-board-body">
+          <div class="explore-board-heading"><span>YOUR WORK, ORGANIZED</span><strong>Choose a direction.</strong><small>Start with what you want to create today.</small></div>
+          <div class="explore-board-items">
+            <div class="explore-board-item item-resume"><span><i data-lucide="file-user"></i></span><div><b>Career documents</b><small>Build · Tailor · Prepare</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="explore-board-item item-post"><span><i data-lucide="pen-line"></i></span><div><b>Social content</b><small>Plan · Write · Publish</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="explore-board-item item-proposal"><span><i data-lucide="files"></i></span><div><b>Business proposals</b><small>Structure · Explain · Share</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="explore-board-item item-repurpose"><span><i data-lucide="repeat-2"></i></span><div><b>Content adaptation</b><small>One source, more formats</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+          </div>
+          <div class="explore-board-footer"><span><i data-lucide="sparkles"></i> Made for focused work</span><span>QUANS / 04</span></div>
+        </div>
+      </div>
+      <div class="explore-float-tag explore-float-top"><span class="explore-float-icon"><i data-lucide="wand-sparkles"></i></span><span><b>Less busywork</b><small>More room to think</small></span></div>
+      <div class="explore-float-tag explore-float-bottom"><span class="explore-float-icon explore-float-icon-cyan"><i data-lucide="workflow"></i></span><span><b>Clear workflows</b><small>One task at a time</small></span></div>
+    </div>
+  </section>
+
+  <section class="explore-summary explore-shell" aria-label="Quans toolkit overview">
+    <div class="explore-summary-intro"><span class="section-kicker">THE TOOLKIT AT A GLANCE</span><p>Pick the workflow that matches the work in front of you.</p></div>
+    <div class="explore-summary-stat"><strong>04</strong><span>Focused tools</span></div>
+    <div class="explore-summary-stat"><strong>03</strong><span>Work categories</span></div>
+    <div class="explore-summary-stat"><strong>01</strong><span>Connected workspace</span></div>
+  </section>
+
+  <section class="explore-catalog explore-shell" id="explore-tools">
+    <div class="explore-catalog-heading">
+      <div>
+        <span class="section-kicker">FIND YOUR WORKFLOW</span>
+        <h2>Explore the <em>tools.</em></h2>
+        <p>Each tool is designed around a practical task. Choose one to see where it can take your work.</p>
+      </div>
+      <div class="explore-catalog-side-note"><i data-lucide="mouse-pointer-click"></i><span>Choose a tool to get started.<small>Sign in is required to open a workspace.</small></span></div>
+    </div>
+
+    <div class="explore-controls">
+      <label class="explore-search-wrap" for="exploreSearch">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <input id="exploreSearch" type="search" placeholder="Search tools or what you want to do..." autocomplete="off">
+        <kbd>/</kbd>
+      </label>
+      <div class="explore-filters" role="group" aria-label="Filter tools by category">
+        <button type="button" class="explore-filter is-active" data-explore-filter="all" aria-pressed="true">All tools <span>04</span></button>
+        <button type="button" class="explore-filter" data-explore-filter="career" aria-pressed="false">Career <span>01</span></button>
+        <button type="button" class="explore-filter" data-explore-filter="content" aria-pressed="false">Content <span>02</span></button>
+        <button type="button" class="explore-filter" data-explore-filter="business" aria-pressed="false">Business <span>01</span></button>
+      </div>
+    </div>
+
+    <div class="explore-results-line"><span id="exploreResultsCount" aria-live="polite">Showing all 4 tools</span><span>QUANS TOOL DIRECTORY</span></div>
+
+    <div class="explore-tool-grid" id="exploreToolGrid">
+      <a class="tool-feature explore-tool-card tool-feature-resume" href="ai.html" data-explore-card data-category="career" data-search="resume builder career cv cover letter interview preparation job application linkedin profile tailor resume">
+        <div class="tool-feature-top"><span>CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="tool-art resume-art"><div class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i><div class="mini-row"></div><div class="mini-row short"></div><div class="mini-bullets"><b></b><b></b><b></b></div></div></div>
+        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Resume Builder<br>& Toolkit</h3><span class="explore-tool-index">01</span></div><p>Create a clear resume, tailor it to a role, draft cover letters and prepare for interviews.</p><div class="explore-capabilities"><span>Resume writing</span><span>Job tailoring</span><span>Interview prep</span></div></div>
+        <span class="tool-open">Explore career toolkit <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="tool-feature explore-tool-card tool-feature-post" href="social.html" data-explore-card data-category="content" data-search="post studio social media post linkedin instagram facebook hooks captions call to action content creator marketing brand">
+        <div class="tool-feature-top"><span>CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="tool-art post-art"><div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div><div class="post-copy"></div></div></div>
+        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Post Studio</h3><span class="explore-tool-index">02</span></div><p>Turn a topic or business brief into platform-aware posts with hooks, body copy and calls to action.</p><div class="explore-capabilities"><span>Social captions</span><span>Hooks & CTAs</span><span>Platform formats</span></div></div>
+        <span class="tool-open">Explore Post Studio <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="tool-feature explore-tool-card tool-feature-proposal" href="proposal.html" data-explore-card data-category="business" data-search="proposal studio business proposal client project scope deliverables timeline professional document freelance agency business development">
+        <div class="tool-feature-top"><span>BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="tool-art proposal-art"><div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span><span class="paper-rule short"></span></div></div>
+        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Proposal Studio</h3><span class="explore-tool-index">03</span></div><p>Organize project requirements into a professional proposal with a clear scope, deliverables and next steps.</p><div class="explore-capabilities"><span>Project scope</span><span>Deliverables</span><span>Client proposals</span></div></div>
+        <span class="tool-open">Explore Proposal Studio <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="tool-feature explore-tool-card tool-feature-repurpose" href="textrep.html" data-explore-card data-category="content" data-search="text repurposer repurpose content adapt blog article long form post email thread social media rewrite format">
+        <div class="tool-feature-top"><span>CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="tool-art repurpose-art"><div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div></div>
+        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Text Repurposer</h3><span class="explore-tool-index">04</span></div><p>Adapt one source into different content formats while keeping the original message and key details in context.</p><div class="explore-capabilities"><span>Blog to post</span><span>Email formats</span><span>Content reuse</span></div></div>
+        <span class="tool-open">Explore Text Repurposer <i data-lucide="arrow-right"></i></span>
+      </a>
+    </div>
+
+    <div id="exploreNoResults" class="explore-no-results" hidden>
+      <span><i data-lucide="search-x"></i></span>
+      <h3>No matching tools</h3>
+      <p>Try a different search or choose another category.</p>
+      <button type="button" id="exploreClearFilters">Clear search and filters</button>
+    </div>
+  </section>
+
+  <section class="explore-pathway explore-shell">
+    <div class="explore-pathway-copy"><span class="section-kicker">A SIMPLE WAY TO START</span><h2>Start with the task.<br><em>Build from there.</em></h2><p>You don't need to learn a complicated system. Choose a workflow, bring the context that matters and shape the result to fit your needs.</p><a class="button button-dark" href="tool.html">See the workspace <i data-lucide="arrow-up-right"></i></a></div>
+    <div class="explore-pathway-steps">
+      <div class="explore-path-step"><span>01</span><div class="explore-path-icon"><i data-lucide="mouse-pointer-click"></i></div><div><b>Choose a tool</b><small>Start with the job you need to complete.</small></div></div>
+      <div class="explore-path-connector"></div>
+      <div class="explore-path-step"><span>02</span><div class="explore-path-icon"><i data-lucide="notebook-pen"></i></div><div><b>Add your context</b><small>Share the details that make the output relevant.</small></div></div>
+      <div class="explore-path-connector"></div>
+      <div class="explore-path-step"><span>03</span><div class="explore-path-icon"><i data-lucide="file-check-2"></i></div><div><b>Review and refine</b><small>Keep control, make edits and use the result.</small></div></div>
+    </div>
+  </section>
+
+  <section class="explore-contact explore-shell">
+    <div><span class="section-kicker">MISSING A WORKFLOW?</span><h2>Tell us what you need.</h2><p>Have an idea for a tool or a workflow you wish was easier? We'd like to hear about it.</p></div>
+    <a class="button button-primary" href="contact.html">Share an idea <i data-lucide="arrow-up-right"></i></a>
+  </section>
+  <p class="explore-disclaimer explore-shell">Quans is a human-oriented AI workspace. AI-generated outputs can require review and editing before use. Always verify important information before relying on it.</p>
+</main>
+
+    <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
+    <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
+        
+        <p>&copy; 2026 QUANS. All rights reserved.</p>
+        
+        <div class="flex items-center space-x-6">
+            <a href="privacypolicy.html" class="hover:text-brand-blue transition-colors duration-200">
+                Privacy Policy
+            </a>
+            <a href="termscondn.html" class="hover:text-brand-blue transition-colors duration-200">
+                Terms & Conditions
+            </a>
+        </div>
+        
+    </div>
+</footer>
+
+    <div id="mobileSidebar" class="mobile-sidebar fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+        <button id="sidebarOverlay" class="mobile-sidebar-overlay absolute inset-0" type="button" aria-label="Close navigation menu"></button>
+
+        <aside class="mobile-drawer-panel absolute top-0 right-0 h-screen h-[100dvh] w-[min(390px,92vw)] overflow-y-auto flex flex-col transform translate-x-full transition-transform duration-300 ease-out" role="dialog" aria-modal="true" aria-labelledby="mobileSidebarTitle" tabindex="-1">
+            <div class="mobile-drawer-top">
+                <a href="index.html" class="mobile-drawer-brand" aria-label="Quans home">QUANS<span>.</span></a>
+                <button id="closeMobileMenu" class="mobile-drawer-close" type="button" aria-label="Close navigation menu">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="mobile-drawer-intro">
+                <h2 id="mobileSidebarTitle">Explore <em>Quans.</em></h2>
+                <p>Everything you need to move your work forward.</p>
+            </div>
+
+            <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
+                <a id="mobile-nav-home" href="index.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Home</strong><small>Your Quans overview</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-tool" href="tool.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Tools</strong><small>Explore focused workflows</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Explore</strong><small>Discover what you can create</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-price" href="pricing.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-tag" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Pricing</strong><small>Plans and access</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Contact Us</strong><small>Questions, feedback and ideas</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-about" href="about.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>About Us</strong><small>The story behind Quans</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+            </nav>
+
+            <div id="mobileSidebarGuestActions" class="mobile-drawer-actions">
+                <p>Ready to make room for better ideas?</p>
+                <button type="button" class="mobile-drawer-primary" data-mobile-signup>Get started <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                <button type="button" class="mobile-drawer-secondary" data-mobile-login>Log in to your account</button>
+            </div>
+
+            <div id="mobileSidebarAccountActions" class="mobile-drawer-account hidden">
+                <span class="mobile-account-kicker">YOUR ACCOUNT</span>
+                <p id="mobileSidebarUserEmail">Signed in to Quans</p>
+                <button type="button" data-mobile-settings><i class="fa-solid fa-gear" aria-hidden="true"></i> Account settings</button>
+                <button type="button" data-mobile-logout><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Log out</button>
+            </div>
+
+            <div class="mobile-drawer-footer">
+                <span>© 2026 QUANS</span>
+                <span>Thoughtful tools. Better work.</span>
+            </div>
+        </aside>
+    </div>
+
+        <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Background overlay -->
+        <div id="authModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Signup dialog: keep relative and scale-95 for existing animation JS -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <!-- Decorative background -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
+                    </div>
+    
+                    <div class="relative z-10">
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                HUMONOID AI WORKSPACE
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Make room for
+                                <span class="block italic text-[#8969ce]">better ideas.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Bring your ideas, writing and everyday work together with a collection of thoughtful AI-powered tools.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Mini workspace visual -->
+                    <div class="relative z-10 mt-12">
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="grid grid-cols-2 gap-2 mt-4">
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#8065bf]/25 text-[#c3aaff] mb-3">
+                                        <i class="fa-solid fa-pen-nib text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Content Studio</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Shape your ideas</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#6bcac7]/20 text-[#8ce2de] mb-3">
+                                        <i class="fa-solid fa-file-lines text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Proposals</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Build with clarity</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#f1a7c4]/20 text-[#f4b8d0] mb-3">
+                                        <i class="fa-solid fa-repeat text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Repurposer</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Create more from less</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#e9c98c]/20 text-[#eecf9a] mb-3">
+                                        <i class="fa-solid fa-user-tie text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Resume Toolkit</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Move forward</p>
+                                </div>
+    
+                            </div>
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+                    </div>
+                </aside>
+    
+                <!-- RIGHT: Signup form -->
+                <section class="relative flex flex-col justify-center px-6 py-9 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close button -->
+                    <button id="closeAuthModal"
+                        type="button"
+                        aria-label="Close signup"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile brand -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <div class="mb-7">
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE STARTS HERE
+                            </span>
+    
+                            <h3 class="mt-4 text-[34px] sm:text-[39px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Create your account<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign up to explore your tools and bring your next idea to life.
+                            </p>
+                        </div>
+    
+                        <!-- Google signup -->
+                        <button id="googleSignupBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or use email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original signup form and IDs retained -->
+                        <form id="signupForm" class="space-y-4 text-left">
+    
+                            <div id="signupErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <div>
+                                <label for="signupEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="signupEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <div>
+                                <label for="signupPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+                                    <input id="signupPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="new-password"
+                                        placeholder="Create a password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleSignupPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- Signup CTA -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-3 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Create account</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Login switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+                            <p class="text-sm text-[#858091]">
+                                Already have an account?
+    
+                                <button id="switchToLogin"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Log in
+                                </button>
+                            </p>
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            By creating an account, you agree to use Quans responsibly.
+                        </p>
+    
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Overlay -->
+        <div id="loginModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Login dialog -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
+                    </div>
+    
+                    <div class="relative z-10">
+    
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+    
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                GOOD TO HAVE YOU BACK
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Your ideas are
+                                <span class="block italic text-[#8969ce]">waiting for you.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Pick up where you left off. Your creative workspace and specialized tools are ready when you are.
+                            </p>
+    
+                        </div>
+                    </div>
+    
+                    <!-- Workspace preview -->
+                    <div class="relative z-10 mt-12">
+    
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="mt-5">
+                                <p class="text-[10px] text-white/40 uppercase tracking-[1.5px]">
+                                    Keep creating
+                                </p>
+    
+                                <p class="mt-2 text-xl text-white leading-snug"
+                                    style="font-family: Georgia, 'Times New Roman', serif;">
+                                    Good ideas deserve
+                                    <span class="italic text-[#bba5f4]">room to grow.</span>
+                                </p>
+                            </div>
+    
+                            <div class="mt-5 flex items-center gap-2">
+                                <div class="h-1 flex-1 bg-[#9275d1]"></div>
+                                <div class="h-1 flex-1 bg-[#6dcac7]"></div>
+                                <div class="h-1 flex-1 bg-[#e5a6c2]"></div>
+                                <div class="h-1 flex-1 bg-[#d9bc83]"></div>
+                            </div>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+    
+                    </div>
+    
+                </aside>
+    
+                <!-- RIGHT: Login form -->
+                <section class="relative flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close -->
+                    <button id="closeLoginModal"
+                        type="button"
+                        aria-label="Close login"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile branding -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <!-- Heading -->
+                        <div class="mb-7">
+    
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE AWAITS
+                            </span>
+    
+                            <h3 class="mt-4 text-[36px] sm:text-[41px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Welcome back<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign in to continue creating, refining and getting things done.
+                            </p>
+    
+                        </div>
+    
+                        <!-- Google login -->
+                        <button id="googleLoginBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or sign in with email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original login form -->
+                        <form id="loginForm" class="space-y-4 text-left">
+    
+                            <div id="loginErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <!-- Email -->
+                            <div>
+                                <label for="loginEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="loginEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <!-- Password -->
+                            <div>
+                                <label for="loginPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+    
+                                    <input id="loginPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="current-password"
+                                        placeholder="Enter your password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleLoginPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                                    </button>
+    
+                                </div>
+                            </div>
+    
+                            <!-- Forgot password -->
+                            <div class="text-right pt-1">
+                                <a id="forgotPasswordLink"
+                                    class="cursor-pointer text-xs font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Forgot password?
+                                </a>
+                            </div>
+    
+                            <!-- Login button -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-2 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Sign in to Quans</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Signup switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+    
+                            <p class="text-sm text-[#858091]">
+                                New to Quans?
+    
+                                <button id="switchToSignup"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Create an account
+                                </button>
+                            </p>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            Your workspace is just one sign-in away.
+                        </p>
+    
+                    </div>
+                </section>
+    
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsPopupModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300">
+    <div class="relative w-full h-full md:h-auto md:max-w-3xl md:rounded-3xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xl border border-transparent md:dark:border-slate-800 flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+        
+        <div class="md:hidden flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <h3 class="text-lg font-bold tracking-tight" style="font-family: 'DM Sans', sans-serif;">Settings</h3>
+            <button id="closeSettingsMobileBtn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <div class="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/40 p-3 md:p-5 flex flex-row md:flex-col gap-1 md:gap-2 overflow-x-auto md:overflow-x-visible whitespace-nowrap md:whitespace-normal">
+            <button id="tabBtnAccount" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all bg-blue-600 text-white shadow-sm">
+                <i class="fa-solid fa-circle-user text-base"></i>
+                <span>Account</span>
+            </button>
+            <button id="tabBtnAppearance" type="button" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i class="fa-solid fa-palette text-base"></i>
+                <span>Appearance</span>
+            </button>
+            
+            <button id="closeSettingsDesktopBtn" class="hidden md:flex absolute top-5 right-5 w-9 h-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 p-5 md:p-8 overflow-y-auto md:max-h-[520px]" style="font-family: 'DM Sans', sans-serif;">
+            
+            <div id="panelSectionAccount" class="space-y-6">
+                <!-- Website style message container -->
+                <div id="settingsAlertMsg" class="hidden flex items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight mb-1">Account Profiles</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Registered Email Address</label>
+                    <div class="flex items-center space-x-3 max-w-md bg-slate-50 dark:bg-slate-950 px-4 py-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-inner">
+                        <i class="fa-solid fa-envelope text-slate-400 dark:text-slate-600 text-base"></i>
+                        <span id="settingsEmailTextDisplay" class="flex-1 font-semibold text-sm tracking-tight text-slate-700 dark:text-slate-300 truncate">loading...</span>
+                    </div>
+                </div>
+
+                <div class="pt-2 space-y-3 max-w-md">
+                    <button id="settingsChangePasswordBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-key text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold tracking-tight">Change Password</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+
+                    <button id="settingsLogoutBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-right-from-bracket text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold tracking-tight">Log Out</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-300 dark:text-slate-600 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+
+                    <button id="settingsOpenDeleteModalBtn" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-rose-100 dark:border-rose-950/40 hover:bg-rose-50/30 dark:hover:bg-rose-950/20 transition-all text-left group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-rose-50 dark:bg-rose-950/50 text-rose-500 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-rose-600 tracking-tight">Delete Account</h4>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-rose-300 dark:text-rose-800 group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="panelSectionAppearance" class="hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight mb-1">Theme Preferences</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Optimize display presentation configuration modes across system themes.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+                    <button id="themeSelectorBtnLight" data-theme-target="light" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-white border-slate-200">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center mb-3 shadow-xs">
+                            <i class="fa-solid fa-sun text-base"></i>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-slate-800">☀️ Light</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-snug">Crisp white profile structures.</p>
+                    </button>
+
+                    <button id="themeSelectorBtnDark" data-theme-target="dark" class="flex flex-col items-start p-4 rounded-2xl border-2 text-left transition-all outline-none group bg-slate-900 border-transparent">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-950 text-indigo-400 flex items-center justify-center mb-3 shadow-xs">
+                            <i class="fa-solid fa-moon text-base"></i>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-slate-200">🌙 Dark</span>
+                        <p class="text-xs text-slate-500 mt-0.5 leading-snug">Calm workspace themes.</p>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="settingsHardDeleteModal" class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
+        <div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
+        
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+            Once you delete your account, your profile and username are permanently removed from Quans.
+        </p>
+        
+        <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
+            <input id="settingsDeleteChallengeInput" type="text" placeholder="Type here..." autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100">
+            <p id="settingsDeleteInlineError" class="text-xs font-semibold text-rose-500 mt-2 hidden">⚠️ Verification input mismatch. Try typing carefully.</p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="settingsCancelDeleteBtn" type="button" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Cancel
+            </button>
+            <button id="settingsConfirmHardDeleteBtn" type="button" disabled class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all">
+                Delete Permanently
+            </button>
+        </div>
+    </div>
+</div>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
+                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
+                }
+            }
+        }
+
+        const authModal = document.getElementById('authModal');
+        const loginModal = document.getElementById('loginModal');
+        window.userIsAuthenticated = false;
+
+        function clearAllErrors() {
+            const loginErr = document.getElementById('loginErrorMsg');
+            const signupErr = document.getElementById('signupErrorMsg');
+            if (loginErr) loginErr.classList.add('hidden');
+            if (signupErr) signupErr.classList.add('hidden');
+        }
+
+        function resetFormInputs() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            if (loginForm) loginForm.reset();
+            if (signupForm) signupForm.reset();
+        }
+
+        window.openAuthPopup = function(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (window.userIsAuthenticated) return;
+            clearAllErrors();
+            resetFormInputs();
+            window.closeLoginPopup();
+            authModal.classList.remove('opacity-0', 'pointer-events-none');
+            authModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
+        }
+
+        window.closeAuthPopup = function() {
+            authModal.classList.add('opacity-0', 'pointer-events-none');
+            authModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
+        }
+
+        window.openLoginPopup = function(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (window.userIsAuthenticated) return;
+            clearAllErrors();
+            resetFormInputs();
+            window.closeAuthPopup();
+            loginModal.classList.remove('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
+        }
+
+        window.closeLoginPopup = function() {
+            loginModal.classList.add('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
+        }
+
+        document.getElementById('closeAuthModal').addEventListener('click', window.closeAuthPopup);
+        document.getElementById('authModalOverlay').addEventListener('click', window.closeAuthPopup);
+        document.getElementById('closeLoginModal').addEventListener('click', window.closeLoginPopup);
+        document.getElementById('loginModalOverlay').addEventListener('click', window.closeLoginPopup);
+
+        // Apply the same sign-in gate to legacy tool buttons and the redesigned
+        // homepage tool cards. Cards keep their own href when the user is signed in.
+        document.querySelectorAll('.tool-btn, .tool-feature').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (!window.userIsAuthenticated) {
+                    e.preventDefault();
+                    window.openAuthPopup(e);
+                    return;
+                }
+
+                // Legacy buttons use data-tool to resolve their destination.
+                // The redesigned .tool-feature anchors already have a correct href,
+                // so let the browser follow that href for authenticated users.
+                const tool = button.getAttribute('data-tool');
+                if (!tool) return;
+
+                if (tool === 'ai-assistant') {
+                    window.location.href = 'ai.html';
+                } else if (tool === 'social-generator') {
+                    window.location.href = 'social.html';
+                } else {
+                    window.location.href = `tools/${tool}.html`;
+                }
+            });
+        });
+
+        const setupToggle = (btn, input, icon) => {
+            if (btn && input && icon) {
+                btn.addEventListener('click', () => {
+                    const isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    icon.classList.replace(isPass ? 'fa-eye' : 'fa-eye-slash', isPass ? 'fa-eye-slash' : 'fa-eye');
+                });
+            }
+        };
+        setupToggle(document.getElementById('toggleLoginPassword'), document.getElementById('loginPasswordInput'), document.getElementById('eyeIcon'));
+        setupToggle(document.getElementById('toggleSignupPassword'), document.getElementById('signupPasswordInput'), document.getElementById('signupEyeIcon'));
+
+        document.getElementById('switchToSignup').addEventListener('click', () => window.openAuthPopup());
+        document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
+
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.mobile-drawer-panel') : null;
+        let sidebarReturnFocus = null;
+
+        const toggleSidebar = (open) => {
+            if (!mobileSidebar || !sidebarPanel) return;
+            const menuButtons = document.querySelectorAll('#openMobileMenu');
+
+            if (open) {
+                sidebarReturnFocus = document.activeElement;
+                mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'false');
+                sidebarPanel.classList.remove('translate-x-full');
+                document.body.classList.add('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'true'));
+                const closeButton = document.getElementById('closeMobileMenu');
+                if (closeButton) closeButton.focus({ preventScroll: true });
+            } else {
+                mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'true');
+                sidebarPanel.classList.add('translate-x-full');
+                document.body.classList.remove('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
+                if (sidebarReturnFocus && typeof sidebarReturnFocus.focus === 'function') {
+                    sidebarReturnFocus.focus({ preventScroll: true });
+                }
+                sidebarReturnFocus = null;
+            }
+        };
+
+        // Keep the drawer's bottom section in sync with Firebase authentication state.
+        window.syncMobileSidebarAccount = function(user) {
+            const guestActions = document.getElementById('mobileSidebarGuestActions');
+            const accountActions = document.getElementById('mobileSidebarAccountActions');
+            const emailLabel = document.getElementById('mobileSidebarUserEmail');
+            if (!guestActions || !accountActions) return;
+
+            guestActions.classList.toggle('hidden', Boolean(user));
+            accountActions.classList.toggle('hidden', !user);
+            if (emailLabel) emailLabel.textContent = user && user.email ? user.email : 'Signed in to Quans';
+        };
+
+        // Global dropdown toggle handler
+        window.toggleUserDropdown = function(e) {
+            if (e) { e.stopPropagation(); }
+            const menu = document.getElementById('userDropdownMenu');
+            if(menu) menu.classList.toggle('hidden');
+        }
+
+        // One delegated click handler keeps the drawer working after Firebase updates the header.
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#openMobileMenu')) {
+                toggleSidebar(true);
+            } else if (e.target.closest('#closeMobileMenu') || e.target.closest('#sidebarOverlay')) {
+                toggleSidebar(false);
+            } else if (e.target.closest('[data-mobile-signup]')) {
+                toggleSidebar(false);
+                window.openAuthPopup();
+            } else if (e.target.closest('[data-mobile-login]')) {
+                toggleSidebar(false);
+                window.openLoginPopup();
+            } else if (e.target.closest('[data-mobile-settings]')) {
+                toggleSidebar(false);
+                const settingsTrigger = document.getElementById('firebaseSettingsTriggerBtn');
+                if (settingsTrigger) settingsTrigger.click();
+            } else if (e.target.closest('[data-mobile-logout]')) {
+                toggleSidebar(false);
+                const logoutTrigger = document.getElementById('firebaseLogoutBtn');
+                if (logoutTrigger) logoutTrigger.click();
+            } else if (e.target.closest('#mobileSidebar a')) {
+                toggleSidebar(false);
+            }
+
+            // Dropdown logic: closes the desktop account dropdown when clicking elsewhere.
+            const menu = document.getElementById('userDropdownMenu');
+            if (menu && !menu.classList.contains('hidden') && !e.target.closest('#userDropdownMenu')) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileSidebar && !mobileSidebar.classList.contains('pointer-events-none')) {
+                toggleSidebar(false);
+            }
+        });
+
+        // Parallax Scroll Script for Balanced Geometric Boxes
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        
+        const box1 = document.getElementById('scroll-box-1');
+        const box2 = document.getElementById('scroll-box-2');
+        const rightBox1 = document.getElementById('scroll-box-right-1');
+        const rightBox2 = document.getElementById('scroll-box-right-2');
+        const circle = document.getElementById('scroll-circle');
+        
+        if (box1 && box2 && rightBox1 && rightBox2 && circle) {
+            // Left Layout Elements Motion
+            box1.style.transform = `translate3d(0, ${scrolled * -0.15}px, 0) rotate(${12 + (scrolled * 0.02)}deg)`;
+            box2.style.transform = `translate3d(0, ${scrolled * -0.3}px, 0) rotate(${-12 - (scrolled * 0.01)}deg)`;
+            
+            // Right Layout Elements Motion (Slightly altered rates for asymmetrical depth)
+            rightBox1.style.transform = `translate3d(0, ${scrolled * -0.25}px, 0) rotate(${45 + (scrolled * 0.04)}deg)`;
+            rightBox2.style.transform = `translate3d(0, ${scrolled * -0.1}px, 0) rotate(${-12 + (scrolled * 0.02)}deg)`;
+            
+            // Center-Right Technical Circle Alignment Shift
+            circle.style.transform = `translate3d(0, ${scrolled * -0.2}px, 0)`;
+        }
+    }, { passive: true });
+
+        document.addEventListener("DOMContentLoaded", () => {
+        // 1. Get the current URL path and clean it up (lowercase, remove slashes)
+        let currentUrl = window.location.pathname.toLowerCase();
+        
+        // 2. Master configuration pairs list matching page names
+        const navPairs = [
+            { pcId: "nav-home", mobileId: "mobile-nav-home", pageName: "index" },
+            { pcId: "nav-tool", mobileId: "mobile-nav-tool", pageName: "tool" },
+            { pcId: "nav-explore", mobileId: "mobile-nav-explore", pageName: "explore" },
+            { pcId: "nav-price", mobileId: "mobile-nav-price", pageName: "pricing" },
+            { pcId: "nav-contact", mobileId: "mobile-nav-contact", pageName: "contact" },
+            { pcId: "nav-about", mobileId: "mobile-nav-about", pageName: "about" },
+            { pcId: "nav-setting", mobileId: "mobile-nav-setting", pageName: "setting" }
+        ];
+    
+        // Extract a clean page name (e.g. transforms "/tool.html" or "/tool/" into just "tool")
+        let cleanCurrentPage = currentUrl.replace(".html", "").split("/").pop().trim();
+        
+        // Fallback to home page index if the address bar path is empty
+        if (!cleanCurrentPage || cleanCurrentPage === "") {
+            cleanCurrentPage = "index";
+        }
+    
+        // 3. Loop over all pairs, clear defaults, and light up the active target layout
+        navPairs.forEach(pair => {
+            const pcElement = document.getElementById(pair.pcId);
+            const mobileElement = document.getElementById(pair.mobileId);
+    
+            // Reset states to default clean slate first
+            if (pcElement) {
+                pcElement.classList.remove("text-brand-blue");
+                pcElement.classList.add("text-slate-600");
+            }
+            if (mobileElement) {
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "is-active");
+                mobileElement.classList.add("bg-slate-50", "border-slate-100");
+            }
+    
+            // Check if our clean page name matches the pair configuration
+            if (cleanCurrentPage === pair.pageName) {
+                // Activate PC active color
+                if (pcElement) {
+                    pcElement.classList.remove("text-slate-600");
+                    pcElement.classList.add("text-brand-blue");
+                }
+                // Activate Mobile darker border combination
+                if (mobileElement) {
+                    mobileElement.classList.remove("bg-slate-50", "border-slate-100");
+                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200", "is-active");
+                }
+            }
+        });
+    });
+        
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            onAuthStateChanged,
+            signOut,
+            sendEmailVerification,
+            sendPasswordResetEmail
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Native website style error mask converter
+        function handleAuthError(error) {
+            switch(error.code) {
+                case 'auth/invalid-email':
+                    return 'Please enter a valid email address style.';
+                case 'auth/user-disabled':
+                    return 'This system account has been disabled.';
+                case 'auth/user-not-found':
+                    return 'No matching profile registry found.';
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    return 'Incorrect account credentials. Please verify your email and password.';
+                case 'auth/email-already-in-use':
+                    return 'This email layout is already linked to an active account registry.';
+                case 'auth/weak-password':
+                    return 'Password must be at least 6 characters long.';
+                case 'auth/popup-closed-by-user':
+                    return 'Verification window closed before authentication profile could finish connecting.';
+                case 'auth/cancelled-popup-request':
+                    return 'Authentication connection processing sequence terminated.';
+                case 'auth/popup-blocked':
+                    return 'Verification interface blocked by system window layout rules.';
+                case 'auth/requires-recent-login':
+                    return 'Security protocol requires a fresh session token. Please log out and sign back in to try again.';
+                default:
+                    return error.message.replace('Firebase: ', '').replace(/\(auth\/.*\)\.?/, '').trim();
+            }
+        }
+
+        // --- SIGNUP FORM EVENT LISTENER ---
+        // Global utility state holders for your OTP operational system
+        let generatedOTP = "";
+        let resendCooldownTimer = null;
+        let cooldownSecondsLeft = 0;
+
+        // 🛠️ FIX: Store the original layout state of the signup form right when the page loads
+        let initialSignupFormHTML = "";
+        document.addEventListener("DOMContentLoaded", () => {
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl) {
+                initialSignupFormHTML = signupFormEl.innerHTML;
+            }
+        });
+
+        // 🛠️ GLOBAL UTILITY: Call this function whenever a user logs out or closes the popup!
+        window.resetSignupFormToInitialState = function() {
+            if (resendCooldownTimer) clearInterval(resendCooldownTimer);
+            cooldownSecondsLeft = 0;
+            generatedOTP = "";
+            
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl && initialSignupFormHTML) {
+                signupFormEl.innerHTML = initialSignupFormHTML;
+            }
+        };
+
+        // Isolated function helper to dispatch EmailJS requests cleanly
+        function sendOtpViaEmailJS(emailAddress, otpCode, errorDivElement) {
+            // ⚠️ REMEMBER: Change "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" to your actual EmailJS key strings
+            return emailjs.send("service_72k9plm", "template_2ku6o4k", {
+                to_email: emailAddress,
+                verification_code: otpCode
+            })
+            .catch((err) => {
+                errorDivElement.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                const textNode = errorDivElement.querySelector('.error-text');
+                if (textNode) {
+                    textNode.innerText = "Technical failure delivering OTP. Please try again.";
+                } else {
+                    errorDivElement.innerText = "⚠️ Technical failure delivering OTP. Please try again.";
+                }
+                errorDivElement.classList.remove('hidden');
+                console.error("EmailJS sending error log:", err);
+                throw err;
+            });
+        }
+
+        // Functional control handler to run your resend button visual counter mechanics
+        function startResendCooldownClock() {
+            const resendBtn = document.getElementById('resendOtpBtn');
+            if (!resendBtn) return;
+
+            cooldownSecondsLeft = 30;
+            resendBtn.disabled = true;
+            resendBtn.classList.remove('text-blue-600', 'hover:underline', 'cursor-pointer');
+            resendBtn.classList.add('text-slate-400', 'cursor-not-allowed');
+            resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
+
+            resendCooldownTimer = setInterval(() => {
+                cooldownSecondsLeft--;
+                if (cooldownSecondsLeft <= 0) {
+                    clearInterval(resendCooldownTimer);
+                    resendBtn.disabled = false;
+                    resendBtn.classList.add('text-blue-600', 'hover:underline', 'cursor-pointer');
+                    resendBtn.classList.remove('text-slate-400', 'cursor-not-allowed');
+                    resendBtn.innerText = "Resend Code";
+                } else {
+                    resendBtn.innerText = `Resend Code (${cooldownSecondsLeft}s)`;
+                }
+            }, 1000);
+        }
+
+        // --- THE COMPLETE SIGNUP FORM INTERACTION LISTENER ---
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            // 🛠️ FIX: THIS MUST RUN FIRST! Prevents HTML from redirecting/reloading the page immediately
+            e.preventDefault(); 
+
+            const errDiv = document.getElementById('signupErrorMsg');
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+
+            const emailInput = document.getElementById('signupEmailInput').value.trim();
+            const passwordInput = document.getElementById('signupPasswordInput').value;
+            const signupFormEl = document.getElementById('signupForm');
+
+            // 🛠️ 1. INSTANT WEBSITE PASSWORD VALIDATION (Bulletproof check against internal null crashes)
+            if (passwordInput.length < 6) {
+                if (errDiv) {
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    
+                    // Safe selector check to prevent script crashes
+                    const errorTextContainer = errDiv.querySelector('.error-text');
+                    if (errorTextContainer) {
+                        errorTextContainer.innerText = "Password must be at least 6 characters long.";
+                    } else {
+                        errDiv.innerText = "⚠️ Password must be at least 6 characters long.";
+                    }
+                    
+                    errDiv.classList.remove('hidden');
+                } else {
+                    // Fallback alert box if your DOM container element doesn't exist at all
+                    alert("Password must be at least 6 characters long.");
+                }
+                return; // 🛑 Stops execution instantly right here! No redirect, no reload.
+            }
+
+            // 2. Initialize a secure random 6-digit numeric verification sequence string
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+            // 3. Fire the first verification email sequence via EmailJS (No account created yet!)
+            sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                .then(() => {
+                    // 4. Keep the signup wrapper open but slide a dynamic overlay view inside it
+                    signupFormEl.innerHTML = `
+                        <div class="text-center py-4 px-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
+                            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                🛡️
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1">Verify Your Email</h3>
+                            <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+                                We sent a 6-digit verification code security token to:<br>
+                                <strong class="text-slate-900 font-semibold">${emailInput}</strong>
+                            </p>
+                            
+                            <div class="mb-5">
+                                <input id="otpCodeInput" type="text" maxlength="6" required placeholder="000000" 
+                                    class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none font-bold text-slate-800 transition-all">
+                                <p id="otpInlineError" class="text-xs text-rose-600 mt-2 font-semibold hidden">⚠️ Incorrect verification code. Please check again.</p>
+                            </div>
+
+                            <button type="button" id="verifyOtpBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all mb-4">
+                                Confirm & Sign Up
+                            </button>
+
+                            <div class="text-xs text-slate-500">
+                                Didn't receive the email? 
+                                <button type="button" id="resendOtpBtn" class="font-bold text-blue-600 hover:underline outline-none bg-transparent border-none p-0 transition-all">
+                                    Resend Code
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    startResendCooldownClock();
+
+                    // --- ACTION SUB-HANDLER A: VALIDATING ENTERED OTP ---
+                    document.getElementById('verifyOtpBtn').addEventListener('click', (otpEvent) => {
+                        otpEvent.preventDefault(); // Prevents layout bubbling
+                        
+                        const userEnteredOTP = document.getElementById('otpCodeInput').value.trim();
+                        const otpErrorLabel = document.getElementById('otpInlineError');
+                        otpErrorLabel.classList.add('hidden');
+
+                        if (userEnteredOTP === generatedOTP) {
+                            // 5. Code is correct! NOW we attempt to create the account in Firebase
+                            createUserWithEmailAndPassword(auth, emailInput, passwordInput)
+                                .then((userCredential) => {
+                                    if(resendCooldownTimer) clearInterval(resendCooldownTimer);
+
+                                    // 6. UPDATE BACKGROUND HTML (User logged-in view renders behind popup)
+                                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                                        window.updateUIForLoggedInUser(userCredential.user);
+                                    }
+
+                                    // 🛠️ CLOSE POPUP INSTANTLY
+                                    if (typeof window.closeAuthPopup === 'function') {
+                                        window.closeAuthPopup();
+                                    } else {
+                                        const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
+                                        if(modal) modal.classList.add('hidden');
+                                    }
+
+                                    // 🛠️ RESET THE FORM FOR THE NEXT TIME THEY SEE IT
+                                    window.resetSignupFormToInitialState();
+                                })
+                                .catch((error) => {
+                                    let customMsg = "Registration failed: " + error.message;
+                                    if (error.code === 'auth/email-already-in-use') { customMsg = "This email address is already registered."; }
+                                    else if (error.code === 'auth/invalid-email') { customMsg = "The email address structure is invalid."; }
+                                    
+                                    otpErrorLabel.innerText = "⚠️ " + customMsg;
+                                    otpErrorLabel.classList.remove('hidden');
+                                });
+                        } else {
+                            otpErrorLabel.innerText = "⚠️ Incorrect verification code. Please check again.";
+                            otpErrorLabel.classList.remove('hidden');
+                        }
+                    });
+
+                    // --- ACTION SUB-HANDLER B: RESENDING CODES ON REQUEST ---
+                    document.getElementById('resendOtpBtn').addEventListener('click', () => {
+                        if (cooldownSecondsLeft > 0) return;
+
+                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                        const otpErrorLabel = document.getElementById('otpInlineError');
+                        otpErrorLabel.classList.add('hidden');
+
+                        sendOtpViaEmailJS(emailInput, generatedOTP, errDiv)
+                            .then(() => {
+                                startResendCooldownClock();
+                            });
+                    });
+                });
+        });
+
+      
+        // --- LOGIN FORM EVENT LISTENER ---
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            // Reset message container styles back to hidden first
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+
+            const emailInput = document.getElementById('loginEmailInput').value.trim();
+            const passwordInput = document.getElementById('loginPasswordInput').value;
+
+            // Save a reference to the main login form element container
+            const loginFormEl = document.getElementById('loginForm');
+
+            signInWithEmailAndPassword(auth, emailInput, passwordInput)
+                .then((userCredential) => {
+                    // 🛠️ SUCCESS PHASE: Account exists and matches!
+                    // Clear form values out completely
+                    loginFormEl.reset();
+
+                    // Update background HTML for the newly authenticated user
+                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                        window.updateUIForLoggedInUser(userCredential.user);
+                    }
+                    
+                    // Close the authentication modal wrapper view instantly
+                    if (typeof window.closeAuthPopup === 'function') {
+                        window.closeAuthPopup();
+                    } else {
+                        const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
+                        if(modal) modal.classList.add('hidden');
+                    }
+
+                    // 🛠️ FIX: Wipe out fields and reset to original state automatically right after closing!
+                    if (typeof window.resetLoginFormToInitialState === 'function') {
+                        window.resetLoginFormToInitialState();
+                    }
+                })
+                .catch((error) => {
+                    // 🛠️ FAILURE PHASE: Pass Firebase error codes clean straight to the view text container
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('bg-amber-50', 'text-amber-700', 'border-amber-200');
+
+                        let customMsg = "Authentication error: " + error.message;
+                        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
+                            customMsg = "Incorrect email address or password credentials."; 
+                        } else if (error.code === 'auth/user-disabled') { 
+                            customMsg = "This user account profile has been suspended."; 
+                        } else if (error.code === 'auth/invalid-email') {
+                            customMsg = "The email address structure is invalid.";
+                        }
+                        
+                        // Safe selector assignment check to prevent script crashes
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = customMsg;
+                        } else {
+                            errDiv.innerText = "⚠️ " + customMsg;
+                        }
+                        
+                        errDiv.classList.remove('hidden');
+                    } else {
+                        alert("Authentication failure: " + error.message);
+                    }
+                });
+        });
+
+        // --- COMPLETE FORGOT PASSWORD SYSTEM ---
+
+        // 1. Declare the template container structure state safely on the global window object
+        if (typeof window.initialLoginFormHTML === 'undefined') {
+            window.initialLoginFormHTML = "";
+        }
+        
+        // 2. Expose the resetting function globally so your "X" close icons can use it too!
+        window.forceResetLoginPopup = function() {
+            const loginFormEl = document.getElementById('loginForm');
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+            
+            if (loginFormEl) {
+                // Restore the original raw form HTML (inputs, buttons, links)
+                if (window.initialLoginFormHTML) {
+                    loginFormEl.innerHTML = window.initialLoginFormHTML;
+                }
+                // Wipes out typed characters inside input boxes cleanly
+                if (typeof loginFormEl.reset === 'function') {
+                    loginFormEl.reset(); 
+                }
+            }
+        };
+        
+        // 3. Wrap everything in an initializer that waits for the DOM to be completely ready
+        function initializeForgotPasswordSystem() {
+            const forgotLink = document.getElementById('forgotPasswordLink');
+            const loginFormEl = document.getElementById('loginForm');
+        
+            // Save the clean, initial inner state template of your login window form right now
+            if (loginFormEl && !window.initialLoginFormHTML) {
+                window.initialLoginFormHTML = loginFormEl.innerHTML;
+            }
+        
+            // Stop execution safely if the forgot password link isn't rendered on this specific page view
+            if (!forgotLink) return;
+        
+            // Remove any older duplicate event listeners to prevent double-firing bugs
+            forgotLink.replaceWith(forgotLink.cloneNode(true));
+            
+            // Re-select the freshly cleared clean element node link
+            const activeForgotLink = document.getElementById('forgotPasswordLink');
+        
+            activeForgotLink.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                
+                const currentLoginFormEl = document.getElementById('loginForm');
+                const errDiv = document.getElementById('loginErrorMsg');
+                
+                // Safety checkpoint check: Ensure the backup string exists
+                if (currentLoginFormEl && !window.initialLoginFormHTML) {
+                    window.initialLoginFormHTML = currentLoginFormEl.innerHTML;
+                }
+        
+                const emailField = document.getElementById('loginEmailInput');
+                const emailInput = emailField ? emailField.value.trim() : "";
+        
+                // 🚨 CHECK 1: If the email address input box field is empty
+                if (!emailInput) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
+                        } else {
+                            errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
+                        }
+                    } else {
+                        alert("Please enter your email address first to get a reset link.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // 🚨 CHECK 2: Strict email format validation via Regular Expression
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput)) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "The email address layout structure is invalid.";
+                        } else {
+                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
+                        }
+                    } else {
+                        alert("The email address layout structure is invalid.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // Clean slate: Clear past error frames out before making the network request API call
+                if (errDiv) errDiv.classList.add('hidden');
+        
+                // 🚀 FIRE FIREBASE NETWORK REQUEST LINK DELIVERER
+                sendPasswordResetEmail(auth, emailInput)
+                    .then(() => {
+                        // SUCCESS PHASE: Render response interface success confirmation frame template inside the popup box
+                        currentLoginFormEl.innerHTML = `
+                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm animate-fadeIn">
+                                <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                    📩
+                                </div>
+                                <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
+                                <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
+                                    We have sent a secure password reset link to:<br>
+                                    <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
+                                </p>
+                                <p class="text-xs text-slate-500 mb-5">
+                                    Please check your inbox or spam folder to recover access.
+                                </p>
+                                <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                    Close Window
+                                </button>
+                            </div>
+                        `;
+        
+                        // Handle closing and wiping out components
+                        document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
+                            btnEvent.preventDefault();
+        
+                            // Close the popup window layer modal cleanly
+                            if (typeof window.closeAuthPopup === 'function') {
+                                window.closeAuthPopup();
+                            } else {
+                                const modal = currentLoginFormEl.closest('.modal') || currentLoginFormEl.parentElement;
+                                if (modal) modal.classList.add('hidden');
+                            }
+        
+                            // Wipes fields and resets the template instantly as it closes!
+                            window.forceResetLoginPopup();
+                        });
+                    })
+                    .catch((error) => {
+                        // FAILURE PHASE: Handle non-existent accounts safely from Firebase response
+                        if (errDiv) {
+                            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            errDiv.classList.remove('hidden');
+                            
+                            let customMsg = "Error sending reset link: " + error.message;
+                            if (error.code === 'auth/user-not-found') {
+                                customMsg = "No account found matching this email address.";
+                            } else if (error.code === 'auth/invalid-email') {
+                                customMsg = "The email address structure layout is invalid.";
+                            }
+        
+                            const errorTextContainer = errDiv.querySelector('.error-text');
+                            if (errorTextContainer) {
+                                errorTextContainer.innerText = customMsg;
+                            } else {
+                                errDiv.innerText = "⚠️ " + customMsg;
+                            }
+                        } else {
+                            alert("Reset Error: " + error.message);
+                        }
+                    });
+            });
+        }
+        
+        // 4. Run the code safely whether the browser window loaded early or late!
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initializeForgotPasswordSystem);
+        } else {
+            initializeForgotPasswordSystem();
+        }
+        
+        const handleGoogleAuthFlow = () => {
+            signInWithPopup(auth, googleProvider)
+                .catch((error) => {
+                    if (error.code === 'auth/popup-closed-by-user') { alert("Sign-in popup closed before completion."); }
+                    else if (error.code === 'auth/cancelled-popup-request') { alert("Authentication operation conflict detected."); }
+                    else if (error.code === 'auth/popup-blocked') { alert("Authentication popup blocked by browser settings."); }
+                    else { alert(`Google sign-in error: ${error.message}`); }
+                });
+        };
+
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
+
+        // =========================================================================
+        // ON AUTH STATE CHANGED INTERACTION FRAMEWORK
+        // =========================================================================
+        const navAuthGroup = document.getElementById('navAuthGroup');
+        const initialNavHTML = navAuthGroup ? navAuthGroup.innerHTML : "";
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.userIsAuthenticated = true;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(user);
+                
+                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+        
+                if (navAuthGroup) {
+                    navAuthGroup.innerHTML = `
+                        <div class="mobile-auth-wrap flex items-center space-x-3 fade-in">
+                            <div class="relative inline-block text-left">
+                                <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-blue tracking-tight outline-none group">
+                                    <span>Hello!</span>
+                                    <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:translate-y-0.5"></i>
+                                </button>
+                                <div id="userDropdownMenu" class="hidden absolute right-0 mt-2.5 w-40 origin-top-right rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden">
+                                    <button id="firebaseSettingsTriggerBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
+                                        <i class="fa-solid fa-gear text-xs text-slate-500 dark:text-slate-400"></i>
+                                        <span>Settings</span>
+                                    </button>
+                                    <hr class="border-slate-100/80 dark:border-slate-800">
+                                    <button id="firebaseLogoutBtn" class="w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center space-x-2">
+                                        <i class="fa-solid fa-right-from-bracket text-xs text-slate-400 dark:text-slate-500"></i>
+                                        <span>Log out</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                                <i class="fa-solid fa-bars text-sm"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const dropdownMenu = document.getElementById('userDropdownMenu');
+                        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+                        openSettingsPopupSystem();
+                    });
+
+                    document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                        signOut(auth).then(() => {
+                            closeSettingsPopupSystem();
+                        }).catch((err) => { alert(handleAuthError(err)); });
+                    });
+                }
+                
+                const targetDisplayEmailSpan = document.getElementById("settingsEmailTextDisplay");
+                if (targetDisplayEmailSpan) targetDisplayEmailSpan.innerText = user.email || "No Email Provided";
+
+            } else {
+                window.userIsAuthenticated = false;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(null);
+                if (navAuthGroup) navAuthGroup.innerHTML = initialNavHTML;
+                closeSettingsPopupSystem();
+            }
+        });
+
+        // =========================================================================
+        // LAYOUT SETTINGS POPUP SYSTEM INTERACTION ARCHITECTURE
+        // =========================================================================
+        const settingsPopupModal = document.getElementById("settingsPopupModal");
+        const settingsHardDeleteModal = document.getElementById("settingsHardDeleteModal");
+        
+        const tabBtnAccount = document.getElementById("tabBtnAccount");
+        const tabBtnAppearance = document.getElementById("tabBtnAppearance");
+        const panelSectionAccount = document.getElementById("panelSectionAccount");
+        const panelSectionAppearance = document.getElementById("panelSectionAppearance");
+
+        function openSettingsPopupSystem() {
+            if (!settingsPopupModal) return;
+            settingsPopupModal.classList.remove("hidden");
+            settingsPopupModal.classList.add("flex");
+            // Clear past alert banner messages whenever popup mounts
+            const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+            if (settingsAlertMsg) settingsAlertMsg.classList.add("hidden");
+            switchSettingsActiveTab("account");
+        }
+
+        function closeSettingsPopupSystem() {
+            if (settingsPopupModal) {
+                settingsPopupModal.classList.remove("flex");
+                settingsPopupModal.classList.add("hidden");
+            }
+            closeHardDeleteModalSystem();
+        }
+
+        function switchSettingsActiveTab(targetViewMode) {
+            if (targetViewMode === "account") {
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
+                
+                panelSectionAccount.classList.remove("hidden");
+                panelSectionAppearance.classList.add("hidden");
+            } else {
+                tabBtnAppearance.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight transition-all bg-brand-blue text-white shadow-sm";
+                tabBtnAccount.className = "flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800";
+                
+                panelSectionAppearance.classList.remove("hidden");
+                panelSectionAccount.classList.add("hidden");
+            }
+        }
+
+        if(tabBtnAccount) tabBtnAccount.addEventListener("click", () => switchSettingsActiveTab("account"));
+        if(tabBtnAppearance) tabBtnAppearance.addEventListener("click", () => switchSettingsActiveTab("appearance"));
+
+        const closeTriggers = ["closeSettingsDesktopBtn", "closeSettingsMobileBtn"];
+        closeTriggers.forEach(btnId => {
+            const btnEl = document.getElementById(btnId);
+            if (btnEl) btnEl.addEventListener("click", closeSettingsPopupSystem);
+        });
+
+        // --- PASSWORD RESET TRIGGERS ---
+        const settingsChangePasswordBtn = document.getElementById("settingsChangePasswordBtn");
+        const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+
+        if (settingsChangePasswordBtn) {
+            settingsChangePasswordBtn.addEventListener("click", async () => {
+                const activeUser = auth.currentUser;
+                if (!activeUser || !activeUser.email) return;
+                try {
+                    await sendPasswordResetEmail(auth, activeUser.email);
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = `A verification reset link has been securely sent to: ${activeUser.email}`;
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = handleAuthError(error);
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+
+        const settingsLogoutBtn = document.getElementById("settingsLogoutBtn");
+        if (settingsLogoutBtn) {
+            settingsLogoutBtn.addEventListener("click", () => {
+                signOut(auth).catch(err => alert(handleAuthError(err)));
+            });
+        }
+
+        // --- SECURE PERMANENT ACCOUNT DELETION BLOCK ---
+        const settingsOpenDeleteModalBtn = document.getElementById("settingsOpenDeleteModalBtn");
+        const settingsCancelDeleteBtn = document.getElementById("settingsCancelDeleteBtn");
+        const settingsDeleteChallengeInput = document.getElementById("settingsDeleteChallengeInput");
+        const settingsConfirmHardDeleteBtn = document.getElementById("settingsConfirmHardDeleteBtn");
+        const settingsDeleteInlineError = document.getElementById("settingsDeleteInlineError");
+
+        if (settingsOpenDeleteModalBtn) {
+            settingsOpenDeleteModalBtn.addEventListener("click", () => {
+                if (settingsDeleteChallengeInput) settingsDeleteChallengeInput.value = "";
+                if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                if (settingsConfirmHardDeleteBtn) {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+                if (settingsHardDeleteModal) {
+                    settingsHardDeleteModal.classList.remove("hidden");
+                    settingsHardDeleteModal.classList.add("flex");
+                }
+            });
+        }
+
+        function closeHardDeleteModalSystem() {
+            if (settingsHardDeleteModal) {
+                settingsHardDeleteModal.classList.remove("flex");
+                settingsHardDeleteModal.classList.add("hidden");
+            }
+        }
+
+        if (settingsCancelDeleteBtn) settingsCancelDeleteBtn.addEventListener("click", closeHardDeleteModalSystem);
+
+        if (settingsDeleteChallengeInput) {
+            settingsDeleteChallengeInput.addEventListener("input", (e) => {
+                if (e.target.value === "Delete My Account") {
+                    if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                    settingsConfirmHardDeleteBtn.disabled = false;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white shadow-md transition-all";
+                } else {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+            });
+        }
+
+        function showToast(message, type = 'success') {
+        // 1. Check or create the toast wrapper container
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            // Positioned perfectly at the upper center, stacking items vertically down
+            toastContainer.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[9999] space-y-3 max-w-sm w-full px-4 flex flex-col items-center';
+            document.body.appendChild(toastContainer);
+        }
+    
+        // 2. Create the individual toast element
+        const toast = document.createElement('div');
+        
+        // -translate-y-4 makes it start slightly higher up for a slide-down effect
+        const baseStyles = 'p-4 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 border transition-all duration-300 transform -translate-y-4 opacity-0 w-full';
+        const typeStyles = type === 'success' 
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80' 
+            : 'bg-rose-50 text-rose-800 border-rose-200/80';
+            
+        toast.className = `${baseStyles} ${typeStyles}`;
+    
+        // Select the appropriate icon
+        const icon = type === 'success' 
+            ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>' 
+            : '<i class="fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0"></i>';
+    
+        toast.innerHTML = `${icon}<span class="flex-grow">${message}</span>`;
+        toastContainer.appendChild(toast);
+    
+        // 3. Trigger downward entry slide animation
+        setTimeout(() => {
+            toast.classList.remove('-translate-y-4', 'opacity-0');
+        }, 10);
+    
+        // 4. Smoothly slide up and fade away after 3.5 seconds
+        setTimeout(() => {
+            toast.classList.add('-translate-y-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+        if (settingsConfirmHardDeleteBtn) {
+            settingsConfirmHardDeleteBtn.addEventListener("click", async () => {
+                const user = auth.currentUser;
+                if (user) {
+                    user.delete().then(() => {
+                        // Show custom success website toast
+                        showToast("Account Deleted Successfully.", "success");
+                        
+                        // Allow 1.5 seconds for the toast to be seen before navigating away
+                        setTimeout(() => {
+                            if (typeof closeSettingsPopupSystem === "function") {
+                                closeSettingsPopupSystem(); // Close the modal layout cleanly
+                            }
+                            window.location.href = "index.html"; // Safe exit redirect routing
+                        }, 4000);
+                        
+                    }).catch((error) => {
+                        // Show custom error website toast instead of chrome popup alert
+                        showToast(handleAuthError(error), "error");
+                    });
+                }
+            });
+        }
+
+        // =========================================================================
+        // PRODUCTION THEME SWITCHING ENGINE
+        // =========================================================================
+        const btnThemeLight = document.getElementById('themeSelectorBtnLight');
+        const btnThemeDark = document.getElementById('themeSelectorBtnDark');
+
+        function processThemeApplication(selectedTheme) {
+            const documentHtmlElement = document.documentElement;
+            
+            if (selectedTheme === 'dark') {
+                documentHtmlElement.classList.add('dark');
+            } else {
+                documentHtmlElement.classList.remove('dark');
+            }
+            
+            localStorage.setItem('quans-app-theme', selectedTheme);
+            syncThemeVisualInterface(selectedTheme);
+        }
+
+        function syncThemeVisualInterface(activeTheme) {
+            const buttonsArray = [btnThemeLight, btnThemeDark];
+            buttonsArray.forEach(btn => {
+                if (btn) {
+                    btn.classList.remove('border-brand-blue');
+                    btn.classList.add('border-transparent');
+                }
+            });
+
+            if (activeTheme === 'light' && btnThemeLight) {
+                btnThemeLight.classList.remove('border-transparent');
+                btnThemeLight.classList.add('border-brand-blue');
+            } else if (activeTheme === 'dark' && btnThemeDark) {
+                btnThemeDark.classList.remove('border-transparent');
+                btnThemeDark.classList.add('border-brand-blue');
+            }
+        }
+
+        if (btnThemeLight) btnThemeLight.addEventListener('click', () => processThemeApplication('light'));
+        if (btnThemeDark) btnThemeDark.addEventListener('click', () => processThemeApplication('dark'));
+
+        const cachedUserThemeSelection = localStorage.getItem('quans-app-theme') || 'light';
+        processThemeApplication(cachedUserThemeSelection);
+    </script>
+
+<script id="quansLucideInit">
+(function () {
+  function renderQuansIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ icons: window.lucide.icons, attrs: { 'aria-hidden': 'true' } });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderQuansIcons, { once: true });
+  } else {
+    renderQuansIcons();
+  }
+})();
+</script>
+
+<script id="quansExploreCatalogInteractions">
+(function () {
+  const initializeExploreCatalog = () => {
+    const searchInput = document.getElementById('exploreSearch');
+    const filterButtons = Array.from(document.querySelectorAll('[data-explore-filter]'));
+    const cards = Array.from(document.querySelectorAll('[data-explore-card]'));
+    const resultsCount = document.getElementById('exploreResultsCount');
+    const noResults = document.getElementById('exploreNoResults');
+    const clearButton = document.getElementById('exploreClearFilters');
+    if (!searchInput || !cards.length || !filterButtons.length) return;
+
+    let activeCategory = 'all';
+
+    const applyFilters = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const categoryMatches = activeCategory === 'all' || card.dataset.category === activeCategory;
+        const searchText = `${card.dataset.search || ''} ${card.textContent || ''}`.toLowerCase();
+        const searchMatches = !query || searchText.includes(query);
+        const isVisible = categoryMatches && searchMatches;
+        card.classList.toggle('is-filtered-out', !isVisible);
+        if (isVisible) visibleCount += 1;
+      });
+
+      if (resultsCount) {
+        resultsCount.textContent = visibleCount === 4 && activeCategory === 'all' && !query
+          ? 'Showing all 4 tools'
+          : `Showing ${visibleCount} of 4 tools`;
+      }
+      if (noResults) noResults.hidden = visibleCount !== 0;
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeCategory = button.dataset.exploreFilter || 'all';
+        filterButtons.forEach((item) => {
+          const isActive = item === button;
+          item.classList.toggle('is-active', isActive);
+          item.setAttribute('aria-pressed', String(isActive));
+        });
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    if (clearButton) {
+      clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        activeCategory = 'all';
+        const allButton = filterButtons.find((button) => button.dataset.exploreFilter === 'all');
+        filterButtons.forEach((item) => {
+          const isActive = item === allButton;
+          item.classList.toggle('is-active', isActive);
+          item.setAttribute('aria-pressed', String(isActive));
+        });
+        applyFilters();
+        searchInput.focus();
+      });
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        const target = event.target;
+        const isTyping = target && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+        if (!isTyping) {
+          event.preventDefault();
+          searchInput.focus();
+        }
+      }
+    });
+
+    applyFilters();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeExploreCatalog, { once: true });
+  } else {
+    initializeExploreCatalog();
+  }
+})();
+</script>
+
+</body>
+</html>
 
