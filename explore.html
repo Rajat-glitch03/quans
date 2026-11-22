@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Quans — Humonoid AI Workspace</title>
+    <title>Explore Quans — Focused AI Tools for Your Work</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -765,192 +765,117 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 
 <style id="quans-explore-page-styles">
-  .site-explore-page { background: radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem), radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem), #fbfaff; }
-  .quans-explore { position: relative; overflow: hidden; padding-bottom: 10px; color: var(--q-ink); }
-  .explore-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
-  .explore-hero { min-height: 570px; display: grid; grid-template-columns: minmax(0,1fr) minmax(400px,.95fr); align-items: center; gap: clamp(30px,5vw,72px); padding-top: 70px; padding-bottom: 58px; }
-  .explore-hero-copy { position: relative; z-index: 2; max-width: 560px; }
-  .explore-hero-copy h1 { margin: 24px 0 0; color: var(--q-ink); font-size: clamp(46px,5.3vw,70px); line-height: .99; letter-spacing: -.067em; font-weight: 800; }
-  .explore-hero-copy h1 em, .explore-catalog-heading h2 em, .explore-pathway-copy h2 em { color: var(--q-violet); font-family: var(--q-serif); font-weight: 400; font-style: italic; letter-spacing: -.055em; }
-  .explore-lede { max-width: 510px; margin: 23px 0 0; color: #77748b; font-size: 15px; line-height: 1.82; }
-  .explore-hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 30px; }
-  .explore-hero-notes { display: flex; flex-wrap: wrap; gap: 27px; margin-top: 44px; padding-top: 21px; border-top: 1px solid #e9e5f1; }
-  .explore-hero-notes > div { display: flex; align-items: center; gap: 10px; }
-  .explore-note-mark { display: grid; width: 34px; height: 34px; place-items: center; background: #f0ecff; color: #7053da; }
-  .explore-note-mark svg { width: 16px; }
-  .explore-note-coral { background: #fff0eb; color: #e87964; }
-  .explore-hero-notes strong, .explore-hero-notes small { display: block; }
-  .explore-hero-notes strong { color: #343149; font-size: 10px; font-weight: 800; }
-  .explore-hero-notes small { margin-top: 4px; color: #9995aa; font-size: 9px; }
-  .explore-hero-visual { min-height: 455px; position: relative; isolation: isolate; display: grid; place-items: center; }
-  .explore-visual-grid { position: absolute; inset: 0; opacity: .4; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(110deg,transparent,#000 28%,#000 78%,transparent); }
-  .explore-visual-orbit { position: absolute; width: 425px; height: 425px; border: 1px solid rgba(125,100,208,.2); transform: rotate(-18deg); z-index: -1; }
-  .explore-visual-orbit-one { border-radius: 36% 64% 44% 56% / 49% 40% 60% 51%; animation: exploreOrbit 24s linear infinite; }
-  .explore-visual-orbit-two { width: 330px; height: 330px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation: exploreOrbit 32s linear infinite reverse; }
-  .explore-visual-board { width: min(100%,510px); position: relative; z-index: 2; padding: 8px; background: #17162d; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.2); transform: rotate(-1.6deg); animation: exploreBoardFloat 8s ease-in-out infinite; }
-  .explore-board-top { height: 42px; display:flex; align-items:center; justify-content:space-between; padding:0 12px; border-bottom:1px solid #34314d; color:#f7f5ff; }
-  .explore-board-body { padding: 22px 22px 14px; background: #1d1c39; }
-  .explore-board-heading span { display:block; color:#8985a9; font-size:7px; font-weight:900; letter-spacing:.17em; }
-  .explore-board-heading strong { display:block; margin-top:9px; color:#fff; font-size:24px; letter-spacing:-.055em; }
-  .explore-board-heading small { display:block; margin-top:5px; color:#a5a1bf; font-size:9px; }
-  .explore-board-items { display:grid; gap:8px; margin-top:18px; }
-  .explore-board-item { display:grid; grid-template-columns:34px 1fr 12px; align-items:center; gap:10px; padding:10px; background:#292744; border:1px solid #393653; }
-  .explore-board-item > span { width:32px; height:32px; display:grid; place-items:center; background:rgba(148,119,236,.18); color:#c5b7ff; }
-  .explore-board-item > span svg { width:15px; }
-  .explore-board-item > div b, .explore-board-item > div small { display:block; }
-  .explore-board-item > div b { color:#f5f3ff; font-size:10px; }
-  .explore-board-item > div small { margin-top:3px; color:#9b97b6; font-size:8px; }
-  .explore-board-item > i { color:#777292; font-size:9px; }
-  .explore-board-item.item-post > span { background:rgba(106,215,231,.15); color:#8fe1eb; }
-  .explore-board-item.item-proposal > span { background:rgba(255,139,118,.15); color:#ffad9b; }
-  .explore-board-item.item-repurpose > span { background:rgba(110,188,158,.15); color:#9bd8bb; }
-  .explore-board-footer { display:flex; align-items:center; justify-content:space-between; padding-top:13px; margin-top:13px; border-top:1px solid #34314d; color:#8985a7; font-size:8px; }
-  .explore-board-footer span:first-child { display:flex; align-items:center; gap:6px; color:#c7b9ff; }
-  .explore-board-footer svg { width:11px; }
-  .explore-float-tag { position:absolute; z-index:3; display:flex; align-items:center; gap:9px; padding:10px 12px; background:rgba(255,255,255,.95); border:1px solid #e6e1f1; box-shadow:0 15px 35px rgba(38,30,84,.1); animation: exploreTagFloat 6s ease-in-out infinite; }
-  .explore-float-top { top:44px; right:-6px; }.explore-float-bottom { bottom:33px; left:-13px; animation-delay:-2s; }
-  .explore-float-icon { width:32px; height:32px; display:grid; place-items:center; background:#f0ecff; color:#7053da; }.explore-float-icon svg { width:16px; }
-  .explore-float-icon-cyan { background:#e5f8fa; color:#288d9a; }
-  .explore-float-tag b,.explore-float-tag small { display:block; }.explore-float-tag b { color:#29263f; font-size:9px; }.explore-float-tag small { margin-top:3px; color:#918da3; font-size:8px; }
-  @keyframes exploreOrbit { to { transform:rotate(342deg); } }
-  @keyframes exploreBoardFloat { 0%,100% { transform:translateY(0) rotate(-1.6deg); } 50% { transform:translateY(-9px) rotate(-.8deg); } }
-  @keyframes exploreTagFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
-
-  .explore-summary { display:grid; grid-template-columns:minmax(230px,1.6fr) repeat(3,minmax(120px,1fr)); align-items:center; gap:22px; padding:24px 0 29px; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
-  .explore-summary-intro p { max-width:360px; margin:8px 0 0; color:#77748b; font-size:12px; line-height:1.6; }
-  .explore-summary-stat { padding-left:20px; border-left:1px solid #e9e5f0; }
-  .explore-summary-stat strong { display:block; color:var(--q-ink); font-size:27px; font-weight:800; letter-spacing:-.06em; }
-  .explore-summary-stat span { display:block; margin-top:3px; color:#8b879b; font-size:10px; }
-
-  .explore-catalog { padding-top:93px; padding-bottom:88px; scroll-margin-top:100px; }
-  .explore-catalog-heading { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:30px; }
-  .explore-catalog-heading h2 { margin:14px 0 0; color:var(--q-ink); font-size:clamp(38px,4.6vw,55px); line-height:1; letter-spacing:-.065em; font-weight:800; }
-  .explore-catalog-heading > div:first-child > p { max-width:530px; margin:13px 0 0; color:#858197; font-size:12px; line-height:1.7; }
-  .explore-catalog-side-note { display:flex; align-items:center; gap:11px; padding:12px 15px; border:1px solid #e8e3f0; background:rgba(255,255,255,.72); }
-  .explore-catalog-side-note > i { display:grid; place-items:center; width:32px; height:32px; background:#f0ecff; color:#7053da; }
-  .explore-catalog-side-note span { display:block; color:#4f4a67; font-size:10px; font-weight:800; }
-  .explore-catalog-side-note small { display:block; margin-top:4px; color:#9a95a9; font-size:8px; font-weight:500; }
-  .explore-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px; border:1px solid #e8e4f0; background:rgba(255,255,255,.8); }
-  .explore-search-wrap { display:flex; align-items:center; gap:10px; flex:1 1 300px; max-width:390px; min-width:180px; height:42px; padding:0 11px; border:1px solid #e9e5f0; background:#fbfaff; color:#918ca3; }
-  .explore-search-wrap > svg { width:15px; flex:0 0 auto; }
-  .explore-search-wrap input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#29263f; font-size:10px; }
-  .explore-search-wrap input::placeholder { color:#aaa5b5; }
-  .explore-search-wrap kbd { display:grid; width:20px; height:20px; place-items:center; border:1px solid #e5e1ed; color:#aaa5b5; background:#fff; font:9px 'DM Sans',sans-serif; }
-  .explore-filters { display:flex; flex-wrap:wrap; gap:6px; }
-  .explore-filter { display:flex; align-items:center; gap:8px; min-height:34px; padding:0 10px; border:1px solid transparent; background:transparent; color:#807b91; font-size:9px; font-weight:800; transition:all .2s ease; cursor:pointer; }
-  .explore-filter span { display:grid; width:18px; height:18px; place-items:center; background:#f0edf6; color:#8c86a0; font-size:8px; }
-  .explore-filter:hover { color:#5e40ce; background:#f8f5ff; }
-  .explore-filter.is-active { color:#5e40ce; border-color:#e5ddfb; background:#f2eeff; }
-  .explore-filter.is-active span { color:#fff; background:#8064c1; }
-  .explore-results-line { display:flex; justify-content:space-between; align-items:center; margin:18px 1px 12px; color:#9691a6; font-size:8px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-  .explore-tool-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-  .explore-tool-card { min-height:410px; padding:20px; border:1px solid #e8e4f0; }
-  .explore-tool-card:hover { border-color:#cfc3fb; }
-  .explore-tool-card .tool-feature-top { font-size:8px; }
-  .explore-tool-card .tool-art { height:145px; margin:15px -3px 17px; }
-  .explore-tool-card .tool-feature-top > i { color:#918ca3; }
-  .explore-tool-content { display:block; }
-  .explore-tool-heading { display:flex; justify-content:space-between; align-items:start; gap:15px; }
-  .explore-tool-heading h3 { margin:0; color:#25223a; font-size:23px; line-height:1.08; font-weight:800; letter-spacing:-.05em; }
-  .explore-tool-index { padding-top:3px; color:#b1aabd; font-size:9px; font-weight:900; letter-spacing:.12em; }
-  .explore-tool-card p { max-width:500px; margin:10px 0 13px; color:#858197; font-size:11px; line-height:1.7; }
-  .explore-capabilities { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 15px; }
-  .explore-capabilities span { padding:6px 8px; border:1px solid #ece8f3; background:#fbfaff; color:#77718b; font-size:8px; font-weight:700; }
-  .explore-tool-card .tool-open { margin-top:auto; padding-top:13px; font-size:9px; }
-  .explore-tool-card.is-filtered-out { display:none; }
-  .explore-no-results { padding:48px 20px; border:1px dashed #dcd5ec; text-align:center; background:rgba(255,255,255,.65); }
-  .explore-no-results[hidden] { display:none; }
-  .explore-no-results > span { display:grid; width:44px; height:44px; margin:0 auto 13px; place-items:center; background:#f1edff; color:#7655e8; }
-  .explore-no-results svg { width:19px; }
-  .explore-no-results h3 { margin:0; color:#29263f; font-size:18px; }
-  .explore-no-results p { margin:7px 0 16px; color:#8b879b; font-size:11px; }
-  .explore-no-results button { color:#6749c2; border:0; border-bottom:1px solid #cfc5f5; background:transparent; font-size:10px; font-weight:800; cursor:pointer; }
-
-  .explore-pathway { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:clamp(35px,6vw,78px); padding:66px clamp(22px,5vw,60px); position:relative; overflow:hidden; background:#17162d; color:white; }
-  .explore-pathway:after { content:""; position:absolute; top:-180px; right:-150px; width:430px; height:430px; border:1px solid rgba(163,137,255,.3); transform:rotate(45deg); box-shadow:0 0 0 30px rgba(163,137,255,.025),0 0 0 60px rgba(163,137,255,.025); }
-  .explore-pathway-copy,.explore-pathway-steps { position:relative; z-index:1; }
-  .explore-pathway-copy .section-kicker { color:#aaa4c8; }
-  .explore-pathway-copy h2 { margin:16px 0 0; color:#fff; font-size:clamp(38px,4.2vw,52px); line-height:1.02; letter-spacing:-.065em; }
-  .explore-pathway-copy h2 em { color:#b8a6ff; }
-  .explore-pathway-copy p { max-width:420px; margin:18px 0 25px; color:#aaa6c2; font-size:12px; line-height:1.8; }
-  .explore-pathway-steps { padding-left:12px; }
-  .explore-path-step { display:grid; grid-template-columns:26px 38px 1fr; align-items:center; gap:13px; padding:15px 16px; border:1px solid #383653; background:rgba(255,255,255,.035); }
-  .explore-path-step > span { color:#9c8be2; font-size:9px; font-weight:900; letter-spacing:.12em; }
-  .explore-path-icon { display:grid; width:34px; height:34px; place-items:center; color:#b7a5ff; background:rgba(157,131,255,.13); }
-  .explore-path-icon svg { width:16px; }
-  .explore-path-step b,.explore-path-step small { display:block; }
-  .explore-path-step b { color:#f5f3ff; font-size:11px; }
-  .explore-path-step small { margin-top:4px; color:#9b97b2; font-size:9px; line-height:1.4; }
-  .explore-path-connector { width:1px; height:15px; margin-left:45px; background:#62578e; }
-  .explore-contact { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:82px; margin-bottom:34px; padding:32px 0; border-top:1px solid #e9e5f0; border-bottom:1px solid #e9e5f0; }
-  .explore-contact h2 { margin:9px 0 5px; color:#25223a; font-size:27px; letter-spacing:-.045em; }
-  .explore-contact p { color:#89859a; font-size:11px; line-height:1.7; }
-  .explore-disclaimer { padding-bottom:34px; color:#aaa6b5; font-size:9px; line-height:1.6; }
-
-  @media(max-width:1000px) {
-    .explore-hero { grid-template-columns:minmax(0,1fr) minmax(340px,.9fr); gap:24px; }
-    .explore-tool-card { min-height:420px; }
-    .explore-controls { align-items:flex-start; flex-direction:column; }
-    .explore-search-wrap { width:100%; max-width:none; }
-  }
-  @media(max-width:800px) {
-    .explore-hero { grid-template-columns:1fr; padding-top:55px; padding-bottom:48px; }
-    .explore-hero-copy { max-width:680px; }
-    .explore-hero-visual { min-height:410px; margin-top:8px; }
-    .explore-summary { grid-template-columns:1fr 1fr; }
-    .explore-summary-intro { grid-column:1/-1; }
-    .explore-summary-stat { padding-top:10px; padding-bottom:10px; }
-    .explore-catalog { padding-top:70px; padding-bottom:70px; }
-    .explore-catalog-heading { align-items:flex-start; flex-direction:column; }
-    .explore-pathway { grid-template-columns:1fr; gap:34px; }
-  }
-  @media(max-width:560px) {
-    .explore-shell { width:calc(100% - 32px); }
-    .explore-hero-copy h1 { font-size:45px; }
-    .explore-lede { font-size:13px; }
-    .explore-hero-actions { display:grid; grid-template-columns:1fr; }
-    .explore-hero-actions .button { width:100%; }
-    .explore-hero-notes { gap:15px; margin-top:32px; }
-    .explore-hero-visual { min-height:315px; margin-inline:-7px; overflow:hidden; }
-    .explore-visual-board { width:510px; max-width:none; transform:scale(.64) rotate(-1.6deg); }
-    .explore-visual-orbit-one { width:300px; height:300px; }
-    .explore-visual-orbit-two { width:245px; height:245px; }
-    .explore-float-tag { padding:7px 8px; gap:7px; }
-    .explore-float-top { top:4px; right:-2px; }.explore-float-bottom { bottom:2px; left:-2px; }
-    .explore-float-icon { width:27px; height:27px; }
-    .explore-float-tag b { font-size:8px; }.explore-float-tag small { font-size:7px; }
-    .explore-summary { gap:10px; }
-    .explore-summary-stat { padding-left:12px; }
-    .explore-summary-stat strong { font-size:24px; }
-    .explore-catalog-heading h2 { font-size:41px; }
-    .explore-catalog-side-note { width:100%; }
-    .explore-controls { padding:11px; }
-    .explore-filters { width:100%; }
-    .explore-filter { flex:1 1 auto; justify-content:center; padding-inline:7px; font-size:8px; }
-    .explore-results-line { font-size:7px; }
-    .explore-tool-grid { grid-template-columns:1fr; }
-    .explore-tool-card { min-height:390px; padding:17px; }
-    .explore-tool-card .tool-art { height:135px; }
-    .explore-pathway { padding:42px 19px; }
-    .explore-pathway-copy h2 { font-size:42px; }
-    .explore-pathway-steps { padding-left:0; }
-    .explore-contact { align-items:flex-start; flex-direction:column; margin-top:58px; }
-    .explore-contact .button { width:100%; }
-  }
-  @media(max-width:390px) {
-    .explore-hero-visual { min-height:280px; }
-    .explore-visual-board { transform:scale(.55) rotate(-1.6deg); }
-    .explore-float-bottom { max-width:145px; }
-    .explore-filter { gap:5px; }
-    .explore-filter span { width:16px; height:16px; }
-  }
-  @media(prefers-reduced-motion:reduce) {
-    .explore-visual-orbit,.explore-visual-board,.explore-float-tag { animation-duration:.01ms !important; animation-iteration-count:1 !important; }
-  }
+.quans-explore { position:relative; overflow:hidden; padding-bottom:12px; }
+.explore-hero { min-height:600px; display:grid; grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr); gap:clamp(30px,5vw,78px); align-items:center; padding-top:78px; padding-bottom:76px; }
+.explore-hero-copy { position:relative; z-index:2; max-width:570px; }
+.explore-hero-copy h1 { margin:24px 0 0; color:var(--q-ink); font-size:clamp(46px,5.5vw,72px); line-height:.98; letter-spacing:-.068em; font-weight:800; }
+.explore-hero-copy h1 em,.explore-intro h2 em,.explore-section-head h2 em,.explore-guide-heading h2 em,.explore-workflow-copy h2 em,.explore-bottom-cta h2 em { color:var(--q-violet); font-family:var(--q-serif); font-style:italic; font-weight:400; letter-spacing:-.055em; }
+.explore-hero-copy .hero-lede { max-width:490px; }
+.explore-hero-actions { display:flex; flex-wrap:wrap; gap:11px; margin-top:30px; }
+.explore-hero-meta { display:flex; align-items:center; gap:18px; margin-top:40px; padding-top:18px; border-top:1px solid var(--q-line); color:#8b879b; font-size:10px; font-weight:600; }
+.explore-hero-meta b { color:var(--q-ink); font-size:15px; margin-right:5px; }
+.explore-hero-meta i { width:1px; height:20px; background:var(--q-line); }
+.explore-hero-art { min-height:450px; position:relative; display:grid; place-items:center; isolation:isolate; }
+.explore-art-grid { position:absolute; inset:0; opacity:.42; background-image:linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size:31px 31px; mask-image:linear-gradient(110deg,transparent,#000 28%,#000 76%,transparent); }
+.explore-art-orbit { position:absolute; width:410px; height:410px; border:1px solid rgba(125,100,208,.2); border-radius:42% 58% 48% 52%; transform:rotate(-18deg); z-index:-1; }
+.explore-art-orbit-a { animation:orbitDrift 26s linear infinite; }
+.explore-art-orbit-b { width:320px; height:320px; border-style:dashed; border-color:rgba(255,139,118,.32); animation:orbitDrift 32s linear infinite reverse; }
+.explore-art-board { width:min(100%,470px); padding:13px; background:#19182f; border:1px solid #383452; box-shadow:0 28px 70px rgba(39,27,90,.2); transform:rotate(-2deg); animation:previewFloat 8s ease-in-out infinite; }
+.explore-board-head { height:38px; display:flex; align-items:center; gap:8px; padding:0 7px 12px; color:#f8f6ff; border-bottom:1px solid #36334e; font-size:12px; }
+.explore-board-head .brand-symbol { width:22px; height:22px; }
+.explore-board-head small { margin-left:8px; color:#8581a8; font-size:7px; letter-spacing:.16em; }
+.board-dots { margin-left:auto; color:#77728f; letter-spacing:3px; }
+.explore-board-list { display:grid; gap:8px; padding:17px 5px; }
+.explore-board-item { min-height:68px; display:flex; align-items:center; gap:12px; padding:10px 12px; background:#23213e; border:1px solid #393651; color:#fff; }
+.explore-board-item > span { width:36px; height:36px; display:grid; place-items:center; }
+.explore-board-item > span svg { width:17px; height:17px; }
+.explore-board-item div { flex:1; }
+.explore-board-item b,.explore-board-item small { display:block; }
+.explore-board-item b { font-size:11px; }.explore-board-item small { margin-top:4px; color:#918da9; font-size:8px; }
+.explore-board-item > svg { width:13px; color:#8e87b4; }
+.item-resume > span { background:#3c315f; color:#cbbdff; }.item-post > span { background:#244d55; color:#9ae1e4; }.item-proposal > span { background:#593a3a; color:#ffb9a8; }.item-repurpose > span { background:#2d5145; color:#a7ddc5; }
+.explore-board-foot { display:flex; justify-content:space-between; align-items:center; padding:12px 7px 2px; border-top:1px solid #36334e; color:#aaa5c2; font-size:8px; }
+.explore-board-foot span { display:flex; align-items:center; gap:6px; }.explore-board-foot svg { width:12px; color:#c5b8ff; }.explore-board-foot b { color:#7dc5a8; font-size:7px; letter-spacing:.12em; }
+.explore-float { position:absolute; z-index:3; display:flex; align-items:center; gap:10px; padding:11px 14px; background:rgba(255,255,255,.96); border:1px solid #e6e1f1; box-shadow:0 15px 35px rgba(38,30,84,.1); animation:noteFloat 6s ease-in-out infinite; }
+.explore-float > span { width:32px; height:32px; display:grid; place-items:center; color:#7053da; background:#f0ecff; }.explore-float svg { width:16px; }.explore-float b,.explore-float small { display:block; }.explore-float b { color:#29263f; font-size:9px; }.explore-float small { margin-top:3px; color:#918da3; font-size:8px; }
+.explore-float-top { top:34px; right:-5px; }.explore-float-bottom { bottom:32px; left:-14px; animation-delay:-2s; }.explore-float-bottom > span { color:#398b70; background:#e8f6ef; }
+.explore-intro { display:grid; grid-template-columns:1fr .8fr; gap:70px; align-items:end; padding:30px 0 86px; border-top:1px solid var(--q-line); }
+.explore-intro h2,.explore-section-head h2,.explore-guide-heading h2,.explore-workflow-copy h2 { margin:14px 0 0; color:var(--q-ink); font-size:clamp(34px,4.2vw,52px); line-height:1.02; letter-spacing:-.06em; font-weight:800; }
+.explore-intro > p { max-width:480px; margin:0 0 4px; color:#77748b; font-size:13px; line-height:1.85; }
+.explore-tools { padding-bottom:100px; }
+.explore-section-head { display:flex; justify-content:space-between; align-items:end; gap:25px; margin-bottom:32px; }
+.explore-section-head > p { max-width:270px; margin:0 0 4px; color:#8b879b; font-size:11px; line-height:1.7; }
+.explore-tool-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.explore-tool-card { display:flex; flex-direction:column; min-width:0; background:#fff; border:1px solid #e8e4f0; transition:transform .24s,border-color .24s,box-shadow .24s; }
+.explore-tool-card:hover { transform:translateY(-4px); border-color:#cfc3fb; box-shadow:0 18px 35px rgba(46,34,101,.07); }
+.explore-card-top { display:flex; justify-content:space-between; align-items:center; padding:17px 19px 0; color:#918da4; font-size:8px; font-weight:900; letter-spacing:.14em; }
+.explore-card-top svg { width:15px; height:15px; }
+.explore-card-art { height:175px; position:relative; display:flex; justify-content:center; align-items:center; margin:13px 18px 0; overflow:hidden; }
+.explore-card-art .resume-mini { width:190px; max-width:68%; padding:13px; position:relative; }
+.explore-card-art .resume-mini > .mini-row { margin-top:12px; }
+.explore-card-art .resume-mini > .mini-bullets { margin-top:10px; }
+.explore-card-art .post-window { width:205px; height:120px; position:relative; }
+.explore-card-art .post-copy.lower { width:35%; margin-top:5px; }
+.explore-card-art .proposal-paper { width:165px; height:130px; }
+.explore-card-art.repurpose-art { gap:10px; }
+.explore-card-art .repurpose-source { padding:14px 11px; font-size:9px; }
+.explore-card-art .repurpose-targets b { padding:6px 9px; font-size:8px; }
+.art-stamp { position:absolute; right:18px; bottom:15px; color:rgba(55,47,91,.45); font-size:8px; font-weight:900; letter-spacing:.14em; line-height:1.4; text-align:right; }
+.explore-card-copy { display:flex; flex-direction:column; flex:1; padding:22px 22px 20px; }
+.explore-card-kicker { color:#918ba7; font-size:8px; font-weight:900; letter-spacing:.14em; }
+.explore-card-copy h3 { margin:10px 0 0; color:var(--q-ink); font-size:27px; line-height:1.03; letter-spacing:-.055em; font-weight:800; }
+.explore-card-copy > p { min-height:48px; margin:11px 0 18px; color:#77748b; font-size:11px; line-height:1.75; }
+.explore-includes { padding:14px 0 17px; border-top:1px solid #efecf4; }
+.explore-includes > b { color:#4c4862; font-size:9px; font-weight:900; }
+.explore-includes ul { display:grid; gap:7px; margin:10px 0 0; padding:0; list-style:none; }
+.explore-includes li { position:relative; padding-left:16px; color:#77748b; font-size:10px; line-height:1.5; }
+.explore-includes li:before { content:""; position:absolute; left:0; top:5px; width:6px; height:6px; background:#9a84ec; }
+.explore-card-link { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:15px; border-top:1px solid #efecf4; color:#6451be; font-size:10px; font-weight:900; text-decoration:none; }
+.explore-card-link svg { width:15px; transition:transform .2s; }.explore-card-link:hover svg { transform:translateX(4px); }
+.explore-guide { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(35px,7vw,100px); align-items:center; padding-top:78px; padding-bottom:88px; border-top:1px solid var(--q-line); }
+.explore-guide-heading h2 { font-size:clamp(34px,4vw,49px); }.explore-guide-heading > p { max-width:360px; margin:17px 0 0; color:#77748b; font-size:12px; line-height:1.8; }
+.explore-guide-list { border-top:1px solid #e8e4f0; }
+.explore-guide-list a { display:flex; align-items:center; gap:17px; min-height:76px; padding:13px 4px; border-bottom:1px solid #e8e4f0; text-decoration:none; transition:padding .2s,background .2s; }
+.explore-guide-list a:hover { padding-left:11px; background:rgba(255,255,255,.55); }
+.guide-number { align-self:flex-start; padding-top:4px; color:#b0a8ca; font-size:9px; font-weight:900; letter-spacing:.1em; }
+.explore-guide-list a > span:nth-child(2) { flex:1; }.explore-guide-list b,.explore-guide-list small { display:block; }.explore-guide-list b { color:#302d48; font-size:11px; }.explore-guide-list small { margin-top:5px; color:#918da3; font-size:9px; }.explore-guide-list svg { width:15px; color:#7962ce; }
+.explore-workflow { display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(35px,7vw,95px); align-items:center; padding-top:78px; padding-bottom:85px; background:#f3f0fb; }
+.explore-workflow-copy { padding:0 0 0 clamp(0px,2vw,25px); }.explore-workflow-copy h2 { font-size:clamp(35px,4.2vw,51px); }.explore-workflow-copy > p { max-width:400px; margin:17px 0 25px; color:#77748b; font-size:12px; line-height:1.8; }
+.explore-workflow-steps { padding-right:clamp(0px,2vw,25px); }
+.workflow-step { display:flex; align-items:center; gap:17px; }.workflow-step > span { color:#a49abb; font-size:9px; font-weight:900; }.workflow-step > div { flex:1; display:grid; grid-template-columns:34px 1fr; column-gap:12px; align-items:center; padding:13px 15px; background:#fff; border:1px solid #e8e2f4; }.workflow-step > div > i { grid-row:span 2; width:18px; color:#7655e8; }.workflow-step b { color:#343149; font-size:10px; }.workflow-step small { margin-top:4px; color:#918da3; font-size:9px; }.workflow-connector { height:15px; margin-left:27px; border-left:1px dashed #c7bddf; }
+.explore-bottom-cta { display:flex; justify-content:space-between; align-items:center; gap:25px; padding-top:90px; padding-bottom:85px; }
+.explore-bottom-cta h2 { margin:13px 0 0; color:var(--q-ink); font-size:clamp(38px,4.5vw,56px); line-height:1; letter-spacing:-.06em; font-weight:800; }
+.explore-bottom-cta p { margin:13px 0 0; color:#77748b; font-size:12px; line-height:1.7; }
+@media(max-width:900px) {
+ .explore-hero { grid-template-columns:1fr 1fr; gap:25px; min-height:550px; }
+ .explore-art-board { width:100%; }.explore-float-top { right:-3px; }.explore-float-bottom { left:-3px; }
+ .explore-intro { gap:35px; }.explore-guide,.explore-workflow { gap:35px; }
+}
+@media(max-width:700px) {
+ .explore-hero { grid-template-columns:1fr; min-height:0; padding-top:55px; padding-bottom:55px; gap:28px; }
+ .explore-hero-copy h1 { font-size:clamp(43px,12vw,62px); }
+ .explore-hero-art { min-height:370px; margin:0 5px; }
+ .explore-art-board { width:min(100%,440px); }.explore-art-orbit { width:340px; height:340px; }.explore-art-orbit-b { width:270px; height:270px; }
+ .explore-float-top { top:6px; right:-2px; }.explore-float-bottom { bottom:5px; left:-2px; }
+ .explore-intro { grid-template-columns:1fr; gap:16px; padding-top:28px; padding-bottom:58px; }
+ .explore-intro h2,.explore-section-head h2 { font-size:39px; }
+ .explore-tools { padding-bottom:65px; }.explore-section-head { display:block; margin-bottom:22px; }.explore-section-head > p { margin-top:12px; }
+ .explore-tool-grid { grid-template-columns:1fr; gap:13px; }.explore-card-art { height:160px; }
+ .explore-card-copy { padding:20px 18px 18px; }.explore-card-copy h3 { font-size:25px; }.explore-card-copy > p { min-height:0; }
+ .explore-guide { grid-template-columns:1fr; gap:25px; padding-top:58px; padding-bottom:60px; }
+ .explore-guide-heading h2 { font-size:39px; }
+ .explore-workflow { grid-template-columns:1fr; gap:28px; padding:55px 24px; }
+ .explore-workflow-copy { padding:0; }.explore-workflow-copy h2 { font-size:39px; }.explore-workflow-steps { padding:0; }
+ .explore-bottom-cta { display:block; padding-top:62px; padding-bottom:58px; }.explore-bottom-cta .button { margin-top:22px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .explore-art-board,.explore-float,.explore-art-orbit { animation:none !important; }
+ .explore-tool-card,.explore-guide-list a { transition:none !important; }
+}
 </style>
 
 </head>
-<body class="site-page site-explore-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+<body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
  <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
     
@@ -1011,133 +936,140 @@ button, a { -webkit-tap-highlight-color: transparent; }
     </header>
 
     <main class="quans-explore">
-  <section class="explore-hero explore-shell">
+  <section class="explore-hero site-container">
     <div class="explore-hero-copy">
-      <span class="eyebrow"><span class="eyebrow-mark"></span> EXPLORE THE QUANS TOOLKIT</span>
-      <h1>Find the right tool.<br><em>Move work forward.</em></h1>
-      <p class="explore-lede">Four focused AI workflows for the work you need to finish — from career documents and social content to proposals and repurposing.</p>
+      <span class="eyebrow"><span class="eyebrow-mark"></span> THE QUANS TOOLKIT</span>
+      <h1>Find the right tool<br>for your <em>next move.</em></h1>
+      <p class="hero-lede">Four focused tools. Four different kinds of work. Explore what each one is built to help you finish, then jump straight into the workflow that fits.</p>
       <div class="explore-hero-actions">
-        <a class="button button-primary" href="#explore-tools">Browse all tools <i data-lucide="arrow-down"></i></a>
-        <a class="button button-secondary" href="contact.html">Not sure where to start? <i data-lucide="arrow-up-right"></i></a>
+        <a class="button button-primary" href="#the-tools">Explore all four tools <i data-lucide="arrow-down"></i></a>
+        <a class="button button-secondary" href="tool.html">Open your workspace <i data-lucide="arrow-up-right"></i></a>
       </div>
-      <div class="explore-hero-notes">
-        <div><span class="explore-note-mark explore-note-violet"><i data-lucide="layers"></i></span><span><strong>One connected workspace</strong><small>Different workflows, one place</small></span></div>
-        <div><span class="explore-note-mark explore-note-coral"><i data-lucide="target"></i></span><span><strong>Purpose-built tools</strong><small>Start with the task at hand</small></span></div>
+      <div class="explore-hero-meta">
+        <span><b>04</b> purpose-built tools</span>
+        <i></i>
+        <span><b>01</b> connected workspace</span>
       </div>
     </div>
-
-    <div class="explore-hero-visual" aria-label="Illustration showing the four Quans tools">
-      <div class="explore-visual-grid"></div>
-      <div class="explore-visual-orbit explore-visual-orbit-one"></div>
-      <div class="explore-visual-orbit explore-visual-orbit-two"></div>
-      <div class="explore-visual-board">
-        <div class="explore-board-top">
-          <div class="preview-brand"><span class="brand-symbol">Q</span> quans <span class="preview-status">TOOLKIT</span></div>
-          <div class="preview-window-dots"><b></b><b></b><b></b></div>
+    <div class="explore-hero-art" aria-label="A visual overview of the four Quans tools">
+      <div class="explore-art-grid"></div>
+      <div class="explore-art-orbit explore-art-orbit-a"></div>
+      <div class="explore-art-orbit explore-art-orbit-b"></div>
+      <div class="explore-art-board">
+        <div class="explore-board-head"><span class="brand-symbol">Q</span><b>quans</b><small>YOUR TOOLKIT</small><span class="board-dots">•••</span></div>
+        <div class="explore-board-list">
+          <div class="explore-board-item item-resume"><span><i data-lucide="file-user"></i></span><div><b>Resume Builder</b><small>Career development</small></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="explore-board-item item-post"><span><i data-lucide="pen-line"></i></span><div><b>Post Studio</b><small>Content creation</small></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="explore-board-item item-proposal"><span><i data-lucide="files"></i></span><div><b>Proposal Studio</b><small>Business documents</small></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="explore-board-item item-repurpose"><span><i data-lucide="repeat-2"></i></span><div><b>Text Repurposer</b><small>Content adaptation</small></div><i data-lucide="arrow-up-right"></i></div>
         </div>
-        <div class="explore-board-body">
-          <div class="explore-board-heading"><span>YOUR WORK, ORGANIZED</span><strong>Choose a direction.</strong><small>Start with what you want to create today.</small></div>
-          <div class="explore-board-items">
-            <div class="explore-board-item item-resume"><span><i data-lucide="file-user"></i></span><div><b>Career documents</b><small>Build · Tailor · Prepare</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-            <div class="explore-board-item item-post"><span><i data-lucide="pen-line"></i></span><div><b>Social content</b><small>Plan · Write · Publish</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-            <div class="explore-board-item item-proposal"><span><i data-lucide="files"></i></span><div><b>Business proposals</b><small>Structure · Explain · Share</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-            <div class="explore-board-item item-repurpose"><span><i data-lucide="repeat-2"></i></span><div><b>Content adaptation</b><small>One source, more formats</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-          </div>
-          <div class="explore-board-footer"><span><i data-lucide="sparkles"></i> Made for focused work</span><span>QUANS / 04</span></div>
+        <div class="explore-board-foot"><span><i data-lucide="sparkles"></i> Built around the task</span><b>READY WHEN YOU ARE</b></div>
+      </div>
+      <div class="explore-float explore-float-top"><span><i data-lucide="layers-3"></i></span><div><b>One workspace</b><small>Different ways to work</small></div></div>
+      <div class="explore-float explore-float-bottom"><span><i data-lucide="check-check"></i></span><div><b>Clearer next steps</b><small>From input to useful output</small></div></div>
+    </div>
+  </section>
+
+  <section class="explore-intro site-container">
+    <div><span class="section-kicker">A TOOL FOR THE WORK IN FRONT OF YOU</span><h2>Less searching.<br><em>More getting done.</em></h2></div>
+    <p>Quans brings practical workflows together in one place. Start with the task you need to complete, add your context, and use the result as a strong first draft you can review and make your own.</p>
+  </section>
+
+  <section class="explore-tools site-container" id="the-tools">
+    <div class="explore-section-head">
+      <div><span class="section-kicker">EXPLORE THE TOOLKIT · 01—04</span><h2>Four tools. <em>Clear purpose.</em></h2></div>
+      <p>Choose a workflow to see what it can help you create.</p>
+    </div>
+
+    <div class="explore-tool-grid">
+      <article class="explore-tool-card explore-card-resume">
+        <div class="explore-card-top"><span>01 / CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="explore-card-art resume-art">
+          <div class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i><div class="mini-row"></div><div class="mini-row short"></div><div class="mini-bullets"><b></b><b></b><b></b></div></div>
+          <span class="art-stamp">CAREER<br>TOOLKIT</span>
         </div>
-      </div>
-      <div class="explore-float-tag explore-float-top"><span class="explore-float-icon"><i data-lucide="wand-sparkles"></i></span><span><b>Less busywork</b><small>More room to think</small></span></div>
-      <div class="explore-float-tag explore-float-bottom"><span class="explore-float-icon explore-float-icon-cyan"><i data-lucide="workflow"></i></span><span><b>Clear workflows</b><small>One task at a time</small></span></div>
+        <div class="explore-card-copy">
+          <span class="explore-card-kicker">MAKE YOUR EXPERIENCE CLEAR</span>
+          <h3>Resume Builder<br>&amp; Toolkit</h3>
+          <p>Build a resume that presents your experience clearly, then shape it around the opportunity you're applying for.</p>
+          <div class="explore-includes"><b>What you can do</b><ul><li>Create and structure a resume</li><li>Tailor content to a target role</li><li>Draft cover letters and prepare for interviews</li></ul></div>
+          <a class="explore-card-link" href="ai.html">Explore Resume Builder <i data-lucide="arrow-right"></i></a>
+        </div>
+      </article>
+
+      <article class="explore-tool-card explore-card-post">
+        <div class="explore-card-top"><span>02 / CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="explore-card-art post-art">
+          <div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div><div class="post-copy lower"></div></div>
+          <span class="art-stamp">POST<br>STUDIO</span>
+        </div>
+        <div class="explore-card-copy">
+          <span class="explore-card-kicker">TURN IDEAS INTO POSTS</span>
+          <h3>Post Studio</h3>
+          <p>Go from a rough idea or a short brief to social content with a clear angle, platform fit and a stronger message.</p>
+          <div class="explore-includes"><b>What you can do</b><ul><li>Generate hooks and post copy</li><li>Adapt tone for different platforms</li><li>Shape calls to action and creative direction</li></ul></div>
+          <a class="explore-card-link" href="social.html">Explore Post Studio <i data-lucide="arrow-right"></i></a>
+        </div>
+      </article>
+
+      <article class="explore-tool-card explore-card-proposal">
+        <div class="explore-card-top"><span>03 / BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="explore-card-art proposal-art">
+          <div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span><span class="paper-rule short"></span></div>
+          <span class="art-stamp">PROJECT<br>BRIEF</span>
+        </div>
+        <div class="explore-card-copy">
+          <span class="explore-card-kicker">MAKE THE PLAN EASY TO FOLLOW</span>
+          <h3>Proposal Studio</h3>
+          <p>Turn project requirements and client context into a more organised proposal that explains the work and what happens next.</p>
+          <div class="explore-includes"><b>What you can do</b><ul><li>Organise project details and objectives</li><li>Outline scope, deliverables and timelines</li><li>Present a clear structure for review</li></ul></div>
+          <a class="explore-card-link" href="proposal.html">Explore Proposal Studio <i data-lucide="arrow-right"></i></a>
+        </div>
+      </article>
+
+      <article class="explore-tool-card explore-card-repurpose">
+        <div class="explore-card-top"><span>04 / CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div>
+        <div class="explore-card-art repurpose-art">
+          <div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div>
+          <span class="art-stamp">ONE IDEA<br>MORE FORMATS</span>
+        </div>
+        <div class="explore-card-copy">
+          <span class="explore-card-kicker">MAKE MORE FROM WHAT YOU HAVE</span>
+          <h3>Text Repurposer</h3>
+          <p>Start with existing writing and reshape it for different channels without losing the central idea or important details.</p>
+          <div class="explore-includes"><b>What you can do</b><ul><li>Adapt long-form text into shorter formats</li><li>Create post, email and thread variations</li><li>Keep the core message consistent</li></ul></div>
+          <a class="explore-card-link" href="textrep.html">Explore Text Repurposer <i data-lucide="arrow-right"></i></a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="explore-summary explore-shell" aria-label="Quans toolkit overview">
-    <div class="explore-summary-intro"><span class="section-kicker">THE TOOLKIT AT A GLANCE</span><p>Pick the workflow that matches the work in front of you.</p></div>
-    <div class="explore-summary-stat"><strong>04</strong><span>Focused tools</span></div>
-    <div class="explore-summary-stat"><strong>03</strong><span>Work categories</span></div>
-    <div class="explore-summary-stat"><strong>01</strong><span>Connected workspace</span></div>
-  </section>
-
-  <section class="explore-catalog explore-shell" id="explore-tools">
-    <div class="explore-catalog-heading">
-      <div>
-        <span class="section-kicker">FIND YOUR WORKFLOW</span>
-        <h2>Explore the <em>tools.</em></h2>
-        <p>Each tool is designed around a practical task. Choose one to see where it can take your work.</p>
-      </div>
-      <div class="explore-catalog-side-note"><i data-lucide="mouse-pointer-click"></i><span>Choose a tool to get started.<small>Sign in is required to open a workspace.</small></span></div>
-    </div>
-
-    <div class="explore-controls">
-      <label class="explore-search-wrap" for="exploreSearch">
-        <i data-lucide="search" aria-hidden="true"></i>
-        <input id="exploreSearch" type="search" placeholder="Search tools or what you want to do..." autocomplete="off">
-        <kbd>/</kbd>
-      </label>
-      <div class="explore-filters" role="group" aria-label="Filter tools by category">
-        <button type="button" class="explore-filter is-active" data-explore-filter="all" aria-pressed="true">All tools <span>04</span></button>
-        <button type="button" class="explore-filter" data-explore-filter="career" aria-pressed="false">Career <span>01</span></button>
-        <button type="button" class="explore-filter" data-explore-filter="content" aria-pressed="false">Content <span>02</span></button>
-        <button type="button" class="explore-filter" data-explore-filter="business" aria-pressed="false">Business <span>01</span></button>
-      </div>
-    </div>
-
-    <div class="explore-results-line"><span id="exploreResultsCount" aria-live="polite">Showing all 4 tools</span><span>QUANS TOOL DIRECTORY</span></div>
-
-    <div class="explore-tool-grid" id="exploreToolGrid">
-      <a class="tool-feature explore-tool-card tool-feature-resume" href="ai.html" data-explore-card data-category="career" data-search="resume builder career cv cover letter interview preparation job application linkedin profile tailor resume">
-        <div class="tool-feature-top"><span>CAREER DEVELOPMENT</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="tool-art resume-art"><div class="resume-mini"><span class="mini-avatar">AM</span><span><b>Alex Morgan</b><small>Resume · 2026</small></span><i data-lucide="file-check-2"></i><div class="mini-row"></div><div class="mini-row short"></div><div class="mini-bullets"><b></b><b></b><b></b></div></div></div>
-        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Resume Builder<br>& Toolkit</h3><span class="explore-tool-index">01</span></div><p>Create a clear resume, tailor it to a role, draft cover letters and prepare for interviews.</p><div class="explore-capabilities"><span>Resume writing</span><span>Job tailoring</span><span>Interview prep</span></div></div>
-        <span class="tool-open">Explore career toolkit <i data-lucide="arrow-right"></i></span>
-      </a>
-
-      <a class="tool-feature explore-tool-card tool-feature-post" href="social.html" data-explore-card data-category="content" data-search="post studio social media post linkedin instagram facebook hooks captions call to action content creator marketing brand">
-        <div class="tool-feature-top"><span>CONTENT CREATION</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="tool-art post-art"><div class="post-window"><span class="post-dot"></span><span class="post-dot"></span><span class="post-dot"></span><div class="post-copy"></div><div class="post-copy mid"></div><div class="post-graphic"><i data-lucide="pen-line"></i></div><div class="post-copy"></div></div></div>
-        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Post Studio</h3><span class="explore-tool-index">02</span></div><p>Turn a topic or business brief into platform-aware posts with hooks, body copy and calls to action.</p><div class="explore-capabilities"><span>Social captions</span><span>Hooks & CTAs</span><span>Platform formats</span></div></div>
-        <span class="tool-open">Explore Post Studio <i data-lucide="arrow-right"></i></span>
-      </a>
-
-      <a class="tool-feature explore-tool-card tool-feature-proposal" href="proposal.html" data-explore-card data-category="business" data-search="proposal studio business proposal client project scope deliverables timeline professional document freelance agency business development">
-        <div class="tool-feature-top"><span>BUSINESS DOCUMENTS</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="tool-art proposal-art"><div class="proposal-paper"><span class="paper-title"></span><span class="paper-rule"></span><span class="paper-rule short"></span><div class="paper-row"><b></b><b></b><b></b></div><span class="paper-rule"></span><span class="paper-rule short"></span></div></div>
-        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Proposal Studio</h3><span class="explore-tool-index">03</span></div><p>Organize project requirements into a professional proposal with a clear scope, deliverables and next steps.</p><div class="explore-capabilities"><span>Project scope</span><span>Deliverables</span><span>Client proposals</span></div></div>
-        <span class="tool-open">Explore Proposal Studio <i data-lucide="arrow-right"></i></span>
-      </a>
-
-      <a class="tool-feature explore-tool-card tool-feature-repurpose" href="textrep.html" data-explore-card data-category="content" data-search="text repurposer repurpose content adapt blog article long form post email thread social media rewrite format">
-        <div class="tool-feature-top"><span>CONTENT ADAPTATION</span><i data-lucide="arrow-up-right"></i></div>
-        <div class="tool-art repurpose-art"><div class="repurpose-source">LONG-FORM<br>CONTENT</div><div class="repurpose-lines"><i></i><i></i><i></i></div><div class="repurpose-targets"><b>POST</b><b>EMAIL</b><b>THREAD</b></div></div>
-        <div class="explore-tool-content"><div class="explore-tool-heading"><h3>Text Repurposer</h3><span class="explore-tool-index">04</span></div><p>Adapt one source into different content formats while keeping the original message and key details in context.</p><div class="explore-capabilities"><span>Blog to post</span><span>Email formats</span><span>Content reuse</span></div></div>
-        <span class="tool-open">Explore Text Repurposer <i data-lucide="arrow-right"></i></span>
-      </a>
-    </div>
-
-    <div id="exploreNoResults" class="explore-no-results" hidden>
-      <span><i data-lucide="search-x"></i></span>
-      <h3>No matching tools</h3>
-      <p>Try a different search or choose another category.</p>
-      <button type="button" id="exploreClearFilters">Clear search and filters</button>
+  <section class="explore-guide site-container">
+    <div class="explore-guide-heading"><span class="section-kicker">NOT SURE WHERE TO START?</span><h2>Start with the outcome<br>you <em>want to create.</em></h2><p>You don't need to learn every tool. Pick the one that matches the work on your desk right now.</p></div>
+    <div class="explore-guide-list">
+      <a href="ai.html"><span class="guide-number">01</span><span><b>I need a stronger resume or application</b><small>Start with Resume Builder &amp; Toolkit</small></span><i data-lucide="arrow-up-right"></i></a>
+      <a href="social.html"><span class="guide-number">02</span><span><b>I need to create social content</b><small>Start with Post Studio</small></span><i data-lucide="arrow-up-right"></i></a>
+      <a href="proposal.html"><span class="guide-number">03</span><span><b>I need to explain a project or service</b><small>Start with Proposal Studio</small></span><i data-lucide="arrow-up-right"></i></a>
+      <a href="textrep.html"><span class="guide-number">04</span><span><b>I already have content to adapt</b><small>Start with Text Repurposer</small></span><i data-lucide="arrow-up-right"></i></a>
     </div>
   </section>
 
-  <section class="explore-pathway explore-shell">
-    <div class="explore-pathway-copy"><span class="section-kicker">A SIMPLE WAY TO START</span><h2>Start with the task.<br><em>Build from there.</em></h2><p>You don't need to learn a complicated system. Choose a workflow, bring the context that matters and shape the result to fit your needs.</p><a class="button button-dark" href="tool.html">See the workspace <i data-lucide="arrow-up-right"></i></a></div>
-    <div class="explore-pathway-steps">
-      <div class="explore-path-step"><span>01</span><div class="explore-path-icon"><i data-lucide="mouse-pointer-click"></i></div><div><b>Choose a tool</b><small>Start with the job you need to complete.</small></div></div>
-      <div class="explore-path-connector"></div>
-      <div class="explore-path-step"><span>02</span><div class="explore-path-icon"><i data-lucide="notebook-pen"></i></div><div><b>Add your context</b><small>Share the details that make the output relevant.</small></div></div>
-      <div class="explore-path-connector"></div>
-      <div class="explore-path-step"><span>03</span><div class="explore-path-icon"><i data-lucide="file-check-2"></i></div><div><b>Review and refine</b><small>Keep control, make edits and use the result.</small></div></div>
+  <section class="explore-workflow site-container">
+    <div class="explore-workflow-copy"><span class="section-kicker">HOW QUANS FITS INTO YOUR DAY</span><h2>Bring the context.<br><em>Keep the control.</em></h2><p>Each workflow is designed to help you move from a starting point to a useful draft. You stay in charge of the decisions, edits and final result.</p><a class="button button-dark" href="tool.html">Visit the workspace <i data-lucide="arrow-up-right"></i></a></div>
+    <div class="explore-workflow-steps">
+      <div class="workflow-step"><span>01</span><div><i data-lucide="clipboard-pen-line"></i><b>Start with your input</b><small>Add your details, brief or source material.</small></div></div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Shape the direction</b><small>Choose the tone, format and details that matter.</small></div></div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review and refine</b><small>Check the output, make edits and use it your way.</small></div></div>
     </div>
   </section>
 
-  <section class="explore-contact explore-shell">
-    <div><span class="section-kicker">MISSING A WORKFLOW?</span><h2>Tell us what you need.</h2><p>Have an idea for a tool or a workflow you wish was easier? We'd like to hear about it.</p></div>
-    <a class="button button-primary" href="contact.html">Share an idea <i data-lucide="arrow-up-right"></i></a>
+  <section class="explore-bottom-cta site-container">
+    <div><span class="section-kicker">YOUR NEXT TASK IS A GOOD PLACE TO BEGIN</span><h2>Ready to make<br><em>something useful?</em></h2><p>Choose a tool and get started with the work you already have in mind.</p></div>
+    <a class="button button-primary" href="tool.html">Open Quans workspace <i data-lucide="arrow-up-right"></i></a>
   </section>
-  <p class="explore-disclaimer explore-shell">Quans is a human-oriented AI workspace. AI-generated outputs can require review and editing before use. Always verify important information before relying on it.</p>
+  <p class="home-disclaimer site-container">Quans is a human-oriented AI workspace. AI-generated outputs are starting points and should be reviewed for accuracy, context and suitability before use.</p>
 </main>
 
     <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
@@ -1723,10 +1655,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
             <button id="tabBtnAccount" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all bg-blue-600 text-white shadow-sm">
                 <i class="fa-solid fa-circle-user text-base"></i>
                 <span>Account</span>
-            </button>
-            <button id="tabBtnAppearance" type="button" class="flex-1 md:flex-initial flex items-center justify-center md:justify-start space-x-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-tight transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
-                <i class="fa-solid fa-palette text-base"></i>
-                <span>Appearance</span>
             </button>
             
             <button id="closeSettingsDesktopBtn" class="hidden md:flex absolute top-5 right-5 w-9 h-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all">
@@ -2963,91 +2891,5 @@ button, a { -webkit-tap-highlight-color: transparent; }
   }
 })();
 </script>
-
-<script id="quansExploreCatalogInteractions">
-(function () {
-  const initializeExploreCatalog = () => {
-    const searchInput = document.getElementById('exploreSearch');
-    const filterButtons = Array.from(document.querySelectorAll('[data-explore-filter]'));
-    const cards = Array.from(document.querySelectorAll('[data-explore-card]'));
-    const resultsCount = document.getElementById('exploreResultsCount');
-    const noResults = document.getElementById('exploreNoResults');
-    const clearButton = document.getElementById('exploreClearFilters');
-    if (!searchInput || !cards.length || !filterButtons.length) return;
-
-    let activeCategory = 'all';
-
-    const applyFilters = () => {
-      const query = searchInput.value.trim().toLowerCase();
-      let visibleCount = 0;
-
-      cards.forEach((card) => {
-        const categoryMatches = activeCategory === 'all' || card.dataset.category === activeCategory;
-        const searchText = `${card.dataset.search || ''} ${card.textContent || ''}`.toLowerCase();
-        const searchMatches = !query || searchText.includes(query);
-        const isVisible = categoryMatches && searchMatches;
-        card.classList.toggle('is-filtered-out', !isVisible);
-        if (isVisible) visibleCount += 1;
-      });
-
-      if (resultsCount) {
-        resultsCount.textContent = visibleCount === 4 && activeCategory === 'all' && !query
-          ? 'Showing all 4 tools'
-          : `Showing ${visibleCount} of 4 tools`;
-      }
-      if (noResults) noResults.hidden = visibleCount !== 0;
-    };
-
-    filterButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeCategory = button.dataset.exploreFilter || 'all';
-        filterButtons.forEach((item) => {
-          const isActive = item === button;
-          item.classList.toggle('is-active', isActive);
-          item.setAttribute('aria-pressed', String(isActive));
-        });
-        applyFilters();
-      });
-    });
-
-    searchInput.addEventListener('input', applyFilters);
-    if (clearButton) {
-      clearButton.addEventListener('click', () => {
-        searchInput.value = '';
-        activeCategory = 'all';
-        const allButton = filterButtons.find((button) => button.dataset.exploreFilter === 'all');
-        filterButtons.forEach((item) => {
-          const isActive = item === allButton;
-          item.classList.toggle('is-active', isActive);
-          item.setAttribute('aria-pressed', String(isActive));
-        });
-        applyFilters();
-        searchInput.focus();
-      });
-    }
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey) {
-        const target = event.target;
-        const isTyping = target && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
-        if (!isTyping) {
-          event.preventDefault();
-          searchInput.focus();
-        }
-      }
-    });
-
-    applyFilters();
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeExploreCatalog, { once: true });
-  } else {
-    initializeExploreCatalog();
-  }
-})();
-</script>
-
 </body>
 </html>
-
