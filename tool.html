@@ -490,6 +490,406 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 </style>
 
+<style id="quans-mobile-navigation-styles">
+  /* Mobile header: retain the Quans mark and menu control, not the desktop nav/auth row. */
+  @media (max-width: 800px) {
+    .site-page header > div.absolute.inset-x-0 {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > button:not(#openMobileMenu),
+    .site-page header #navAuthGroup > .mobile-auth-wrap > div:first-child {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > .mobile-auth-wrap {
+      display: flex !important;
+      align-items: center;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup {
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup #openMobileMenu {
+      display: inline-flex !important;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e0ef !important;
+      border-radius: 10px !important;
+      color: #29263f !important;
+      background: rgba(255,255,255,.88) !important;
+      box-shadow: 0 5px 14px rgba(39,27,90,.06);
+    }
+
+    .mobile-sidebar {
+      z-index: 1000;
+      isolation: isolate;
+    }
+
+    .mobile-sidebar:not(.opacity-0) {
+      visibility: visible;
+    }
+
+    .mobile-sidebar-overlay {
+      border: 0;
+      padding: 0;
+      background: rgba(23,22,43,.38);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      opacity: 0;
+      transition: opacity .3s ease;
+      cursor: default;
+    }
+
+    .mobile-sidebar:not(.opacity-0) .mobile-sidebar-overlay {
+      opacity: 1;
+    }
+
+    .mobile-drawer-panel {
+      box-sizing: border-box;
+      width: min(390px, 92vw);
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
+      color: #17162b;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(217,204,255,.34), transparent 230px),
+        linear-gradient(160deg, #fff 0%, #fbfaff 56%, #f8fbff 100%);
+      border-left: 1px solid rgba(226,222,239,.9);
+      border-radius: 22px 0 0 22px;
+      box-shadow: -24px 0 70px rgba(23,22,43,.18);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ece8f3;
+    }
+
+    .mobile-drawer-brand {
+      color: #17162b;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.09em;
+      text-decoration: none;
+    }
+
+    .mobile-drawer-brand span { color: #7655e8; }
+
+    .mobile-drawer-close {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f1;
+      border-radius: 10px;
+      color: #514c69;
+      background: rgba(255,255,255,.85);
+      font-size: 16px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .mobile-drawer-close:hover {
+      color: #5e40ce;
+      background: #f1edff;
+      transform: rotate(4deg);
+    }
+
+    .mobile-drawer-intro { padding: 29px 0 22px; }
+
+    .mobile-drawer-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #817b9c;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .mobile-drawer-kicker span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff8b76;
+      box-shadow: 0 0 0 4px rgba(255,139,118,.13);
+    }
+
+    .mobile-drawer-intro h2 {
+      margin: 13px 0 7px;
+      color: #17162b;
+      font-size: 34px;
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -.065em;
+    }
+
+    .mobile-drawer-intro h2 em {
+      color: #7655e8;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .mobile-drawer-intro p {
+      margin: 0;
+      color: #858197;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .mobile-drawer-nav {
+      display: grid;
+      gap: 5px;
+      padding: 2px 0 20px;
+    }
+
+    .mobile-drawer-panel .mobile-nav-link {
+      position: relative;
+      display: grid;
+      background: transparent !important;
+      border-color: transparent !important;
+      grid-template-columns: 42px minmax(0,1fr) 16px;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 9px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #39364f;
+      background: transparent;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover {
+      background: rgba(255,255,255,.86);
+      border-color: #ece7f5;
+      transform: translateX(2px);
+    }
+
+    .mobile-nav-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f3;
+      border-radius: 11px;
+      color: #7655e8;
+      background: #f3efff;
+      font-size: 14px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .mobile-nav-copy { min-width: 0; display: block; }
+    .mobile-nav-copy strong {
+      display: block;
+      color: #29263f;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .mobile-nav-copy small {
+      display: block;
+      margin-top: 4px;
+      color: #9691a6;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .mobile-nav-arrow {
+      color: #b0aabd;
+      font-size: 10px;
+      transition: color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover .mobile-nav-arrow {
+      color: #7655e8;
+      transform: translate(2px,-2px);
+    }
+
+    .mobile-drawer-panel .mobile-nav-link.is-active {
+      border-color: #e4dcfb !important;
+      background: linear-gradient(100deg, rgba(240,236,255,.96), rgba(255,255,255,.9)) !important;
+      box-shadow: inset 3px 0 0 #7655e8;
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-icon {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg,#7354e7,#9677f0);
+      box-shadow: 0 7px 14px rgba(112,80,220,.16);
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-copy strong,
+    .mobile-nav-link.is-active .mobile-nav-arrow { color: #5e40ce; }
+
+    .mobile-drawer-actions,
+    .mobile-drawer-account {
+      margin-top: auto;
+      padding: 17px;
+      border: 1px solid #e9e3f3;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 10px 24px rgba(39,27,90,.045);
+    }
+
+    .mobile-drawer-actions p {
+      margin: 0 0 13px;
+      color: #5d5873;
+      font-size: 11px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-primary,
+    .mobile-drawer-secondary {
+      display: flex;
+      width: 100%;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .mobile-drawer-primary {
+      color: #fff;
+      border: 1px solid transparent;
+      background: linear-gradient(110deg,#7354e7,#8d65f4);
+      box-shadow: 0 9px 18px rgba(112,80,220,.18);
+    }
+
+    .mobile-drawer-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(112,80,220,.24); }
+
+    .mobile-drawer-secondary {
+      margin-top: 7px;
+      color: #514c69;
+      border: 1px solid #e9e4f1;
+      background: #fff;
+    }
+
+    .mobile-account-kicker {
+      display: block;
+      color: #8b83a4;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .18em;
+    }
+
+    #mobileSidebarUserEmail {
+      margin: 7px 0 12px;
+      overflow-wrap: anywhere;
+      color: #39364f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-account button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 2px;
+      color: #5d5873;
+      border: 0;
+      border-top: 1px solid #f0edf5;
+      background: transparent;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mobile-drawer-account button i { width: 16px; color: #7655e8; }
+    .mobile-drawer-account button[data-mobile-logout] i { color: #ff8b76; }
+
+    .mobile-drawer-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 17px;
+      margin-top: 17px;
+      color: #aaa5b6;
+      border-top: 1px solid #ece8f3;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    body.mobile-menu-open { overflow: hidden; }
+  }
+
+  @media (max-width: 380px) {
+    .mobile-drawer-panel { padding-left: 18px; padding-right: 18px; }
+    .mobile-drawer-intro h2 { font-size: 31px; }
+    .mobile-nav-link { grid-template-columns: 38px minmax(0,1fr) 14px; gap: 10px; padding-inline: 9px; }
+    .mobile-nav-icon { width: 36px; height: 36px; }
+  }
+
+  @media (min-width: 801px) {
+    #mobileSidebar { display: none !important; }
+  }
+
+  .dark .mobile-drawer-panel {
+    color: #f1edff;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(112,89,180,.22), transparent 230px),
+      linear-gradient(160deg, #1c1a31 0%, #171529 58%, #191b2d 100%);
+    border-left-color: #38334f;
+  }
+  .dark .mobile-drawer-top,
+  .dark .mobile-drawer-footer { border-color: #38334f; }
+  .dark .mobile-drawer-brand,
+  .dark .mobile-drawer-intro h2 { color: #f1edff; }
+  .dark .mobile-drawer-intro p,
+  .dark .mobile-nav-copy small { color: #aaa5c1; }
+  .dark .mobile-nav-copy strong { color: #e9e5f5; }
+  .dark .mobile-drawer-panel .mobile-nav-link:hover { background: rgba(48,43,77,.72) !important; border-color: #494066 !important; }
+  .dark .mobile-drawer-panel .mobile-nav-link.is-active {
+    border-color: #5b4c8c !important;
+    background: linear-gradient(100deg, rgba(62,51,101,.9), rgba(37,33,61,.9)) !important;
+    box-shadow: inset 3px 0 0 #9b83ee;
+  }
+  .dark .mobile-nav-link.is-active .mobile-nav-copy strong,
+  .dark .mobile-nav-link.is-active .mobile-nav-arrow { color: #d4c8ff; }
+  .dark .mobile-nav-icon { border-color: #494066; background: #30294d; color: #c1b1ff; }
+  .dark .mobile-drawer-close,
+  .dark .mobile-drawer-secondary { color: #e8e3f4; background: #24213c; border-color: #494066; }
+  .dark .mobile-drawer-actions,
+  .dark .mobile-drawer-account { background: rgba(36,33,60,.88); border-color: #494066; }
+  .dark .mobile-drawer-actions p,
+  .dark .mobile-account-kicker,
+  .dark #mobileSidebarUserEmail,
+  .dark .mobile-drawer-account button { color: #c5bfd8; }
+  .dark .mobile-drawer-account button { border-top-color: #38334f; }
+  .dark .mobile-drawer-footer { color: #817b98; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-sidebar-overlay, .mobile-drawer-panel, .mobile-nav-link,
+    .mobile-nav-icon, .mobile-nav-arrow, .mobile-drawer-close,
+    .mobile-drawer-primary, .mobile-drawer-secondary { transition-duration: .01ms !important; }
+  }
+</style>
+
 </head>
 <body class="site-page workspace-page min-h-screen text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
@@ -537,8 +937,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 Signup
             </button>
             
-            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                <i class="fa-solid fa-bars-staggered text-lg" aria-hidden="true"></i>
             </button>
         </div>
     </header>
@@ -623,86 +1023,74 @@ button, a { -webkit-tap-highlight-color: transparent; }
     </div>
 </footer>
 
-    <div id="mobileSidebar" class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-200">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/30 backdrop-blur-xs"></div>
-        <div class="absolute top-0 right-0 h-screen overflow-y-auto w-[280px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-100 dark:border-slate-800 p-6 flex flex-col transform translate-x-full transition-transform duration-200 ease-out">
-            <div class="flex items-center justify-end pb-6 border-b border-slate-100 dark:border-slate-800">
-                <button id="closeMobileMenu" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                    <i class="fa-solid fa-xmark text-base"></i>
+    <div id="mobileSidebar" class="mobile-sidebar fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+        <button id="sidebarOverlay" class="mobile-sidebar-overlay absolute inset-0" type="button" aria-label="Close navigation menu"></button>
+
+        <aside class="mobile-drawer-panel absolute top-0 right-0 h-screen h-[100dvh] w-[min(390px,92vw)] overflow-y-auto flex flex-col transform translate-x-full transition-transform duration-300 ease-out" role="dialog" aria-modal="true" aria-labelledby="mobileSidebarTitle" tabindex="-1">
+            <div class="mobile-drawer-top">
+                <a href="index.html" class="mobile-drawer-brand" aria-label="Quans home">QUANS<span>.</span></a>
+                <button id="closeMobileMenu" class="mobile-drawer-close" type="button" aria-label="Close navigation menu">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="flex-1 py-8 flex flex-col space-y-3">
-                <a id="mobile-nav-home" href="index.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-house-chimney"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Home</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-tool" href="tool.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Tools</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-explore" href="explore.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-compass"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Explore</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-price" href="pricing.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Pricing</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-contact" href="contact.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">Contact Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
-                <a id="mobile-nav-about" href="about.html" class="flex items-center justify-between w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 group">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-brand-blue flex items-center justify-center text-base">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </div>
-                        <span class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">About Us</span>
-                    </div>
-                    <div class="text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform duration-200 pr-1">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </div>
-                </a>
+
+            <div class="mobile-drawer-intro">
+                <span class="mobile-drawer-kicker"><span></span> MENU</span>
+                <h2 id="mobileSidebarTitle">Explore <em>Quans.</em></h2>
+                <p>Everything you need to move your work forward.</p>
             </div>
-            <div class="text-xs text-slate-400 font-medium tracking-tight">
-                &copy; 2026 QUANS Inc.
+
+            <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
+                <a id="mobile-nav-home" href="index.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Home</strong><small>Your Quans overview</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-tool" href="tool.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Tools</strong><small>Explore focused workflows</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Explore</strong><small>Discover what you can create</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-price" href="pricing.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-tag" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Pricing</strong><small>Plans and access</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Contact Us</strong><small>Questions, feedback and ideas</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-about" href="about.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>About Us</strong><small>The story behind Quans</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+            </nav>
+
+            <div id="mobileSidebarGuestActions" class="mobile-drawer-actions">
+                <p>Ready to make room for better ideas?</p>
+                <button type="button" class="mobile-drawer-primary" data-mobile-signup>Get started <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                <button type="button" class="mobile-drawer-secondary" data-mobile-login>Log in to your account</button>
             </div>
-        </div>
+
+            <div id="mobileSidebarAccountActions" class="mobile-drawer-account hidden">
+                <span class="mobile-account-kicker">YOUR ACCOUNT</span>
+                <p id="mobileSidebarUserEmail">Signed in to Quans</p>
+                <button type="button" data-mobile-settings><i class="fa-solid fa-gear" aria-hidden="true"></i> Account settings</button>
+                <button type="button" data-mobile-logout><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Log out</button>
+            </div>
+
+            <div class="mobile-drawer-footer">
+                <span>© 2026 QUANS</span>
+                <span>Thoughtful tools. Better work.</span>
+            </div>
+        </aside>
     </div>
 
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
@@ -1434,39 +1822,92 @@ button, a { -webkit-tap-highlight-color: transparent; }
         document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
 
         const mobileSidebar = document.getElementById('mobileSidebar');
-        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.transform') : null;
-        
+        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.mobile-drawer-panel') : null;
+        let sidebarReturnFocus = null;
+
         const toggleSidebar = (open) => {
             if (!mobileSidebar || !sidebarPanel) return;
+            const menuButtons = document.querySelectorAll('#openMobileMenu');
+
             if (open) {
+                sidebarReturnFocus = document.activeElement;
                 mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'false');
                 sidebarPanel.classList.remove('translate-x-full');
+                document.body.classList.add('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'true'));
+                const closeButton = document.getElementById('closeMobileMenu');
+                if (closeButton) closeButton.focus({ preventScroll: true });
             } else {
                 mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'true');
                 sidebarPanel.classList.add('translate-x-full');
+                document.body.classList.remove('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
+                if (sidebarReturnFocus && typeof sidebarReturnFocus.focus === 'function') {
+                    sidebarReturnFocus.focus({ preventScroll: true });
+                }
+                sidebarReturnFocus = null;
             }
         };
 
-        // Global dropdown toggle handler
-        window.toggleUserDropdown = function(e) {
-            if (e) { e.stopPropagation(); }
-            const menu = document.getElementById('userDropdownMenu');
-            if(menu) menu.classList.toggle('hidden');
-        }
+        // Keep the drawer's bottom section in sync with Firebase authentication state.
+        window.syncMobileSidebarAccount = function(user) {
+            const guestActions = document.getElementById('mobileSidebarGuestActions');
+            const accountActions = document.getElementById('mobileSidebarAccountActions');
+            const emailLabel = document.getElementById('mobileSidebarUserEmail');
+            if (!guestActions || !accountActions) return;
 
-        // Single global click handler managing sidebar delegation and user dropdown closing
+            guestActions.classList.toggle('hidden', Boolean(user));
+            accountActions.classList.toggle('hidden', !user);
+            if (emailLabel) emailLabel.textContent = user && user.email ? user.email : 'Signed in to Quans';
+        };
+
+        // Global dropdown toggle handler.
+        window.toggleUserDropdown = function(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            if (menu) menu.classList.toggle('hidden');
+        };
+
+        // One delegated handler supports the drawer after Firebase replaces the auth controls.
         document.addEventListener('click', (e) => {
-            // Sidebar logic: works even if Firebase rerenders the parent container
-            if (e.target.closest('#openMobileMenu')) {
+            const target = e.target instanceof Element ? e.target : null;
+            if (!target) return;
+
+            if (target.closest('#openMobileMenu')) {
                 toggleSidebar(true);
-            } else if (e.target.closest('#closeMobileMenu') || e.target.closest('#sidebarOverlay')) {
+            } else if (target.closest('#closeMobileMenu') || target.closest('#sidebarOverlay')) {
+                toggleSidebar(false);
+            } else if (target.closest('[data-mobile-signup]')) {
+                toggleSidebar(false);
+                window.openAuthPopup();
+            } else if (target.closest('[data-mobile-login]')) {
+                toggleSidebar(false);
+                window.openLoginPopup();
+            } else if (target.closest('[data-mobile-settings]')) {
+                toggleSidebar(false);
+                const settingsTrigger = document.getElementById('firebaseSettingsTriggerBtn');
+                if (settingsTrigger) settingsTrigger.click();
+            } else if (target.closest('[data-mobile-logout]')) {
+                toggleSidebar(false);
+                const logoutTrigger = document.getElementById('firebaseLogoutBtn');
+                if (logoutTrigger) logoutTrigger.click();
+            } else if (target.closest('#mobileSidebar a')) {
                 toggleSidebar(false);
             }
 
-            // Dropdown logic: closes user dropdown menu when clicking outside
             const menu = document.getElementById('userDropdownMenu');
-            if (menu && !menu.classList.contains('hidden')) {
+            if (menu && !menu.classList.contains('hidden') &&
+                !target.closest('#userDropdownMenu') &&
+                !target.closest('[onclick*="toggleUserDropdown"]')) {
                 menu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileSidebar && !mobileSidebar.classList.contains('pointer-events-none')) {
+                toggleSidebar(false);
             }
         });
 
@@ -1528,8 +1969,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 pcElement.classList.add("text-slate-600");
             }
             if (mobileElement) {
-                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200");
-                mobileElement.classList.add("bg-slate-50", "border-slate-100");
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "bg-slate-50", "border-slate-100");
+                mobileElement.classList.remove("is-active");
             }
     
             // Check if our clean page name matches the pair configuration
@@ -1541,8 +1982,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 }
                 // Activate Mobile darker border combination
                 if (mobileElement) {
-                    mobileElement.classList.remove("bg-slate-50", "border-slate-100");
-                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200");
+                    mobileElement.classList.add("is-active");
                 }
             }
         });
@@ -2080,13 +2520,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 window.userIsAuthenticated = true;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(user);
                 
                 if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
                 if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
         
                 if (navAuthGroup) {
                     navAuthGroup.innerHTML = `
-                        <div class="flex items-center space-x-3 fade-in">
+                        <div class="mobile-auth-wrap flex items-center space-x-3 fade-in">
                             <div class="relative inline-block text-left">
                                 <button onclick="toggleUserDropdown(event)" class="flex items-center space-x-1 text-base font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-blue tracking-tight outline-none group">
                                     <span>Hello!</span>
@@ -2104,8 +2545,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                                     </button>
                                 </div>
                             </div>
-                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs">
-                                <i class="fa-solid fa-bars text-sm"></i>
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                                <i class="fa-solid fa-bars text-sm" aria-hidden="true"></i>
                             </button>
                         </div>
                     `;
@@ -2129,6 +2570,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
             } else {
                 window.userIsAuthenticated = false;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(null);
                 if (navAuthGroup) navAuthGroup.innerHTML = initialNavHTML;
                 closeSettingsPopupSystem();
             }
