@@ -33,523 +33,296 @@
             transform: translateX(0) !important;
         }
     </style>
-<style id="quans-tool-account-design">
-/* Signed-in account dropdown — QUANS visual system */
-.q-account-menu-wrap .q-account-menu-wrap { position: relative; }
-.q-account-menu-wrap .q-account-trigger {
-    display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
-    padding: 5px 13px 5px 6px; border: 1px solid #e9e6f0; border-radius: 999px;
-    background: rgba(255,255,255,.94); color: #29263f; font-family: 'DM Sans',sans-serif;
-    font-size: 12px; font-weight: 800; letter-spacing: -.01em;
-    box-shadow: 0 5px 16px rgba(43,31,91,.055);
-    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, background .2s ease;
-}
-.q-account-menu-wrap .q-account-trigger:hover,
-.q-account-menu-wrap .q-account-trigger[aria-expanded="true"] {
-    border-color: #d6cafa; background: #fff;
-    box-shadow: 0 8px 22px rgba(91,65,169,.12); transform: translateY(-1px);
-}
-.q-account-menu-wrap .q-account-avatar {
-    display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px;
-    border-radius: 50%; color: #fff; font-size: 12px;
-    background: linear-gradient(135deg,#7655e8 0%,#8f72ed 58%,#6ad7e7 135%);
-    box-shadow: 0 4px 10px rgba(118,85,232,.2);
-}
-.q-account-menu-wrap .q-account-greeting { color: #29263f; }
-.q-account-menu-wrap .q-account-chevron {
-    margin-left: 1px; color: #8d86a4; font-size: 9px;
-    transition: transform .2s ease, color .2s ease;
-}
-.q-account-menu-wrap .q-account-trigger[aria-expanded="true"] .q-account-chevron { transform: rotate(180deg); color: #7655e8; }
-.q-account-menu-wrap .q-account-dropdown {
-    top: calc(100% + 12px); width: 278px; max-width: calc(100vw - 24px);
-    overflow: hidden; border: 1px solid #e8e2f3; border-radius: 19px;
-    background: #fff; box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06);
-    transform-origin: top right;
-}
-.q-account-menu-wrap .q-account-dropdown:not(.hidden) { animation: qAccountDropdownIn .18s ease-out both; }
-@keyframes qAccountDropdownIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-.q-account-menu-wrap .q-account-dropdown-head {
-    display: flex; align-items: center; gap: 12px; padding: 17px 17px 15px;
-    background: radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff);
-    border-bottom: 1px solid #eeeaf5;
-}
-.q-account-menu-wrap .q-account-dropdown-mark {
-    display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px;
-    border: 1px solid rgba(255,255,255,.9); border-radius: 14px;
-    color: #7655e8; background: #fff; box-shadow: 0 5px 14px rgba(83,61,145,.09); font-size: 15px;
-}
-.q-account-menu-wrap .q-account-dropdown-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
-.q-account-menu-wrap .q-account-eyebrow { color: #8a81a5; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
-.q-account-menu-wrap .q-account-dropdown-copy strong { color: #29263f; font-size: 13px; font-weight: 800; }
-.q-account-menu-wrap .q-account-dropdown-copy > span:last-child { max-width: 185px; overflow: hidden; color: #89859a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-.q-account-menu-wrap .q-account-dropdown-actions { padding: 8px; }
-.q-account-menu-wrap .q-account-dropdown-item {
-    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px;
-    border: 0; border-radius: 12px; background: transparent; text-align: left;
-    transition: background .18s ease, transform .18s ease;
-}
-.q-account-menu-wrap .q-account-dropdown-item:hover { background: #f8f6fd; transform: translateX(2px); }
-.q-account-menu-wrap .q-account-action-icon {
-    display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 35px;
-    border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 12px;
-}
-.q-account-menu-wrap .q-account-action-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 2px; }
-.q-account-menu-wrap .q-account-action-copy strong { color: #302d48; font-size: 12px; font-weight: 800; }
-.q-account-menu-wrap .q-account-action-copy small { color: #9b97aa; font-size: 10px; }
-.q-account-menu-wrap .q-account-action-arrow { color: #b5aec7; font-size: 10px; transition: transform .18s ease,color .18s ease; }
-.q-account-menu-wrap .q-account-dropdown-item:hover .q-account-action-arrow { color: #7655e8; transform: translateX(2px); }
-.q-account-menu-wrap .q-account-dropdown-divider { height: 1px; margin: 3px 7px; background: #eeeaf5; }
-.q-account-menu-wrap .q-account-logout .q-account-action-icon { color: #cf6877; background: #fff0f2; }
-.q-account-menu-wrap .q-account-logout .q-account-action-copy strong { color: #a94f5c; }
-.q-account-menu-wrap .q-account-logout:hover { background: #fff8f8; }
-.q-account-menu-wrap .q-account-logout:hover .q-account-action-arrow { color: #cf6877; }
 
-/* Account settings popup */
-#settingsPopupModal { background: rgba(23,22,43,.58) !important; backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
-#settingsPopupModal .q-settings-dialog {
-    color: #29263f; background: #fff; border: 1px solid rgba(233,230,240,.95);
-    box-shadow: 0 30px 100px rgba(23,22,43,.24);
+<style id="quans-proposal-workspace-design">
+:root{
+  --q-ink:#17162b;--q-ink-soft:#29263f;--q-muted:#77758b;--q-line:#e9e6f0;
+  --q-paper:#fbfaff;--q-violet:#7655e8;--q-violet-dark:#5e40ce;
+  --q-cyan:#6ad7e7;--q-coral:#ff8b76;--q-lilac:#d9ccff;
+  --q-shadow:0 16px 42px rgba(39,29,80,.065);
 }
-#settingsPopupModal .q-settings-sidebar {
-    position: relative; display: flex; width: 232px; flex: 0 0 232px; flex-direction: column;
-    padding: 28px 18px 19px; border-right: 1px solid #e9e6f0;
-    background: radial-gradient(circle at 5% 8%,rgba(217,204,255,.55),transparent 13rem),linear-gradient(155deg,#fbfaff 0%,#f5f1ff 100%);
+html{min-height:100%;background:var(--q-paper)}
+body{
+  font-family:'DM Sans',sans-serif!important;color:var(--q-ink);
+  background:
+    radial-gradient(circle at 88% 3%,rgba(207,190,255,.24),transparent 27rem),
+    radial-gradient(circle at 4% 68%,rgba(112,218,228,.14),transparent 25rem),
+    #fbfaff!important;
 }
-#settingsPopupModal .q-settings-sidebar-brand { display: flex; align-items: center; gap: 11px; padding: 0 7px 34px; }
-#settingsPopupModal .q-settings-brand-mark {
-    display: grid; place-items: center; width: 41px; height: 41px; flex: 0 0 41px;
-    border: 1px solid rgba(255,255,255,.88); border-radius: 13px;
-    color: #fff; background: linear-gradient(135deg,#7655e8,#9275ee 68%,#6ad7e7 145%);
-    box-shadow: 0 7px 17px rgba(118,85,232,.2); font-size: 22px; font-weight: 900; letter-spacing: -.12em;
+body.q-proposal-shell{min-height:100vh}
+.q-proposal-shell ::selection{background:rgba(118,85,232,.2);color:var(--q-ink)}
+.q-proposal-shell button:focus-visible,.q-proposal-shell a:focus-visible,
+.q-proposal-shell input:focus-visible,.q-proposal-shell textarea:focus-visible{
+  outline:3px solid rgba(118,85,232,.3);outline-offset:2px
 }
-#settingsPopupModal .q-settings-sidebar-brand > div { display: flex; flex-direction: column; gap: 2px; }
-#settingsPopupModal .q-settings-sidebar-brand strong { color: #29263f; font-size: 15px; font-weight: 900; letter-spacing: -.06em; }
-#settingsPopupModal .q-settings-sidebar-brand small { color: #928da5; font-size: 10px; }
-#settingsPopupModal .q-settings-sidebar-label { margin: 0 9px 10px; color: #a19bb2; font-size: 9px; font-weight: 900; letter-spacing: .17em; }
-#settingsPopupModal .q-settings-nav-button {
-    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px 11px;
-    border: 1px solid transparent; border-radius: 12px; color: #77758b;
-    background: transparent; text-align: left; font-size: 12px; font-weight: 800;
-}
-#settingsPopupModal .q-settings-nav-button.active {
-    color: #fff; background: linear-gradient(110deg,#7655e8,#6849d7);
-    box-shadow: 0 8px 18px rgba(118,85,232,.2);
-}
-#settingsPopupModal .q-settings-nav-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #7655e8; background: #fff; font-size: 13px; }
-#settingsPopupModal .q-settings-nav-button.active .q-settings-nav-icon { color: #7655e8; }
-#settingsPopupModal .q-settings-nav-arrow { margin-left: auto; font-size: 9px; opacity: .65; }
-#settingsPopupModal .q-settings-sidebar-note {
-    margin-top: auto; padding: 15px 13px; border: 1px solid rgba(217,204,255,.8); border-radius: 15px;
-    background: rgba(255,255,255,.72);
-}
-#settingsPopupModal .q-settings-note-icon { display: grid; place-items: center; width: 29px; height: 29px; margin-bottom: 10px; border-radius: 9px; color: #7655e8; background: #f0ebff; font-size: 12px; }
-#settingsPopupModal .q-settings-sidebar-note strong { display: block; color: #48415f; font-size: 10px; font-weight: 800; }
-#settingsPopupModal .q-settings-sidebar-note p { margin: 5px 0 0; color: #8d879e; font-size: 10px; line-height: 1.55; }
-#settingsPopupModal .q-settings-sidebar-footer { padding: 19px 7px 0; color: #aaa5b8; font-size: 8px; font-weight: 900; letter-spacing: .13em; }
-#settingsPopupModal .q-settings-sidebar-footer span { padding: 0 4px; color: #c3b8e6; }
-#settingsPopupModal .q-settings-main { position: relative; min-width: 0; flex: 1; padding: 47px 45px 38px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d9ccff transparent; }
-#settingsPopupModal .q-settings-main::-webkit-scrollbar { width: 6px; }
-#settingsPopupModal .q-settings-main::-webkit-scrollbar-thumb { border-radius: 20px; background: #d9ccff; }
-#settingsPopupModal .q-settings-desktop-close,
-#settingsPopupModal .q-settings-close {
-    display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px;
-    border: 1px solid #eeeaf5; border-radius: 11px; color: #89839c; background: #fbfaff;
-    transition: all .2s ease;
-}
-#settingsPopupModal .q-settings-close:hover { border-color: #d9ccff; color: #5e40ce; background: #f2edff; }
-#settingsPopupModal .q-settings-desktop-close { position: absolute; top: 19px; right: 20px; }
-#settingsPopupModal .q-settings-heading { margin-bottom: 29px; padding-right: 35px; }
-#settingsPopupModal .q-settings-kicker { display: inline-flex; align-items: center; gap: 9px; color: #817b9c; font-size: 9px; font-weight: 900; letter-spacing: .18em; }
-#settingsPopupModal .q-settings-kicker span { width: 7px; height: 7px; border-radius: 50%; background: #ff8b76; box-shadow: 0 0 0 4px rgba(255,139,118,.13); }
-#settingsPopupModal .q-settings-heading h2 { margin: 12px 0 7px; color: #17162b; font-size: 25px; font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
-#settingsPopupModal .q-settings-heading p { max-width: 440px; margin: 0; color: #858197; font-size: 12px; line-height: 1.7; }
-#settingsPopupModal .q-settings-field-label { display: block; margin-bottom: 10px; color: #9691a6; font-size: 9px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
-#settingsPopupModal .q-settings-email-card {
-    display: flex; max-width: 510px; min-height: 60px; align-items: center; gap: 12px; padding: 10px 14px;
-    border: 1px solid #e9e6f0; border-radius: 14px; background: #f9f7fd;
-    box-shadow: inset 0 1px 2px rgba(39,29,80,.025);
-}
-#settingsPopupModal .q-settings-email-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid #eeeaf5; border-radius: 10px; color: #7655e8; background: #fff; font-size: 13px; }
-#settingsPopupModal .q-settings-email-value { min-width: 0; flex: 1; overflow: hidden; color: #343149 !important; font-size: 12px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
-#settingsPopupModal .q-settings-verified-icon { color: #6ebc9e; font-size: 13px; }
-#settingsPopupModal .q-settings-actions { display: grid; max-width: 510px; gap: 10px; margin-top: 27px; }
-#settingsPopupModal .q-settings-action {
-    display: flex; width: 100%; min-height: 63px; align-items: center; gap: 13px; padding: 11px 14px;
-    border: 1px solid #e9e6f0; border-radius: 14px; color: #343149; background: #fff; text-align: left;
-    transition: transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
-}
-#settingsPopupModal .q-settings-action:hover { transform: translateY(-1px); border-color: #d7cbf7; background: #fdfcff; box-shadow: 0 8px 19px rgba(60,44,110,.055); }
-#settingsPopupModal .q-settings-action-icon { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 13px; }
-#settingsPopupModal .q-settings-action-title { flex: 1; color: #343149; font-size: 12px; font-weight: 800; }
-#settingsPopupModal .q-settings-action-chevron { color: #c1bbcf; font-size: 10px; transition: transform .2s ease,color .2s ease; }
-#settingsPopupModal .q-settings-action:hover .q-settings-action-chevron { transform: translateX(3px); color: #7655e8; }
-#settingsPopupModal .q-settings-action-danger { border-color: #f3e3e6; }
-#settingsPopupModal .q-settings-action-danger .q-settings-action-icon { color: #d66d7a; background: #fff0f2; }
-#settingsPopupModal .q-settings-action-danger .q-settings-action-title { color: #bd5866; }
-#settingsPopupModal .q-settings-action-danger:hover { border-color: #efcbd0; background: #fff9f9; }
-#settingsPopupModal #settingsAlertMsg { border-radius: 13px !important; line-height: 1.5; }
-#settingsPopupModal #settingsAlertMsg.bg-emerald-50 { border: 1px solid #ccebdd; background: #f0fbf5; color: #388b67; }
-#settingsPopupModal #settingsAlertMsg.bg-rose-50 { border: 1px solid #f3d6da; background: #fff5f6; color: #bd5866; }
+.q-proposal-shell ::-webkit-scrollbar{width:6px;height:6px}
+.q-proposal-shell ::-webkit-scrollbar-thumb{background:#d9d2e8;border-radius:20px}
+.q-proposal-shell ::-webkit-scrollbar-track{background:transparent}
 
-@media (max-width: 767px) {
-    .q-account-menu-wrap .q-account-dropdown { right: -3px; }
-    #settingsPopupModal { padding: 0 !important; }
-    #settingsPopupModal .q-settings-dialog { width: 100%; height: 100%; max-height: none; min-height: 0; border: 0; border-radius: 0; }
-    #settingsPopupModal .q-settings-mobile-header { display: flex; min-height: 69px; align-items: center; justify-content: space-between; padding: 12px 19px; border-bottom: 1px solid #eeeaf5; background: #fff; }
-    #settingsPopupModal .q-settings-mobile-brand { display: flex; align-items: center; gap: 10px; }
-    #settingsPopupModal .q-settings-mobile-brand .q-settings-brand-mark { width: 36px; height: 36px; flex-basis: 36px; border-radius: 11px; font-size: 19px; }
-    #settingsPopupModal .q-settings-mobile-title { display: flex; flex-direction: column; gap: 1px; }
-    #settingsPopupModal .q-settings-mobile-title strong { color: #29263f; font-size: 13px; font-weight: 800; }
-    #settingsPopupModal .q-settings-mobile-title small { color: #9691a6; font-size: 10px; }
-    #settingsPopupModal .q-settings-sidebar { width: 100%; flex: 0 0 auto; flex-direction: row; align-items: center; padding: 10px 17px; border-right: 0; border-bottom: 1px solid #e9e6f0; background: #fbfaff; }
-    #settingsPopupModal .q-settings-sidebar-brand,
-    #settingsPopupModal .q-settings-sidebar-label,
-    #settingsPopupModal .q-settings-sidebar-note,
-    #settingsPopupModal .q-settings-sidebar-footer { display: none; }
-    #settingsPopupModal .q-settings-nav-button { width: auto; min-width: 112px; padding: 7px 10px; }
-    #settingsPopupModal .q-settings-main { padding: 28px 21px 34px; }
-    #settingsPopupModal .q-settings-desktop-close { display: none; }
-    #settingsPopupModal .q-settings-heading { margin-bottom: 24px; }
-    #settingsPopupModal .q-settings-heading h2 { font-size: 23px; }
+/* Product header */
+.q-proposal-shell > header{
+  height:76px;min-height:76px;padding:0 clamp(14px,3vw,38px)!important;
+  background:rgba(251,250,255,.92)!important;border-bottom:1px solid rgba(226,222,239,.9)!important;
+  box-shadow:0 8px 32px rgba(27,20,69,.035);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
 }
-@media (prefers-reduced-motion: reduce) {
-    .q-account-menu-wrap .q-account-dropdown:not(.hidden) { animation: none; }
-    .q-account-menu-wrap .q-account-trigger,
-    .q-account-menu-wrap .q-account-dropdown-item,
-    #settingsPopupModal * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+.q-proposal-brand{display:inline-flex;align-items:center;gap:9px;margin-right:clamp(8px,1.6vw,20px);text-decoration:none;white-space:nowrap}
+.q-proposal-brand-mark{
+  display:grid;place-items:center;width:31px;height:31px;border-radius:10px;color:#fff;
+  background:linear-gradient(135deg,#7655e8,#9275ee 70%,#6ad7e7 145%);
+  box-shadow:0 5px 12px rgba(118,85,232,.2);font-family:Georgia,serif;font-size:18px;font-weight:700
 }
+.q-proposal-brand-word{color:#17162b;font-size:17px;font-weight:900;letter-spacing:-.09em}
+.q-proposal-back{
+  display:inline-flex;align-items:center;gap:8px;min-height:39px;padding:0 13px;
+  border:1px solid #e4dfed;border-radius:10px;color:#625d76;background:#fff;
+  font-size:11px;font-weight:800;text-decoration:none;box-shadow:0 4px 12px rgba(43,31,91,.035);
+  transition:all .2s ease
+}
+.q-proposal-back:hover{color:#5e40ce;border-color:#d6cafa;background:#fbfaff;transform:translateY(-1px)}
+.q-proposal-shell header h1{color:#29263f!important;font-size:15px!important;font-weight:850!important;letter-spacing:-.035em!important}
+#profileTriggerBtn.q-account-trigger{
+  display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:5px 13px 5px 6px;
+  border:1px solid #e9e6f0;border-radius:999px;background:rgba(255,255,255,.96);
+  color:#29263f;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:800;
+  box-shadow:0 5px 16px rgba(43,31,91,.055);transition:all .2s ease
+}
+#profileTriggerBtn.q-account-trigger:hover,#profileTriggerBtn[aria-expanded="true"]{
+  border-color:#d6cafa;background:#fff;box-shadow:0 8px 22px rgba(91,65,169,.12);transform:translateY(-1px)
+}
+.q-account-avatar{
+  display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border-radius:50%;
+  color:#fff;background:linear-gradient(135deg,#7655e8,#8f72ed 58%,#6ad7e7 135%);
+  box-shadow:0 4px 10px rgba(118,85,232,.2);font-size:12px
+}
+.q-account-greeting{color:#29263f!important}
+.q-account-chevron{color:#8d86a4;font-size:9px;transition:transform .2s ease}
+#profileTriggerBtn[aria-expanded="true"] .q-account-chevron{transform:rotate(180deg);color:#7655e8}
+#profileDropdownMenu.q-account-dropdown{
+  top:calc(100% + 12px);width:278px;max-width:calc(100vw - 24px);padding:0;
+  overflow:hidden;border:1px solid #e8e2f3;border-radius:19px;background:#fff;
+  box-shadow:0 22px 58px rgba(35,26,75,.18),0 4px 12px rgba(35,26,75,.06)
+}
+.q-account-dropdown-head{
+  display:flex;align-items:center;gap:12px;padding:17px;
+  background:radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff);
+  border-bottom:1px solid #eeeaf5
+}
+.q-account-dropdown-mark{
+  display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border:1px solid #fff;
+  border-radius:14px;color:#7655e8;background:#fff;box-shadow:0 5px 14px rgba(83,61,145,.09);font-size:16px;font-weight:900
+}
+.q-account-dropdown-copy{display:flex;min-width:0;flex-direction:column;gap:3px}
+.q-account-eyebrow{color:#8a81a5;font-size:9px;font-weight:900;letter-spacing:.16em}
+.q-account-dropdown-copy strong{color:#29263f;font-size:13px;font-weight:800}
+.q-account-email{max-width:185px;overflow:hidden;color:#89859a;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.q-account-dropdown-actions{padding:8px}
+.q-account-dropdown-item{
+  display:flex;width:100%;align-items:center;gap:11px;padding:10px;border:0;border-radius:12px;
+  background:transparent;text-align:left;transition:background .18s ease,transform .18s ease
+}
+.q-account-dropdown-item:hover{background:#f8f6fd;transform:translateX(2px)}
+.q-account-action-icon{
+  display:grid;place-items:center;width:35px;height:35px;flex:0 0 35px;border-radius:11px;
+  color:#7655e8;background:#f1edff;font-size:12px
+}
+.q-account-action-copy{display:flex;min-width:0;flex:1;flex-direction:column;gap:2px}
+.q-account-action-copy strong{color:#302d48;font-size:12px;font-weight:800}
+.q-account-action-copy small{color:#9b97aa;font-size:10px}
+.q-account-action-arrow{color:#b5aec7;font-size:10px}
+.q-account-dropdown-divider{height:1px;margin:3px 7px;background:#eeeaf5}
+.q-account-logout .q-account-action-icon{color:#cf6877;background:#fff0f2}
+.q-account-logout .q-account-action-copy strong{color:#a94f5c}
+.q-account-logout:hover{background:#fff8f8}
 
-/* Higher-specificity refinements over the legacy header/settings utility rules. */
-.q-account-menu-wrap #userDropdownMenu.q-account-dropdown {
-    width: 278px !important; max-width: calc(100vw - 24px); margin-top: 0 !important; padding: 0 !important;
-    border: 1px solid #e8e2f3 !important; border-radius: 19px !important; background: #fff !important;
-    box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06) !important;
+/* Main workspace composition */
+.q-proposal-shell > main{
+  width:min(1500px,100%);max-width:1500px;min-height:0;padding:clamp(14px,2.2vw,30px)!important;
+  gap:clamp(12px,1.5vw,18px)!important;background:transparent
 }
-.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item {
-    padding: 10px !important; border: 0 !important; border-radius: 12px !important;
-    color: inherit !important; background: transparent; font-size: 12px !important;
+.q-proposal-shell > main > section{
+  min-width:0;border:1px solid #e7e2ef!important;border-radius:20px!important;
+  background:rgba(255,255,255,.97)!important;box-shadow:var(--q-shadow)!important
 }
-.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item:hover {
-    background: #f8f6fd !important; color: inherit !important;
+.q-proposal-shell > main > section:first-child{padding:clamp(17px,1.8vw,23px)!important}
+.q-proposal-shell > main > section:first-child:before{
+  content:"PROPOSAL WORKSPACE";display:block;margin:0 0 7px;color:#8c83a5;
+  font-size:9px;font-weight:900;letter-spacing:.18em
 }
-.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-logout:hover { background: #fff8f8 !important; }
-#settingsPopupModal > .q-settings-dialog {
-    border: 1px solid rgba(233,230,240,.95) !important; border-radius: 28px !important;
-    box-shadow: 0 30px 100px rgba(23,22,43,.24) !important;
+.q-proposal-shell > main > section:first-child:after{
+  content:"Shape your pitch";display:block;position:absolute;top:clamp(38px,3.4vw,48px);
+  left:clamp(17px,1.8vw,23px);color:#29263f;font-size:19px;font-weight:850;letter-spacing:-.055em;pointer-events:none
 }
-#settingsPopupModal button#tabBtnAccount.q-settings-nav-button { border-radius: 12px !important; }
-#settingsPopupModal #panelSectionAccount button.q-settings-action { border-radius: 14px !important; }
-@media (max-width: 767px) {
-    #settingsPopupModal > .q-settings-dialog { border: 0 !important; border-radius: 0 !important; }
+.q-proposal-shell > main > section:first-child{position:relative;padding-top:76px!important}
+.q-proposal-shell > main > section:first-child .space-y-4{padding-top:2px}
+.q-proposal-shell > main > section:first-child label,
+.q-proposal-shell > main > section:first-child h3{
+  color:#827d97;font-size:9px;font-weight:900;letter-spacing:.14em
 }
+.q-proposal-shell > main > section:first-child input:not([type=checkbox]),
+.q-proposal-shell > main > section:first-child textarea,
+.q-proposal-shell .dropdown-trigger{
+  border:1px solid #e8e4ef!important;border-radius:11px!important;color:#302d48!important;background:#fdfcff!important;
+  box-shadow:none!important;transition:border-color .18s,box-shadow .18s,background .18s
+}
+.q-proposal-shell > main > section:first-child input:focus,
+.q-proposal-shell > main > section:first-child textarea:focus{
+  border-color:#a18beb!important;background:#fff!important;box-shadow:0 0 0 3px rgba(118,85,232,.09)!important;outline:none
+}
+.q-proposal-shell .dropdown-trigger{min-height:41px}
+.q-proposal-shell .dropdown-trigger:hover{border-color:#cfc3f5!important;background:#fff!important}
+.q-proposal-shell .dropdown-menu-options{
+  border-color:#e7e1f0!important;border-radius:12px!important;box-shadow:0 16px 35px rgba(35,26,75,.13)!important
+}
+.q-proposal-shell .dropdown-menu-options .option-item:hover{background:#f5f1ff!important;color:#5e40ce!important}
+.q-proposal-shell #generationTriggerBtn{
+  min-height:47px;border:0;border-radius:12px!important;
+  background:linear-gradient(110deg,#7655e8,#8e6df0)!important;
+  box-shadow:0 10px 20px rgba(118,85,232,.17);letter-spacing:-.01em
+}
+.q-proposal-shell #generationTriggerBtn:hover{
+  background:linear-gradient(110deg,#5e40ce,#7655e8)!important;transform:translateY(-1px);
+  box-shadow:0 14px 25px rgba(118,85,232,.22)
+}
+.q-proposal-shell > main > section:last-child{box-shadow:0 16px 44px rgba(39,29,80,.055)!important}
+.q-proposal-shell > main > section:last-child > div:first-child{
+  min-height:54px;background:#fbfaff!important;border-color:#eeeaf5!important
+}
+.q-proposal-shell #statusLabelIndicator{color:#343149;font-weight:800}
+.q-proposal-shell #statusDotIndicator{box-shadow:0 0 0 4px rgba(118,85,232,.08)}
+.q-proposal-shell #copyToClipboardBtn{border-color:#e5e0ef;border-radius:9px;color:#5944b4;font-weight:800}
+.q-proposal-shell #copyToClipboardBtn:hover{border-color:#cfc3f5;background:#f8f6fd}
+.q-proposal-shell #outputDisplayScreenFrame{background:linear-gradient(180deg,#fff 0%,#fdfcff 100%)}
+.q-proposal-shell #fallbackEmptyStatePanel{max-width:340px}
+.q-proposal-shell #fallbackEmptyStatePanel:before{
+  content:"✦";display:grid;place-items:center;width:56px;height:56px;margin:0 auto 15px;
+  border:1px solid #e8e1fb;border-radius:17px;color:#7655e8;background:#f6f2ff;font-size:22px
+}
+.q-proposal-shell #contentRendererDisplayBlock > div:not(.flex){
+  border-color:#e9e5f0!important;border-radius:14px!important;box-shadow:0 5px 15px rgba(39,29,80,.025)!important
+}
+.q-proposal-shell #contentRendererDisplayBlock [class*="bg-slate-50"]{background:#faf9fd!important}
+.q-proposal-shell #contentRendererDisplayBlock [class*="border-slate-100"]{border-color:#eeeaf4!important}
+.q-proposal-shell #contentRendererDisplayBlock [class*="text-slate-800"]{color:#29263f!important}
+.q-proposal-shell #contentRendererDisplayBlock [class*="text-slate-700"]{color:#4b4760!important}
+.q-proposal-shell #desktopDropupTriggerBtn{
+  border:1px solid #39334f;border-radius:11px;background:linear-gradient(110deg,#29263f,#17162b)!important;
+  box-shadow:0 10px 24px rgba(23,22,43,.18)
+}
+.q-proposal-shell #desktopDropupTriggerBtn:hover{background:linear-gradient(110deg,#514477,#29263f)!important;transform:translateY(-1px)}
+.q-proposal-shell #desktopDropupPanel{
+  border:1px solid #e6e0ef!important;border-radius:16px!important;box-shadow:0 22px 55px rgba(35,26,75,.16)!important
+}
+.q-proposal-shell #desktopDropupPanel>div:first-child{background:#fbfaff!important;border-color:#eeeaf5!important}
+.q-proposal-shell #desktopHistorySearchBox,.q-proposal-shell #mobileHistorySearchBox{
+  border-color:#e6e1ef!important;border-radius:10px!important
+}
+.q-proposal-shell #mobileSidebarDrawerPanel{border-left:1px solid #e7e2ef;box-shadow:-18px 0 55px rgba(35,26,75,.14)!important}
+.q-proposal-shell #mobileDrawerOpenBtn{width:39px;height:39px;border-color:#e3def0!important;color:#7655e8!important}
 
-
-/* QUANS shared account and tool workspace finishing layer */
-:root {
-  --q-ink:#17162b; --q-ink-soft:#29263f; --q-muted:#77758b; --q-line:#e9e6f0;
-  --q-paper:#fbfaff; --q-violet:#7655e8; --q-violet-dark:#5e40ce;
-  --q-cyan:#6ad7e7; --q-coral:#ff8b76; --q-lilac:#d9ccff;
+/* Settings panel */
+#proposalSettingsModal{
+  position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;
+  padding:22px;background:rgba(23,22,43,.58);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)
 }
-body { font-family:'DM Sans',sans-serif !important; background:#fbfaff !important; color:var(--q-ink); }
-header.sticky {
-  background:rgba(251,250,255,.94) !important; border-bottom:1px solid rgba(226,222,239,.9) !important;
-  box-shadow:0 7px 26px rgba(27,20,69,.035); backdrop-filter:blur(18px);
+#proposalSettingsModal.is-open{display:flex}
+#proposalSettingsModal .q-settings-dialog{
+  position:relative;display:flex;width:min(760px,100%);max-height:min(620px,calc(100vh - 44px));
+  overflow:hidden;border:1px solid rgba(233,230,240,.95);border-radius:24px;background:#fff;
+  box-shadow:0 30px 100px rgba(23,22,43,.24);animation:qSettingsIn .2s ease-out both
 }
-header h1 { color:#29263f !important; letter-spacing:-.035em !important; }
-header a[href="tool.html"] { border-color:#e6e1f0 !important; color:#514c69 !important; background:#fff !important; }
-header a[href="tool.html"]:hover { border-color:#d6cafa !important; color:#5e40ce !important; background:#fbfaff !important; }
-#profileTriggerBtn { border:1px solid #e9e6f0 !important; }
-#profileDropdownMenu { z-index:90; }
-main > section { border-color:#e9e6f0 !important; box-shadow:0 12px 34px rgba(39,29,80,.035) !important; }
-#generationTriggerBtn { background:linear-gradient(110deg,#7655e8,#8e6df0) !important; box-shadow:0 9px 20px rgba(118,85,232,.17); }
-#generationTriggerBtn:hover { background:linear-gradient(110deg,#5e40ce,#7655e8) !important; }
-input:focus, textarea:focus { border-color:#9b83ef !important; box-shadow:0 0 0 3px rgba(118,85,232,.09); }
-#desktopDropupTriggerBtn { background:#29263f !important; }
-#desktopDropupTriggerBtn:hover { background:#5e40ce !important; }
-#desktopDropupPanel { border-color:#e9e6f0 !important; box-shadow:0 20px 50px rgba(35,26,75,.13) !important; }
-#mobileSidebarDrawerOverlay > #mobileSidebarDrawerPanel { border-left:1px solid #e9e6f0; }
-#mobileSidebarDrawerPanel > div:first-child { background:linear-gradient(120deg,#fbfaff,#f5f1ff) !important; }
-.q-account-menu-wrap { position:relative; }
-.q-account-trigger { border:1px solid #e9e6f0; border-radius:999px; background:#fff; color:#29263f; box-shadow:0 5px 16px rgba(43,31,91,.055); }
-.q-account-trigger:hover, .q-account-trigger[aria-expanded="true"] { border-color:#d6cafa; box-shadow:0 8px 22px rgba(91,65,169,.12); }
-.q-account-dropdown { position:absolute; top:calc(100% + 9px); right:0; width:278px; max-width:calc(100vw - 22px); overflow:hidden; border:1px solid #e8e2f3; border-radius:19px; background:#fff; box-shadow:0 22px 58px rgba(35,26,75,.18); transform-origin:top right; }
-.q-account-dropdown-head { display:flex; align-items:center; gap:12px; padding:16px; background:radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff); border-bottom:1px solid #eeeaf5; }
-.q-account-dropdown-mark { display:grid; place-items:center; width:42px; height:42px; flex:0 0 42px; border:1px solid #fff; border-radius:14px; color:#7655e8; background:#fff; box-shadow:0 5px 14px rgba(83,61,145,.09); font-weight:900; }
-.q-account-dropdown-copy { display:flex; min-width:0; flex-direction:column; gap:3px; }
-.q-account-eyebrow { color:#8a81a5; font-size:9px; font-weight:900; letter-spacing:.16em; }
-.q-account-dropdown-copy strong { color:#29263f; font-size:13px; font-weight:800; }
-.q-account-email { max-width:185px; overflow:hidden; color:#89859a; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
-.q-account-dropdown-actions { padding:8px; }
-.q-account-dropdown-item { display:flex; width:100%; align-items:center; gap:11px; padding:10px; border:0; border-radius:12px; background:transparent; text-align:left; transition:background .18s ease,transform .18s ease; }
-.q-account-dropdown-item:hover { background:#f8f6fd; transform:translateX(2px); }
-.q-account-action-icon { display:grid; place-items:center; width:35px; height:35px; flex:0 0 35px; border-radius:11px; color:#7655e8; background:#f1edff; font-size:12px; }
-.q-account-action-copy { display:flex; min-width:0; flex:1; flex-direction:column; gap:2px; }
-.q-account-action-copy strong { color:#302d48; font-size:12px; font-weight:800; }
-.q-account-action-copy small { color:#9b97aa; font-size:10px; }
-.q-account-action-arrow { color:#b5aec7; font-size:10px; }
-.q-account-dropdown-divider { height:1px; margin:3px 7px; background:#eeeaf5; }
-.q-account-logout .q-account-action-icon { color:#cf6877; background:#fff0f2; }
-.q-account-logout .q-account-action-copy strong { color:#a94f5c; }
-.q-account-logout:hover { background:#fff8f8; }
-.q-mobile-nav-overlay { position:fixed; inset:0; z-index:85; background:rgba(23,22,43,.38); backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .25s ease; }
-.q-mobile-nav-overlay.is-open { opacity:1; pointer-events:auto; }
-.q-mobile-nav-panel { position:absolute; top:0; right:0; width:min(390px,92vw); height:100%; overflow-y:auto; padding:22px; background:linear-gradient(155deg,#fff 0%,#fbfaff 68%,#f5f1ff 100%); border-left:1px solid #e9e6f0; box-shadow:-20px 0 60px rgba(35,26,75,.13); transform:translateX(102%); transition:transform .28s cubic-bezier(.2,.8,.2,1); display:flex; flex-direction:column; }
-.q-mobile-nav-overlay.is-open .q-mobile-nav-panel { transform:translateX(0); }
-.q-mobile-nav-brand { display:flex; align-items:center; justify-content:space-between; padding-bottom:21px; border-bottom:1px solid #e9e6f0; }
-.q-mobile-nav-brandmark { display:flex; align-items:center; gap:11px; color:#17162b; font-size:18px; font-weight:900; letter-spacing:-.08em; }
-.q-mobile-nav-brandmark b { display:grid; place-items:center; width:37px; height:37px; border-radius:12px; color:#fff; background:linear-gradient(135deg,#7655e8,#6ad7e7); }
-.q-mobile-nav-close { width:36px; height:36px; border:1px solid #e9e6f0; border-radius:11px; color:#77758b; background:#fff; }
-.q-mobile-nav-kicker { margin:24px 0 10px; color:#9b94ae; font-size:9px; font-weight:900; letter-spacing:.18em; }
-.q-mobile-nav-links { display:grid; gap:8px; }
-.q-mobile-nav-link { display:flex; align-items:center; gap:12px; padding:12px; border:1px solid #ece8f3; border-radius:14px; color:#39354f; background:rgba(255,255,255,.86); text-decoration:none; font-size:13px; font-weight:750; }
-.q-mobile-nav-link i { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; color:#7655e8; background:#f1edff; }
-.q-mobile-nav-link .q-nav-arrow { margin-left:auto; color:#bbb4ca; font-size:10px; }
-.q-mobile-account { margin-top:auto; padding-top:18px; }
-.q-mobile-account-card { padding:14px; border:1px solid #e6def7; border-radius:16px; background:rgba(255,255,255,.82); }
-.q-mobile-account-card strong { display:block; color:#29263f; font-size:12px; }
-.q-mobile-account-card small { display:block; margin-top:4px; color:#89859a; font-size:10px; overflow-wrap:anywhere; }
-.q-mobile-account-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
-.q-mobile-account-actions button { min-height:39px; border:1px solid #e8e2f3; border-radius:11px; color:#5e40ce; background:#fff; font-size:11px; font-weight:800; }
-.q-mobile-account-actions button:last-child { color:#b45564; }
-#settingsPopupModal { background:rgba(23,22,43,.58) !important; backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px); }
-#settingsPopupModal .q-settings-dialog { color:#29263f; background:#fff; border:1px solid rgba(233,230,240,.95); box-shadow:0 30px 100px rgba(23,22,43,.24); }
-
-#settingsPopupModal #settingsAlertMsg { border-radius:13px !important; line-height:1.5; }
-@media (max-width:767px) {
-  header.sticky { min-height:60px; }
-  #profileDropdownRoot .q-account-dropdown { right:-4px; }
-  #settingsPopupModal { padding:0 !important; }
+@keyframes qSettingsIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+#proposalSettingsModal .q-settings-sidebar{
+  display:flex;width:215px;flex:0 0 215px;flex-direction:column;padding:26px 17px 18px;
+  border-right:1px solid #e9e6f0;
+  background:radial-gradient(circle at 5% 8%,rgba(217,204,255,.55),transparent 13rem),linear-gradient(155deg,#fbfaff,#f5f1ff)
 }
-@media (prefers-reduced-motion:reduce) { .q-account-dropdown,.q-mobile-nav-panel,#settingsPopupModal * { transition-duration:.01ms !important; animation-duration:.01ms !important; } }
-</style>
-
-<style id="quans-unified-workspace-design">
-:root {
-  --q-ink:#17162b; --q-ink-soft:#29263f; --q-muted:#77758b;
-  --q-line:#e9e6f0; --q-paper:#fbfaff; --q-white:#fff;
-  --q-violet:#7655e8; --q-violet-dark:#5e40ce; --q-cyan:#6ad7e7;
-  --q-coral:#ff8b76; --q-lilac:#d9ccff;
-  --q-shadow:0 14px 38px rgba(39,29,80,.065);
+#proposalSettingsModal .q-settings-brand{display:flex;align-items:center;gap:10px;padding:0 5px 30px}
+#proposalSettingsModal .q-settings-brand-mark{
+  display:grid;place-items:center;width:38px;height:38px;border-radius:12px;color:#fff;
+  background:linear-gradient(135deg,#7655e8,#6ad7e7);font-family:Georgia,serif;font-size:21px
 }
-html { scroll-behavior:smooth; }
-body.q-workspace-shell {
-  color:var(--q-ink); font-family:'DM Sans',sans-serif;
-  background:radial-gradient(circle at 88% 3%,rgba(207,190,255,.23),transparent 27rem),
-             radial-gradient(circle at 4% 65%,rgba(112,218,228,.13),transparent 25rem),#fbfaff;
+#proposalSettingsModal .q-settings-brand strong{display:block;color:#29263f;font-size:14px;font-weight:900;letter-spacing:-.06em}
+#proposalSettingsModal .q-settings-brand small{display:block;margin-top:2px;color:#928da5;font-size:9px}
+#proposalSettingsModal .q-settings-nav-label{margin:0 8px 9px;color:#a19bb2;font-size:9px;font-weight:900;letter-spacing:.16em}
+#proposalSettingsModal .q-settings-nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px;border:1px solid transparent;border-radius:11px;
+  color:#77758b;background:transparent;text-align:left;font-size:11px;font-weight:800
 }
-.q-workspace-shell ::selection { background:rgba(118,85,232,.2); color:var(--q-ink); }
-.q-workspace-shell button:focus-visible,.q-workspace-shell a:focus-visible,
-.q-workspace-shell input:focus-visible,.q-workspace-shell textarea:focus-visible,
-.q-workspace-shell select:focus-visible { outline:3px solid rgba(118,85,232,.34); outline-offset:2px; }
-.q-workspace-shell ::-webkit-scrollbar { width:6px; height:6px; }
-.q-workspace-shell ::-webkit-scrollbar-track { background:transparent; }
-.q-workspace-shell ::-webkit-scrollbar-thumb { background:#d9d2e8; border-radius:20px; }
-.q-workspace-shell ::-webkit-scrollbar-thumb:hover { background:#bdb1d9; }
-
-/* Shared tool header */
-body.q-workspace-shell:not(.q-resume-shell) > header {
-  height:76px; min-height:76px; padding:0 clamp(14px,3vw,38px);
-  background:rgba(251,250,255,.92); border-bottom:1px solid rgba(226,222,239,.9);
-  box-shadow:0 8px 32px rgba(27,20,69,.03); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+#proposalSettingsModal .q-settings-nav-item.active{
+  color:#fff;background:linear-gradient(110deg,#7655e8,#6849d7);box-shadow:0 8px 18px rgba(118,85,232,.2)
 }
-.q-workspace-brand { display:inline-flex; align-items:center; gap:9px; margin-right:clamp(10px,2vw,24px); color:var(--q-ink); text-decoration:none; font-size:17px; font-weight:900; letter-spacing:-.09em; white-space:nowrap; }
-.q-workspace-brand-mark { display:grid; place-items:center; width:29px; height:29px; border-radius:9px; color:#fff; background:linear-gradient(135deg,#7655e8,#9275ee 70%,#6ad7e7 145%); box-shadow:0 5px 12px rgba(118,85,232,.2); font-family:Georgia,serif; font-size:17px; }
-.q-workspace-brand-word { color:var(--q-ink); }
-body.q-workspace-shell:not(.q-resume-shell) > header > div:first-child { display:flex; align-items:center; gap:clamp(8px,1.6vw,20px); }
-body.q-workspace-shell:not(.q-resume-shell) > header > div:first-child > a:not(.q-workspace-brand) {
-  min-height:38px; padding:0 12px; border:1px solid #e4dfed; border-radius:8px;
-  color:#625d76; background:#fff; font-size:11px; font-weight:800; box-shadow:0 4px 12px rgba(43,31,91,.035);
+#proposalSettingsModal .q-settings-nav-item i{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;color:#7655e8;background:#fff}
+#proposalSettingsModal .q-settings-sidebar-note{
+  margin-top:auto;padding:13px;border:1px solid #e3dafa;border-radius:13px;background:rgba(255,255,255,.72)
 }
-body.q-workspace-shell:not(.q-resume-shell) > header > div:first-child > a:not(.q-workspace-brand):hover { color:var(--q-violet); border-color:#d6cafa; background:#fbfaff; }
-body.q-workspace-shell:not(.q-resume-shell) > header h1 { color:var(--q-ink); font-size:15px; font-weight:850; letter-spacing:-.035em; }
-
-/* Two-panel workspace: inputs and generated work are distinct, balanced cards. */
-body.q-workspace-shell:not(.q-resume-shell) > main {
-  width:min(1500px,100%); max-width:1500px; min-height:0; padding:clamp(14px,2.2vw,30px);
-  gap:clamp(12px,1.5vw,18px); background:transparent;
+#proposalSettingsModal .q-settings-sidebar-note strong{display:block;color:#48415f;font-size:10px}
+#proposalSettingsModal .q-settings-sidebar-note p{margin:5px 0 0;color:#8d879e;font-size:9px;line-height:1.55}
+#proposalSettingsModal .q-settings-main{position:relative;min-width:0;flex:1;padding:42px 38px 32px;overflow-y:auto}
+#proposalSettingsModal .q-settings-close{
+  position:absolute;top:15px;right:16px;display:grid;place-items:center;width:34px;height:34px;
+  border:1px solid #eeeaf5;border-radius:10px;color:#89839c;background:#fbfaff
 }
-body.q-workspace-shell:not(.q-resume-shell) > main > section {
-  border:1px solid #e7e2ef; border-radius:20px; background:rgba(255,255,255,.97);
-  box-shadow:var(--q-shadow); min-width:0;
+#proposalSettingsModal .q-settings-close:hover{border-color:#d9ccff;color:#5e40ce;background:#f2edff}
+#proposalSettingsModal .q-settings-kicker{display:flex;align-items:center;gap:8px;color:#817b9c;font-size:9px;font-weight:900;letter-spacing:.17em}
+#proposalSettingsModal .q-settings-kicker span{width:7px;height:7px;border-radius:50%;background:#ff8b76;box-shadow:0 0 0 4px rgba(255,139,118,.13)}
+#proposalSettingsModal h2{margin:11px 0 7px;color:#17162b;font-size:25px;font-weight:850;letter-spacing:-.055em}
+#proposalSettingsModal .q-settings-description{max-width:430px;margin:0;color:#858197;font-size:11px;line-height:1.7}
+#proposalSettingsModal .q-settings-field-label{display:block;margin:25px 0 9px;color:#9691a6;font-size:9px;font-weight:900;letter-spacing:.15em}
+#proposalSettingsModal .q-settings-email-card{
+  display:flex;max-width:480px;min-height:57px;align-items:center;gap:11px;padding:10px 13px;
+  border:1px solid #e9e6f0;border-radius:13px;background:#f9f7fd
 }
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child { padding:clamp(17px,1.8vw,23px); }
-body.q-workspace-shell:not(.q-resume-shell) > main > section:last-child { box-shadow:0 16px 44px rgba(39,29,80,.055); }
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child label,
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child h3 {
-  color:#827d97; font-size:9px; font-weight:900; letter-spacing:.15em;
+#proposalSettingsModal .q-settings-email-icon{
+  display:grid;place-items:center;width:34px;height:34px;border:1px solid #eeeaf5;border-radius:10px;
+  color:#7655e8;background:#fff
 }
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child input:not([type=checkbox]),
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child textarea,
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child select {
-  border-color:#e8e4ef; border-radius:11px; color:#302d48; background:#fdfcff;
-  box-shadow:none; transition:border-color .18s,box-shadow .18s,background .18s;
+#proposalSettingsModal #settingsAccountEmail{min-width:0;flex:1;overflow:hidden;color:#343149;font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+#proposalSettingsModal .q-settings-verified{color:#6ebc9e;font-size:12px}
+#proposalSettingsModal .q-settings-action{
+  display:flex;width:100%;max-width:480px;min-height:59px;align-items:center;gap:12px;margin-top:10px;padding:10px 13px;
+  border:1px solid #e9e6f0;border-radius:13px;color:#343149;background:#fff;text-align:left;transition:all .18s ease
 }
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child input:focus,
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child textarea:focus,
-body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child select:focus {
-  border-color:#a18beb; background:#fff; box-shadow:0 0 0 3px rgba(118,85,232,.09); outline:none;
+#proposalSettingsModal .q-settings-action:hover{transform:translateY(-1px);border-color:#d7cbf7;background:#fdfcff;box-shadow:0 8px 19px rgba(60,44,110,.055)}
+#proposalSettingsModal .q-settings-action-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;color:#7655e8;background:#f1edff}
+#proposalSettingsModal .q-settings-action-copy{display:flex;flex:1;flex-direction:column;gap:3px}
+#proposalSettingsModal .q-settings-action-copy strong{font-size:11px;font-weight:800}
+#proposalSettingsModal .q-settings-action-copy small{color:#9691a6;font-size:9px}
+#proposalSettingsModal #settingsFeedback{display:none;margin-top:14px;padding:11px 12px;border:1px solid #ccebdd;border-radius:11px;color:#388b67;background:#f0fbf5;font-size:10px;font-weight:700;line-height:1.5}
+#proposalSettingsModal #settingsFeedback.is-visible{display:block}
+@media(max-width:767px){
+  .q-proposal-shell>header{height:64px;min-height:64px;padding:0 12px!important}
+  .q-proposal-brand{margin-right:5px}.q-proposal-brand-word{font-size:15px}
+  .q-proposal-back{min-height:35px;padding:0 9px;font-size:10px;gap:6px}
+  .q-proposal-shell header h1{max-width:110px;font-size:11px!important}
+  #profileTriggerBtn.q-account-trigger{min-height:39px;padding:3px 9px 3px 4px;gap:6px}
+  #profileTriggerBtn .q-account-avatar{width:29px;height:29px;flex-basis:29px}
+  .q-proposal-shell>main{padding:12px!important;overflow-y:auto!important}
+  .q-proposal-shell>main>section:first-child{padding:17px!important;padding-top:69px!important}
+  .q-proposal-shell>main>section:first-child:after{top:39px;left:17px;font-size:18px}
+  .q-proposal-shell>main>section:last-child{min-height:460px}
+  #proposalSettingsModal{padding:0}
+  #proposalSettingsModal .q-settings-dialog{width:100%;height:100%;max-height:none;border:0;border-radius:0;flex-direction:column;overflow-y:auto}
+  #proposalSettingsModal .q-settings-sidebar{width:100%;flex:0 0 auto;flex-direction:row;align-items:center;padding:10px 16px;border-right:0;border-bottom:1px solid #e9e6f0}
+  #proposalSettingsModal .q-settings-brand,#proposalSettingsModal .q-settings-sidebar-note,#proposalSettingsModal .q-settings-nav-label{display:none}
+  #proposalSettingsModal .q-settings-nav-item{padding:7px 10px}
+  #proposalSettingsModal .q-settings-main{padding:29px 21px 35px;overflow:visible}
+  #proposalSettingsModal h2{font-size:23px}
 }
-.q-workspace-shell .dropdown-trigger { border-color:#e8e4ef!important; border-radius:11px!important; color:#302d48!important; background:#fdfcff!important; min-height:40px; }
-.q-workspace-shell .dropdown-trigger:hover { border-color:#cfc3f5!important; background:#fff!important; }
-.q-workspace-shell .dropdown-menu-options { border-color:#e7e1f0!important; border-radius:12px!important; box-shadow:0 16px 35px rgba(35,26,75,.13)!important; }
-.q-workspace-shell .dropdown-menu-options .option-item:hover { background:#f5f1ff!important; color:#5e40ce!important; }
-.q-workspace-shell .bg-brand-blue { background:linear-gradient(110deg,#7354e7,#8d65f4)!important; }
-.q-workspace-shell .bg-brand-blue:hover,.q-workspace-shell .hover\:bg-brand-hover:hover { background:linear-gradient(110deg,#6545d6,#7956e4)!important; }
-.q-workspace-shell .text-brand-blue { color:#7655e8!important; }
-.q-workspace-shell .border-brand-blue { border-color:#a18beb!important; }
-.q-workspace-shell .focus\:border-brand-blue:focus { border-color:#a18beb!important; }
-.q-workspace-shell .selection\:bg-brand-blue::selection { background:rgba(118,85,232,.2)!important; }
-.q-workspace-shell #generationTriggerBtn { min-height:46px; border-radius:12px!important; box-shadow:0 10px 20px rgba(118,85,232,.17); letter-spacing:-.01em; }
-.q-workspace-shell #generationTriggerBtn:hover { transform:translateY(-1px); box-shadow:0 14px 25px rgba(118,85,232,.22); }
-.q-workspace-shell #statusLabelIndicator { color:#343149; font-weight:800; }
-.q-workspace-shell #statusDotIndicator { box-shadow:0 0 0 4px rgba(118,85,232,.08); }
-.q-workspace-shell #copyToClipboardBtn { border-color:#e5e0ef; border-radius:9px; color:#5944b4; font-weight:800; }
-.q-workspace-shell #copyToClipboardBtn:hover { border-color:#cfc3f5; background:#f8f6fd; }
-.q-workspace-shell #outputDisplayScreenFrame { background:linear-gradient(180deg,#fff 0%,#fdfcff 100%); }
-.q-workspace-shell #fallbackEmptyStatePanel { max-width:320px; }
-.q-workspace-shell #fallbackEmptyStatePanel::before {
-  content:'✦'; display:grid; place-items:center; width:52px; height:52px; margin:0 auto 15px;
-  border:1px solid #e8e1fb; border-radius:16px; color:#7655e8; background:#f6f2ff; font-size:21px;
+@media(prefers-reduced-motion:reduce){
+  #proposalSettingsModal .q-settings-dialog{animation:none}
+  .q-proposal-shell *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
-.q-workspace-shell #contentRendererDisplayBlock > div:not(.flex),
-.q-workspace-shell #contentRendererDisplayBlock > section {
-  border-color:#e9e5f0!important; border-radius:14px!important; box-shadow:0 5px 15px rgba(39,29,80,.025)!important;
-}
-.q-workspace-shell #contentRendererDisplayBlock [class*="bg-slate-50"] { background:#faf9fd!important; }
-.q-workspace-shell #contentRendererDisplayBlock [class*="border-slate-100"] { border-color:#eeeaf4!important; }
-.q-workspace-shell #contentRendererDisplayBlock [class*="text-slate-800"] { color:#29263f!important; }
-.q-workspace-shell #contentRendererDisplayBlock [class*="text-slate-700"] { color:#4b4760!important; }
-
-/* Saved-output drawers and archive popovers */
-.q-workspace-shell #desktopDropupTriggerBtn { background:linear-gradient(110deg,#29263f,#17162b)!important; border:1px solid #39334f; border-radius:11px!important; box-shadow:0 10px 24px rgba(23,22,43,.18); }
-.q-workspace-shell #desktopDropupTriggerBtn:hover { background:linear-gradient(110deg,#514477,#29263f)!important; transform:translateY(-1px); }
-.q-workspace-shell #desktopDropupPanel { border:1px solid #e6e0ef!important; border-radius:16px!important; box-shadow:0 22px 55px rgba(35,26,75,.16)!important; }
-.q-workspace-shell #desktopDropupPanel > div:first-child { background:#fbfaff!important; border-color:#eeeaf5!important; }
-.q-workspace-shell #desktopHistorySearchBox,.q-workspace-shell #mobileHistorySearchBox { border-color:#e6e1ef!important; border-radius:10px!important; }
-.q-workspace-shell #desktopHistorySearchBox:focus,.q-workspace-shell #mobileHistorySearchBox:focus { border-color:#a18beb!important; box-shadow:0 0 0 3px rgba(118,85,232,.08); }
-.q-workspace-shell #mobileSidebarDrawerPanel { border-left:1px solid #e7e2ef; box-shadow:-18px 0 55px rgba(35,26,75,.14)!important; }
-.q-workspace-shell #mobileDrawerOpenBtn { border-color:#e3def0!important; color:#7655e8!important; }
-
-/* Account dropdown positioning is explicit on every tool, including Resume Builder. */
-.q-workspace-shell .q-account-menu-wrap { position:relative; }
-.q-workspace-shell .q-account-menu-wrap .q-account-dropdown { position:absolute; right:0; top:calc(100% + 12px); z-index:120; }
-.q-workspace-shell .q-account-trigger { min-height:44px; }
-.q-workspace-shell .q-account-trigger:focus-visible { outline:3px solid rgba(118,85,232,.28); outline-offset:3px; }
-.q-workspace-shell #settingsPopupModal { z-index:100; }
-.q-workspace-shell #settingsPopupModal .q-settings-dialog { border-radius:22px; }
-.q-workspace-shell #settingsPopupModal .q-settings-heading p { max-width:460px; color:#858197; }
-.q-workspace-shell #settingsPopupModal .q-settings-action { transition:background .18s,border-color .18s,transform .18s; }
-.q-workspace-shell #settingsPopupModal .q-settings-action:hover { transform:translateX(2px); }
-
-/* Resume Builder keeps its history sidebar, but uses the same Quans surface system. */
-body.q-resume-shell { background:radial-gradient(circle at 88% 2%,rgba(207,190,255,.2),transparent 25rem),#fbfaff; }
-body.q-resume-shell > #sidebar {
-  width:276px; flex:0 0 276px; background:linear-gradient(180deg,#fcfbff 0%,#f8f6fc 100%);
-  border-right:1px solid #e7e2ef; box-shadow:8px 0 28px rgba(39,29,80,.025);
-}
-.q-resume-sidebar-brand { display:flex; align-items:center; gap:10px; padding:19px 20px 13px; color:var(--q-ink); }
-.q-resume-sidebar-brand .q-workspace-brand-mark { width:34px;height:34px;border-radius:11px; }
-.q-resume-sidebar-brand strong { display:block; font-size:16px; font-weight:900; letter-spacing:-.08em; }
-.q-resume-sidebar-brand small { display:block; margin-top:2px; color:#9892a8; font-size:9px; font-weight:800; letter-spacing:.12em; }
-.q-resume-shell #newChatBtn { min-height:43px; border-radius:11px!important; background:linear-gradient(110deg,#7354e7,#8d65f4)!important; box-shadow:0 9px 20px rgba(118,85,232,.17)!important; font-size:12px; font-weight:800; }
-.q-resume-shell #newChatBtn:hover { transform:translateY(-1px); box-shadow:0 13px 24px rgba(118,85,232,.22)!important; }
-.q-resume-shell #historySearch { color:#302d48; }
-.q-resume-shell #sidebar h3 { color:#928da5; font-size:9px; letter-spacing:.16em; }
-.q-resume-shell #historyList { display:flex; flex-direction:column; gap:5px; }
-.q-resume-shell .resume-history-item { display:flex; align-items:center; gap:5px; padding:5px; border:1px solid transparent; border-radius:12px; background:transparent; transition:background .18s,border-color .18s; }
-.q-resume-shell .resume-history-item:hover { background:#fff; border-color:#eee9f6; }
-.q-resume-shell .resume-history-item.is-active { background:#f0ebff; border-color:#e1d8fb; }
-.q-resume-shell .resume-history-main { display:flex; flex:1; min-width:0; align-items:flex-start; gap:9px; border:0; padding:7px 6px; background:transparent; text-align:left; cursor:pointer; }
-.q-resume-shell .resume-history-icon { display:grid; place-items:center; width:30px; height:30px; flex:0 0 30px; border-radius:9px; color:#7655e8; background:#f1edff; font-size:11px; }
-.q-resume-shell .resume-history-copy { display:flex; flex:1; min-width:0; flex-direction:column; gap:4px; }
-.q-resume-shell .resume-history-title { display:block; overflow:hidden; color:#38344f; font-size:11px; font-weight:800; line-height:1.35; text-overflow:ellipsis; white-space:nowrap; }
-.q-resume-shell .resume-history-meta { color:#a09aae; font-size:9px; line-height:1.3; }
-.q-resume-shell .resume-history-actions { display:flex; align-items:center; gap:1px; opacity:.55; transition:opacity .18s; }
-.q-resume-shell .resume-history-item:hover .resume-history-actions,.q-resume-shell .resume-history-item:focus-within .resume-history-actions { opacity:1; }
-.q-resume-shell .resume-history-actions button { display:grid; place-items:center; width:27px; height:27px; border:0; border-radius:8px; color:#9690a6; background:transparent; cursor:pointer; }
-.q-resume-shell .resume-history-actions button:hover { color:#5e40ce; background:#f1edff; }
-.q-resume-shell .resume-history-actions button[data-action="delete"]:hover { color:#c65c6b; background:#fff0f2; }
-.q-resume-shell #historyList .resume-history-empty { padding:17px 12px; border:1px dashed #e5dfef; border-radius:12px; color:#9993a8; background:rgba(255,255,255,.65); text-align:center; font-size:10px; line-height:1.6; }
-.q-resume-shell > main { min-width:0; background:transparent!important; }
-.q-resume-shell > main > header {
-  height:76px; min-height:76px; padding:0 clamp(15px,2.8vw,34px);
-  border-bottom:1px solid rgba(226,222,239,.9); background:rgba(251,250,255,.92)!important;
-  box-shadow:0 8px 32px rgba(27,20,69,.025); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-}
-.q-resume-shell > main > header > div:first-child a { color:var(--q-ink)!important; font-size:19px!important; letter-spacing:-.08em!important; }
-.q-resume-shell > main > header > div:first-child a > span { color:var(--q-violet)!important; }
-.q-resume-shell #resumeBuilderApp { background:transparent; }
-.q-resume-shell .rb-shell { width:min(1280px,100%); }
-.q-resume-shell .rb-heading { align-items:flex-end; margin-bottom:22px; }
-.q-resume-shell .rb-heading h1 { color:var(--q-ink); }
-.q-resume-shell .rb-heading p { color:#817d93; }
-.q-resume-shell .rb-card { border-color:#e7e2ef; border-radius:19px; background:rgba(255,255,255,.97); box-shadow:var(--q-shadow); overflow:hidden; }
-.q-resume-shell .rb-card-head { background:linear-gradient(110deg,#fcfbff,#faf8fe); border-color:#eeeaf5; }
-.q-resume-shell .rb-field label { color:#827d97; }
-.q-resume-shell .rb-field input,.q-resume-shell .rb-field textarea { border-color:#e8e4ef; border-radius:10px; background:#fdfcff; }
-.q-resume-shell .rb-field input:focus,.q-resume-shell .rb-field textarea:focus { border-color:#a18beb; background:#fff; box-shadow:0 0 0 3px rgba(118,85,232,.09); }
-.q-resume-shell .rb-new-button { border-color:#e5def3; border-radius:9px; color:#5e40ce; background:#fff; }
-.q-resume-shell .rb-new-button:hover { border-color:#cfc3f5; background:#f8f6fd; }
-.q-resume-shell .rb-output { min-height:540px; }
-.q-resume-shell .rb-output .rb-card-head { background:linear-gradient(110deg,#fcfbff,#faf8fe); }
-.q-resume-shell #resumeResultText { border-color:#e9e5f0; border-radius:12px; background:#fdfcff; color:#38334f; }
-.q-resume-shell .rb-output-actions button { border-radius:9px; }
-.q-resume-shell #resumeStatus { border-color:#e7defb; border-radius:10px; color:#624db1; background:#f8f5ff; }
-
-@media (min-width:768px) {
-  body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child { width:clamp(320px,28vw,385px); flex:0 0 clamp(320px,28vw,385px); }
-}
-@media (max-width:767px) {
-  body.q-workspace-shell:not(.q-resume-shell) > header { height:64px; min-height:64px; padding:0 12px; }
-  .q-workspace-brand { gap:7px; margin-right:4px; font-size:15px; }
-  .q-workspace-brand-mark { width:26px;height:26px; }
-  body.q-workspace-shell:not(.q-resume-shell) > header h1 { max-width:32vw; font-size:12px; }
-  body.q-workspace-shell:not(.q-resume-shell) > main { padding:12px 11px calc(18px + env(safe-area-inset-bottom)); overflow-y:auto!important; }
-  body.q-workspace-shell:not(.q-resume-shell) > main > section:first-child { width:100%; max-height:none; border-radius:16px; }
-  body.q-workspace-shell:not(.q-resume-shell) > main > section:last-child { min-height:500px; height:auto; border-radius:16px; }
-  .q-workspace-shell #desktopDropupContainer { display:none!important; }
-  .q-workspace-shell .q-account-trigger { gap:6px; padding-right:8px!important; }
-  .q-workspace-shell .q-account-greeting { max-width:82px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:10px; }
-  .q-workspace-shell .q-account-dropdown { width:min(278px,calc(100vw - 20px)); }
-  .q-resume-shell > #sidebar { width:min(290px,88vw); flex-basis:290px; }
-  .q-resume-shell > main > header { height:64px; min-height:64px; padding:0 13px; }
-  .q-resume-shell #resumeBuilderApp { padding:14px 12px calc(18px + env(safe-area-inset-bottom)); }
-  .q-resume-shell .rb-heading { align-items:flex-start; flex-direction:column; gap:12px; }
-  .q-resume-shell .rb-heading h1 { font-size:30px; }
-  .q-resume-shell .rb-grid { gap:12px; }
-  .q-resume-shell .rb-card { border-radius:16px; }
-}
-@media (max-width:480px) {
-  body.q-workspace-shell:not(.q-resume-shell) > header > div:first-child { gap:6px; }
-  .q-workspace-brand-word { display:none; }
-  body.q-workspace-shell:not(.q-resume-shell) > header > div:first-child > a:not(.q-workspace-brand) { min-height:34px; padding:0 9px; }
-  body.q-workspace-shell:not(.q-resume-shell) > header h1 { max-width:27vw; font-size:10px; }
-  .q-workspace-shell .q-account-greeting { max-width:57px; font-size:9px; }
-}
-@media (prefers-reduced-motion:reduce) {
-  .q-workspace-shell *, .q-workspace-shell *::before, .q-workspace-shell *::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; }
-}
-</style>
-
-
-<style id="quans-proposal-final-polish">
-#profileTriggerBtn { min-width:102px; justify-content:center; padding:7px 13px !important; border:1px solid #e9e6f0 !important; border-radius:999px !important; background:#fff !important; color:#29263f !important; box-shadow:0 5px 16px rgba(43,31,91,.055); }
-#userHelloDisplay { color:#29263f !important; font-size:12px !important; font-weight:850 !important; }
-#profileTriggerBtn:hover,#profileTriggerBtn[aria-expanded="true"] { border-color:#d6cafa !important; box-shadow:0 8px 22px rgba(91,65,169,.12) !important; }
-#settingsPopupModal { background:rgba(23,22,43,.58); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px); }
-#settingsPopupModal .q-settings-dialog { border:1px solid #e9e6f0; box-shadow:0 30px 100px rgba(23,22,43,.24); animation:qSettingsIn .2s ease-out both; }
-@keyframes qSettingsIn { from { opacity:0; transform:translateY(10px) scale(.985); } to { opacity:1; transform:translateY(0) scale(1); } }
-@media(max-width:640px){ header a[href="tool.html"] span { display:inline !important; font-size:10px; } header a[href="tool.html"] { padding:8px 10px !important; } header h1 { font-size:12px !important; } #profileTriggerBtn { min-width:78px; padding:7px 10px !important; } }
-@media(prefers-reduced-motion:reduce){ #settingsPopupModal .q-settings-dialog { animation:none; } }
 </style>
 
 </head>
-<body class="q-workspace-shell h-screen w-screen md:overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
+<body class="q-proposal-shell h-screen w-screen md:overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
     <header class="w-full h-16 border-b border-slate-100 bg-white px-4 flex items-center justify-between sticky top-0 z-50 shrink-0">
-        <div class="flex items-center">
-            <a class="q-workspace-brand" href="index.html" aria-label="QUANS"><span class="q-workspace-brand-mark">Q</span><span class="q-workspace-brand-word">QUANS</span></a><a href="tool.html" class="text-xs sm:text-sm font-bold border border-slate-200 text-slate-600 px-3 py-2 rounded-full hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-xs">
+        <div class="flex items-center min-w-0">
+            <a href="index.html" class="q-proposal-brand" aria-label="QUANS home">
+                <span class="q-proposal-brand-mark">Q</span><span class="q-proposal-brand-word">QUANS</span>
+            </a>
+            <a href="tool.html" class="q-proposal-back" aria-label="Back to tools">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
                 <span>Back to tools</span>
             </a>
@@ -560,36 +333,37 @@ body.q-resume-shell > #sidebar {
         </div>
 
         <div class="flex items-center gap-2">
-            <div class="q-account-menu-wrap relative" id="profileDropdownRoot">
-        <button id="profileTriggerBtn" type="button" class="q-account-trigger flex items-center gap-2 px-2 py-1.5" aria-haspopup="true" aria-expanded="false">
-            <span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
-            <span id="userHelloDisplay" class="q-account-greeting">Hello!</span>
-            <i class="fa-solid fa-chevron-down q-account-chevron"></i>
-        </button>
-        <div id="profileDropdownMenu" class="q-account-dropdown hidden absolute right-0 z-[90]">
-            <div class="q-account-dropdown-head">
-                <span class="q-account-dropdown-mark">Q</span>
-                <div class="q-account-dropdown-copy">
-                    <span class="q-account-eyebrow">YOUR ACCOUNT</span>
-                    <strong>Welcome to QUANS</strong>
-                    <span class="q-account-email" id="qAccountEmailDisplay">Loading account...</span>
+            <div class="relative" id="profileDropdownRoot">
+                <button id="profileTriggerBtn" type="button" class="q-account-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdownMenu" aria-label="Open account menu">
+                    <span id="userHelloDisplay" class="text-sm font-semibold text-slate-700 ">Hello!</span>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 mt-0.5"></i>
+                </button>
+                
+                <div id="profileDropdownMenu" class="q-account-dropdown hidden absolute right-0 z-[90]" role="menu" aria-label="Account menu">
+                    <div class="q-account-dropdown-head">
+                        <span class="q-account-dropdown-mark">Q</span>
+                        <div class="q-account-dropdown-copy">
+                            <span class="q-account-eyebrow">YOUR ACCOUNT</span>
+                            <strong>Welcome to QUANS</strong>
+                            <span class="q-account-email" id="qAccountEmailDisplay">Loading account...</span>
+                        </div>
+                    </div>
+                    <div class="q-account-dropdown-actions">
+                        <button id="settingsActionBtn" type="button" class="q-account-dropdown-item" role="menuitem">
+                            <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
+                            <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
+                            <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                        </button>
+                        <div class="q-account-dropdown-divider"></div>
+                        <button id="logoutActionBtn" type="button" class="q-account-dropdown-item q-account-logout" role="menuitem">
+                            <span class="q-account-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <span class="q-account-action-copy"><strong>Log Out</strong><small>Sign out of QUANS</small></span>
+                            <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="q-account-dropdown-actions">
-                <button id="settingsActionBtn" type="button" class="q-account-dropdown-item">
-                    <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
-                    <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
-                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
-                </button>
-                <div class="q-account-dropdown-divider"></div>
-                <button id="logoutActionBtn" type="button" class="q-account-dropdown-item q-account-logout">
-                    <span class="q-account-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
-                    <span class="q-account-action-copy"><strong>Log Out</strong><small>Sign out of QUANS</small></span>
-                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+
             <button id="mobileDrawerOpenBtn" class="md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
                 <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             </button>
@@ -814,6 +588,46 @@ body.q-resume-shell > #sidebar {
         </div>
     </div>
 
+
+    <div id="proposalSettingsModal" aria-hidden="true">
+        <section class="q-settings-dialog" role="dialog" aria-modal="true" aria-labelledby="proposalSettingsTitle">
+            <aside class="q-settings-sidebar">
+                <div class="q-settings-brand">
+                    <span class="q-settings-brand-mark">Q</span>
+                    <div><strong>QUANS</strong><small>Account preferences</small></div>
+                </div>
+                <span class="q-settings-nav-label">PREFERENCES</span>
+                <button type="button" class="q-settings-nav-item active" aria-current="page">
+                    <i class="fa-solid fa-user-gear"></i><span>Account</span>
+                </button>
+                <div class="q-settings-sidebar-note">
+                    <strong>Your workspace, your way.</strong>
+                    <p>Manage your sign-in details and keep your QUANS account secure.</p>
+                </div>
+            </aside>
+            <div class="q-settings-main">
+                <button type="button" id="closeProposalSettingsBtn" class="q-settings-close" aria-label="Close settings">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="q-settings-kicker"><span></span> ACCOUNT SETTINGS</div>
+                <h2 id="proposalSettingsTitle">Your account</h2>
+                <p class="q-settings-description">View the account currently connected to your QUANS workspace and manage your sign-in access.</p>
+                <label class="q-settings-field-label" for="settingsAccountEmail">SIGNED-IN EMAIL</label>
+                <div class="q-settings-email-card">
+                    <span class="q-settings-email-icon"><i class="fa-regular fa-envelope"></i></span>
+                    <span id="settingsAccountEmail">Loading account...</span>
+                    <i class="fa-solid fa-circle-check q-settings-verified" title="Signed in"></i>
+                </div>
+                <button type="button" id="settingsResetPasswordBtn" class="q-settings-action">
+                    <span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
+                    <span class="q-settings-action-copy"><strong>Reset password</strong><small>Receive a password reset link by email</small></span>
+                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                </button>
+                <div id="settingsFeedback" role="status" aria-live="polite"></div>
+            </div>
+        </section>
+    </div>
+
     <script>
         tailwind.config = {
             theme: {
@@ -929,7 +743,9 @@ body.q-resume-shell > #sidebar {
                 currentUserObject = user;
                 if(userHelloDisplay) userHelloDisplay.innerText = 'Hello!';
                 const accountEmailNode = document.getElementById('qAccountEmailDisplay');
-                if (accountEmailNode) accountEmailNode.textContent = user.email || 'Signed-in account';
+                if(accountEmailNode) accountEmailNode.innerText = user.email || 'Signed-in account';
+                const settingsEmailNode = document.getElementById('settingsAccountEmail');
+                if(settingsEmailNode) settingsEmailNode.innerText = user.email || 'Signed-in account';
                 initializeCustomDropdownModules();
                 syncProposalsRealtimeDatabaseStack();
             }
@@ -938,11 +754,91 @@ body.q-resume-shell > #sidebar {
         if (profileTriggerBtn) {
             profileTriggerBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                profileDropdownMenu.classList.toggle('hidden');
+                const willOpen = profileDropdownMenu.classList.contains('hidden');
+                profileDropdownMenu.classList.toggle('hidden', !willOpen);
+                profileTriggerBtn.setAttribute('aria-expanded', String(willOpen));
             });
         }
-        document.addEventListener('click', () => { if(profileDropdownMenu) profileDropdownMenu.classList.add('hidden'); });
+        document.addEventListener('click', (e) => {
+            if (profileDropdownMenu && !e.target.closest('#profileDropdownRoot')) {
+                profileDropdownMenu.classList.add('hidden');
+                profileTriggerBtn?.setAttribute('aria-expanded', 'false');
+            }
+        });
         if (logoutActionBtn) logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+
+        const proposalSettingsModal = document.getElementById('proposalSettingsModal');
+        const settingsActionBtn = document.getElementById('settingsActionBtn');
+        const closeProposalSettingsBtn = document.getElementById('closeProposalSettingsBtn');
+        const settingsResetPasswordBtn = document.getElementById('settingsResetPasswordBtn');
+        const settingsFeedback = document.getElementById('settingsFeedback');
+
+        function openProposalSettings() {
+            if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
+            if (profileTriggerBtn) profileTriggerBtn.setAttribute('aria-expanded', 'false');
+            const activeUser = auth.currentUser || currentUserObject;
+            const email = activeUser?.email || 'Signed-in account';
+            const emailNode = document.getElementById('settingsAccountEmail');
+            if (emailNode) emailNode.textContent = email;
+            if (settingsFeedback) {
+                settingsFeedback.classList.remove('is-visible');
+                settingsFeedback.textContent = '';
+            }
+            if (proposalSettingsModal) {
+                proposalSettingsModal.classList.add('is-open');
+                proposalSettingsModal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('overflow-hidden');
+                closeProposalSettingsBtn?.focus();
+            }
+        }
+
+        function closeProposalSettings() {
+            if (!proposalSettingsModal) return;
+            proposalSettingsModal.classList.remove('is-open');
+            proposalSettingsModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('overflow-hidden');
+            settingsActionBtn?.focus();
+        }
+
+        if (settingsActionBtn) settingsActionBtn.addEventListener('click', openProposalSettings);
+        if (closeProposalSettingsBtn) closeProposalSettingsBtn.addEventListener('click', closeProposalSettings);
+        if (proposalSettingsModal) {
+            proposalSettingsModal.addEventListener('click', (e) => {
+                if (e.target === proposalSettingsModal) closeProposalSettings();
+            });
+        }
+        if (settingsResetPasswordBtn) {
+            settingsResetPasswordBtn.addEventListener('click', async () => {
+                const activeUser = auth.currentUser || currentUserObject;
+                if (!activeUser?.email) {
+                    if (settingsFeedback) {
+                        settingsFeedback.textContent = 'No email address is available for this account.';
+                        settingsFeedback.classList.add('is-visible');
+                    }
+                    return;
+                }
+                try {
+                    await auth.sendPasswordResetEmail(activeUser.email);
+                    if (settingsFeedback) {
+                        settingsFeedback.textContent = 'Password reset instructions have been sent to your email.';
+                        settingsFeedback.classList.add('is-visible');
+                    }
+                } catch (error) {
+                    console.error('Password reset request failed:', error);
+                    if (settingsFeedback) {
+                        settingsFeedback.textContent = error.message || 'Unable to send the password reset email. Please try again.';
+                        settingsFeedback.classList.add('is-visible');
+                    }
+                }
+            });
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
+                profileTriggerBtn?.setAttribute('aria-expanded', 'false');
+                if (proposalSettingsModal?.classList.contains('is-open')) closeProposalSettings();
+            }
+        });
 
         if (desktopDropupTriggerBtn) {
             desktopDropupTriggerBtn.addEventListener('click', (e) => {
@@ -1302,59 +1198,5 @@ body.q-resume-shell > #sidebar {
             }
         }
     </script>
-<div id="settingsPopupModal" class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-4" aria-hidden="true">
-  <section class="q-settings-dialog w-full max-w-xl overflow-hidden rounded-[24px] bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="qSettingsTitle">
-    <div class="flex items-center justify-between border-b border-[#eeeaf5] bg-[#fbfaff] px-6 py-5">
-      <div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-[#f0ebff] text-[#7655e8]"><i class="fa-solid fa-sliders"></i></span><div><h2 id="qSettingsTitle" class="text-base font-extrabold text-[#29263f]">Settings</h2><p class="mt-0.5 text-xs text-[#89859a]">Manage your QUANS account</p></div></div>
-      <button id="closeSettingsBtn" type="button" class="grid h-9 w-9 place-items-center rounded-xl border border-[#e9e6f0] bg-white text-[#77758b] hover:bg-[#f5f1ff]" aria-label="Close settings"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="space-y-5 p-6">
-      <div><p class="mb-2 text-[10px] font-black uppercase tracking-[.16em] text-[#9691a6]">Signed-in account</p><div class="flex items-center gap-3 rounded-2xl border border-[#e9e6f0] bg-[#fbfaff] p-4"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-[#7655e8] shadow-sm"><i class="fa-solid fa-envelope"></i></span><span id="settingsAccountEmail" class="min-w-0 break-all text-sm font-bold text-[#343149]">Loading account...</span></div></div>
-      <div class="rounded-2xl border border-[#e9e6f0] p-4"><div class="flex items-start gap-3"><span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#f1edff] text-[#7655e8]"><i class="fa-solid fa-key"></i></span><div class="min-w-0 flex-1"><h3 class="text-sm font-extrabold text-[#343149]">Password & security</h3><p class="mt-1 text-xs leading-relaxed text-[#89859a]">Receive a password reset link at your registered email address.</p><button id="settingsResetPasswordBtn" type="button" class="mt-3 inline-flex items-center gap-2 rounded-xl bg-[#7655e8] px-4 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#5e40ce]"><i class="fa-solid fa-paper-plane"></i> Send password reset link</button></div></div></div>
-      <p id="settingsFeedback" class="hidden rounded-xl px-3 py-2.5 text-xs font-semibold" role="status" aria-live="polite"></p>
-    </div>
-  </section>
-</div>
-<script>
-(() => {
-  const byId = (id) => document.getElementById(id);
-  const menu = byId('profileDropdownMenu');
-  const trigger = byId('profileTriggerBtn');
-  const modal = byId('settingsPopupModal');
-  const settingsBtn = byId('settingsActionBtn');
-  const closeBtn = byId('closeSettingsBtn');
-  const emailMenu = byId('qAccountEmailDisplay');
-  const emailModal = byId('settingsAccountEmail');
-  const feedback = byId('settingsFeedback');
-  const showModal = () => {
-    const email = firebase.auth().currentUser?.email || 'Signed-in account';
-    if (emailMenu) emailMenu.textContent = email;
-    if (emailModal) emailModal.textContent = email;
-    modal.classList.remove('hidden'); modal.classList.add('flex'); modal.setAttribute('aria-hidden','false');
-    if (menu) menu.classList.add('hidden');
-    if (trigger) trigger.setAttribute('aria-expanded','false');
-  };
-  const hideModal = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); modal.setAttribute('aria-hidden','true'); };
-  settingsBtn?.addEventListener('click', showModal);
-  closeBtn?.addEventListener('click', hideModal);
-  modal?.addEventListener('click', (event) => { if (event.target === modal) hideModal(); });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) hideModal(); });
-  byId('settingsResetPasswordBtn')?.addEventListener('click', async () => {
-    const user = firebase.auth().currentUser;
-    if (!user?.email) return;
-    const button = byId('settingsResetPasswordBtn');
-    button.disabled = true; button.style.opacity = '.65';
-    try {
-      await firebase.auth().sendPasswordResetEmail(user.email);
-      feedback.textContent = 'Password reset link sent. Check your inbox.';
-      feedback.className = 'rounded-xl bg-emerald-50 px-3 py-2.5 text-xs font-semibold text-emerald-700';
-    } catch (error) {
-      feedback.textContent = error?.message || 'Unable to send the password reset email. Please try again.';
-      feedback.className = 'rounded-xl bg-rose-50 px-3 py-2.5 text-xs font-semibold text-rose-700';
-    } finally { button.disabled = false; button.style.opacity = '1'; }
-  });
-})();
-</script>
-
 </body>
 </html>
