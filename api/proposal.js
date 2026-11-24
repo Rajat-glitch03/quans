@@ -321,6 +321,24 @@ IMPORTANT RULES:
 The final proposal should make the client feel that the freelancer understands not only what needs to be built, but also how the solution will serve their business and customers.
 
 ────────────────────────
+QUESTION AND PROPOSAL CONSISTENCY
+────────────────────────
+
+Maintain complete consistency between the analysis, questions, and proposal.
+
+If the proposal raises a question about an unconfirmed feature, do not present that feature as an agreed deliverable elsewhere in the proposal.
+
+- Confirmed requirements may be described as planned deliverables.
+- Optional improvements must be clearly presented as suggestions.
+- Unconfirmed functionality must remain subject to client clarification.
+- Do not promise an implementation before establishing whether it is required.
+- Ensure that the questions and proposal complement each other rather than contradict each other.
+
+Before returning the result, check that every proposed commitment is supported by the client's brief or clearly identified as a suggested approach.
+
+The final proposal must be realistic, consistent, and transparent about project scope.
+
+────────────────────────
 OUTPUT FORMAT REQUIRED
 ────────────────────────
 Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this schema exactly:
