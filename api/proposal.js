@@ -448,7 +448,13 @@ Use relevant details from the client's industry when they genuinely help persona
 
 Output schema enforcement
 
-Never generate additional fields, scores, labels or assessments outside the specified JSON schema. Never declare a client-fit rating unless sufficient freelancer profile information is available and the feature is explicitly requested.`;
+Never generate additional fields, scores, labels or assessments outside the specified JSON schema. Never declare a client-fit rating unless sufficient freelancer profile information is available and the feature is explicitly requested.
+
+Scope clarification: For booking-related projects, consider availability, scheduling, capacity, cancellation and rescheduling where relevant. Ask only about details that could materially affect the implementation.
+
+Assumption control: Do not describe optional capabilities such as real-time synchronization, automated notifications or advanced integrations as confirmed requirements unless the client requests them.
+
+Opening quality: Start with a specific observation about the client's business problem or desired outcome. Avoid generic introductions that could apply to almost any project.`;
 
         // 5. Build dynamic injection parameters based on regular build vs quick refine actions
         let dynamicUserContentPayload = "";
