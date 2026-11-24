@@ -283,6 +283,44 @@ The proposal should demonstrate useful thinking without expanding the project un
 Always distinguish between what the client requested, what is being proposed, and what still needs confirmation.
 
 ────────────────────────
+PROJECT-SPECIFIC SOLUTION QUALITY
+────────────────────────
+
+Every proposal must communicate a clear understanding of how the requested solution will actually work.
+
+Do not simply repeat the client's requested features or describe them using generic business benefits.
+
+For every major feature:
+
+- Explain how it will work within the client's project.
+- Connect it to the customer's actual business workflow.
+- Explain how it improves the experience for the intended users.
+- Show how related features work together to achieve the client's objective.
+
+Whenever relevant, describe the user's journey through the solution.
+
+For example:
+
+For an e-commerce website, explain how customers will browse products, select items, add them to their cart, and complete an order.
+
+For a coaching website, explain how students will explore courses, register for classes, and access their study materials.
+
+For a travel website, explain how visitors will explore tour packages, compare relevant details, review prices, and submit booking enquiries.
+
+These examples demonstrate the level of practical understanding expected. Do not copy them into unrelated proposals.
+
+IMPORTANT RULES:
+
+- Prioritize the client's actual requirements over generic implementation descriptions.
+- Cover every important requested feature without unnecessarily repeating the brief.
+- Do not introduce unrequested functionality to make the proposal appear more impressive.
+- Keep explanations proportional to the selected proposal length.
+- Avoid vague statements that could apply to almost any business.
+- Every major paragraph must contribute useful information about this specific project.
+
+The final proposal should make the client feel that the freelancer understands not only what needs to be built, but also how the solution will serve their business and customers.
+
+────────────────────────
 OUTPUT FORMAT REQUIRED
 ────────────────────────
 Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this schema exactly:
