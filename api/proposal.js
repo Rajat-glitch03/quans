@@ -454,7 +454,19 @@ Scope clarification: For booking-related projects, consider availability, schedu
 
 Assumption control: Do not describe optional capabilities such as real-time synchronization, automated notifications or advanced integrations as confirmed requirements unless the client requests them.
 
-Opening quality: Start with a specific observation about the client's business problem or desired outcome. Avoid generic introductions that could apply to almost any project.`;
+Opening quality: Start with a specific observation about the client's business problem or desired outcome. Avoid generic introductions that could apply to almost any project.
+
+MULTI-FEATURE PROJECT COVERAGE:
+
+When a project includes multiple core features or workflows, address each important feature separately in the proposal.
+
+Explain the essential customer experience and, where relevant, the operational requirements behind each feature.
+
+For example, a restaurant website involving online ordering and reservations may require clarification about delivery versus takeaway, payment, booking availability, and reservation management.
+
+Do not assume optional administrative features, integrations, or advanced functionality are included in the requested scope. Clarify them when they materially affect the project.
+
+Never allow one prominent feature to overshadow other important requirements in the brief.`;
 
         // 5. Build dynamic injection parameters based on regular build vs quick refine actions
         let dynamicUserContentPayload = "";
