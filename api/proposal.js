@@ -299,7 +299,6 @@ ${sampleWritingStyle ? `- Desired Layout/Writing Sample: "${sampleWritingStyle}"
 
 Analyze the user's project parameters and compile the proposal response following the JSON rules format structure exactly.
 `;
-        }
 
         // 6. Connect with the external Google Gemini AI engine pipeline
         const endpointUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`;
