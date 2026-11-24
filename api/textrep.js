@@ -518,7 +518,7 @@ STRICT RULES:
 - Do not use Markdown code fences.
 - Always return valid, parseable JSON.
 
-Valid JSON is mandatory.;
+Valid JSON is mandatory.`;
 
         // 5. Build context instructions for base generation or refinement variants
         let dynamicUserContentPayload = "";
