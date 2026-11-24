@@ -60,7 +60,38 @@
             scrollbar-width: thin;
             scrollbar-color: #CBD5E1 transparent;
         }
-    </style>
+    
+/* Alignment refinement: consistent card rhythm and tighter section grouping. */
+.pricing-plan-grid { align-items:stretch; gap:18px; }
+.pricing-plan-card { height:100%; min-height:100%; }
+.pricing-plan-description { min-height:42px; }
+.pricing-plan-features { min-height:138px; align-content:start; }
+.pricing-plan-footnote { min-height:24px; }
+.pricing-credits-section { padding-top:62px; }
+#top-ups { padding-top:34px; }
+#top-ups .pricing-section-heading { margin-bottom:22px; }
+.pricing-topups { width:min(100%,900px); max-width:900px; gap:18px; align-items:stretch; }
+.pricing-topup-card { min-width:0; min-height:112px; }
+.pricing-topup-main { overflow-wrap:anywhere; }
+.pricing-topup-action { flex:0 0 auto; min-width:104px; }
+@media (max-width:1000px) {
+  .pricing-plan-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .pricing-plan-card:first-child { grid-column:auto; }
+  .pricing-plan-card:first-child .pricing-plan-features { grid-template-columns:1fr; }
+  .pricing-plan-features { min-height:158px; }
+}
+@media (max-width:760px) {
+  .pricing-plan-grid { grid-template-columns:1fr; max-width:520px; }
+  .pricing-plan-features { min-height:0; }
+  .pricing-plan-description,.pricing-plan-footnote { min-height:0; }
+  .pricing-credits-section { padding-top:48px; }
+  #top-ups { padding-top:30px; }
+}
+@media (max-width:480px) {
+  .pricing-topup-card { align-items:center; }
+  .pricing-topup-action { min-width:92px; }
+}
+</style>
 <script defer="" src="https://unpkg.com/lucide@1.77.0/dist/umd/lucide.js"></script>
 <style id="quans-home-only-styles">
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -1319,13 +1350,32 @@ button, a { -webkit-tap-highlight-color: transparent; }
 </div>
 <div class="pricing-model-note"><i class="fa-solid fa-microchip"></i><span>One consistent AI model across Free, Starter and Plus: <strong>Gemini 3.1 Flash-Lite.</strong> Paid plans differ by credit allowance, not model access.</span></div>
 </section>
+<section class="pricing-section pricing-container" id="top-ups">
+<div class="pricing-section-heading">
+<span class="pricing-section-kicker">NEED A LITTLE MORE ROOM?</span>
+<h2>Top up when <em>you choose.</em></h2>
+<p>Additional credits are optional. QUANS will never purchase a top-up automatically when your balance runs out.</p>
+</div>
+<div class="pricing-topups">
+<article class="pricing-topup-card">
+<span class="pricing-topup-icon"><i class="fa-solid fa-plus"></i></span>
+<div class="pricing-topup-main"><strong>50 additional credits</strong><small>For a little extra room</small></div>
+<div class="pricing-topup-action"><div class="pricing-topup-price">₹99<small>+ applicable GST</small></div><button data-pricing-action="topup50" type="button">Choose pack</button></div>
+</article>
+<article class="pricing-topup-card best">
+<span class="pricing-topup-icon"><i class="fa-solid fa-layer-group"></i></span>
+<div class="pricing-topup-main"><strong>100 additional credits</strong><small>Better value for regular use</small></div>
+<div class="pricing-topup-action"><span class="pricing-value-label">BEST VALUE</span><div class="pricing-topup-price">₹159<small>+ applicable GST</small></div><button data-pricing-action="topup100" type="button">Choose pack</button></div>
+</article>
+</div>
+</section>
 <section class="pricing-credits-section pricing-container" id="credit-usage">
 <div class="pricing-credits-copy">
 <span class="pricing-section-kicker">KNOW BEFORE YOU GENERATE</span>
 <h2>Every tool has a <em>clear credit cost.</em></h2>
 <p>Credits are based on the tool you use. You can mix all four tools within the same balance—no separate subscription for each workflow.</p>
 <div class="pricing-tool-costs">
-<div class="pricing-tool-cost"><span class="pricing-tool-cost-icon"><i class="fa-solid fa-file-user"></i></span><span class="pricing-tool-cost-copy"><b>Resume Builder</b><small>One successful resume generation</small></span><strong>8 credits</strong></div>
+<div class="pricing-tool-cost"><span class="pricing-tool-cost-icon"><i class="fa-solid fa-file-lines"></i></span><span class="pricing-tool-cost-copy"><b>Resume Builder</b><small>One successful resume generation</small></span><strong>8 credits</strong></div>
 <div class="pricing-tool-cost"><span class="pricing-tool-cost-icon"><i class="fa-solid fa-file-signature"></i></span><span class="pricing-tool-cost-copy"><b>Proposal Generator</b><small>One successful proposal</small></span><strong>6 credits</strong></div>
 <div class="pricing-tool-cost"><span class="pricing-tool-cost-icon"><i class="fa-solid fa-repeat"></i></span><span class="pricing-tool-cost-copy"><b>Text Repurposer</b><small>One successful repurposing</small></span><strong>4 credits</strong></div>
 <div class="pricing-tool-cost"><span class="pricing-tool-cost-icon"><i class="fa-solid fa-pen-nib"></i></span><span class="pricing-tool-cost-copy"><b>Post Studio</b><small>One successful post generation</small></span><strong>2 credits</strong></div>
@@ -1353,25 +1403,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 <button class="pricing-calculator-reset" id="resetCreditCalculator" type="button">Reset example</button>
 </div>
 </section>
-<section class="pricing-section pricing-container" id="top-ups">
-<div class="pricing-section-heading">
-<span class="pricing-section-kicker">NEED A LITTLE MORE ROOM?</span>
-<h2>Top up when <em>you choose.</em></h2>
-<p>Additional credits are optional. QUANS will never purchase a top-up automatically when your balance runs out.</p>
-</div>
-<div class="pricing-topups">
-<article class="pricing-topup-card">
-<span class="pricing-topup-icon"><i class="fa-solid fa-plus"></i></span>
-<div class="pricing-topup-main"><strong>50 additional credits</strong><small>For a little extra room</small></div>
-<div class="pricing-topup-action"><div class="pricing-topup-price">₹99<small>+ applicable GST</small></div><button data-pricing-action="topup50" type="button">Choose pack</button></div>
-</article>
-<article class="pricing-topup-card best">
-<span class="pricing-topup-icon"><i class="fa-solid fa-layer-group"></i></span>
-<div class="pricing-topup-main"><strong>100 additional credits</strong><small>Better value for regular use</small></div>
-<div class="pricing-topup-action"><span class="pricing-value-label">BEST VALUE</span><div class="pricing-topup-price">₹159<small>+ applicable GST</small></div><button data-pricing-action="topup100" type="button">Choose pack</button></div>
-</article>
-</div>
-</section>
+
 <section class="pricing-container">
 <div class="pricing-guarantee">
 <span class="pricing-guarantee-icon"><i class="fa-solid fa-shield-heart"></i></span>
