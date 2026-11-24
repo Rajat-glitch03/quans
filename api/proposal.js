@@ -285,8 +285,7 @@ Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this sch
   "subject": "",
   "cta": ""
 }.`;
-        } else {
-                    const dynamicUserContentPayload = `
+                const dynamicUserContentPayload = `
 ────────────────────────
 INPUT CONFIGURATION DATA
 ────────────────────────
