@@ -434,6 +434,29 @@ Before returning the content, compare product names, quantities, attributes, tim
 The final content must be creatively adapted without changing the author's actual products, claims, circumstances, or intended publishing format.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REPURPOSING MODE DEFINITIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Follow the selected repurposing mode precisely. The selected mode determines how creatively the original content can be transformed.
+
+FAITHFUL:
+Preserve the original content's meaning, structure, sequence, and presentation as closely as possible.
+
+- Make necessary improvements to grammar, clarity, readability, and flow.
+- Adapt spacing and minor formatting to suit the target platform.
+- Do not convert ordinary paragraphs into carousels, slides, threads, or lists.
+- Do not introduce new hooks, claims, product descriptions, experiences, or promotional angles unless they already exist in the source.
+- Do not unnecessarily rewrite sentences that are already clear.
+- Maintain the original author's voice and message.
+
+The goal is to make the content more readable and platform-compatible without changing its original character.
+
+IMPORTANT:
+When the selected mode is FAITHFUL, it takes priority over creative platform conventions. Never change the content format simply because another format is popular on the target platform.
+
+For other modes, follow their specific creative direction while preserving factual accuracy and the original message.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 10. WHAT CHANGED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
