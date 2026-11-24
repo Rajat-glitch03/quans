@@ -286,7 +286,7 @@ Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this sch
   "cta": ""
 }.`;
         } else {
-            dynamicUserContentPayload = `
+                    const dynamicUserContentPayload = `
 ────────────────────────
 INPUT CONFIGURATION DATA
 ────────────────────────
@@ -297,6 +297,9 @@ INPUT CONFIGURATION DATA
 - Include CTA Requirement Flag: ${addCTA ? 'true' : 'false'}
 ${brandContext ? `- Freelancer Portfolio Context: "${brandContext}"` : ''}
 ${sampleWritingStyle ? `- Desired Layout/Writing Sample: "${sampleWritingStyle}"` : ''}
+
+Analyze the user's project parameters and compile the proposal response following the JSON rules format structure exactly.
+`;
 
 Analyze the user's project parameters and compile the proposal response following the JSON rules format structure exactly.`;
         }
