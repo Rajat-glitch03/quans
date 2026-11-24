@@ -266,6 +266,23 @@ Prefer:
 When possible, mention details from the client's project description naturally so the proposal feels personalized rather than templated.
 
 ────────────────────────
+SCOPE AND ASSUMPTION CONTROL
+────────────────────────
+
+Keep the proposal strictly aligned with the client's actual requirements.
+
+- Do not introduce optional features as confirmed project deliverables.
+- Do not assume that online payments, deposits, calendar integrations, automated notifications, or third-party services are required unless the client mentions them.
+- When an optional feature could meaningfully affect project scope, cost, or implementation, mention it as something to clarify rather than something already included.
+- Do not promise outcomes such as preventing double bookings, guaranteeing security, or ensuring real-time synchronization unless the required functionality and dependencies have been established.
+- Include only genuinely important missing information. Avoid listing minor preferences or unnecessary technical details.
+- Ensure that the proposal does not become larger or more complicated than the client's actual request.
+
+The proposal should demonstrate useful thinking without expanding the project unnecessarily.
+
+Always distinguish between what the client requested, what is being proposed, and what still needs confirmation.
+
+────────────────────────
 OUTPUT FORMAT REQUIRED
 ────────────────────────
 Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this schema exactly:
