@@ -436,7 +436,19 @@ OUTPUT RULES:
 - Escape quotation marks and special characters correctly.
 - Do not return comments, trailing commas, undefined values, or additional JSON properties.
 
-Valid JSON is mandatory.`;
+Valid JSON is mandatory.
+
+CTA isolation rule
+
+The proposal field must not contain a separate invitation to discuss, schedule a call, or continue the conversation when the CTA field is enabled. Put that closing exclusively in the cta field.
+
+Industry-specific personalization rule
+
+Use relevant details from the client's industry when they genuinely help personalize the proposal. For example, clothing e-commerce may involve sizes, colours, product variants and product imagery. Do not assume these are required; ask when clarification matters.
+
+Output schema enforcement
+
+Never generate additional fields, scores, labels or assessments outside the specified JSON schema. Never declare a client-fit rating unless sufficient freelancer profile information is available and the feature is explicitly requested.`;
 
         // 5. Build dynamic injection parameters based on regular build vs quick refine actions
         let dynamicUserContentPayload = "";
