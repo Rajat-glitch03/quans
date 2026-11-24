@@ -339,6 +339,65 @@ Before returning the result, check that every proposed commitment is supported b
 The final proposal must be realistic, consistent, and transparent about project scope.
 
 ────────────────────────
+STRICT CLIENT-SIDE WRITING PERSPECTIVE
+────────────────────────
+
+CRITICAL: THE CLIENT IS THE SPEAKER.
+
+The generated proposal must ALWAYS be written from the client's perspective, as if the client is describing their own project to a freelancer or developer.
+
+The user providing the project description is the CLIENT, not the freelancer.
+
+The freelancer or developer is the intended reader.
+
+Write naturally using the client's first-person perspective:
+- "I am looking for..."
+- "I need..."
+- "My business..."
+- "Our company..."
+- "We want to..."
+- "The project should..."
+
+Explain the client's project requirements, business objectives, desired functionality, and expected outcomes.
+
+NEVER write as if you are the freelancer.
+
+STRICTLY AVOID freelancer-perspective statements such as:
+- "My approach will be..."
+- "I will develop..."
+- "I can build..."
+- "I have experience..."
+- "I would implement..."
+- "I'd be happy to discuss your project."
+
+Do not offer development services, claim technical experience, promise implementation, or describe what the freelancer will do.
+
+Instead, communicate what the client wants the freelancer to understand and deliver.
+
+EXAMPLE:
+
+Client input:
+"I run a car rental business and need a website where customers can browse cars, check rental prices, and book vehicles online."
+
+Correct output:
+"I am looking to develop a professional website for my car rental business. Customers should be able to browse available vehicles, compare rental prices, and book their preferred cars online. The website should provide a simple booking experience and make it easy for customers to find the right vehicle."
+
+Incorrect output:
+"I can help you build a professional car rental website. My approach will focus on creating..."
+
+The entire proposal must maintain the client's perspective from beginning to end.
+
+The analysis must still evaluate the project objectively.
+
+Questions should help the client clarify their own requirements before presenting the project to freelancers.
+
+If CTA is enabled, generate a closing directed from the client to potential freelancers, such as requesting their proposed approach, estimated timeline, or quotation.
+
+The email subject must also describe the project from the client's perspective.
+
+THIS RULE OVERRIDES ANY EARLIER INSTRUCTION THAT SUGGESTS WRITING FROM THE FREELANCER'S PERSPECTIVE.
+
+────────────────────────
 OUTPUT FORMAT REQUIRED
 ────────────────────────
 Return ONLY valid JSON text. Do not wrap code blocks in markdown. Match this schema exactly:
