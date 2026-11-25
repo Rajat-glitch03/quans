@@ -1,4 +1,100 @@
 
+const GEMINI_MAX_ATTEMPTS = 4; // 1 initial attempt + 3 retries
+const GEMINI_RETRYABLE_STATUSES = new Set([408, 500, 502, 503, 504]);
+const GEMINI_MAX_RETRY_WAIT_MS = 5000;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseRetryAfterMs(response) {
+    const value = response.headers.get('retry-after');
+    if (!value) return null;
+
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds >= 0) {
+        return seconds * 1000;
+    }
+
+    const retryDate = Date.parse(value);
+    return Number.isNaN(retryDate)
+        ? null
+        : Math.max(0, retryDate - Date.now());
+}
+
+async function fetchGeminiWithRetry(url, options) {
+    for (let attempt = 1; attempt <= GEMINI_MAX_ATTEMPTS; attempt += 1) {
+        let response;
+
+        try {
+            response = await fetch(url, options);
+        } catch (error) {
+            // Retry transient network errors only.
+            const isTransientNetworkError =
+                error?.name === 'TypeError' ||
+                ['ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN', 'ECONNREFUSED']
+                    .includes(error?.cause?.code);
+
+            if (!isTransientNetworkError || attempt === GEMINI_MAX_ATTEMPTS) {
+                throw error;
+            }
+
+            const delayMs = Math.min(
+                700 * (2 ** (attempt - 1)) + Math.floor(Math.random() * 250),
+                GEMINI_MAX_RETRY_WAIT_MS
+            );
+
+            console.warn(
+                `[Gemini] Network error on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+            );
+
+            await sleep(delayMs);
+            continue;
+        }
+
+        if (
+            response.ok ||
+            !GEMINI_RETRYABLE_STATUSES.has(response.status) ||
+            attempt === GEMINI_MAX_ATTEMPTS
+        ) {
+            return response;
+        }
+
+        const retryAfterMs = parseRetryAfterMs(response);
+
+        // Respect Google's requested delay rather than retrying too early.
+        // If the requested wait exceeds our interactive retry budget,
+        // return the response instead of keeping the customer waiting.
+        if (
+            retryAfterMs !== null &&
+            retryAfterMs > GEMINI_MAX_RETRY_WAIT_MS
+        ) {
+            return response;
+        }
+
+        const backoffMs =
+            700 * (2 ** (attempt - 1)) +
+            Math.floor(Math.random() * 250);
+
+        const delayMs = retryAfterMs ??
+            Math.min(backoffMs, GEMINI_MAX_RETRY_WAIT_MS);
+
+        console.warn(
+            `[Gemini] Upstream HTTP ${response.status} on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+        );
+
+        try {
+            await response.body?.cancel();
+        } catch (_) {
+            // Ignore errors while releasing the failed response body.
+        }
+
+        await sleep(delayMs);
+    }
+
+    throw new Error('Gemini request exhausted its retry attempts.');
+}
+
 export default async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,22 +107,31 @@ export default async function handler(req, res) {
 
     // 2. Enforce secure POST requests only
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed. Use POST.' });
+        return res.status(405).json({
+            error: 'Method not allowed. Use POST.'
+        });
     }
 
     try {
         const { contents } = req.body;
 
         if (!contents || !Array.isArray(contents)) {
-            return res.status(400).json({ error: 'Missing or invalid structural contents array parameter.' });
+            return res.status(400).json({
+                error: 'Missing or invalid structural contents array parameter.'
+            });
         }
 
-        // 3. Extract the secret key securely from Vercel's backend ecosystem
+        // 3. Extract the secret key securely from Vercel
         const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey) {
-            console.error("Deployment Error: GEMINI_API_KEY is not defined in Vercel Environment Variables.");
-            return res.status(500).json({ error: 'Server configuration error: Missing API Key.' });
+            console.error(
+                "Deployment Error: GEMINI_API_KEY is not defined in Vercel Environment Variables."
+            );
+
+            return res.status(500).json({
+                error: 'Server configuration error: Missing API Key.'
+            });
         }
 
         // Dynamically compute the current server date
@@ -37,17 +142,19 @@ export default async function handler(req, res) {
             day: 'numeric'
         });
 
-        // 4. Securely dispatch the prompt payload to Google Gemini API
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: contents,
-                systemInstruction: {
-                    parts: [{
-                        text: `You are QUANS Resume Builder, an expert resume writer, ATS-aware resume strategist, and career document specialist.
+        // 4. Send the request through the automatic retry handler
+        const googleResponse = await fetchGeminiWithRetry(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: contents,
+                    systemInstruction: {
+                        parts: [{
+                            text: `You are QUANS Resume Builder, an expert resume writer, ATS-aware resume strategist, and career document specialist.
 
 YOUR MISSION
 Create a professional, truthful, role-targeted resume that presents the candidate's actual qualifications, skills, education, projects, and experience in the strongest clear and credible way possible.
@@ -525,25 +632,51 @@ Do not wrap the resume in a Markdown code block.
 The final response must contain a complete, ready-to-review resume followed by the separate ITEMS TO REVIEW section.
 
 Now create the strongest truthful, professional resume supported by the candidate information in the user message.`
-                    }]
-                }
-            })
-        });
+                        }]
+                    }
+                })
+            }
+        );
 
-        // Catch transmission or key blockages gracefully
+        // Catch upstream API errors
         if (!googleResponse.ok) {
             const errorDetails = await googleResponse.text();
-            console.error(`Google API Error Status ${googleResponse.status}:`, errorDetails);
-            return res.status(googleResponse.status).json({ error: 'Failed upstream response from Google servers.' });
+
+            console.error(
+                `Google API Error Status ${googleResponse.status}:`,
+                errorDetails.slice(0, 2000)
+            );
+
+            if (googleResponse.status === 503) {
+                res.setHeader('Retry-After', '3');
+
+                return res.status(503).json({
+                    error: 'QUANS is temporarily busy because the AI service is experiencing high demand. Please try again in a moment.',
+                    code: 'AI_TEMPORARILY_UNAVAILABLE',
+                    retryable: true
+                });
+            }
+
+            return res.status(googleResponse.status).json({
+                error: 'The AI service could not complete this request. Please try again shortly.',
+                code: 'AI_UPSTREAM_ERROR',
+                retryable: [408, 500, 502, 504].includes(googleResponse.status)
+            });
         }
 
         const data = await googleResponse.json();
 
-        // 5. Send the structured payload right back to your front-end view layer
+        // 5. Send the structured payload back to the frontend
         return res.status(200).json(data);
 
     } catch (error) {
-        console.error("Vercel Serverless Function Catch-All Error:", error);
-        return res.status(500).json({ error: 'Internal Server Error processing your chat generation request.' });
+        console.error(
+            "Vercel Serverless Function Catch-All Error:",
+            error
+        );
+
+        return res.status(500).json({
+            error: 'Internal Server Error processing your chat generation request.'
+        });
     }
 }
