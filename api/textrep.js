@@ -1,3 +1,134 @@
+
+const GEMINI_MAX_ATTEMPTS = 4; // 1 initial attempt + 3 retries
+const GEMINI_RETRYABLE_STATUSES = new Set([408, 500, 502, 503, 504]);
+const GEMINI_MAX_RETRY_WAIT_MS = 5000;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseRetryAfterMs(response) {
+    const value = response.headers.get('retry-after');
+    if (!value) return null;
+
+    const seconds = Number(value);
+
+    if (Number.isFinite(seconds) && seconds >= 0) {
+        return seconds * 1000;
+    }
+
+    const retryDate = Date.parse(value);
+
+    return Number.isNaN(retryDate)
+        ? null
+        : Math.max(0, retryDate - Date.now());
+}
+
+async function fetchGeminiWithRetry(url, options) {
+    for (let attempt = 1; attempt <= GEMINI_MAX_ATTEMPTS; attempt += 1) {
+        let response;
+
+        try {
+            response = await fetch(url, options);
+        } catch (error) {
+            const transientCodes = [
+                'ECONNRESET',
+                'ETIMEDOUT',
+                'EAI_AGAIN',
+                'ECONNREFUSED'
+            ];
+
+            const isTransientNetworkError =
+                error?.name === 'TypeError' ||
+                transientCodes.includes(error?.cause?.code);
+
+            if (!isTransientNetworkError) {
+                throw error;
+            }
+
+            if (attempt === GEMINI_MAX_ATTEMPTS) {
+                const exhaustedError = new Error(
+                    'Gemini remained unreachable after automatic retries.'
+                );
+
+                exhaustedError.code = 'GEMINI_NETWORK_RETRIES_EXHAUSTED';
+                exhaustedError.cause = error;
+
+                throw exhaustedError;
+            }
+
+            const backoffMs =
+                700 * (2 ** (attempt - 1)) +
+                Math.floor(Math.random() * 250);
+
+            const delayMs = Math.min(
+                backoffMs,
+                GEMINI_MAX_RETRY_WAIT_MS
+            );
+
+            console.warn(
+                `[Gemini] Network error on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+            );
+
+            await sleep(delayMs);
+            continue;
+        }
+
+        const retryAfterMs = parseRetryAfterMs(response);
+
+        // Retry HTTP 429 only when Google provides a short Retry-After value.
+        // This avoids repeatedly retrying an exhausted quota.
+        const isRetryableRateLimit =
+            response.status === 429 &&
+            retryAfterMs !== null &&
+            retryAfterMs <= GEMINI_MAX_RETRY_WAIT_MS;
+
+        const isRetryableStatus =
+            GEMINI_RETRYABLE_STATUSES.has(response.status) ||
+            isRetryableRateLimit;
+
+        if (
+            response.ok ||
+            !isRetryableStatus ||
+            attempt === GEMINI_MAX_ATTEMPTS
+        ) {
+            return response;
+        }
+
+        // Respect Google's requested delay. Do not keep an interactive
+        // request waiting if the requested delay exceeds our retry budget.
+        if (
+            retryAfterMs !== null &&
+            retryAfterMs > GEMINI_MAX_RETRY_WAIT_MS
+        ) {
+            return response;
+        }
+
+        const backoffMs =
+            700 * (2 ** (attempt - 1)) +
+            Math.floor(Math.random() * 250);
+
+        const delayMs = retryAfterMs ?? Math.min(
+            backoffMs,
+            GEMINI_MAX_RETRY_WAIT_MS
+        );
+
+        console.warn(
+            `[Gemini] HTTP ${response.status} on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+        );
+
+        try {
+            await response.body?.cancel();
+        } catch (_) {
+            // Ignore errors while releasing the unsuccessful response body.
+        }
+
+        await sleep(delayMs);
+    }
+
+    throw new Error('Gemini request exhausted its retry attempts.');
+}
+
 module.exports = async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,9 +146,9 @@ module.exports = async function handler(req, res) {
 
     try {
         // Extract parameters matching the exact client payload structure from textrep.html
-        const { 
+        const {
             content, sourcePlatform, targetPlatform, audience, tone, mode, length, addCTA,
-            brandContext, sampleWritingStyle, refineAction, existingContentContext 
+            brandContext, sampleWritingStyle, refineAction, existingContentContext
         } = req.body;
 
         if (!content && !existingContentContext) {
@@ -33,7 +164,11 @@ module.exports = async function handler(req, res) {
         }
 
         // Dynamically compute the current server date context
-        const currentLiveDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const currentLiveDate = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
 
         // 4. Construct a strict structural system directive for JSON formatting
         const copywriterSystemDirective = `
@@ -523,6 +658,7 @@ Valid JSON is mandatory.`;
         if (refineAction) {
             // Unpack previously generated JSON context
             let historicalContextText = "";
+
             try {
                 const parsedContext = JSON.parse(existingContentContext);
                 historicalContextText = parsedContext.repurposedText || "";
@@ -532,31 +668,40 @@ Valid JSON is mandatory.`;
 
             // Map micro-refinement requests cleanly
             let optimizationGoalText = "";
+
             switch (refineAction) {
                 case 'shorter':
                     optimizationGoalText = "Condense the content drastically. Make it concise and punchy without losing the main value proposition.";
                     break;
+
                 case 'longer':
                     optimizationGoalText = "Expand the text with deeper details, structural examples, and immersive formatting matching the platform configuration.";
                     break;
+
                 case 'professional':
                     optimizationGoalText = "Shift tone to an authoritative, crisp corporate profile style. Eliminate overly casual expressions or slang.";
                     break;
+
                 case 'casual':
                     optimizationGoalText = "Make it highly conversational, relaxed, friendly, and relatable, like talking to a friend over coffee.";
                     break;
+
                 case 'viral':
                     optimizationGoalText = "Inject extreme hooks, high curiosity loops, punchy spacing, high emotional resonance, and high-engagement formatting.";
                     break;
+
                 case 'story':
                     optimizationGoalText = "Weave an narrative-driven framework, personal anecdote, or situational storytelling case-study directly into the post body structure.";
                     break;
+
                 case 'remove_cta':
                     optimizationGoalText = "Strip away all concluding pitches, direct response URLs, and call-to-actions, leaving it purely value/educational focused.";
                     break;
+
                 case 'emotional':
                     optimizationGoalText = "Weave strong psychological triggers, high empathy hooks, vulnerabilities, challenges, or relatable human factors into the prose framework.";
                     break;
+
                 default:
                     optimizationGoalText = "Refine, optimize layout alignment, and clear up awkward expressions.";
             }
@@ -582,16 +727,16 @@ Update your "whatChanged" parameters array to list the changes made during this 
 `;
         } else {
             // Standard generation payload matching all textrep.html parameter fields
-            let ctaRuleDirective = addCTA 
-                ? "Ensure you append an actionable, high-conversion Call To Action (CTA) near the end." 
+            let ctaRuleDirective = addCTA
+                ? "Ensure you append an actionable, high-conversion Call To Action (CTA) near the end."
                 : "Do not append a promotion or call to action. Keep it purely native and native-value driven.";
 
-            let brandProfileDirective = brandContext 
-                ? `Inject this brand profile/website context details where relevant: ${brandContext}` 
+            let brandProfileDirective = brandContext
+                ? `Inject this brand profile/website context details where relevant: ${brandContext}`
                 : "";
 
-            let stylisticVoiceDirective = sampleWritingStyle 
-                ? `Strictly mimic the cadence, sentence length variations, punctuation behaviors, and linguistic style of this user sample: """\n${sampleWritingStyle}\n"""` 
+            let stylisticVoiceDirective = sampleWritingStyle
+                ? `Strictly mimic the cadence, sentence length variations, punctuation behaviors, and linguistic style of this user sample: """\n${sampleWritingStyle}\n"""`
                 : "";
 
             dynamicUserContentPayload = `
@@ -620,45 +765,96 @@ Execute your transformation logic. Populate the "whatChanged" array with clear b
 `;
         }
 
-        // 6. Execute direct network request to Google Gemini API infrastructure via streaming gateway
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: dynamicUserContentPayload }]
-                }],
-                systemInstruction: {
-                    parts: [{ text: copywriterSystemDirective }]
-                },
-                generationConfig: {
-                    temperature: 0.6,
-                    responseMimeType: "application/json"
-                }
-            })
-        });
+        // 6. Execute Google Gemini API request with automatic retries
+        const googleResponse = await fetchGeminiWithRetry(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: dynamicUserContentPayload }]
+                    }],
+                    systemInstruction: {
+                        parts: [{ text: copywriterSystemDirective }]
+                    },
+                    generationConfig: {
+                        temperature: 0.6,
+                        responseMimeType: "application/json"
+                    }
+                })
+            }
+        );
 
         // Catch connection anomalies or upstream blockages gracefully
         if (!googleResponse.ok) {
             const errorDetails = await googleResponse.text();
-            console.error(`Google API Error Status ${googleResponse.status}:`, errorDetails);
-            return res.status(googleResponse.status).json({ error: 'Failed upstream response from Google servers.' });
+
+            console.error(
+                `Google API Error Status ${googleResponse.status}:`,
+                errorDetails.slice(0, 2000)
+            );
+
+            if (googleResponse.status === 503) {
+                res.setHeader('Retry-After', '3');
+
+                return res.status(503).json({
+                    error: 'The AI service is temporarily busy. Please try again shortly.',
+                    code: 'AI_TEMPORARILY_UNAVAILABLE',
+                    retryable: true
+                });
+            }
+
+            if (googleResponse.status === 429) {
+                return res.status(429).json({
+                    error: 'The AI service is rate limited or its available quota has been reached. Please try again later.',
+                    code: 'AI_RATE_LIMITED',
+                    retryable: false
+                });
+            }
+
+            return res.status(googleResponse.status).json({
+                error: 'The AI service could not complete this request. Please try again shortly.',
+                code: 'AI_UPSTREAM_ERROR',
+                retryable: [408, 500, 502, 504].includes(googleResponse.status)
+            });
         }
 
         const data = await googleResponse.json();
-        
+
         // Validate payload object architecture
-        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-            throw new Error("Invalid response structural signature returned from upstream AI provider.");
+        if (
+            !data.candidates ||
+            !data.candidates[0] ||
+            !data.candidates[0].content ||
+            !data.candidates[0].content.parts ||
+            !data.candidates[0].content.parts[0]
+        ) {
+            throw new Error(
+                "Invalid response structural signature returned from upstream AI provider."
+            );
         }
 
         const responseJsonText = data.candidates[0].content.parts[0].text;
-        
+
         // Return pure structured JSON directly to the frontend view layer
         return res.status(200).json(JSON.parse(responseJsonText));
 
     } catch (error) {
         console.error("Server Execution Context Exception Handler:", error);
-        return res.status(500).json({ error: 'Internal Server Error processing your content repurposing architecture request.' });
+
+        if (error?.code === 'GEMINI_NETWORK_RETRIES_EXHAUSTED') {
+            res.setHeader('Retry-After', '3');
+
+            return res.status(503).json({
+                error: 'The AI service is temporarily unavailable. Please try again shortly.',
+                code: 'AI_TEMPORARILY_UNAVAILABLE',
+                retryable: true
+            });
+        }
+
+        return res.status(500).json({
+            error: 'Internal Server Error processing your content repurposing architecture request.'
+        });
     }
 }
