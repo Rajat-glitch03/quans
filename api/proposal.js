@@ -1,3 +1,111 @@
+
+const GEMINI_MAX_ATTEMPTS = 4; // 1 initial attempt + 3 retries
+const GEMINI_RETRYABLE_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
+const GEMINI_MAX_RETRY_WAIT_MS = 5000;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseRetryAfterMs(response) {
+    const value = response.headers.get('retry-after');
+    if (!value) return null;
+
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds >= 0) {
+        return seconds * 1000;
+    }
+
+    const retryDate = Date.parse(value);
+    return Number.isNaN(retryDate)
+        ? null
+        : Math.max(0, retryDate - Date.now());
+}
+
+async function fetchGeminiWithRetry(url, options) {
+    for (let attempt = 1; attempt <= GEMINI_MAX_ATTEMPTS; attempt += 1) {
+        let response;
+
+        try {
+            response = await fetch(url, options);
+        } catch (error) {
+            const transientCodes = [
+                'ECONNRESET',
+                'ETIMEDOUT',
+                'EAI_AGAIN',
+                'ECONNREFUSED'
+            ];
+
+            const isTransientNetworkError =
+                error?.name === 'TypeError' ||
+                transientCodes.includes(error?.cause?.code);
+
+            if (!isTransientNetworkError) {
+                throw error;
+            }
+
+            if (attempt === GEMINI_MAX_ATTEMPTS) {
+                const exhaustedError = new Error(
+                    'Gemini remained unreachable after the automatic retries.'
+                );
+                exhaustedError.code = 'GEMINI_NETWORK_RETRIES_EXHAUSTED';
+                exhaustedError.cause = error;
+                throw exhaustedError;
+            }
+
+            const backoffMs =
+                700 * (2 ** (attempt - 1)) +
+                Math.floor(Math.random() * 250);
+            const delayMs = Math.min(backoffMs, GEMINI_MAX_RETRY_WAIT_MS);
+
+            console.warn(
+                `[Gemini] Network error on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+            );
+
+            await sleep(delayMs);
+            continue;
+        }
+
+        if (
+            response.ok ||
+            !GEMINI_RETRYABLE_STATUSES.has(response.status) ||
+            attempt === GEMINI_MAX_ATTEMPTS
+        ) {
+            return response;
+        }
+
+        const retryAfterMs = parseRetryAfterMs(response);
+
+        // Do not keep an interactive Vercel request waiting beyond this retry budget.
+        if (
+            retryAfterMs !== null &&
+            retryAfterMs > GEMINI_MAX_RETRY_WAIT_MS
+        ) {
+            return response;
+        }
+
+        const backoffMs =
+            700 * (2 ** (attempt - 1)) +
+            Math.floor(Math.random() * 250);
+        const delayMs = retryAfterMs ??
+            Math.min(backoffMs, GEMINI_MAX_RETRY_WAIT_MS);
+
+        console.warn(
+            `[Gemini] Upstream HTTP ${response.status} on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+        );
+
+        try {
+            await response.body?.cancel();
+        } catch (_) {
+            // Ignore errors while releasing the unsuccessful response body.
+        }
+
+        await sleep(delayMs);
+    }
+
+    throw new Error('Gemini request exhausted its retry attempts.');
+}
+
 module.exports = async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -435,7 +543,7 @@ Analyze the user's project parameters and compile the proposal response followin
         // 6. Connect with the external Google Gemini AI engine pipeline
         const endpointUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`;
 
-        const googleResponse = await fetch(endpointUrl, {
+        const googleResponse = await fetchGeminiWithRetry(endpointUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -471,6 +579,16 @@ Analyze the user's project parameters and compile the proposal response followin
 
     } catch (error) {
         console.error("Vercel Serverless Function Catch-All Error:", error);
+
+        if (error?.code === 'GEMINI_NETWORK_RETRIES_EXHAUSTED') {
+            res.setHeader('Retry-After', '3');
+            return res.status(503).json({
+                error: 'The AI service is temporarily unavailable. Please try again shortly.',
+                code: 'AI_TEMPORARILY_UNAVAILABLE',
+                retryable: true
+            });
+        }
+
         return res.status(500).json({ error: 'Internal Server Error processing your proposal generation request.' });
     }
 }
