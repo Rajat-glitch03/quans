@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-<title>QUANS | Post Studio</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>QUANS | Social Content Generator</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <style>
         body {
             font-family: 'DM Sans', sans-serif;
             background-color: #FFFFFF;
@@ -617,320 +621,337 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </style>
 </head>
 <body class="q-workspace-page">
-<header class="q-topbar">
-<div class="q-topbar-brand-group">
-<a aria-label="Quans workspace" class="q-brand" href="tool.html">QUANS<span>.</span></a>
-<span aria-hidden="true" class="q-topbar-divider"></span>
-<div class="q-current-tool">
-<span>WORKSPACE</span>
-<strong>Post Studio</strong>
-</div>
-</div>
-<div class="q-topbar-actions">
-<div class="q-topbar-status"><span></span> Workspace ready</div>
-<div class="q-account-menu-wrap relative" id="profileDropdownRoot">
-<button aria-expanded="false" aria-haspopup="true" class="q-account-trigger flex items-center gap-2 px-2 py-1.5" id="profileTriggerBtn" type="button">
-<span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
-<span class="q-account-greeting" id="userHelloDisplay">Hello!</span>
-<i class="fa-solid fa-chevron-down q-account-chevron"></i>
-</button>
-<div class="q-account-dropdown hidden absolute right-0 z-[90]" id="profileDropdownMenu">
-<div class="q-account-dropdown-head">
-<span class="q-account-dropdown-mark">Q</span>
-<div class="q-account-dropdown-copy">
-<span class="q-account-eyebrow">YOUR ACCOUNT</span>
-<strong>Welcome to QUANS</strong>
-<span class="q-account-email" id="qAccountEmailDisplay">Loading account...</span>
-</div>
-</div>
-<div class="q-account-dropdown-actions">
-<button class="q-account-dropdown-item" id="settingsActionBtn" type="button">
-<span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
-<span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
-<i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
-</button>
-<div class="q-account-dropdown-divider"></div>
-<button class="q-account-dropdown-item q-account-logout" id="logoutActionBtn" type="button">
-<span class="q-account-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
-<span class="q-account-action-copy"><strong>Log Out</strong><small>Sign out of QUANS</small></span>
-<i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
-</button>
-</div>
-</div>
-</div>
-<button aria-label="Open QUANS navigation" class="md:hidden flex items-center justify-center w-8 h-8 border border-[#e9e6f0] text-[#7655e8] rounded-full bg-white hover:bg-[#f8f6fd] transition-colors shadow-xs" id="quansMobileNavBtn" type="button"><i class="fa-solid fa-bars-staggered text-xs"></i></button>
-<button class="q-mobile-history-button md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs" id="mobileDrawerOpenBtn">
-<i class="fa-solid fa-clock-rotate-left text-xs"></i>
-</button>
-</div>
+
+    <header class="q-topbar">
+    <div class="q-topbar-brand-group">
+        <a href="tool.html" class="q-brand" aria-label="Quans workspace">QUANS<span>.</span></a>
+        <span class="q-topbar-divider" aria-hidden="true"></span>
+        <div class="q-current-tool">
+            <span>WORKSPACE</span>
+            <strong>Social Content Studio</strong>
+        </div>
+    </div>
+    <div class="q-topbar-actions">
+        <div class="q-account-menu-wrap relative" id="profileDropdownRoot">
+        <button id="profileTriggerBtn" type="button" class="q-account-trigger flex items-center gap-2 px-2 py-1.5" aria-haspopup="true" aria-expanded="false">
+            <span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
+            <span id="userHelloDisplay" class="q-account-greeting">Hello!</span>
+            <i class="fa-solid fa-chevron-down q-account-chevron"></i>
+        </button>
+        <div id="profileDropdownMenu" class="q-account-dropdown hidden absolute right-0 z-[90]">
+            <div class="q-account-dropdown-head">
+                <span class="q-account-dropdown-mark">Q</span>
+                <div class="q-account-dropdown-copy">
+                    <span class="q-account-eyebrow">YOUR ACCOUNT</span>
+                    <strong>Welcome to QUANS</strong>
+                    <span class="q-account-email" id="qAccountEmailDisplay">Loading account...</span>
+                </div>
+            </div>
+            <div class="q-account-dropdown-actions">
+                <button id="settingsActionBtn" type="button" class="q-account-dropdown-item">
+                    <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
+                    <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
+                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                </button>
+                <div class="q-account-dropdown-divider"></div>
+                <button id="logoutActionBtn" type="button" class="q-account-dropdown-item q-account-logout">
+                    <span class="q-account-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                    <span class="q-account-action-copy"><strong>Log Out</strong><small>Sign out of QUANS</small></span>
+                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+        <button id="quansMobileNavBtn" type="button" class="md:hidden flex items-center justify-center w-8 h-8 border border-[#e9e6f0] text-[#7655e8] rounded-full bg-white hover:bg-[#f8f6fd] transition-colors shadow-xs" aria-label="Open QUANS navigation"><i class="fa-solid fa-bars-staggered text-xs"></i></button>
+        <button id="mobileDrawerOpenBtn" class="q-mobile-history-button md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+            </button>
+    </div>
 </header>
-<main class="q-workspace-main">
-<section class="q-page-intro q-social-intro">
-<div class="q-page-intro-copy">
-<span class="q-eyebrow"><i aria-hidden="true" class="fa-solid fa-share-nodes"></i> SOCIAL CONTENT WORKSPACE</span>
-<h1>Turn ideas into posts<br/><em>worth sharing.</em></h1>
-<p>Shape a social post around your audience, platform and goal. Generate hooks, a focused body, and creative direction in one clear workspace.</p>
-</div>
-<div aria-label="Social content workflow" class="q-intro-aside">
-<div class="q-intro-aside-top"><span>YOUR WORKFLOW</span><i aria-hidden="true" class="fa-solid fa-arrow-trend-up"></i></div>
-<div class="q-workflow-step"><span>01</span><div><strong>Set the direction</strong><small>Choose platform and audience</small></div></div>
-<div class="q-workflow-rule"></div>
-<div class="q-workflow-step"><span>02</span><div><strong>Generate the post</strong><small>Explore hooks and copy</small></div></div>
-<div class="q-workflow-rule"></div>
-<div class="q-workflow-step"><span>03</span><div><strong>Refine and publish</strong><small>Make it your own</small></div></div>
-</div>
-</section>
-<div class="q-workspace-grid">
+
+    <main class="q-workspace-main">
+    <section class="q-page-intro q-social-intro">
+        <div class="q-page-intro-copy">
+            <span class="q-eyebrow"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> SOCIAL CONTENT WORKSPACE</span>
+            <h1>Turn ideas into posts<br><em>worth sharing.</em></h1>
+            <p>Shape a social post around your audience, platform and goal. Generate hooks, a focused body, and creative direction in one clear workspace.</p>
+        </div>
+        <div class="q-intro-aside" aria-label="Social content workflow">
+            <div class="q-intro-aside-top"><span>YOUR WORKFLOW</span><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i></div>
+            <div class="q-workflow-step"><span>01</span><div><strong>Set the direction</strong><small>Choose platform and audience</small></div></div>
+            <div class="q-workflow-rule"></div>
+            <div class="q-workflow-step"><span>02</span><div><strong>Generate the post</strong><small>Explore hooks and copy</small></div></div>
+            <div class="q-workflow-rule"></div>
+            <div class="q-workflow-step"><span>03</span><div><strong>Refine and publish</strong><small>Make it your own</small></div></div>
+        </div>
+    </section>
+    <div class="q-workspace-grid">
 <section class="q-panel q-input-card w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-auto md:h-full">
-<div class="q-panel-heading">
-<div class="q-panel-heading-mark"><i aria-hidden="true" class="fa-solid fa-sliders"></i></div>
-<div><span class="q-panel-kicker">01 / CONTENT INPUT</span><h2>Build your post</h2><p>Set the context, audience and direction for your next piece of content.</p></div>
-</div>
-<div class="space-y-4 pb-4 q-form-content">
-<div class="flex flex-col gap-1.5">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
-<textarea class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs" id="topicInputField" placeholder="What is your business..." rows="3"></textarea>
-</div>
-<div class="grid grid-cols-2 gap-3">
-<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
-<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
-<span class="selected-display-value truncate">LinkedIn</span>
-<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-</button>
-<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
-</div>
-</div>
-<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
-<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
-<span class="selected-display-value truncate">Professional</span>
-<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-</button>
-<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-3">
-<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
-<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
-<span class="selected-display-value truncate">Developers</span>
-<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-</button>
-<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
-</div>
-</div>
-<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
-<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
-<span class="selected-display-value truncate">Get comments</span>
-<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-</button>
-<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
-</div>
-</div>
-</div>
-<div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
-<label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
-<button class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors" type="button">
-<span class="selected-display-value truncate">Short</span>
-<i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
-</button>
-<div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
-<div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
-</div>
-</div>
-<div class="flex items-center gap-2.5 pt-1">
-<label class="relative inline-flex items-center cursor-pointer select-none">
-<input class="sr-only peer" id="addCtaCheckbox" type="checkbox"/>
-<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
-<span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
-</label>
-</div>
-<div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
-<h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner (Optional)</h3>
-<div>
-<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
-<input class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs" id="brandContextInput" placeholder="e.g., https://mybrand.com" type="url"/>
-</div>
-<div>
-<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
-<textarea class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs" id="sampleWritingStyleInput" placeholder="Paste a past post here to copy your natural syntax voice..." rows="2"></textarea>
-</div>
-</div>
-</div>
-<button class="w-full mt-4 md:mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0" id="generationTriggerBtn">
-<i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
-<span>Generate Content</span>
-</button>
-</section>
+            <div class="q-panel-heading">
+        <div class="q-panel-heading-mark"><i class="fa-solid fa-sliders" aria-hidden="true"></i></div>
+        <div><span class="q-panel-kicker">01 / CONTENT INPUT</span><h2>Build your post</h2><p>Set the context, audience and direction for your next piece of content.</p></div>
+    </div>
+    <div class="space-y-4 pb-4 q-form-content">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
+                    <textarea id="topicInputField" rows="3" placeholder="What is your business..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">LinkedIn</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Professional</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Developers</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Get comments</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+                    <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                        <span class="selected-display-value truncate">Short</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                    </button>
+                    <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2.5 pt-1">
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
+                        <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
+                    </label>
+                </div>
+
+                <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
+                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner (Optional)</h3>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
+                        <input type="url" id="brandContextInput" placeholder="e.g., https://mybrand.com" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
+                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy your natural syntax voice..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generationTriggerBtn" class="w-full mt-4 md:mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0">
+                <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
+                <span>Generate Content</span>
+            </button>
+        </section>
 <section class="q-panel q-output-card flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[500px] md:min-h-0 h-auto md:h-full z-10">
-<div class="q-output-heading">
-<div class="q-output-heading-copy">
-<span class="q-panel-kicker">02 / GENERATED WORK</span>
-<h2>Your content canvas</h2>
-<p>Your hooks, post copy, call to action, hashtags and creative direction come together here.</p>
-</div>
-<div class="q-social-output-mark"><i aria-hidden="true" class="fa-solid fa-wand-magic-sparkles"></i><span>POST DRAFT</span></div>
-</div>
-<div class="q-output-toolbar h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
-<div class="flex items-center gap-2 min-w-0 pr-2">
-<div class="w-2 h-2 rounded-full bg-slate-300 shrink-0" id="statusDotIndicator"></div>
-<span class="text-[13px] sm:text-[15px] font-bold text-slate-500 truncate" id="statusLabelIndicator">Waiting for inputs...</span>
-</div>
-<button class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs" id="copyToClipboardBtn">
-<i class="fa-regular fa-copy"></i>
-<span id="copyBtnLabelText">Copy Full Blueprint</span>
-</button>
-</div>
-<div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center" id="outputDisplayScreenFrame">
-<div class="q-empty-state text-center max-w-xs mx-auto text-slate-400 py-12" id="fallbackEmptyStatePanel">
-<div aria-hidden="true" class="q-empty-art">
-<div class="q-empty-art-back"></div>
-<div class="q-empty-art-sheet">
-<div class="q-empty-art-top"><span></span><span></span><span></span></div>
-<div class="q-empty-art-title"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line short"></div>
-<div class="q-empty-art-section"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line mid"></div>
-<div class="q-empty-art-footer"><i class="fa-solid fa-sparkles"></i> READY FOR YOUR IDEA</div>
-</div>
-<span class="q-empty-art-spark q-spark-one">✦</span><span class="q-empty-art-spark q-spark-two">✧</span>
-</div>
-<span class="q-empty-kicker">A CLEAR STARTING POINT</span>
-<h3>Your next post starts here.</h3>
-<p>Share your topic and choose the direction. Your social content blueprint will take shape in this canvas.</p>
-</div>
-<div class="hidden w-full space-y-4 text-xs sm:text-sm select-text" id="contentRendererDisplayBlock">
-<div class="space-y-2.5">
-<span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Generated Hook Stream Options</span>
-<div class="grid grid-cols-1 gap-2.5">
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
-<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText1"></div>
-<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText1')"><i class="fa-regular fa-copy"></i></button>
-</div>
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
-<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText2"></div>
-<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText2')"><i class="fa-regular fa-copy"></i></button>
-</div>
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
-<div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1" id="generatedHookText3"></div>
-<button class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0" onclick="copyIndividualSegmentBlock('generatedHookText3')"><i class="fa-regular fa-copy"></i></button>
-</div>
-</div>
-</div>
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-<div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
-<span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
-<button class="text-slate-400 hover:text-slate-600 text-xs transition-colors" onclick="copyIndividualSegmentBlock('generatedMainBodyText')"><i class="fa-regular fa-copy"></i></button>
-</div>
-<div class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed" id="generatedMainBodyText"></div>
-</div>
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-<div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
-<span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
-<button class="text-slate-400 hover:text-slate-600 text-xs transition-colors" onclick="copyIndividualSegmentBlock('generatedCtaText')"><i class="fa-regular fa-copy"></i></button>
-</div>
-<div class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap" id="generatedCtaText"></div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-<div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
-<span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
-<div class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap" id="generatedHashtags"></div>
-</div>
-<div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
-<span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
-<div class="text-[11px] text-slate-500 italic whitespace-pre-wrap" id="generatedImageSuggestion"></div>
-</div>
-</div>
-<!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
-<div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('shorter')">
-<i class="fa-solid fa-compress text-[10px]"></i>
-<span>Shorter</span>
-</button>
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('professional')">
-<i class="fa-solid fa-briefcase text-[10px]"></i>
-<span>Executive</span>
-</button>
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('funny')">
-<i class="fa-solid fa-face-smile text-[10px]"></i>
-<span>Wittier</span>
-</button>
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('hook')">
-<i class="fa-solid fa-magnet text-[10px]"></i>
-<span>Punchy Hook</span>
-</button>
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('sales')">
-<i class="fa-solid fa-gavel text-[10px]"></i>
-<span>Sales Pitch</span>
-</button>
-<button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs" onclick="handleMicroRefinement('story')">
-<i class="fa-solid fa-book text-[10px]"></i>
-<span>Narrative</span>
-</button>
-</div>
-</div>
-</div>
-<div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
-<button class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer" id="desktopDropupTriggerBtn">
-<i class="fa-solid fa-folder-open text-[11px]"></i>
-<span>Your Generations</span>
-<i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
-</button>
-<div class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300" id="desktopDropupPanel">
-<div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
-<h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
-<div class="relative">
-<input class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white" id="desktopHistorySearchBox" placeholder="Search archive logs..." type="text"/>
-<i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
-</div>
-</div>
-<div class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1" id="desktopGenerationsScrollList"></div>
-</div>
-</div>
-</section>
-</div></main>
-<div class="q-history-overlay md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end" id="mobileSidebarDrawerOverlay">
-<div class="q-history-drawer w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out" id="mobileSidebarDrawerPanel">
-<div class="q-history-drawer-heading h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
-<span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
-<button class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs" id="mobileDrawerCloseBtn">
-<i class="fa-solid fa-xmark text-xs"></i>
-</button>
-</div>
-<div class="p-3 bg-white border-b border-slate-100 shrink-0">
-<div class="relative">
-<input class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue" id="mobileHistorySearchBox" placeholder="Filter archived builds..." type="text"/>
-<i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
-</div>
-</div>
-<div class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50" id="mobileGenerationsScrollList"></div>
-</div>
-</div>
-<script>
+            <div class="q-output-heading">
+        <div class="q-output-heading-copy">
+            <span class="q-panel-kicker">02 / GENERATED WORK</span>
+            <h2>Your content canvas</h2>
+            <p>Your hooks, post copy, call to action, hashtags and creative direction come together here.</p>
+        </div>
+        <div class="q-social-output-mark"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i><span>POST DRAFT</span></div>
+    </div>
+    <div class="q-output-toolbar h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
+                    <span id="statusLabelIndicator" class="text-[13px] sm:text-[15px] font-bold text-slate-500 truncate">Waiting for inputs...</span>
+                </div>
+                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
+                    <i class="fa-regular fa-copy"></i>
+                    <span id="copyBtnLabelText">Copy Full Blueprint</span>
+                </button>
+            </div>
+
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
+                <div id="fallbackEmptyStatePanel" class="q-empty-state text-center max-w-xs mx-auto text-slate-400 py-12">
+        <div class="q-empty-art" aria-hidden="true">
+            <div class="q-empty-art-back"></div>
+            <div class="q-empty-art-sheet">
+                <div class="q-empty-art-top"><span></span><span></span><span></span></div>
+                <div class="q-empty-art-title"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line short"></div>
+                <div class="q-empty-art-section"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line mid"></div>
+                <div class="q-empty-art-footer"><i class="fa-solid fa-sparkles"></i> READY FOR YOUR IDEA</div>
+            </div>
+            <span class="q-empty-art-spark q-spark-one">✦</span><span class="q-empty-art-spark q-spark-two">✧</span>
+        </div>
+        <span class="q-empty-kicker">A CLEAR STARTING POINT</span>
+        <h3>Your next post starts here.</h3>
+        <p>Share your topic and choose the direction. Your social content blueprint will take shape in this canvas.</p>
+    </div>
+                
+                <div id="contentRendererDisplayBlock" class="hidden w-full space-y-4 text-xs sm:text-sm select-text">
+                    <div class="space-y-2.5">
+                        <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Generated Hook Stream Options</span>
+                        <div class="grid grid-cols-1 gap-2.5">
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText1" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText1')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText2" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText2')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText3" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText3')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedMainBodyText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedMainBodyText" class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed"></div>
+                    </div>
+
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedCtaText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedCtaText" class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
+                            <div id="generatedHashtags" class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap"></div>
+                        </div>
+                        <div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
+                            <div id="generatedImageSuggestion" class="text-[11px] text-slate-500 italic whitespace-pre-wrap"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
+                    <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-compress text-[10px]"></i>
+                            <span>Shorter</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('professional')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-briefcase text-[10px]"></i>
+                            <span>Executive</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('funny')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-face-smile text-[10px]"></i>
+                            <span>Wittier</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('hook')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-magnet text-[10px]"></i>
+                            <span>Punchy Hook</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('sales')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-gavel text-[10px]"></i>
+                            <span>Sales Pitch</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('story')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-book text-[10px]"></i>
+                            <span>Narrative</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
+                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
+                    <i class="fa-solid fa-folder-open text-[11px]"></i>
+                    <span>Your Generations</span>
+                    <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
+                </button>
+                
+                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
+                    <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
+                        <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
+                        <div class="relative">
+                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive logs..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+                    <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
+                </div>
+            </div>
+        </section>
+    </div></main>
+
+    <div id="mobileSidebarDrawerOverlay" class="q-history-overlay md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
+        <div id="mobileSidebarDrawerPanel" class="q-history-drawer w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
+            <div class="q-history-drawer-heading h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
+                <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
+            <div class="p-3 bg-white border-b border-slate-100 shrink-0">
+                <div class="relative">
+                    <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+                </div>
+            </div>
+            <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
+        </div>
+    </div>
+
+    <script>
         // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
         tailwind.config = {
             theme: {
@@ -1389,123 +1410,140 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             }
         }
     </script>
-<div aria-hidden="true" class="q-mobile-nav-overlay" id="quansMobileNavOverlay">
-<aside aria-label="QUANS navigation" class="q-mobile-nav-panel">
-<div class="q-mobile-nav-brand"><div class="q-mobile-nav-brandmark"><b>Q</b> QUANS.</div><button aria-label="Close navigation" class="q-mobile-nav-close" id="quansMobileNavClose"><i class="fa-solid fa-xmark"></i></button></div>
-<div class="q-mobile-nav-kicker">EXPLORE QUANS</div>
-<nav class="q-mobile-nav-links"><a class="q-mobile-nav-link" href="index.html"><i class="fa-solid fa-house-chimney"></i><span>Home</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<div id="quansMobileNavOverlay" class="q-mobile-nav-overlay" aria-hidden="true">
+      <aside class="q-mobile-nav-panel" aria-label="QUANS navigation">
+        <div class="q-mobile-nav-brand"><div class="q-mobile-nav-brandmark"><b>Q</b> QUANS.</div><button id="quansMobileNavClose" class="q-mobile-nav-close" aria-label="Close navigation"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="q-mobile-nav-kicker">EXPLORE QUANS</div>
+        <nav class="q-mobile-nav-links"><a class="q-mobile-nav-link" href="index.html"><i class="fa-solid fa-house-chimney"></i><span>Home</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
 <a class="q-mobile-nav-link" href="tool.html"><i class="fa-solid fa-screwdriver-wrench"></i><span>Tools</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
 <a class="q-mobile-nav-link" href="explore.html"><i class="fa-solid fa-compass"></i><span>Explore</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
 <a class="q-mobile-nav-link" href="pricing.html"><i class="fa-solid fa-tag"></i><span>Pricing</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
 <a class="q-mobile-nav-link" href="contact.html"><i class="fa-solid fa-envelope"></i><span>Contact Us</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
 <a class="q-mobile-nav-link" href="about.html"><i class="fa-solid fa-circle-info"></i><span>About Us</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a></nav>
-<div class="q-mobile-account"><div class="q-mobile-account-card"><strong>Signed in to QUANS</strong><small id="qMobileAccountEmail">Loading account...</small><div class="q-mobile-account-actions"><button id="qMobileSettingsBtn" type="button"><i class="fa-solid fa-sliders mr-1"></i> Settings</button><button id="qMobileLogoutBtn" type="button"><i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out</button></div></div></div>
-</aside>
+        <div class="q-mobile-account"><div class="q-mobile-account-card"><strong>Signed in to QUANS</strong><small id="qMobileAccountEmail">Loading account...</small><div class="q-mobile-account-actions"><button id="qMobileSettingsBtn" type="button"><i class="fa-solid fa-sliders mr-1"></i> Settings</button><button id="qMobileLogoutBtn" type="button"><i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out</button></div></div></div>
+      </aside>
+    </div>
+    <div id="settingsPopupModal" class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-5 transition-opacity duration-300">
+    <div class="q-settings-dialog relative w-full h-full md:h-auto md:min-h-[540px] md:max-h-[calc(100vh-40px)] md:max-w-[820px] md:rounded-[28px] flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+
+        <!-- Mobile settings header -->
+        <div class="q-settings-mobile-header md:hidden">
+            <div class="q-settings-mobile-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <span class="q-settings-mobile-title">
+                    <strong>Settings</strong>
+                    <small>Account and security</small>
+                </span>
+            </div>
+            <button id="closeSettingsMobileBtn" type="button" class="q-settings-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Account sidebar -->
+        <aside class="q-settings-sidebar">
+            <div class="q-settings-sidebar-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <div>
+                    <strong>QUANS</strong>
+                    <small>Account center</small>
+                </div>
+            </div>
+
+            <div class="q-settings-sidebar-label">YOUR ACCOUNT</div>
+            <button id="tabBtnAccount" type="button" class="q-settings-nav-button active" aria-current="page">
+                <span class="q-settings-nav-icon"><i class="fa-solid fa-circle-user"></i></span>
+                <span>Account</span>
+                <i class="fa-solid fa-chevron-right q-settings-nav-arrow"></i>
+            </button>
+
+            <div class="q-settings-sidebar-note">
+                <span class="q-settings-note-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                <strong>Your account, your control.</strong>
+                <p>Manage your sign-in details and account access from one place.</p>
+            </div>
+
+            <div class="q-settings-sidebar-footer">QUANS <span>·</span> ACCOUNT CENTER</div>
+        </aside>
+
+        <!-- Main account content -->
+        <main class="q-settings-main">
+            <button id="closeSettingsDesktopBtn" type="button" class="q-settings-close q-settings-desktop-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="panelSectionAccount" class="q-settings-account-panel">
+                <div class="q-settings-heading">
+                    <span class="q-settings-kicker"><span></span> ACCOUNT SETTINGS</span>
+                    <h2>Account Profiles</h2>
+                    <p>Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div id="settingsAlertMsg" class="hidden items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <section class="q-settings-email-section">
+                    <label class="q-settings-field-label">Registered Email Address</label>
+                    <div class="q-settings-email-card">
+                        <span class="q-settings-email-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span id="settingsEmailTextDisplay" class="q-settings-email-value">loading...</span>
+                        <span class="q-settings-verified-icon" aria-label="Account"><i class="fa-solid fa-shield-halved"></i></span>
+                    </div>
+                </section>
+
+                <section class="q-settings-actions" aria-label="Account actions">
+                    <button id="settingsChangePasswordBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
+                        <span class="q-settings-action-title">Change Password</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsLogoutBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span class="q-settings-action-title">Log Out</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsOpenDeleteModalBtn" type="button" class="q-settings-action q-settings-action-danger">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="q-settings-action-title">Delete Account</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+                </section>
+            </div>
+        </main>
+    </div>
 </div>
-<div class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-5 transition-opacity duration-300" id="settingsPopupModal">
-<div class="q-settings-dialog relative w-full h-full md:h-auto md:min-h-[540px] md:max-h-[calc(100vh-40px)] md:max-w-[820px] md:rounded-[28px] flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
-<!-- Mobile settings header -->
-<div class="q-settings-mobile-header md:hidden">
-<div class="q-settings-mobile-brand">
-<span class="q-settings-brand-mark">Q</span>
-<span class="q-settings-mobile-title">
-<strong>Settings</strong>
-<small>Account and security</small>
-</span>
-</div>
-<button aria-label="Close settings" class="q-settings-close" id="closeSettingsMobileBtn" type="button">
-<i class="fa-solid fa-xmark"></i>
-</button>
-</div>
-<!-- Account sidebar -->
-<aside class="q-settings-sidebar">
-<div class="q-settings-sidebar-brand">
-<span class="q-settings-brand-mark">Q</span>
-<div>
-<strong>QUANS</strong>
-<small>Account center</small>
-</div>
-</div>
-<div class="q-settings-sidebar-label">YOUR ACCOUNT</div>
-<button aria-current="page" class="q-settings-nav-button active" id="tabBtnAccount" type="button">
-<span class="q-settings-nav-icon"><i class="fa-solid fa-circle-user"></i></span>
-<span>Account</span>
-<i class="fa-solid fa-chevron-right q-settings-nav-arrow"></i>
-</button>
-<div class="q-settings-sidebar-note">
-<span class="q-settings-note-icon"><i class="fa-solid fa-shield-halved"></i></span>
-<strong>Your account, your control.</strong>
-<p>Manage your sign-in details and account access from one place.</p>
-</div>
-<div class="q-settings-sidebar-footer">QUANS <span>·</span> ACCOUNT CENTER</div>
-</aside>
-<!-- Main account content -->
-<main class="q-settings-main">
-<button aria-label="Close settings" class="q-settings-close q-settings-desktop-close" id="closeSettingsDesktopBtn" type="button">
-<i class="fa-solid fa-xmark"></i>
-</button>
-<div class="q-settings-account-panel" id="panelSectionAccount">
-<div class="q-settings-heading">
-<span class="q-settings-kicker"><span></span> ACCOUNT SETTINGS</span>
-<h2>Account Profiles</h2>
-<p>Manage your sign-in details, password, and account access from one place.</p>
-</div>
-<div class="hidden items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in" id="settingsAlertMsg">
-<i class="fa-solid fa-circle-info flex-shrink-0"></i>
-<span class="alert-text"></span>
-</div>
-<section class="q-settings-email-section">
-<label class="q-settings-field-label">Registered Email Address</label>
-<div class="q-settings-email-card">
-<span class="q-settings-email-icon"><i class="fa-solid fa-envelope"></i></span>
-<span class="q-settings-email-value" id="settingsEmailTextDisplay">loading...</span>
-<span aria-label="Account" class="q-settings-verified-icon"><i class="fa-solid fa-shield-halved"></i></span>
-</div>
-</section>
-<section aria-label="Account actions" class="q-settings-actions">
-<button class="q-settings-action" id="settingsChangePasswordBtn" type="button">
-<span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
-<span class="q-settings-action-title">Change Password</span>
-<i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
-</button>
-<button class="q-settings-action" id="settingsLogoutBtn" type="button">
-<span class="q-settings-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
-<span class="q-settings-action-title">Log Out</span>
-<i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
-</button>
-<button class="q-settings-action q-settings-action-danger" id="settingsOpenDeleteModalBtn" type="button">
-<span class="q-settings-action-icon"><i class="fa-solid fa-trash-can"></i></span>
-<span class="q-settings-action-title">Delete Account</span>
-<i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
-</button>
-</section>
-</div>
-</main>
-</div>
-</div>
-<div class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity" id="settingsHardDeleteModal">
-<div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
-<div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
-<h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+
+<div id="settingsHardDeleteModal" class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
+        <div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
+        
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
             Once you delete your account, your profile and username are permanently removed from Quans.
         </p>
-<div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
-<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
-<p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
-<input autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100" id="settingsDeleteChallengeInput" placeholder="Type here..." type="text"/>
-<p class="text-xs font-semibold text-rose-500 mt-2 hidden" id="settingsDeleteInlineError">⚠️ Verification input mismatch. Try typing carefully.</p>
-</div>
-<div class="flex items-center space-x-3">
-<button class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" id="settingsCancelDeleteBtn" type="button">
+        
+        <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
+            <input id="settingsDeleteChallengeInput" type="text" placeholder="Type here..." autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100">
+            <p id="settingsDeleteInlineError" class="text-xs font-semibold text-rose-500 mt-2 hidden">⚠️ Verification input mismatch. Try typing carefully.</p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="settingsCancelDeleteBtn" type="button" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                 Cancel
             </button>
-<button class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all" disabled="" id="settingsConfirmHardDeleteBtn" type="button">
+            <button id="settingsConfirmHardDeleteBtn" type="button" disabled class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all">
                 Delete Permanently
             </button>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+    
 <script>
 (() => {
   const settingsAuth = firebase.auth();
