@@ -1,3 +1,128 @@
+
+const GEMINI_MAX_ATTEMPTS = 4; // 1 initial attempt + 3 retries
+const GEMINI_RETRYABLE_STATUSES = new Set([408, 500, 502, 503, 504]);
+const GEMINI_MAX_RETRY_WAIT_MS = 5000;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseRetryAfterMs(response) {
+    const value = response.headers.get('retry-after');
+    if (!value) return null;
+
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds >= 0) {
+        return seconds * 1000;
+    }
+
+    const retryDate = Date.parse(value);
+    return Number.isNaN(retryDate)
+        ? null
+        : Math.max(0, retryDate - Date.now());
+}
+
+async function fetchGeminiWithRetry(url, options) {
+    for (let attempt = 1; attempt <= GEMINI_MAX_ATTEMPTS; attempt += 1) {
+        let response;
+
+        try {
+            response = await fetch(url, options);
+        } catch (error) {
+            const transientCodes = [
+                'ECONNRESET',
+                'ETIMEDOUT',
+                'EAI_AGAIN',
+                'ECONNREFUSED'
+            ];
+
+            const isTransientNetworkError =
+                error?.name === 'TypeError' ||
+                transientCodes.includes(error?.cause?.code);
+
+            if (!isTransientNetworkError) {
+                throw error;
+            }
+
+            if (attempt === GEMINI_MAX_ATTEMPTS) {
+                const exhaustedError = new Error(
+                    'Gemini remained unreachable after the automatic retries.'
+                );
+                exhaustedError.code = 'GEMINI_NETWORK_RETRIES_EXHAUSTED';
+                exhaustedError.cause = error;
+                throw exhaustedError;
+            }
+
+            const backoffMs =
+                700 * (2 ** (attempt - 1)) +
+                Math.floor(Math.random() * 250);
+
+            const delayMs = Math.min(
+                backoffMs,
+                GEMINI_MAX_RETRY_WAIT_MS
+            );
+
+            console.warn(
+                `[Gemini] Network error on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+            );
+
+            await sleep(delayMs);
+            continue;
+        }
+
+        const retryAfterMs = parseRetryAfterMs(response);
+
+        // Retry 429 only when the provider gives a bounded Retry-After hint.
+        // A 429 without this header may indicate an exhausted quota.
+        const isRetryableRateLimit =
+            response.status === 429 &&
+            retryAfterMs !== null &&
+            retryAfterMs <= GEMINI_MAX_RETRY_WAIT_MS;
+
+        const isRetryableStatus =
+            GEMINI_RETRYABLE_STATUSES.has(response.status) ||
+            isRetryableRateLimit;
+
+        if (
+            response.ok ||
+            !isRetryableStatus ||
+            attempt === GEMINI_MAX_ATTEMPTS
+        ) {
+            return response;
+        }
+
+        if (
+            retryAfterMs !== null &&
+            retryAfterMs > GEMINI_MAX_RETRY_WAIT_MS
+        ) {
+            return response;
+        }
+
+        const backoffMs =
+            700 * (2 ** (attempt - 1)) +
+            Math.floor(Math.random() * 250);
+
+        const delayMs = retryAfterMs ?? Math.min(
+            backoffMs,
+            GEMINI_MAX_RETRY_WAIT_MS
+        );
+
+        console.warn(
+            `[Gemini] Upstream HTTP ${response.status} on attempt ${attempt}/${GEMINI_MAX_ATTEMPTS}; retrying in ${delayMs}ms.`
+        );
+
+        try {
+            await response.body?.cancel();
+        } catch (_) {
+            // Ignore errors while releasing the unsuccessful response body.
+        }
+
+        await sleep(delayMs);
+    }
+
+    throw new Error('Gemini request exhausted its retry attempts.');
+}
+
 export default async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,9 +140,9 @@ export default async function handler(req, res) {
 
     try {
         // Extract all current active configuration parameters from the client-side payload
-        const { 
-            topic, platform, tone, audience, goal, length, addCTA, 
-            brandContext, sampleWritingStyle, refineAction, existingPostContext 
+        const {
+            topic, platform, tone, audience, goal, length, addCTA,
+            brandContext, sampleWritingStyle, refineAction, existingPostContext
         } = req.body;
 
         if (!topic && !existingPostContext) {
@@ -33,8 +158,8 @@ export default async function handler(req, res) {
         }
 
         // Dynamically compute the current server date
-        const currentLiveDate = new Date().toLocaleDateString('en-US', { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        const currentLiveDate = new Date().toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
         });
 
         // Personalization identity mapping blocks (Brand Identity Scanner data)
@@ -617,50 +742,93 @@ STRICT RESTRICTIONS:
 
         // 5. Build prompt payload structure
         const contentsPayload = [{
-            parts: [{ 
-                text: refineAction 
-                    ? `Modify the current draft asset according to the micro-refinement rule directive: "${refineAction}" using history context: ${existingPostContext}` 
-                    : `Transform this raw topic context input material into an exceptional asset layout: "${topic}"` 
+            parts: [{
+                text: refineAction
+                    ? `Modify the current draft asset according to the micro-refinement rule directive: "${refineAction}" using history context: ${existingPostContext}`
+                    : `Transform this raw topic context input material into an exceptional asset layout: "${topic}"`
             }]
         }];
 
-        // 6. Securely dispatch payload to Google Gemini API (Using Valid Supported 1.5 Flash Model)
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: contentsPayload,
-                systemInstruction: {
-                    parts: [{ text: copywriterSystemDirective }]
-                },
-                generationConfig: {
-                    temperature: 0.6,
-                    responseMimeType: "application/json"
-                }
-            })
-        });
+        // 6. Securely dispatch payload to Google Gemini API with automatic retries
+        const googleResponse = await fetchGeminiWithRetry(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: contentsPayload,
+                    systemInstruction: {
+                        parts: [{ text: copywriterSystemDirective }]
+                    },
+                    generationConfig: {
+                        temperature: 0.6,
+                        responseMimeType: "application/json"
+                    }
+                })
+            }
+        );
 
-        // Catch transmission or key blockages gracefully
+        // Catch transmission or upstream errors gracefully
         if (!googleResponse.ok) {
             const errorDetails = await googleResponse.text();
-            console.error(`Google API Error Status ${googleResponse.status}:`, errorDetails);
-            return res.status(googleResponse.status).json({ error: 'Failed upstream response from Google servers.' });
+
+            console.error(
+                `Google API Error Status ${googleResponse.status}:`,
+                errorDetails.slice(0, 2000)
+            );
+
+            if (googleResponse.status === 503) {
+                res.setHeader('Retry-After', '3');
+
+                return res.status(503).json({
+                    error: 'QUANS is temporarily busy because the AI service is experiencing high demand. Please try again in a moment.',
+                    code: 'AI_TEMPORARILY_UNAVAILABLE',
+                    retryable: true
+                });
+            }
+
+            if (googleResponse.status === 429) {
+                return res.status(429).json({
+                    error: 'The AI service is receiving too many requests. Please try again shortly.',
+                    code: 'AI_RATE_LIMITED',
+                    retryable: true
+                });
+            }
+
+            return res.status(googleResponse.status).json({
+                error: 'The AI service could not complete this request. Please try again shortly.',
+                code: 'AI_UPSTREAM_ERROR',
+                retryable: [408, 500, 502, 504].includes(googleResponse.status)
+            });
         }
 
         const data = await googleResponse.json();
-        
+
         // Extract raw JSON string safely from standard candidate hierarchy
         if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
             throw new Error("Invalid response structural signature returned from upstream AI provider.");
         }
 
         const responseJsonText = data.candidates[0].content.parts[0].text;
-        
+
         // Send the cleanly structured JSON data right back to your frontend view layer
         return res.status(200).json(JSON.parse(responseJsonText));
 
     } catch (error) {
         console.error("Vercel Serverless Function Catch-All Error:", error);
-        return res.status(500).json({ error: 'Internal Server Error processing your social content generation request.' });
+
+        if (error?.code === 'GEMINI_NETWORK_RETRIES_EXHAUSTED') {
+            res.setHeader('Retry-After', '3');
+
+            return res.status(503).json({
+                error: 'The AI service is temporarily unavailable. Please try again shortly.',
+                code: 'AI_TEMPORARILY_UNAVAILABLE',
+                retryable: true
+            });
+        }
+
+        return res.status(500).json({
+            error: 'Internal Server Error processing your social content generation request.'
+        });
     }
 }
