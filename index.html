@@ -976,6 +976,54 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 </style>
 
+
+<style id="quans-home-faq-styles">
+  /* FAQ section added to the homepage; existing page styles remain unchanged. */
+  .home-faq { padding-top: 74px; padding-bottom: 76px; }
+  .home-faq-heading { max-width: 690px; margin: 0 auto 30px; text-align: center; }
+  .home-faq-heading .section-kicker { justify-content: center; }
+  .home-faq-heading h2 {
+    margin: 14px 0 10px; color: var(--q-ink); font-size: clamp(34px,4.2vw,48px);
+    line-height: 1.08; font-weight: 800; letter-spacing: -.055em;
+  }
+  .home-faq-heading h2 em {
+    color: var(--q-violet); font-family: var(--q-serif); font-weight: 400;
+  }
+  .home-faq-heading p { margin: 0; color: #858197; font-size: 12px; line-height: 1.75; }
+  .home-faq-list { max-width: 860px; margin: 0 auto; border-top: 1px solid var(--q-line); }
+  .home-faq-item { border-bottom: 1px solid var(--q-line); background: rgba(255,255,255,.42); }
+  .home-faq-item summary {
+    position: relative; display: flex; align-items: center; justify-content: space-between;
+    gap: 18px; min-height: 66px; padding: 17px 18px; color: var(--q-ink-soft);
+    font-size: 13px; line-height: 1.5; font-weight: 800; cursor: pointer; list-style: none;
+  }
+  .home-faq-item summary::-webkit-details-marker { display: none; }
+  .home-faq-item summary::after {
+    content: '+'; display: grid; flex: 0 0 28px; width: 28px; height: 28px;
+    place-items: center; border: 1px solid #e8e2f3; border-radius: 50%;
+    color: var(--q-violet); background: #fff; font-size: 18px; font-weight: 500;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+  }
+  .home-faq-item[open] summary::after {
+    content: '−'; color: #fff; background: var(--q-violet); border-color: var(--q-violet);
+  }
+  .home-faq-item summary:hover { color: var(--q-violet-dark); }
+  .home-faq-item summary:focus-visible { outline: 3px solid rgba(118,85,232,.3); outline-offset: -3px; }
+  .home-faq-answer { padding: 0 64px 20px 18px; color: #77748b; font-size: 12px; line-height: 1.85; }
+  .home-faq-answer p { margin: 0 0 10px; }
+  .home-faq-answer p:last-child { margin-bottom: 0; }
+  .home-faq-answer ul { display: grid; gap: 7px; margin: 8px 0 0; padding-left: 19px; list-style: disc; }
+  .home-faq-answer li { padding-left: 2px; }
+  @media (max-width: 560px) {
+    .home-faq { padding-top: 54px; padding-bottom: 58px; }
+    .home-faq-heading { margin-bottom: 22px; text-align: left; }
+    .home-faq-heading .section-kicker { justify-content: flex-start; }
+    .home-faq-heading h2 { font-size: 36px; }
+    .home-faq-item summary { min-height: 62px; padding: 15px 10px; gap: 12px; font-size: 12px; }
+    .home-faq-answer { padding: 0 45px 18px 10px; font-size: 11px; }
+  }
+</style>
+
 </head>
 <body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
@@ -1078,6 +1126,93 @@ button, a { -webkit-tap-highlight-color: transparent; }
   </section>
 
   <section class="home-method site-container"><div class="method-copy"><span class="section-kicker">A MORE USEFUL WAY TO WORK</span><h2>From rough idea<br>to <em>ready-to-use.</em></h2><p>Each tool starts with a specific task, gives you structured controls and returns an output you can review, edit and make your own.</p><a class="button button-dark" href="tool.html">Find your workflow <i data-lucide="arrow-up-right"></i></a></div><div class="method-flow"><div class="flow-step"><span>01</span><div><i data-lucide="file-input"></i><b>Bring your context</b><small>A brief, source text or career details.</small></div></div><div class="flow-connector"></div><div class="flow-step"><span>02</span><div><i data-lucide="sliders-horizontal"></i><b>Choose your direction</b><small>Set tone, format and what matters.</small></div></div><div class="flow-connector"></div><div class="flow-step"><span>03</span><div><i data-lucide="file-check-2"></i><b>Review the result</b><small>Copy, refine and keep control.</small></div></div></div></section>
+
+  <section class="home-faq site-container" id="quans-home-faq" aria-labelledby="quans-home-faq-title">
+    <div class="home-faq-heading">
+      <span class="section-kicker">QUANS · COMMON QUESTIONS</span>
+      <h2 id="quans-home-faq-title">Frequently Asked <em>Questions.</em></h2>
+      <p>Clear answers about the tools, how they work, and what to expect from QUANS.</p>
+    </div>
+
+    <div class="home-faq-list">
+      <details class="home-faq-item">
+        <summary>1. What is QUANS?</summary>
+        <div class="home-faq-answer">
+          <p>QUANS is an AI-powered productivity toolkit designed to help you create professional resumes, prepare project proposals, repurpose existing content, and generate social media posts. Instead of switching between multiple tools, you can use one platform for four different content and career-related workflows.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>2. What tools are available on QUANS?</summary>
+        <div class="home-faq-answer">
+          <p>QUANS currently offers four AI-powered tools:</p>
+          <ul>
+            <li><strong>Resume Builder:</strong> Create professional, role-focused resumes.</li>
+            <li><strong>Proposal Generator:</strong> Turn project requirements into structured client-side proposals and briefs that can be shared with freelancers or developers.</li>
+            <li><strong>Text Repurposer:</strong> Adapt existing content for different platforms, audiences, and writing styles.</li>
+            <li><strong>Post Studio:</strong> Generate social media hooks, posts, calls to action, hashtags, and visual suggestions.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>3. Can QUANS Resume Builder create resumes for students and freshers?</summary>
+        <div class="home-faq-answer">
+          <p>Yes. Resume Builder supports students, freshers, interns, early-career professionals, and experienced candidates. It organizes your education, skills, projects, and work experience into a professional, ATS-friendly resume tailored to your target role.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>4. What does the Proposal Generator actually create?</summary>
+        <div class="home-faq-answer">
+          <p>The Proposal Generator transforms your project description into a structured project proposal written from the client's perspective. It helps communicate project requirements, objectives, expected functionality, missing information, and questions that potential freelancers or developers may need answered.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>5. What is the difference between Text Repurposer and Post Studio?</summary>
+        <div class="home-faq-answer">
+          <p>Text Repurposer works with content you already have. It adapts existing material for another platform, audience, tone, or format while aiming to preserve its original meaning.</p>
+          <p>Post Studio helps you create new social media content from a topic or idea, including multiple hooks, a complete post, a CTA, relevant hashtags, and an image suggestion.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>6. Can I customize the content generated by QUANS?</summary>
+        <div class="home-faq-answer">
+          <p>Yes. The tools provide different customization and refinement options. Depending on the tool, you can adjust the tone, target audience, platform, content length, writing style, or other generation settings. Supported refinement actions also let you improve existing outputs.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>7. Do I need professional experience or technical knowledge to use QUANS?</summary>
+        <div class="home-faq-answer">
+          <p>No specialized technical knowledge is required. You provide the relevant information through the tool's input fields, select your preferred settings, and generate your content. Resume Builder also supports candidates who have academic projects and skills but limited professional experience.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>8. Are the generated results guaranteed to be accurate or successful?</summary>
+        <div class="home-faq-answer">
+          <p>No AI-generated result should be treated as guaranteed. QUANS is designed to produce useful, professional content based on the information you provide, but you should review important details before submitting a resume, sharing a proposal, or publishing content. Always verify names, dates, qualifications, statistics, and business claims.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>9. Can I use QUANS-generated content for professional or business purposes?</summary>
+        <div class="home-faq-answer">
+          <p>Yes. QUANS is designed to support practical workflows such as job applications, project communication, content creation, and business marketing. You remain responsible for reviewing, editing, and approving the final content before using it.</p>
+        </div>
+      </details>
+
+      <details class="home-faq-item">
+        <summary>10. Why should I use QUANS instead of multiple separate AI tools?</summary>
+        <div class="home-faq-answer">
+          <p>QUANS brings four specialized tools together in one platform. Each tool is designed for a particular task, with relevant inputs, customization options, and output formats. This makes it easier to move between resume creation, project proposals, content repurposing, and social media content without managing several separate workflows.</p>
+        </div>
+      </details>
+    </div>
+  </section>
 
   <section class="home-contact site-container"><div><span class="section-kicker">BUILT TO BE USEFUL</span><h2>Have a workflow in mind?</h2><p>Tell us what would make Quans more helpful. Product feedback and thoughtful suggestions are always welcome.</p></div><a class="button button-primary" href="contact.html">Talk to the team <i data-lucide="arrow-up-right"></i></a></section>
   <p class="home-disclaimer site-container">Quans is a human-oriented AI workspace. It brings focused tools into one place; AI-generated outputs should always be reviewed before use.</p>
