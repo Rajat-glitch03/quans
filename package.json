@@ -1,12 +1,17 @@
 {
   "name": "quans-credit-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "commonjs",
   "engines": {
     "node": "22.x"
   },
   "dependencies": {
-    "firebase-admin": "^14.5.1"
+    "firebase-admin": "14.5.1"
+  },
+  "overrides": {
+    "jwks-rsa": {
+      "jose": "4.15.9"
+    }
   }
 }
