@@ -1,3 +1,5 @@
+const { withCredits } = require('../lib/credits');
+
 
 const GEMINI_MAX_ATTEMPTS = 4; // 1 initial attempt + 3 retries
 const GEMINI_RETRYABLE_STATUSES = new Set([408, 500, 502, 503, 504]);
@@ -95,11 +97,11 @@ async function fetchGeminiWithRetry(url, options) {
     throw new Error('Gemini request exhausted its retry attempts.');
 }
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
@@ -665,6 +667,20 @@ Now create the strongest truthful, professional resume supported by the candidat
         }
 
         const data = await googleResponse.json();
+        const generatedText = data?.candidates?.[0]?.content?.parts
+            ?.map(part => part?.text || '')
+            .join('')
+            .trim();
+
+        // A 200 response without a usable candidate is not a completed generation.
+        // Returning an error lets the credit wrapper release the reservation.
+        if (!generatedText) {
+            return res.status(502).json({
+                error: 'The AI service did not return a usable resume response. Please try again.',
+                code: 'AI_EMPTY_RESPONSE',
+                retryable: true
+            });
+        }
 
         // 5. Send the structured payload back to the frontend
         return res.status(200).json(data);
@@ -680,3 +696,5 @@ Now create the strongest truthful, professional resume supported by the candidat
         });
     }
 }
+
+module.exports = withCredits('resume', handler);
