@@ -1203,7 +1203,22 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .pricing-button,.pricing-plan-card { transition:none !important; }
 }
 </style>
-<meta content="Explore QUANS pricing: start with 20 free credits, compare Starter and Plus, and see the credit cost for every tool." name="description"/></head>
+<meta content="Explore QUANS pricing: start with 50 free credits, compare Starter and Plus, and see the credit cost for every tool." name="description"/>
+<style id="quans-live-credit-balance">
+.pricing-balance-banner{width:min(1180px,calc(100% - 48px));margin:20px auto 0;}
+.pricing-balance-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 21px;border:1px solid #e8e2f3;border-radius:15px;background:linear-gradient(105deg,rgba(255,255,255,.96),rgba(246,243,255,.94));box-shadow:0 9px 26px rgba(35,26,75,.045);}
+.pricing-balance-main{display:flex;align-items:center;gap:15px;min-width:0;}
+.pricing-balance-mark{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:12px;color:#7655e8;background:#f0ebff;font-size:16px;}
+.pricing-balance-copy{min-width:0;}
+.pricing-balance-kicker{display:block;color:#8a82a3;font-size:9px;font-weight:900;letter-spacing:.16em;}
+.pricing-balance-line{display:flex;align-items:baseline;gap:7px;margin-top:2px;}
+.pricing-balance-line strong{color:#29263f;font-size:25px;line-height:1.15;font-weight:900;letter-spacing:-.06em;font-variant-numeric:tabular-nums;}
+.pricing-balance-line span{color:#77758b;font-size:11px;font-weight:700;}
+.pricing-balance-copy p{margin:3px 0 0;color:#918ba3;font-size:10px;line-height:1.5;}
+.pricing-balance-status{flex:0 0 auto;padding:7px 10px;border:1px solid #e5def7;border-radius:999px;color:#6450bd;background:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;}
+@media(max-width:560px){.pricing-balance-banner{width:calc(100% - 32px);margin-top:14px;}.pricing-balance-card{align-items:flex-start;padding:14px;}.pricing-balance-status{font-size:8px;padding:6px 8px;}.pricing-balance-line strong{font-size:23px;}}
+</style>
+</head>
 <body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200">
 <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
 <div class="absolute top-[-5%] left-[-10%] w-[50vw] h-[50vw] max-w-[650px] bg-gradient-to-br from-blue-500/15 to-indigo-500/10 dark:from-blue-500/10 dark:to-transparent rounded-[4rem] rotate-12 transform will-change-transform" id="scroll-box-1"></div>
@@ -1252,10 +1267,23 @@ button, a { -webkit-tap-highlight-color: transparent; }
 </div>
 </header>
 <main class="pricing-page" id="pricingPage">
+<section class="pricing-balance-banner" aria-live="polite" aria-atomic="true">
+  <div class="pricing-balance-card">
+    <div class="pricing-balance-main">
+      <span class="pricing-balance-mark"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span>
+      <div class="pricing-balance-copy">
+        <span class="pricing-balance-kicker">YOUR CURRENT CREDIT BALANCE</span>
+        <div class="pricing-balance-line"><strong id="pricingLiveBalance">—</strong><span id="pricingBalanceUnit">credits available</span></div>
+        <p id="pricingBalanceMessage">Sign in to view your current balance. New accounts receive 50 free credits.</p>
+      </div>
+    </div>
+    <span class="pricing-balance-status" id="pricingBalanceStatus">CREDIT WALLET</span>
+  </div>
+</section>
 <section class="pricing-hero pricing-container">
 <div class="pricing-hero-copy">
 <h1>More room for your work.<br/><em>Clear from the start.</em></h1>
-<p>Start with 20 free credits, choose the tools you need and add more room when your work grows. Every generation has a clear credit cost, so you stay in control.</p>
+<p>Start with 50 free credits, choose the tools you need and add more room when your work grows. Every generation has a clear credit cost, so you stay in control.</p>
 <div class="pricing-hero-actions">
 <a class="pricing-button pricing-button-secondary" href="#plans">Compare plans <i class="fa-solid fa-arrow-down"></i></a>
 </div>
@@ -1274,9 +1302,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 <div class="pricing-trial-brand"><span class="pricing-brand-mark">Q</span><span>QUANS <small class="pricing-trial-label">CREDIT WALLET</small></span></div>
 <span class="pricing-pill green">FREE START</span>
 </div>
-<div class="pricing-credit-total"><strong>20</strong><span>one-time starter credits</span></div>
-<div aria-label="20 out of 20 free credits" class="pricing-progress"><span></span></div>
-<p class="pricing-trial-caption">Enough to try every tool once.</p>
+<div class="pricing-credit-total"><strong id="pricingWalletCredits">50</strong><span>one-time starter credits</span></div>
+<div aria-label="50 one-time free credits" class="pricing-progress" id="pricingWalletProgress"><span></span></div>
+<p class="pricing-trial-caption">A shared balance across all four QUANS tools.</p>
 <div class="pricing-trial-allocations">
 <div class="pricing-allocation"><span class="pricing-allocation-icon"><i class="fa-solid fa-file-lines"></i></span><span><b>Resume</b><small>8 credits</small></span></div>
 <div class="pricing-allocation"><span class="pricing-allocation-icon"><i class="fa-solid fa-file-signature"></i></span><span><b>Proposal</b><small>6 credits</small></span></div>
@@ -1300,15 +1328,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 <p class="pricing-plan-description">Try each workflow and see how QUANS fits your day.</p>
 <div class="pricing-price-line"><strong>₹0</strong><span>/ one time</span></div>
 <p class="pricing-tax-note">No subscription. One-time trial allowance.</p>
-<div class="pricing-credit-highlight"><strong>20 credits</strong><span>ONE-TIME START</span></div>
+<div class="pricing-credit-highlight"><strong>50 credits</strong><span>ONE-TIME START</span></div>
 <ul class="pricing-plan-features">
-<li><i class="fa-solid fa-check"></i> 1 Resume generation</li>
-<li><i class="fa-solid fa-check"></i> 1 Proposal generation</li>
-<li><i class="fa-solid fa-check"></i> 1 Text repurposing generation</li>
-<li><i class="fa-solid fa-check"></i> 1 Social post generation</li>
-<li><i class="fa-solid fa-check"></i> All four tools available to try</li>
+<li><i class="fa-solid fa-check"></i> 50 one-time free credits</li>
+<li><i class="fa-solid fa-check"></i> Shared across all four QUANS tools</li>
+<li><i class="fa-solid fa-check"></i> Saved generation history</li>
+<li><i class="fa-solid fa-check"></i> Clear credit costs before generation</li>
+<li><i class="fa-solid fa-check"></i> No payment details required</li>
 </ul>
-<p class="pricing-plan-footnote">20 credits are granted once per eligible account.</p>
+<p class="pricing-plan-footnote">50 credits are granted once to newly created eligible accounts.</p>
 </article>
 <article class="pricing-plan-card featured">
 <div class="pricing-plan-top"><span class="pricing-plan-label">FOR REGULAR WORK</span><span class="pricing-pill">STARTER</span></div>
@@ -1389,7 +1417,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 <div aria-live="polite" class="pricing-calc-summary">
 <div class="pricing-calc-summary-top"><span>Your selected work uses</span><strong><span id="calcTotalCredits">20</span> credits</strong></div>
 <div class="pricing-calc-meter">
-<div class="pricing-calc-plan"><span>FREE · 20</span><b id="calcFreeStatus">Fits exactly</b><small id="calcFreeRemaining">0 remaining</small></div>
+<div class="pricing-calc-plan"><span>FREE · 50</span><b id="calcFreeStatus">Fits exactly</b><small id="calcFreeRemaining">0 remaining</small></div>
 <div class="pricing-calc-plan"><span>STARTER · 100</span><b id="calcStarterStatus">Fits</b><small id="calcStarterRemaining">80 remaining</small></div>
 <div class="pricing-calc-plan"><span>PLUS · 250</span><b id="calcPlusStatus">Fits</b><small id="calcPlusRemaining">230 remaining</small></div>
 </div>
@@ -1411,7 +1439,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 <p>Know your allowance, choose a workflow and keep track of what you use.</p>
 </div>
 <div class="pricing-how-grid">
-<article class="pricing-how-card"><span class="pricing-how-number">01</span><h3>Choose your allowance</h3><p>Start with 20 one-time trial credits or choose a monthly plan with a larger credit balance.</p></article>
+<article class="pricing-how-card"><span class="pricing-how-number">01</span><h3>Choose your allowance</h3><p>New accounts start with 50 one-time free credits, or choose a monthly plan with a larger credit balance.</p></article>
 <article class="pricing-how-card"><span class="pricing-how-number">02</span><h3>Use the tools you need</h3><p>Each successful generation uses the credit amount shown for that tool. All four tools share the same balance.</p></article>
 <article class="pricing-how-card"><span class="pricing-how-number">03</span><h3>Add credits only when needed</h3><p>Upgrade your plan or choose an optional top-up. No automatic top-up charges are made.</p></article>
 </div>
@@ -2748,10 +2776,86 @@ button, a { -webkit-tap-highlight-color: transparent; }
         // =========================================================================
         // ON AUTH STATE CHANGED INTERACTION FRAMEWORK
         // =========================================================================
+        let pricingBalanceUser = null;
+
+        async function loadPricingCreditBalance(user = pricingBalanceUser) {
+            const balanceNode = document.getElementById('pricingLiveBalance');
+            const messageNode = document.getElementById('pricingBalanceMessage');
+            const statusNode = document.getElementById('pricingBalanceStatus');
+            const unitNode = document.getElementById('pricingBalanceUnit');
+            const walletNode = document.getElementById('pricingWalletCredits');
+            const progressNode = document.querySelector('#pricingWalletProgress > span');
+            const progressWrap = document.getElementById('pricingWalletProgress');
+
+            if (!balanceNode || !messageNode || !statusNode) return;
+
+            if (!user) {
+                balanceNode.textContent = '—';
+                if (unitNode) unitNode.textContent = 'credits available';
+                messageNode.textContent = 'Sign in to view your balance. New accounts receive 50 free credits.';
+                statusNode.textContent = 'SIGN IN TO VIEW';
+                if (walletNode) walletNode.textContent = '50';
+                if (progressNode) progressNode.style.width = '100%';
+                if (progressWrap) progressWrap.setAttribute('aria-label', '50 one-time free credits for eligible new accounts');
+                return;
+            }
+
+            balanceNode.textContent = '…';
+            messageNode.textContent = 'Checking your QUANS credit wallet…';
+            statusNode.textContent = 'UPDATING';
+
+            try {
+                const idToken = await user.getIdToken();
+                const response = await fetch('/api/credits', {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${idToken}` },
+                    cache: 'no-store'
+                });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.error || 'Unable to load your credit balance.');
+                }
+
+                const balance = Math.max(0, Number(data.balance) || 0);
+                balanceNode.textContent = String(balance);
+                if (unitNode) unitNode.textContent = balance === 1 ? 'credit available' : 'credits available';
+                if (walletNode) walletNode.textContent = String(balance);
+                if (progressNode) progressNode.style.width = `${Math.min(100, (balance / 50) * 100)}%`;
+                if (progressWrap) progressWrap.setAttribute('aria-label', `${balance} credits currently available`);
+
+                if (data.eligible) {
+                    messageNode.textContent = data.freeGrantIssued
+                        ? 'Your balance is shared across Resume, Proposal, Text Repurposer and Post Studio.'
+                        : 'Your current QUANS credit allowance is ready to use.';
+                    statusNode.textContent = String(data.plan || 'FREE').toUpperCase();
+                } else {
+                    messageNode.textContent = data.message || 'This account does not have a free-credit allowance.';
+                    statusNode.textContent = 'NO FREE GRANT';
+                }
+            } catch (error) {
+                console.error('[QUANS Pricing] Credit balance could not be loaded:', error);
+                balanceNode.textContent = '—';
+                if (unitNode) unitNode.textContent = 'credits available';
+                messageNode.textContent = 'Your balance could not be loaded right now. Please refresh the page.';
+                statusNode.textContent = 'UNAVAILABLE';
+            }
+        }
+
+        window.addEventListener('focus', () => {
+            if (pricingBalanceUser) loadPricingCreditBalance(pricingBalanceUser);
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && pricingBalanceUser) {
+                loadPricingCreditBalance(pricingBalanceUser);
+            }
+        });
+
         const navAuthGroup = document.getElementById('navAuthGroup');
         const initialNavHTML = navAuthGroup ? navAuthGroup.innerHTML : "";
 
         onAuthStateChanged(auth, (user) => {
+            pricingBalanceUser = user || null;
+            loadPricingCreditBalance(pricingBalanceUser);
             if (user) {
                 window.userIsAuthenticated = true;
                 if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(user);
@@ -3014,7 +3118,7 @@ document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', 
   const costs = { resume: 8, proposal: 6, repurpose: 4, post: 2 };
   const totalNode = document.getElementById('calcTotalCredits');
   const plans = [
-    { key: 'Free', limit: 20, status: document.getElementById('calcFreeStatus'), remaining: document.getElementById('calcFreeRemaining') },
+    { key: 'Free', limit: 50, status: document.getElementById('calcFreeStatus'), remaining: document.getElementById('calcFreeRemaining') },
     { key: 'Starter', limit: 100, status: document.getElementById('calcStarterStatus'), remaining: document.getElementById('calcStarterRemaining') },
     { key: 'Plus', limit: 250, status: document.getElementById('calcPlusStatus'), remaining: document.getElementById('calcPlusRemaining') }
   ];
