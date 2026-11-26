@@ -979,6 +979,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 
         // Runtime Global Variable Registration Parameter State Mapping Objects
         let currentUserObject = null;
+
+        async function assertQuansApiResponse(response) {
+            if (response.ok) return;
+            const payload = await response.json().catch(() => ({}));
+            const error = new Error(payload.error || `Generation request failed (${response.status}).`);
+            error.code = payload.code || 'GENERATION_REQUEST_FAILED';
+            error.required = payload.required;
+            error.available = payload.available;
+            throw error;
+        }
         let generationLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
         let activeGeneratedPostObject = null;
@@ -1317,7 +1327,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             try {
                 const apiPayloadResponse = await fetch('/api/social', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                    },
                     body: JSON.stringify({
                         topic: promptValueInputString,
                         platform: platformToken,
@@ -1331,7 +1344,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     })
                 });
         
-                if(!apiPayloadResponse.ok) throw new Error(`HTTP System Exception Status: ${apiPayloadResponse.status}`);
+                await assertQuansApiResponse(apiPayloadResponse);
                 const structuredDataPayload = await apiPayloadResponse.json();
                 
                 activeGeneratedPostObject = structuredDataPayload;
@@ -1365,7 +1378,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 statusLabelIndicator.innerText = "Fatal connection abort error. Processing failed.";
                 generationTriggerBtn.disabled = false;
                 generationTriggerBtn.style.opacity = "1";
-                alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
+                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
+                } else {
+                    alert("Failed to connect successfully with text generation node channels. Please verify networks.");
+                }
             }
         });
 
@@ -1381,7 +1398,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             try {
                 const apiPayloadResponse = await fetch('/api/social', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                    },
                     body: JSON.stringify({
                         platform: activeFormStateModel.platform,
                         tone: activeFormStateModel.tone,
@@ -1394,7 +1414,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     })
                 });
 
-                if(!apiPayloadResponse.ok) throw new Error();
+                await assertQuansApiResponse(apiPayloadResponse);
                 const refinedData = await apiPayloadResponse.json();
                 
                 activeGeneratedPostObject = refinedData;
@@ -1406,7 +1426,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 console.error("Micro-refinement transaction anomaly encountered:", err);
                 setUIProcessingState(false);
                 statusLabelIndicator.innerText = "Failed to apply refinement modification.";
-                alert("Could not update copy variants across endpoint nodes.");
+                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
+                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
+                } else {
+                    alert("Could not update copy variants across endpoint nodes.");
+                }
             }
         }
     </script>
