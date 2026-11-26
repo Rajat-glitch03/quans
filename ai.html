@@ -2334,10 +2334,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         status: `Not enough credits \u00b7 ${available} available, ${required} needed`
       };
     }
+    if (error?.code === 'FREE_CREDITS_ALREADY_CLAIMED') {
+      return {
+        title: 'This email has already received its free credits',
+        message: error.message || 'This email address has already received its one-time 50-credit welcome allowance. Deleting or recreating the account does not make it eligible again.',
+        status: 'One-time allowance already claimed'
+      };
+    }
     if (error?.code === 'FREE_CREDITS_NOT_AVAILABLE') {
       return {
         title: 'Your free credits are not available for this account',
-        message: 'The 50-credit starter allowance is a one-time benefit for accounts created after the credit programme launch.',
+        message: error.message || 'The 50-credit starter allowance is a one-time benefit for accounts created after the credit programme launch.',
         status: 'No free-credit allowance on this account'
       };
     }
