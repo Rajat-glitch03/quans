@@ -2119,7 +2119,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
+                    },
                     body: JSON.stringify({ contents: currentChatMessages })
                 });
 
@@ -2127,7 +2130,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     throw new DOMException("Aborted", "AbortError");
                 }
 
-                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                if (!response.ok) {
+                    const errorPayload = await response.json().catch(() => ({}));
+                    const apiError = new Error(errorPayload.error || `API Error: ${response.status}`);
+                    apiError.code = errorPayload.code || 'GENERATION_REQUEST_FAILED';
+                    throw apiError;
+                }
 
                 const data = await response.json();
                 const aiResponseText = data.candidates[0].content.parts[0].text;
@@ -2162,8 +2170,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     
                     currentChatMessages.push({ role: 'model', parts: [{ text: "response stopped by user" }] });
                 } else {
-                    const errorMarkup = `<span class="text-red-500 font-medium">Error fetching response. Verify server links.</span>`;
-                    aiBubble.innerHTML = errorMarkup;
+                    const isCreditError = error.code === 'INSUFFICIENT_CREDITS' || error.code === 'FREE_CREDITS_NOT_AVAILABLE';
+                    const errorMarkup = isCreditError
+                        ? `${error.message} Visit the Pricing page to review your credit options.`
+                        : 'Error fetching response. Verify server links.';
+                    aiBubble.textContent = errorMarkup;
                     aiBubble.classList.add('border-red-200', 'bg-red-50');
                     currentChatMessages.push({ role: 'model', parts: [{ text: errorMarkup }] });
                 }
