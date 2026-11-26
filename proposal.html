@@ -637,6 +637,26 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             error.available = payload.available;
             throw error;
         }
+
+        function getQuansCreditNotice(error, toolName, defaultCost) {
+            if (!error || !['INSUFFICIENT_CREDITS', 'FREE_CREDITS_NOT_AVAILABLE'].includes(error.code)) return null;
+
+            if (error.code === 'INSUFFICIENT_CREDITS') {
+                const required = Number.isFinite(Number(error.required)) ? Number(error.required) : defaultCost;
+                const available = Number.isFinite(Number(error.available)) ? Number(error.available) : 0;
+                return {
+                    title: 'You\u2019re out of credits',
+                    message: `${toolName} needs ${required} credits for this generation, but your current balance is ${available}.`,
+                    status: `Not enough credits \u00b7 ${available} available, ${required} needed`
+                };
+            }
+
+            return {
+                title: 'Your free credits are not available for this account',
+                message: 'The 50-credit starter allowance is a one-time benefit for accounts created after the credit programme launch. You can review the available options on the Pricing page.',
+                status: 'No free-credit allowance on this account'
+            };
+        }
         let proposalLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
         let activeGeneratedProposalObject = null;
@@ -1062,13 +1082,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         
             } catch (err) {
                 console.error("Upstream connection fault:", err);
-                statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
-                statusLabelIndicator.innerText = "Fatal connection abort error.";
                 setUIProcessingState(false);
-                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
-                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
+                const creditNotice = getQuansCreditNotice(err, 'Proposal Generator', 6);
+                if (creditNotice) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-500";
+                    statusLabelIndicator.innerText = creditNotice.status;
+                    alert(`${creditNotice.title}\n\n${creditNotice.message}\n\nOpen the Pricing page to review your options.`);
                 } else {
-                    alert("Failed to connect successfully with text generation channels.");
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                    statusLabelIndicator.innerText = "Generation failed. Please try again.";
+                    alert("We couldn\u2019t generate your proposal. Please try again shortly.");
                 }
             }
         });
@@ -1107,12 +1130,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 statusLabelIndicator.innerText = "Refinement update compiled.";
 
             } catch (err) {
-                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
-                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
-                }
                 console.error("Micro-refinement anomaly:", err);
                 setUIProcessingState(false);
-                statusLabelIndicator.innerText = "Failed to apply variant configuration modification.";
+                const creditNotice = getQuansCreditNotice(err, 'Proposal Generator', 6);
+                if (creditNotice) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-500";
+                    statusLabelIndicator.innerText = creditNotice.status;
+                    alert(`${creditNotice.title}\n\n${creditNotice.message}\n\nOpen the Pricing page to review your options.`);
+                } else {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                    statusLabelIndicator.innerText = "Could not apply the refinement. Please try again.";
+                }
             }
         }
     </script>
