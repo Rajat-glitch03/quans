@@ -998,6 +998,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         const db = firebase.firestore();
 
         let currentUserObject = null;
+
+        async function assertQuansApiResponse(response) {
+            if (response.ok) return;
+            const payload = await response.json().catch(() => ({}));
+            const error = new Error(payload.error || `Generation request failed (${response.status}).`);
+            error.code = payload.code || 'GENERATION_REQUEST_FAILED';
+            error.required = payload.required;
+            error.available = payload.available;
+            throw error;
+        }
         let generationLogsCacheArray = [];
         let globalActiveSearchQueryToken = "";
         let activeGeneratedPostObject = null;
@@ -1335,7 +1345,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             try {
                 const apiPayloadResponse = await fetch('/api/textrep', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                    },
                     body: JSON.stringify({
                         content: promptValueInputString,
                         sourcePlatform: sourcePlatformToken,
@@ -1350,7 +1363,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     })
                 });
         
-                if(!apiPayloadResponse.ok) throw new Error(`HTTP Exception Status: ${apiPayloadResponse.status}`);
+                await assertQuansApiResponse(apiPayloadResponse);
                 const structuredDataPayload = await apiPayloadResponse.json();
                 
                 activeGeneratedPostObject = structuredDataPayload;
@@ -1383,7 +1396,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
                 statusLabelIndicator.innerText = "Connection abort execution exception.";
                 setUIProcessingState(false);
-                alert("Failed to connect with content generation endpoint nodes safely.");
+                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
+                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
+                } else {
+                    alert("Failed to connect with content generation endpoint nodes safely.");
+                }
             }
         });
 
@@ -1398,7 +1415,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             try {
                 const apiPayloadResponse = await fetch('/api/textrep', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                    },
                     body: JSON.stringify({
                         sourcePlatform: activeFormStateModel.sourceplatform,
                         targetPlatform: activeFormStateModel.targetplatform,
@@ -1412,7 +1432,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     })
                 });
 
-                if(!apiPayloadResponse.ok) throw new Error();
+                await assertQuansApiResponse(apiPayloadResponse);
                 const refinedData = await apiPayloadResponse.json();
                 
                 activeGeneratedPostObject = refinedData;
@@ -1421,6 +1441,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 statusLabelIndicator.innerText = "Variant optimization modifications updated.";
 
             } catch (err) {
+                if (err.code === 'INSUFFICIENT_CREDITS' || err.code === 'FREE_CREDITS_NOT_AVAILABLE') {
+                    alert(`${err.message}\n\nVisit the Pricing page to review your credit options.`);
+                }
                 console.error("Micro refinement error configuration transaction fail:", err);
                 setUIProcessingState(false);
                 statusLabelIndicator.innerText = "Refinement abort error structural mismatch.";
