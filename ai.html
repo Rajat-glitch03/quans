@@ -2170,10 +2170,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     
                     currentChatMessages.push({ role: 'model', parts: [{ text: "response stopped by user" }] });
                 } else {
-                    const isCreditError = error.code === 'INSUFFICIENT_CREDITS' || error.code === 'FREE_CREDITS_NOT_AVAILABLE';
-                    const errorMarkup = isCreditError
-                        ? `${error.message} Visit the Pricing page to review your credit options.`
-                        : 'Error fetching response. Verify server links.';
+                    const creditNotice = window.getResumeBuilderCreditNotice
+                        ? window.getResumeBuilderCreditNotice(error)
+                        : null;
+                    const errorMarkup = creditNotice
+                        ? `${creditNotice.message} Open the Pricing page to review your options.`
+                        : (error.message || 'Resume generation could not be completed. Please try again.');
                     aiBubble.textContent = errorMarkup;
                     aiBubble.classList.add('border-red-200', 'bg-red-50');
                     currentChatMessages.push({ role: 'model', parts: [{ text: errorMarkup }] });
@@ -2312,7 +2314,51 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   const showResult=text=>{ if(!output)return; output.textContent=String(text||''); output.style.display='block'; if(empty)empty.style.display='none'; if(actions)actions.style.display='flex'; setStatus('Resume generated. Review every detail before using it.'); };
   window.renderResumeBuilderOutput=showResult;
   window.restoreResumeBuilderResult=text=>{const clean=String(text||'').replace(/<br\s*\/?>(?=.)/gi,'\n').replace(/<\/(?:p|div|li|h[1-6])>/gi,'\n').replace(/<[^>]*>/g,'');showResult(clean);setStatus('Saved resume loaded from your history.');};
-  window.renderResumeBuilderFailure=error=>{if(output){output.style.display='none';}if(empty){empty.style.display='flex';empty.querySelector('strong').textContent='Resume generation failed';empty.querySelector('p').textContent='Please check your connection and try again.';}if(actions)actions.style.display='none';setStatus('Could not generate the resume. Please try again.',true);};
+  window.getResumeBuilderCreditNotice = error => {
+    if (error?.code === 'INSUFFICIENT_CREDITS') {
+      const required = Number.isFinite(Number(error.required)) ? Number(error.required) : 8;
+      const available = Number.isFinite(Number(error.available)) ? Number(error.available) : 0;
+      return {
+        title: 'You\u2019re out of credits',
+        message: `Resume Builder needs ${required} credits for this generation, but your current balance is ${available}.`,
+        status: `Not enough credits \u00b7 ${available} available, ${required} needed`
+      };
+    }
+    if (error?.code === 'FREE_CREDITS_NOT_AVAILABLE') {
+      return {
+        title: 'Your free credits are not available for this account',
+        message: 'The 50-credit starter allowance is a one-time benefit for accounts created after the credit programme launch.',
+        status: 'No free-credit allowance on this account'
+      };
+    }
+    return null;
+  };
+  window.renderResumeBuilderFailure = error => {
+    const creditNotice = window.getResumeBuilderCreditNotice(error);
+    const title = creditNotice?.title || 'Resume generation failed';
+    const message = creditNotice?.message || error?.message || 'Please check your connection and try again.';
+    if (output) output.style.display = 'none';
+    if (empty) {
+      empty.style.display = 'flex';
+      const heading = empty.querySelector('strong');
+      const paragraph = empty.querySelector('p');
+      if (heading) heading.textContent = title;
+      if (paragraph) {
+        paragraph.textContent = message + (creditNotice ? ' ' : '');
+        paragraph.querySelector('a[data-credit-pricing-link]')?.remove();
+        if (creditNotice) {
+          const link = document.createElement('a');
+          link.href = 'pricing.html';
+          link.dataset.creditPricingLink = 'true';
+          link.className = 'font-semibold text-violet-700 underline underline-offset-2';
+          link.textContent = 'View pricing options';
+          paragraph.appendChild(link);
+        }
+      }
+    }
+    if (actions) actions.style.display = 'none';
+    setStatus(creditNotice?.status || 'Could not generate the resume. Please try again.', true);
+  };
   form?.addEventListener('submit',e=>{
     e.preventDefault();
     if(!form.reportValidity())return;
