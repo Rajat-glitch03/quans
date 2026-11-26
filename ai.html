@@ -2134,6 +2134,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     const errorPayload = await response.json().catch(() => ({}));
                     const apiError = new Error(errorPayload.error || `API Error: ${response.status}`);
                     apiError.code = errorPayload.code || 'GENERATION_REQUEST_FAILED';
+                    apiError.required = errorPayload.required;
+                    apiError.available = errorPayload.available;
                     throw apiError;
                 }
 
@@ -2173,6 +2175,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     const creditNotice = window.getResumeBuilderCreditNotice
                         ? window.getResumeBuilderCreditNotice(error)
                         : null;
+
+                    // Match the credit/error popup behavior used by the other QUANS tools.
+                    if (creditNotice) {
+                        alert(`${creditNotice.title}\n\n${creditNotice.message}\n\nOpen the Pricing page to review your options.`);
+                    } else {
+                        alert('We couldn’t generate your resume. Please try again shortly.');
+                    }
+
                     const errorMarkup = creditNotice
                         ? `${creditNotice.message} Open the Pricing page to review your options.`
                         : (error.message || 'Resume generation could not be completed. Please try again.');
