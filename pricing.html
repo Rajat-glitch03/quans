@@ -1218,6 +1218,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .pricing-balance-status{flex:0 0 auto;padding:7px 10px;border:1px solid #e5def7;border-radius:999px;color:#6450bd;background:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;}
 @media(max-width:560px){.pricing-balance-banner{width:calc(100% - 32px);margin-top:14px;}.pricing-balance-card{align-items:flex-start;padding:14px;}.pricing-balance-status{font-size:8px;padding:6px 8px;}.pricing-balance-line strong{font-size:23px;}}
 </style>
+    <meta name="quans-app-check-site-key" content="REPLACE_WITH_FIREBASE_APPCHECK_RECAPTCHA_V3_SITE_KEY">
 </head>
 <body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200">
 <div class="fixed inset-0 -z-50 w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden pointer-events-none transition-colors duration-200">
@@ -2254,6 +2255,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
     </script>
 <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaV3Provider, getToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check.js";
         import { 
             getAuth, 
             createUserWithEmailAndPassword, 
@@ -2263,7 +2265,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
             onAuthStateChanged,
             signOut,
             sendEmailVerification,
-            sendPasswordResetEmail
+            sendPasswordResetEmail,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            reauthenticateWithPopup
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -2277,8 +2282,72 @@ button, a { -webkit-tap-highlight-color: transparent; }
         };
 
         const app = initializeApp(firebaseConfig);
+
+        // Firebase App Check is optional during setup. Once a real public
+        // reCAPTCHA v3 site key is configured, every custom API request below
+        // can attach an attestation token. Server enforcement is enabled only
+        // after QUANS_REQUIRE_APPCHECK=true is set in Vercel.
+        const quansAppCheckSiteKey = document.querySelector('meta[name="quans-app-check-site-key"]')?.content || '';
+        let quansAppCheckInstance = null;
+        if (quansAppCheckSiteKey && !quansAppCheckSiteKey.startsWith('REPLACE_')) {
+            try {
+                quansAppCheckInstance = initializeAppCheck(app, {
+                    provider: new ReCaptchaV3Provider(quansAppCheckSiteKey),
+                    isTokenAutoRefreshEnabled: true
+                });
+            } catch (appCheckError) {
+                console.error('[QUANS] App Check initialization failed:', appCheckError?.message || appCheckError);
+            }
+        }
+        window.quansGetAppCheckToken = async function () {
+            if (!quansAppCheckInstance) return '';
+            try {
+                const tokenResult = await getToken(quansAppCheckInstance, false);
+                return tokenResult?.token || '';
+            } catch (appCheckTokenError) {
+                console.warn('[QUANS] App Check token unavailable:', appCheckTokenError?.message || appCheckTokenError);
+                return '';
+            }
+        };
+
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
+
+        async function deleteQuansAccountOnServer(user) {
+            async function submitDelete() {
+                const token = await user.getIdToken(true);
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
+                const response = await fetch('/api/account-delete', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {})
+                    }
+                });
+                const payload = await response.json().catch(() => ({}));
+                return { response, payload };
+            }
+
+            let result = await submitDelete();
+            if (result.response.status === 401 && result.payload.code === 'AUTH_RECENT_LOGIN_REQUIRED') {
+                const isGoogle = (user.providerData || []).some(provider => provider.providerId === 'google.com');
+                if (isGoogle) {
+                    await reauthenticateWithPopup(user, googleProvider);
+                } else {
+                    const password = window.prompt('For security, re-enter your account password to delete your QUANS account:');
+                    if (!password) throw new Error('Account deletion cancelled.');
+                    await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, password));
+                }
+                result = await submitDelete();
+            }
+
+            if (!result.response.ok) {
+                const error = new Error(result.payload.error || 'Unable to delete your account right now.');
+                error.code = result.payload.code || 'ACCOUNT_DELETE_FAILED';
+                throw error;
+            }
+            await signOut(auth).catch(() => {});
+        }
 
         // Native website style error mask converter
         function handleAuthError(error) {
@@ -2467,24 +2536,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
                         if (userEnteredOTP === generatedOTP) {
                             // 5. Code is correct! NOW we attempt to create the account in Firebase
                             createUserWithEmailAndPassword(auth, emailInput, passwordInput)
-                                .then((userCredential) => {
-                                    if(resendCooldownTimer) clearInterval(resendCooldownTimer);
+                                .then(async (userCredential) => {
+                                    if (resendCooldownTimer) clearInterval(resendCooldownTimer);
 
-                                    // 6. UPDATE BACKGROUND HTML (User logged-in view renders behind popup)
-                                    if (typeof window.updateUIForLoggedInUser === 'function') {
-                                        window.updateUIForLoggedInUser(userCredential.user);
+                                    // Firebase emailVerified is the authoritative proof used by the backend.
+                                    try {
+                                        await sendEmailVerification(userCredential.user, {
+                                            url: `${window.location.origin}/index.html`,
+                                            handleCodeInApp: false
+                                        });
+                                    } finally {
+                                        await signOut(auth);
                                     }
 
-                                    // 🛠️ CLOSE POPUP INSTANTLY
                                     if (typeof window.closeAuthPopup === 'function') {
                                         window.closeAuthPopup();
                                     } else {
                                         const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
-                                        if(modal) modal.classList.add('hidden');
+                                        if (modal) modal.classList.add('hidden');
                                     }
 
-                                    // 🛠️ RESET THE FORM FOR THE NEXT TIME THEY SEE IT
                                     window.resetSignupFormToInitialState();
+                                    alert('Your QUANS account has been created. Please verify your email using the Firebase link, then log in to access eligible credits.');
                                 })
                                 .catch((error) => {
                                     let customMsg = "Registration failed: " + error.message;
@@ -2534,25 +2607,38 @@ button, a { -webkit-tap-highlight-color: transparent; }
             const loginFormEl = document.getElementById('loginForm');
 
             signInWithEmailAndPassword(auth, emailInput, passwordInput)
-                .then((userCredential) => {
-                    // 🛠️ SUCCESS PHASE: Account exists and matches!
-                    // Clear form values out completely
-                    loginFormEl.reset();
+                .then(async (userCredential) => {
+                    await userCredential.user.reload();
+                    if (userCredential.user.emailVerified !== true) {
+                        try {
+                            await sendEmailVerification(userCredential.user, {
+                                url: `${window.location.origin}/index.html`,
+                                handleCodeInApp: false
+                            });
+                        } finally {
+                            await signOut(auth);
+                        }
+                        if (errDiv) {
+                            errDiv.classList.add('bg-amber-50', 'text-amber-700', 'border-amber-200');
+                            errDiv.classList.remove('hidden');
+                            const textNode = errDiv.querySelector('.error-text');
+                            const message = 'Please verify your email first. We have sent a fresh Firebase verification link.';
+                            if (textNode) textNode.innerText = message;
+                            else errDiv.innerText = '⚠️ ' + message;
+                        }
+                        return;
+                    }
 
-                    // Update background HTML for the newly authenticated user
+                    loginFormEl.reset();
                     if (typeof window.updateUIForLoggedInUser === 'function') {
                         window.updateUIForLoggedInUser(userCredential.user);
                     }
-                    
-                    // Close the authentication modal wrapper view instantly
                     if (typeof window.closeAuthPopup === 'function') {
                         window.closeAuthPopup();
                     } else {
                         const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
-                        if(modal) modal.classList.add('hidden');
+                        if (modal) modal.classList.add('hidden');
                     }
-
-                    // 🛠️ FIX: Wipe out fields and reset to original state automatically right after closing!
                     if (typeof window.resetLoginFormToInitialState === 'function') {
                         window.resetLoginFormToInitialState();
                     }
@@ -2806,9 +2892,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
             try {
                 const idToken = await user.getIdToken();
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
                 const response = await fetch('/api/credits', {
                     method: 'GET',
-                    headers: { 'Authorization': `Bearer ${idToken}` },
+                    headers: {
+                        'Authorization': `Bearer ${idToken}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {})
+                    },
                     cache: 'no-store'
                 });
                 const data = await response.json().catch(() => ({}));
@@ -2836,8 +2926,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
                 console.error('[QUANS Pricing] Credit balance could not be loaded:', error);
                 balanceNode.textContent = '—';
                 if (unitNode) unitNode.textContent = 'credits available';
-                messageNode.textContent = 'Your balance could not be loaded right now. Please refresh the page.';
-                statusNode.textContent = 'UNAVAILABLE';
+                messageNode.textContent = error?.message || 'Your balance could not be loaded right now. Please refresh the page.';
+                statusNode.textContent = error?.message?.includes('verify your email') ? 'VERIFY EMAIL' : 'UNAVAILABLE';
             }
         }
 
@@ -3061,12 +3151,16 @@ document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', 
             
         toast.className = `${baseStyles} ${typeStyles}`;
     
-        // Select the appropriate icon
-        const icon = type === 'success' 
-            ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>' 
-            : '<i class="fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0"></i>';
-    
-        toast.innerHTML = `${icon}<span class="flex-grow">${message}</span>`;
+        // Build the trusted icon with DOM APIs and render messages as text only.
+        const iconNode = document.createElement('i');
+        iconNode.className = type === 'success'
+            ? 'fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0'
+            : 'fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0';
+
+        const messageNode = document.createElement('span');
+        messageNode.className = 'flex-grow';
+        messageNode.textContent = String(message ?? '');
+        toast.append(iconNode, messageNode);
         toastContainer.appendChild(toast);
     
         // 3. Trigger downward entry slide animation
@@ -3084,22 +3178,17 @@ document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', 
             settingsConfirmHardDeleteBtn.addEventListener("click", async () => {
                 const user = auth.currentUser;
                 if (user) {
-                    user.delete().then(() => {
-                        // Show custom success website toast
+                    try {
+                        await deleteQuansAccountOnServer(user);
                         showToast("Account Deleted Successfully.", "success");
-                        
-                        // Allow 1.5 seconds for the toast to be seen before navigating away
                         setTimeout(() => {
-                            if (typeof closeSettingsPopupSystem === "function") {
-                                closeSettingsPopupSystem(); // Close the modal layout cleanly
-                            }
-                            window.location.href = "index.html"; // Safe exit redirect routing
-                        }, 4000);
-                        
-                    }).catch((error) => {
-                        // Show custom error website toast instead of chrome popup alert
-                        showToast(handleAuthError(error), "error");
-                    });
+                            if (typeof closeSettingsPopupSystem === "function") closeSettingsPopupSystem();
+                            window.location.href = "index.html";
+                        }, 1200);
+                    } catch (error) {
+                        console.error('Account deletion failed:', error?.code || error?.message);
+                        showToast(error.message || handleAuthError(error), "error");
+                    }
                 }
             });
         }
