@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -302,6 +303,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 }
 </style>
 
+    <meta name="quans-app-check-site-key" content="REPLACE_WITH_FIREBASE_APPCHECK_RECAPTCHA_V3_SITE_KEY">
 </head>
 <body class="q-workspace-page h-screen w-screen md:overflow-hidden text-slate-900 flex flex-col selection:bg-brand-blue selection:text-white bg-slate-50/50">
 
@@ -623,6 +625,42 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         };
         
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const quansAppCheckSiteKey = document.querySelector('meta[name="quans-app-check-site-key"]')?.content || '';
+        let quansAppCheckInstance = null;
+        if (quansAppCheckSiteKey && !quansAppCheckSiteKey.startsWith('REPLACE_')) {
+            try {
+                quansAppCheckInstance = firebase.appCheck();
+                quansAppCheckInstance.activate(quansAppCheckSiteKey, true);
+            } catch (appCheckError) {
+                console.error('[QUANS] App Check initialization failed:', appCheckError?.message || appCheckError);
+            }
+        }
+        window.quansGetAppCheckToken = async function () {
+            if (!quansAppCheckInstance) return '';
+            const tokenResult = await quansAppCheckInstance.getToken(false);
+            return tokenResult?.token || '';
+        };
+
+        function getQuansGenerationRequestId(key) {
+            const storageKey = `quans:generation-request:${key}`;
+            try {
+                const existing = localStorage.getItem(storageKey);
+                if (existing && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(existing)) return existing;
+            } catch (_) {}
+
+            const bytes = new Uint8Array(16);
+            crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
+            const requestId = `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+            try { localStorage.setItem(storageKey, requestId); } catch (_) {}
+            return requestId;
+        }
+
+        function clearQuansGenerationRequestId(key) {
+            try { localStorage.removeItem(`quans:generation-request:${key}`); } catch (_) {}
+        }
         const auth = firebase.auth();
         const db = firebase.firestore();
 
@@ -639,8 +677,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         }
 
         function getQuansCreditNotice(error, toolName, defaultCost) {
-            if (!error || !['INSUFFICIENT_CREDITS', 'FREE_CREDITS_NOT_AVAILABLE', 'FREE_CREDITS_ALREADY_CLAIMED'].includes(error.code)) return null;
-
+            if (!error || !['EMAIL_NOT_VERIFIED', 'GENERATION_RATE_LIMITED', 'INSUFFICIENT_CREDITS', 'FREE_CREDITS_NOT_AVAILABLE', 'FREE_CREDITS_ALREADY_CLAIMED'].includes(error.code)) return null;
+            if (error.code === 'EMAIL_NOT_VERIFIED') {
+                return {
+                    title: 'Verify your email to use QUANS',
+                    message: error.message || 'Open the Firebase verification link sent to your email, then sign in again.',
+                    status: 'Email verification required'
+                };
+            }
+            if (error.code === 'GENERATION_RATE_LIMITED') {
+                return {
+                    title: 'Please wait before generating again',
+                    message: error.message || 'You have reached the short-term generation limit. Please wait a little and try again.',
+                    status: 'Short-term limit reached'
+                };
+            }
             if (error.code === 'INSUFFICIENT_CREDITS') {
                 const required = Number.isFinite(Number(error.required)) ? Number(error.required) : defaultCost;
                 const available = Number.isFinite(Number(error.available)) ? Number(error.available) : 0;
@@ -839,6 +890,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
               }, faultError => console.error("Firestore sync fault:", faultError));
         }
 
+        function escapeHistoryValue(value) {
+            return String(value ?? '').replace(/[&<>\"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;'
+            }[character]));
+        }
+
         function renderProposalsListCanvasDOM() {
             const filteredArray = proposalLogsCacheArray.filter(item => {
                 if(!globalActiveSearchQueryToken.trim()) return true;
@@ -848,32 +905,40 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                        (item.platform && item.platform.toLowerCase().includes(activeMatchTokenValue));
             });
 
-            const renderBlockFactoryHtml = (item) => `
-                <div class="p-2.5 bg-white border border-slate-100 rounded-xl hover:border-brand-blue shadow-xs transition-all flex flex-col gap-1.5 group/item relative cursor-pointer" onclick="loadArchivedItemToWorkspace('${item.id}')">
+            const renderBlockFactoryHtml = (item) => {
+                const rawId = String(item.id || '');
+                if (!/^[A-Za-z0-9_-]{1,128}$/.test(rawId)) return '';
+                const safeId = rawId;
+                const safeTitle = escapeHistoryValue(item.title || 'Untitled Proposal');
+                const safePlatform = escapeHistoryValue(item.platform || 'Upwork');
+                const safeTone = escapeHistoryValue(item.tone || 'Professional');
+                return `
+                <div class="p-2.5 bg-white border border-slate-100 rounded-xl hover:border-brand-blue shadow-xs transition-all flex flex-col gap-1.5 group/item relative cursor-pointer" onclick="loadArchivedItemToWorkspace('${safeId}')">
                     <div class="flex items-center justify-between gap-2">
                         <div class="flex items-center gap-1.5 min-w-0 flex-1">
                             <i class="fa-regular fa-file-lines text-slate-400 text-xs shrink-0"></i>
-                            <input type="text" value="${item.title || 'Untitled Proposal'}" 
+                            <input type="text" value="${safeTitle}" 
                                 class="text-xs font-bold text-slate-700 bg-transparent border-b border-transparent focus:border-brand-blue outline-none min-w-0 flex-1 cursor-text"
                                 onclick="event.stopPropagation()" 
-                                onchange="renameProposalDocRecord('${item.id}', this.value)" 
-                                id="titleInputNode-${item.id}">
+                                onchange="renameProposalDocRecord('${safeId}', this.value)" 
+                                id="titleInputNode-${safeId}">
                         </div>
                         <div class="flex items-center gap-1 shrink-0 opacity-100 md:opacity-0 group-hover/item:opacity-100 transition-opacity">
-                            <button onclick="event.stopPropagation(); document.getElementById('titleInputNode-${item.id}').focus();" class="w-6 h-6 rounded-md hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-blue text-[10px]">
+                            <button onclick="event.stopPropagation(); document.getElementById('titleInputNode-${safeId}').focus();" class="w-6 h-6 rounded-md hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-blue text-[10px]">
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
-                            <button onclick="event.stopPropagation(); deleteProposalDocRecord('${item.id}')" class="w-6 h-6 rounded-md hover:bg-rose-50 flex items-center justify-center text-slate-400 hover:text-rose-500 text-[10px]">
+                            <button onclick="event.stopPropagation(); deleteProposalDocRecord('${safeId}')" class="w-6 h-6 rounded-md hover:bg-rose-50 flex items-center justify-center text-slate-400 hover:text-rose-500 text-[10px]">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
-                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${item.platform || 'Upwork'}</span>
-                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${item.tone || 'Professional'}</span>
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${safePlatform}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${safeTone}</span>
                     </div>
                 </div>
             `;
+            };
 
             const finalCompiledHtmlMarkup = filteredArray.length ? filteredArray.map(renderBlockFactoryHtml).join('') : `
                 <div class="text-center py-8 text-slate-400 text-xs font-medium">No stored proposal matching records found.</div>
@@ -965,7 +1030,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             safeSetHtml('generatedDuration', analysisObj.estimatedProjectSize || "Medium");
             
             const missingInfoArray = analysisObj.missingInformation || [];
-            const missingInfoHtml = missingInfoArray.length > 0 ? missingInfoArray.map(item => `• ${item}`).join('<br>') : "None listed";
+            const missingInfoHtml = missingInfoArray.length > 0 ? missingInfoArray.map(item => `• ${item}`).join('\n') : "None listed";
             safeSetHtml('generatedMissingInfo', missingInfoHtml);
             
             safeSetHtml('generatedClientPriorities', analysisObj.clientPriorities || "No explicit priorities listed.");
@@ -984,7 +1049,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             } else {
                 if(questionsContainer) {
                     questionsContainer.classList.remove('hidden');
-                    const questionsHtml = validQuestions.map(q => `• ${q}`).join('<br>');
+                    const questionsHtml = validQuestions.map(q => `• ${q}`).join('\n');
                     safeSetHtml('generatedQuestions', questionsHtml);
                 }
             }
@@ -1015,8 +1080,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         }
 
         function formatTextTokenWeights(rawStr) {
-            if(!rawStr) return "";
-            return rawStr.toString()
+            if (rawStr === null || rawStr === undefined || rawStr === '') return '';
+            const escaped = String(rawStr).replace(/[&<>\"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;'
+            }[character]));
+            return escaped
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n/g, '<br>');
@@ -1046,11 +1114,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             const sampleStyleToken = document.getElementById('sampleWritingStyleInput') ? document.getElementById('sampleWritingStyleInput').value.trim() : "";
         
             try {
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
                 const apiPayloadResponse = await fetch('/api/proposal', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {}),
+                        'X-Quans-Request-Id': getQuansGenerationRequestId('proposal-generate'),
                     },
                     body: JSON.stringify({
                         topic: promptValueInputString,
@@ -1065,6 +1136,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         
                 await assertQuansApiResponse(apiPayloadResponse);
                 const structuredDataPayload = await apiPayloadResponse.json();
+                clearQuansGenerationRequestId('proposal-generate');
                 
                 activeGeneratedProposalObject = structuredDataPayload;
                 renderStructuredOutput(structuredDataPayload);
@@ -1113,11 +1185,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
             setUIProcessingState(true);
 
             try {
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
                 const apiPayloadResponse = await fetch('/api/proposal', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {}),
+                        'X-Quans-Request-Id': getQuansGenerationRequestId('proposal-refine')
                     },
                     body: JSON.stringify({
                         platform: activeFormStateModel.platform,
@@ -1131,6 +1206,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 
                 await assertQuansApiResponse(apiPayloadResponse);
                 const refinedData = await apiPayloadResponse.json();
+                clearQuansGenerationRequestId('proposal-refine');
                 
                 activeGeneratedProposalObject = refinedData;
                 renderStructuredOutput(refinedData);
