@@ -133,9 +133,8 @@ async function fetchGeminiWithRetry(url, options) {
 
 async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck, X-Quans-Request-Id');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
@@ -653,7 +652,7 @@ STRICT RESTRICTIONS:
 - Always return valid, parseable JSON.
 
 Valid JSON is mandatory.`;
-
+        
         // 5. Build context instructions for base generation or refinement variants
         let dynamicUserContentPayload = "";
 
@@ -839,8 +838,33 @@ Execute your transformation logic. Populate the "whatChanged" array with clear b
 
         const responseJsonText = data.candidates[0].content.parts[0].text;
 
-        // Return pure structured JSON directly to the frontend view layer
-        return res.status(200).json(JSON.parse(responseJsonText));
+        let parsedOutput;
+        try {
+            parsedOutput = JSON.parse(responseJsonText);
+        } catch (parseError) {
+            return res.status(502).json({
+                error: 'The AI service returned unreadable repurposed content. Your credits were not used.',
+                code: 'AI_INVALID_RESPONSE',
+                retryable: true
+            });
+        }
+
+        if (
+            !parsedOutput ||
+            typeof parsedOutput !== 'object' ||
+            Array.isArray(parsedOutput) ||
+            typeof parsedOutput.repurposedText !== 'string' ||
+            !parsedOutput.repurposedText.trim()
+        ) {
+            return res.status(502).json({
+                error: 'The AI service did not return complete repurposed content. Your credits were not used.',
+                code: 'AI_INVALID_RESPONSE',
+                retryable: true
+            });
+        }
+
+        // Only a complete, usable transformation is considered a successful generation.
+        return res.status(200).json(parsedOutput);
 
     } catch (error) {
         console.error("Server Execution Context Exception Handler:", error);
