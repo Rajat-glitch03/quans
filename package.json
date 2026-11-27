@@ -1,0 +1,21 @@
+{
+  "name": "quans-credit-backend",
+  "version": "1.0.1",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "firebase-admin": "14.5.1"
+  },
+  "overrides": {
+    "jwks-rsa": {
+      "jose": "4.15.9"
+    }
+  },
+  "scripts": {
+    "migrate:free-credit-claims": "node scripts/migrate-free-credit-claims.js",
+    "cleanup:account-deletions": "node scripts/cleanup-account-deletions.js"
+  }
+}

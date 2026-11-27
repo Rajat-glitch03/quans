@@ -1,0 +1,2992 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANS | Contact</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+
+        /* Custom Scrollbar for login and signup modals only */
+        #authModal .relative::-webkit-scrollbar,
+        #loginModal .relative::-webkit-scrollbar {
+            width: 6px;
+        }
+        #authModal .relative::-webkit-scrollbar-track,
+        #loginModal .relative::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb,
+        #loginModal .relative::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+        #authModal .relative::-webkit-scrollbar-thumb:hover,
+        #loginModal .relative::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        #authModal .relative,
+        #loginModal .relative {
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E1 transparent;
+        }
+    </style>
+<style id="quans-tool-workspace-styles">
+:root {
+  --q-ink: #17162b;
+  --q-ink-soft: #29263f;
+  --q-muted: #77758b;
+  --q-muted-light: #9e9bac;
+  --q-line: #e9e6f0;
+  --q-paper: #fbfaff;
+  --q-white: #ffffff;
+  --q-violet: #7655e8;
+  --q-violet-dark: #5e40ce;
+  --q-cyan: #6ad7e7;
+  --q-coral: #ff8b76;
+  --q-lilac: #d9ccff;
+  --q-green: #6ebc9e;
+  --q-serif: Georgia, 'Times New Roman', serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(118,85,232,.22); color: var(--q-ink); }
+
+.site-page {
+  min-height: 100vh;
+  color: var(--q-ink);
+  background:
+    radial-gradient(circle at 84% 7%, rgba(207,190,255,.24), transparent 27rem),
+    radial-gradient(circle at 7% 44%, rgba(112,218,228,.13), transparent 25rem),
+    #fbfaff;
+}
+.site-page > .min-h-screen { min-height: 100vh; }
+.site-page header {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  min-height: 82px; padding: 16px clamp(18px,4vw,64px);
+  background: rgba(251,250,255,.9);
+  border-bottom: 1px solid rgba(226,222,239,.8);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(27,20,69,.025);
+}
+.site-page header > div:first-child { flex: 0 0 auto; z-index: 2; }
+.site-page header > div:first-child > span,
+.site-page header > div:first-child > a {
+  color: var(--q-ink) !important; font-size: 25px !important;
+  font-weight: 900 !important; letter-spacing: -.09em !important;
+  text-decoration: none;
+}
+.site-page header > div:first-child > span::first-letter,
+.site-page header > div:first-child > a::first-letter { color: var(--q-violet); }
+.site-page header > div:first-child span span { color: var(--q-violet) !important; }
+.site-page header > div.hidden.md\:flex,
+.site-page header > .hidden.md\:flex {
+  position: static !important; inset: auto !important; display: flex !important;
+  gap: clamp(14px,2vw,30px) !important; justify-content: center;
+  pointer-events: auto !important; flex: 1 1 auto; padding: 0 20px;
+}
+.site-page header nav a,
+.site-page header .hidden.md\:flex a {
+  color: #6d6a82 !important; font-size: 12px !important;
+  font-weight: 700 !important; text-decoration: none;
+  transition: color .2s ease;
+}
+.site-page header .hidden.md\:flex a:hover,
+.site-page header .hidden.md\:flex a.active,
+.site-page header .hidden.md\:flex a.text-brand-blue { color: var(--q-violet) !important; }
+.site-page header #navAuthGroup { gap: 10px !important; z-index: 2; }
+.site-page header #navAuthGroup > button:not(#openMobileMenu) {
+  min-height: 42px; padding: 0 16px; border-radius: 8px !important;
+  font-size: 12px !important; font-weight: 800 !important;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.site-page header #navAuthGroup > button[onclick*="openLoginPopup"] {
+  color: #514c69 !important; border: 1px solid #e3dfed; background: #fff;
+}
+.site-page header #navAuthGroup > button[onclick*="openAuthPopup"] {
+  color: white !important; background: var(--q-ink) !important;
+  box-shadow: 0 8px 16px rgba(25,22,52,.1);
+}
+.site-page header #navAuthGroup > button:hover { transform: translateY(-2px); }
+.site-page header #openMobileMenu {
+  border-radius: 8px !important; border-color: #e5e1ef !important;
+  color: var(--q-ink) !important; background: #fff !important;
+}
+.site-page button:focus-visible, .site-page a:focus-visible,
+.workspace-page button:focus-visible, .workspace-page a:focus-visible {
+  outline: 3px solid rgba(118,85,232,.38); outline-offset: 3px;
+}
+
+.tool-page-backdrop {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: radial-gradient(circle at 78% 18%, rgba(217,204,255,.22), transparent 28rem),
+              radial-gradient(circle at 12% 56%, rgba(106,215,231,.12), transparent 25rem);
+}
+.backdrop-grid {
+  position: absolute; inset: 0; opacity: .24;
+  background-image: linear-gradient(rgba(130,110,190,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.11) 1px,transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(110deg,transparent,#000 22%,#000 78%,transparent);
+}
+.backdrop-orbit { position: absolute; border: 1px solid rgba(125,100,208,.13); border-radius: 50%; }
+.backdrop-orbit-a { width: 540px; height: 540px; top: 90px; right: -260px; border-style: dashed; animation: backdropSpin 100s linear infinite; }
+.backdrop-orbit-b { width: 360px; height: 360px; bottom: -210px; left: -140px; border-color: rgba(106,215,231,.25); }
+.backdrop-glow { position: absolute; width: 230px; height: 230px; filter: blur(75px); border-radius: 50%; opacity: .35; }
+.backdrop-glow-left { left: 12%; top: 32%; background: #c8f4f3; }
+.backdrop-glow-right { right: 12%; top: 56%; background: #d7c7ff; }
+@keyframes backdropSpin { to { transform: rotate(360deg); } }
+
+.tool-workspace { position: relative; overflow: hidden; padding-bottom: 12px; }
+.site-container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+.tools-hero {
+  min-height: 615px; display: grid;
+  grid-template-columns: minmax(0,.86fr) minmax(470px,1.14fr);
+  gap: clamp(30px,5vw,72px); align-items: center;
+  padding-top: clamp(54px,7vw,86px); padding-bottom: 72px;
+}
+.tools-hero-copy { position: relative; z-index: 2; max-width: 550px; }
+.eyebrow, .section-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: #817b9c; font-size: 10px; font-weight: 900;
+  letter-spacing: .18em; line-height: 1.4;
+}
+.eyebrow { padding: 9px 12px; border: 1px solid #e5e0f3; background: rgba(255,255,255,.78); color: #6a5d9a; }
+.eyebrow-mark { width: 7px; height: 7px; display: inline-block; background: var(--q-coral); box-shadow: 0 0 0 4px rgba(255,139,118,.14); }
+.tools-hero-copy h1 {
+  margin: 23px 0 0; color: var(--q-ink);
+  font-size: clamp(48px,5.6vw,74px); line-height: .99;
+  letter-spacing: -.067em; font-weight: 800;
+}
+.tools-hero-copy h1 em, .tools-section-heading h2 em {
+  font-family: var(--q-serif); font-weight: 400; font-style: italic;
+  letter-spacing: -.055em; color: var(--q-violet);
+}
+.tools-hero-lede { max-width: 490px; margin: 23px 0 0; color: #77748b; font-size: 15px; line-height: 1.82; }
+.tools-hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 29px; }
+.button {
+  display: inline-flex; min-height: 48px; justify-content: center; align-items: center;
+  gap: 12px; border: 1px solid transparent; border-radius: 8px !important;
+  padding: 0 18px; font-size: 12px; font-weight: 800; text-decoration: none;
+  cursor: pointer; transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.button i { font-size: 13px; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { color: white; background: linear-gradient(110deg,#7354e7,#8d65f4); box-shadow: 0 12px 24px rgba(112,80,220,.18); }
+.button-primary:hover { box-shadow: 0 16px 28px rgba(112,80,220,.26); }
+.button-secondary { color: #302d48; background: white; border-color: #e6e1f0; }
+.tools-hero-notes { display: flex; gap: 25px; flex-wrap: wrap; margin-top: 43px; padding-top: 19px; border-top: 1px solid #e9e5f1; }
+.tools-hero-notes > div { display: flex; align-items: flex-start; gap: 10px; }
+.note-index { color: var(--q-coral); font-size: 10px; font-weight: 900; letter-spacing: .1em; padding-top: 3px; }
+.note-violet { color: var(--q-violet); }
+.tools-hero-notes strong, .tools-hero-notes small { display: block; }
+.tools-hero-notes strong { color: #343149; font-size: 11px; font-weight: 800; }
+.tools-hero-notes small { color: #9995aa; margin-top: 4px; font-size: 10px; }
+
+.tools-hero-visual { min-height: 480px; position: relative; isolation: isolate; display: grid; place-items: center; }
+.tools-visual-grid { position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 31px 31px; mask-image: linear-gradient(110deg,transparent,#000 28%,#000 78%,transparent); }
+.tools-visual-orbit { position: absolute; width: 425px; height: 425px; border: 1px solid rgba(125,100,208,.2); transform: rotate(-18deg); z-index: -1; }
+.tools-visual-orbit-one { border-radius: 36% 64% 44% 56% / 49% 40% 60% 51%; animation: toolkitOrbit 24s linear infinite; }
+.tools-visual-orbit-two { width: 330px; height: 330px; border-style: dashed; border-color: rgba(255,139,118,.32); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation: toolkitOrbit 32s linear infinite reverse; }
+@keyframes toolkitOrbit { to { transform: rotate(342deg); } }
+.toolkit-preview { width: min(100%,570px); position: relative; z-index: 2; background: #17162d; padding: 8px; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.22); transform: rotate(-1.5deg); animation: toolkitFloat 8s ease-in-out infinite; }
+.toolkit-preview-topbar { height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; border-bottom: 1px solid #34314d; color: #f7f5ff; }
+.toolkit-preview-brand { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 900; letter-spacing: -.04em; }
+.toolkit-brand-mark { display: inline-grid; place-items: center; width: 19px; height: 19px; color: #fff; background: linear-gradient(135deg,#8b6af1,#d27ce8); font-family: Georgia,serif; font-weight: 800; }
+.toolkit-preview-brand small { margin-left: 7px; color: #8581a8; font-size: 8px; letter-spacing: .16em; }
+.toolkit-window-dots { display: flex; gap: 5px; }
+.toolkit-window-dots b { width: 5px; height: 5px; background: #4e4a68; }
+.toolkit-window-dots b:first-child { background: var(--q-coral); }
+.toolkit-preview-body { min-height: 350px; display: grid; grid-template-columns: 148px 1fr; background: #1d1c39; }
+.toolkit-preview-sidebar { padding: 18px 11px; border-right: 1px solid #33304c; }
+.toolkit-sidebar-label { display: block; margin: 0 0 12px 5px; color: #706c90; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.toolkit-sidebar-item { display: flex; align-items: center; gap: 8px; padding: 9px 8px; margin: 0 0 5px; color: #a8a4c2; font-size: 9px; }
+.toolkit-sidebar-item i { width: 12px; text-align: center; }
+.toolkit-sidebar-item.active { color: #fff; background: #39325c; border-left: 2px solid #9d83ff; }
+.toolkit-sidebar-rule { height: 1px; margin: 17px 4px; background: #34314d; }
+.toolkit-sidebar-muted { display: block; padding: 6px 5px; color: #777493; font-size: 8px; line-height: 1.5; }
+.toolkit-preview-content { padding: 21px 22px; color: #fff; }
+.toolkit-preview-kicker { color: #aaa5c4; font-size: 7px; font-weight: 900; letter-spacing: .16em; }
+.toolkit-preview-kicker span { float: right; color: #7dc5a8; letter-spacing: .08em; }
+.toolkit-preview-content h2 { margin: 13px 0 8px; color: #fff; font-size: 25px; line-height: 1.02; letter-spacing: -.055em; font-weight: 800; }
+.toolkit-preview-content > p { color: #a5a1bf; font-size: 9px; line-height: 1.6; max-width: 290px; }
+.toolkit-preview-list { display: grid; gap: 7px; margin-top: 18px; }
+.toolkit-preview-list > div { min-height: 43px; display: flex; align-items: center; gap: 9px; padding: 7px 8px; background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.07); }
+.toolkit-list-icon { width: 27px; height: 27px; display: grid; place-items: center; font-size: 11px; }
+.list-violet { color: #bba9ff; background: rgba(137,109,230,.18); }.list-cyan { color: #8fe0e1; background: rgba(81,186,192,.15); }.list-coral { color: #ffb4a5; background: rgba(255,139,118,.14); }
+.toolkit-preview-list span:nth-child(2) { flex: 1; }
+.toolkit-preview-list b, .toolkit-preview-list small { display: block; }
+.toolkit-preview-list b { color: #f3f0ff; font-size: 8px; }
+.toolkit-preview-list small { color: #9290ad; font-size: 7px; margin-top: 3px; }
+.toolkit-preview-list > div > i { color: #797593; font-size: 8px; }
+.toolkit-preview-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 13px; color: #8985a7; font-size: 7px; letter-spacing: .08em; }
+.toolkit-preview-footer span:last-child { color: #c7b9ff; display: flex; align-items: center; gap: 5px; letter-spacing: 0; }
+.toolkit-float-note { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(255,255,255,.95); border: 1px solid #e6e1f1; box-shadow: 0 15px 35px rgba(38,30,84,.11); animation: toolkitNoteFloat 6s ease-in-out infinite; }
+.toolkit-float-top { top: 30px; right: -7px; }.toolkit-float-bottom { bottom: 23px; left: -12px; animation-delay: -2s; }
+.toolkit-float-icon { width: 34px; height: 34px; display: grid; place-items: center; font-size: 14px; }
+.float-violet { background: #f0ecff; color: #7053da; }.float-coral { background: #fff0eb; color: #e87964; }
+.toolkit-float-note b, .toolkit-float-note small { display: block; }
+.toolkit-float-note b { color: #29263f; font-size: 10px; }.toolkit-float-note small { margin-top: 4px; color: #918da3; font-size: 8px; }
+.toolkit-stage-accent { position: absolute; bottom: 0; right: 8%; width: 68px; height: 68px; border: 1px solid rgba(255,139,118,.45); transform: rotate(45deg); }
+@keyframes toolkitFloat { 0%,100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-9px) rotate(-.5deg); } }
+@keyframes toolkitNoteFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+.tools-library { padding-top: 47px; padding-bottom: 86px; border-top: 1px solid #e9e5f0; }
+.tools-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 30px; }
+.tools-section-heading h2 { margin: 12px 0 0; color: var(--q-ink); font-size: clamp(38px,4.4vw,53px); line-height: 1.02; letter-spacing: -.06em; font-weight: 800; }
+.tools-section-heading p { margin: 11px 0 0; color: #858197; font-size: 12px; }
+.tools-count { display: flex; align-items: center; gap: 11px; padding: 0 0 6px 18px; border-left: 1px solid #e9e5f0; }
+.tools-count strong { color: var(--q-ink); font-size: 31px; line-height: 1; letter-spacing: -.06em; }.tools-count span { color: #9894a8; font-size: 8px; font-weight: 900; line-height: 1.45; letter-spacing: .13em; }
+.tool-card-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.tool-card {
+  min-width: 0; min-height: 390px; position: relative; display: flex; flex-direction: column;
+  padding: 17px; overflow: hidden; border: 1px solid #e8e4f0; background: rgba(255,255,255,.94);
+  color: var(--q-ink); text-align: left; cursor: pointer;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+}
+.tool-card:hover { transform: translateY(-5px); border-color: #cfc3fb; box-shadow: 0 18px 35px rgba(46,34,101,.09); }
+.tool-card:focus-visible { outline-offset: 4px; }
+.tool-card-top { display: flex; align-items: center; justify-content: space-between; color: #9792aa; font-size: 8px; line-height: 1.4; letter-spacing: .13em; font-weight: 900; }
+.tool-card-top i { font-size: 13px; color: #8a83a1; transition: transform .2s ease, color .2s ease; }
+.tool-card:hover .tool-card-top i { transform: translate(2px,-2px); color: var(--q-violet); }
+.tool-card-art { height: 142px; position: relative; display: grid; place-items: center; margin: 17px -3px 18px; overflow: hidden; }
+.assistant-art { background: linear-gradient(135deg,#e8e0ff,#f8f3ff); }
+.assistant-art-orbit { width: 125px; height: 125px; position: absolute; border: 1px dashed rgba(115,84,215,.35); border-radius: 50%; transform: rotate(-20deg); }
+.assistant-spark { position: absolute; color: #8d70e8; font-family: Georgia,serif; }.spark-one { top: 22px; right: 25%; font-size: 22px; }.spark-two { bottom: 22px; left: 23%; font-size: 17px; color: #ee967f; }
+.assistant-chat-card { position: relative; z-index: 1; width: 77%; padding: 12px; background: #fff; border: 1px solid #e3dcf9; box-shadow: 0 10px 20px rgba(77,55,154,.13); }
+.assistant-chat-head { display: flex; align-items: center; gap: 6px; color: #6e55c6; }.assistant-chat-head i { font-size: 10px; }.assistant-chat-head b { font-size: 7px; letter-spacing: .12em; }.assistant-chat-head small { margin-left: auto; color: #6ebc9e; font-size: 6px; font-weight: 900; }
+.assistant-chat-line { display: block; height: 4px; margin-top: 10px; background: #ece8f6; }.line-long { width: 100%; }.line-mid { width: 65%; margin-top: 5px; }
+.assistant-chat-answer { display: flex; align-items: center; gap: 7px; margin-top: 11px; padding: 8px; background: #f5f1ff; color: #6c55bb; }.assistant-chat-answer > i { font-size: 11px; }.assistant-chat-answer b,.assistant-chat-answer small { display: block; }.assistant-chat-answer b { font-size: 7px; }.assistant-chat-answer small { color: #9690aa; font-size: 6px; margin-top: 2px; }
+.post-studio-art { background: linear-gradient(130deg,#d8f5f6,#f0fbfd); }
+.social-window { width: 78%; padding: 9px; background: #fff; border: 1px solid #d7ecee; box-shadow: 0 9px 19px rgba(33,113,122,.13); transform: rotate(-2deg); }
+.social-window-top { display: flex; align-items: center; gap: 3px; height: 12px; border-bottom: 1px solid #edf3f3; padding-bottom: 7px; }.social-window-top i { width: 4px; height: 4px; border-radius: 50%; background: #a8dfe0; }.social-window-top b { margin-left: auto; color: #8ebec1; font-size: 6px; letter-spacing: .1em; }
+.social-window-content { display: flex; gap: 8px; margin-top: 12px; }.social-avatar { flex: 0 0 21px; height: 21px; display: grid; place-items: center; background: #d1f1ef; color: #16818c; font-size: 8px; font-weight: 900; }.social-copy b,.social-copy small { display: block; }.social-copy b { color: #27454a; font-size: 9px; line-height: 1.15; }.social-copy small { color: #8aa5a8; font-size: 6px; margin-top: 5px; }.social-window-tags { display: flex; gap: 5px; margin-top: 10px; }.social-window-tags i { padding: 4px 6px; background: #edf9f8; color: #4a9297; font-size: 6px; font-style: normal; font-weight: 900; letter-spacing: .08em; }
+.post-art-sticker { position: absolute; right: 16%; bottom: 13px; width: 32px; height: 32px; display: grid; place-items: center; background: #0d8793; color: white; box-shadow: 0 7px 13px rgba(13,135,147,.2); transform: rotate(8deg); }
+.proposal-studio-art { background: linear-gradient(135deg,#ffede7,#fff9f5); }
+.proposal-sheet { width: 69%; min-height: 111px; padding: 10px 11px; background: #fff; border: 1px solid #f3ddd4; box-shadow: 0 9px 18px rgba(129,70,50,.12); transform: rotate(2deg); }
+.proposal-sheet-brand { display: flex; align-items: center; gap: 5px; color: #c67c69; }.proposal-sheet-brand i { font-size: 8px; }.proposal-sheet-brand b { font-size: 6px; letter-spacing: .1em; }
+.proposal-title-line { display: block; width: 55%; height: 7px; background: #e8a18c; margin-top: 12px; }.proposal-sub-line { display: block; width: 37%; height: 4px; background: #f2d8cf; margin-top: 5px; }.proposal-rule { display: block; height: 1px; background: #f1e5e0; margin: 10px 0; }.proposal-section-label { display: block; color: #c09282; font-size: 5px; font-weight: 900; letter-spacing: .12em; }.proposal-lines { display: grid; gap: 4px; margin-top: 5px; }.proposal-lines i { height: 3px; background: #f0e8e4; }.proposal-lines i:nth-child(2) { width: 84%; }.proposal-lines i:nth-child(3) { width: 62%; }.proposal-bottom-row { display: flex; gap: 5px; margin-top: 9px; }.proposal-bottom-row i { flex: 1; height: 9px; background: #fff0ea; }
+.proposal-seal { position: absolute; right: 17%; bottom: 16px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #fff; border: 1px solid #f2d8cf; color: #c98270; font-size: 11px; box-shadow: 0 5px 12px rgba(129,70,50,.12); }
+.repurpose-studio-art { display: flex; align-items: center; justify-content: center; gap: 7px; background: linear-gradient(125deg,#e4f4ed,#f4fbf7); }
+.repurpose-source-card { width: 88px; min-height: 76px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 10px; background: #fff; border: 1px solid #d4e9df; color: #367d65; box-shadow: 0 7px 15px rgba(47,119,88,.09); }.repurpose-source-card i { font-size: 12px; margin-bottom: 7px; }.repurpose-source-card b { font-size: 7px; letter-spacing: .1em; }.repurpose-source-card small { font-size: 6px; color: #88a99a; margin-top: 3px; }
+.repurpose-flow-lines { width: 25px; display: grid; gap: 9px; }.repurpose-flow-lines i { height: 1px; background: #7cbaa2; }.repurpose-output-stack { display: grid; gap: 5px; }.repurpose-output-stack b { min-width: 61px; padding: 6px 7px; background: #fff; border: 1px solid #d4e9df; color: #538b75; font-size: 6px; letter-spacing: .04em; }.repurpose-output-stack i { margin-right: 4px; font-size: 7px; }.repurpose-star { position: absolute; right: 13%; top: 14px; color: #6ebc9e; font-size: 17px; }
+.tool-card-copy { display: flex; flex-direction: column; align-items: flex-start; }.tool-card-category { margin-bottom: 8px; color: #9a95aa; font-size: 7px; font-weight: 900; letter-spacing: .12em; }.tool-card-copy strong { color: var(--q-ink); font-size: 20px; line-height: 1.08; font-weight: 800; letter-spacing: -.045em; }.tool-card-description { margin-top: 9px; color: #858197; font-size: 10px; line-height: 1.7; }
+.tool-card-action { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 14px; color: #6451be; border-top: 1px solid #efecf4; font-size: 9px; font-weight: 900; letter-spacing: .02em; }.tool-card-action i { font-size: 12px; transition: transform .2s ease; }.tool-card:hover .tool-card-action i { transform: translateX(4px); }
+.tools-guidance { display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 18px; margin-top: 2px; margin-bottom: 34px; padding: 24px 0; border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }
+.guidance-mark { width: 42px; height: 42px; display: grid; place-items: center; color: #7053da; background: #f0ecff; font-size: 15px; }.tools-guidance .section-kicker { font-size: 8px; }.tools-guidance h3 { margin: 5px 0 3px; color: var(--q-ink); font-size: 19px; font-weight: 800; letter-spacing: -.04em; }.tools-guidance p { max-width: 660px; margin: 0; color: #858197; font-size: 10px; line-height: 1.65; }.guidance-link { display: inline-flex; align-items: center; gap: 8px; color: #5944b4; font-size: 10px; font-weight: 900; text-decoration: none; white-space: nowrap; border-bottom: 1px solid #cfc5f5; padding-bottom: 7px; }
+
+.site-page footer { color: #77738a !important; background: rgba(255,255,255,.58) !important; border-top: 1px solid #e9e5f0 !important; box-shadow: none !important; backdrop-filter: blur(18px); }
+.site-page footer a { color: #77738a; text-decoration: none; }.site-page footer a:hover { color: var(--q-violet); }
+
+/* Desktop account dropdown styling. */
+#navAuthGroup #userDropdownMenu { width: 168px; margin-top: 12px; padding: 5px; border: 1px solid #e8e3f0; border-radius: 10px; background: #fff; box-shadow: 0 18px 42px rgba(35,27,72,.13); }
+#navAuthGroup #userDropdownMenu button { border-radius: 7px; color: #514c69; font-size: 11px; padding: 10px 11px; }
+#navAuthGroup #userDropdownMenu button:hover { background: #f5f1ff; color: var(--q-violet); }
+#navAuthGroup #userDropdownMenu hr { border-color: #eeeaf4; }
+#navAuthGroup .relative > button[onclick*="toggleUserDropdown"] { color: #514c69 !important; font-size: 12px !important; font-weight: 800 !important; }
+
+/* Shared split-panel authentication styling from the reference page. */
+#authModal, #loginModal { z-index: 120; }
+#authModal .relative, #loginModal .relative { border-radius: 22px !important; scrollbar-width: thin; scrollbar-color: #cbc3dc transparent; }
+#authModal .relative::-webkit-scrollbar, #loginModal .relative::-webkit-scrollbar { width: 6px; }
+#authModal .relative::-webkit-scrollbar-thumb, #loginModal .relative::-webkit-scrollbar-thumb { border-radius: 10px; background: #cbc3dc; }
+#authModal button:focus-visible, #loginModal button:focus-visible { outline: 2px solid rgba(118,85,232,.5); outline-offset: 3px; }
+
+/* Account settings and confirmation dialogs use the same palette as the workspace. */
+#settingsPopupModal { background: rgba(23,22,43,.55) !important; backdrop-filter: blur(10px); }
+#settingsPopupModal > div { border: 1px solid #e7e1f1 !important; border-radius: 18px !important; box-shadow: 0 28px 90px rgba(31,23,69,.2) !important; }
+#settingsPopupModal .bg-slate-50\/70 { background: #f4f0fc !important; }
+#settingsPopupModal button.bg-brand-blue,
+#settingsPopupModal button[class*="bg-brand-blue"] { background: var(--q-violet) !important; }
+#settingsPopupModal button:hover { transition: .2s ease; }
+#settingsPopupModal button[id="tabBtnAccount"] { border-radius: 9px !important; }
+#settingsPopupModal #settingsAlertMsg { border-radius: 9px !important; }
+#settingsPopupModal #settingsEmailTextDisplay { color: #343149 !important; }
+#settingsPopupModal #panelSectionAccount button { border-radius: 10px !important; }
+#settingsHardDeleteModal { background: rgba(23,22,43,.72) !important; backdrop-filter: blur(10px); }
+#settingsHardDeleteModal > div { border-radius: 18px !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (max-width: 1100px) {
+  .tools-hero { grid-template-columns: minmax(0,1fr) minmax(360px,.95fr); gap: 24px; }
+  .tool-card-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .tool-card { min-height: 365px; }
+}
+@media (max-width: 800px) {
+  .site-page header { min-height: 70px; padding: 12px 18px; }
+  .site-page header > .hidden.md\:flex { display: none !important; }
+  .tools-hero { grid-template-columns: 1fr; padding-top: 54px; padding-bottom: 55px; }
+  .tools-hero-copy { max-width: 680px; }
+  .tools-hero-visual { min-height: 420px; margin-top: 4px; }
+  .tools-library { padding-top: 36px; }
+  .tools-guidance { grid-template-columns: 42px 1fr; }
+  .guidance-link { grid-column: 2; justify-self: start; }
+}
+@media (max-width: 560px) {
+  .site-container { width: calc(100% - 32px); }
+  .site-page header #navAuthGroup > button:not(#openMobileMenu) { min-height: 38px; padding-inline: 11px; font-size: 10px !important; }
+  .site-page header #navAuthGroup { gap: 6px !important; }
+  .tools-hero { padding-top: 43px; gap: 18px; }
+  .tools-hero-copy h1 { font-size: 47px; }
+  .tools-hero-lede { font-size: 13px; line-height: 1.75; }
+  .tools-hero-actions { display: grid; grid-template-columns: 1fr; }
+  .tools-hero-actions .button { width: 100%; }
+  .tools-hero-notes { gap: 16px; margin-top: 30px; }
+  .tools-hero-visual { min-height: 315px; margin-inline: -8px; overflow: hidden; }
+  .toolkit-preview { width: 570px; max-width: none; transform: scale(.57) rotate(-1.5deg); }
+  .tools-visual-orbit-one { width: 305px; height: 305px; }.tools-visual-orbit-two { width: 245px; height: 245px; }
+  .toolkit-float-note { padding: 8px; gap: 7px; }.toolkit-float-top { top: 2px; right: 0; }.toolkit-float-bottom { bottom: 0; left: 0; }
+  .toolkit-float-icon { width: 28px; height: 28px; }.toolkit-float-note b { font-size: 8px; }.toolkit-float-note small { font-size: 7px; }
+  .tools-library { padding-top: 30px; padding-bottom: 50px; }
+  .tools-section-heading { align-items: flex-start; }
+  .tools-section-heading h2 { font-size: 40px; }
+  .tools-count { gap: 7px; padding-left: 10px; }.tools-count strong { font-size: 25px; }
+  .tool-card-grid { grid-template-columns: 1fr; gap: 11px; }
+  .tool-card { min-height: 350px; padding: 16px; }
+  .tool-card-art { height: 135px; }
+  .tool-card-copy strong { font-size: 21px; }
+  .tools-guidance { align-items: start; gap: 12px; padding: 21px 0; }
+  .tools-guidance h3 { font-size: 18px; }.tools-guidance p { font-size: 10px; }
+  .guidance-link { white-space: normal; }
+  #authModal, #loginModal { padding: 12px !important; }
+  #authModal .relative, #loginModal .relative { border-radius: 17px !important; }
+}
+@media (max-width: 390px) {
+  .tools-hero-copy h1 { font-size: 42px; }
+  .tools-hero-visual { min-height: 280px; }
+  .toolkit-preview { transform: scale(.5) rotate(-1.5deg); }
+  .toolkit-float-bottom { max-width: 145px; }
+  .tools-section-heading h2 { font-size: 36px; }
+}
+.dark .site-page, .dark body.site-page { color: #f2efff; background: #141326; }
+.dark .site-page header { background: rgba(20,19,38,.91); border-color: rgba(75,68,105,.55); }
+.dark .site-page header > div:first-child > span { color: #f5f2ff !important; }
+.dark .site-page header .hidden.md\:flex a { color: #b9b4ca !important; }
+.dark .site-page header #navAuthGroup > button[onclick*="openLoginPopup"] { color: #e8e3f4 !important; background: #211f38; border-color: #3c3656; }
+.dark .site-page header #openMobileMenu { color: #f0ecff !important; background: #211f38 !important; border-color: #3c3656 !important; }
+.dark .tool-page-backdrop { background: radial-gradient(circle at 78% 18%, rgba(99,75,168,.18), transparent 28rem), radial-gradient(circle at 12% 56%, rgba(58,139,145,.1), transparent 25rem), #141326; }
+.dark .tools-hero-copy h1, .dark .tools-section-heading h2, .dark .tools-count strong, .dark .tool-card-copy strong, .dark .tools-guidance h3 { color: #f1edff; }
+.dark .tools-hero-lede, .dark .tools-hero-notes small, .dark .tools-section-heading p, .dark .tool-card-description, .dark .tools-guidance p { color: #aaa5c1; }
+.dark .tools-hero-notes strong { color: #e0dbf1; }
+.dark .eyebrow, .dark .tool-card, .dark .button-secondary { background: rgba(34,31,58,.94); border-color: #3b3657; color: #eeeaff; }
+.dark .tool-card:hover { border-color: #7662bd; box-shadow: 0 18px 35px rgba(0,0,0,.2); }
+.dark .tool-card-top, .dark .tool-card-category, .dark .tools-count span { color: #a39dbb; }
+.dark .tool-card-action, .dark .tools-library, .dark .tools-guidance { border-color: #38334f; }
+.dark .site-page footer { color: #a9a4bd !important; background: rgba(24,22,43,.78) !important; border-color: #38334f !important; }
+.dark .site-page footer a { color: #b8b1cb; }
+.dark #navAuthGroup #userDropdownMenu { background: #211f38; border-color: #3b3657; }
+.dark #navAuthGroup #userDropdownMenu button { color: #e4def2; }
+.dark #navAuthGroup #userDropdownMenu button:hover { background: #332b55; }
+.dark #settingsPopupModal > div { background: #1c1a31 !important; border-color: #38334f !important; color: #eeeaff !important; }
+.dark #settingsPopupModal .bg-slate-50\/70 { background: #171529 !important; }
+.dark #settingsPopupModal #settingsEmailTextDisplay { color: #eeeaff !important; }
+
+
+/* Simplified tools landing layout: intro first, then a balanced 2 × 2 card grid. */
+.tools-hero.tools-hero-simple {
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: clamp(58px, 8vw, 92px);
+  padding-bottom: 30px;
+}
+.tools-hero-simple .tools-hero-copy {
+  width: 100%;
+  max-width: 790px;
+  text-align: center;
+}
+.tools-hero-simple .eyebrow { margin-inline: auto; }
+.tools-hero-simple .tools-hero-copy h1 { font-size: clamp(48px, 5.8vw, 70px); }
+.tools-hero-simple .tools-hero-lede {
+  max-width: 660px;
+  margin: 22px auto 0;
+}
+.tools-hero-support {
+  margin: 16px 0 0;
+  color: #8b879b;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.tools-hero-support a {
+  color: #6650c5;
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: 1px solid #d3c9f4;
+  padding-bottom: 2px;
+}
+.tools-hero-support a i { margin-left: 3px; font-size: 10px; }
+.tools-library {
+  padding-top: 12px;
+  border-top: 0;
+}
+.tool-card-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.tool-card { min-height: 370px; padding: 20px; }
+.tool-card-art { height: 150px; }
+.dark .tools-hero-support { color: #aaa5c1; }
+.dark .tools-hero-support a { color: #c7b9ff; border-color: #62558e; }
+@media (max-width: 560px) {
+  .tools-hero.tools-hero-simple { padding-top: 43px; padding-bottom: 20px; }
+  .tools-hero-simple .tools-hero-copy h1 { font-size: clamp(42px, 10vw, 47px); }
+  .tools-hero-simple .tools-hero-lede { font-size: 13px; line-height: 1.75; }
+  .tools-hero-support { font-size: 11px; }
+  .tools-library { padding-top: 18px; padding-bottom: 50px; }
+  .tool-card-grid { grid-template-columns: 1fr; gap: 11px; }
+  .tool-card { min-height: 350px; padding: 16px; }
+  .tool-card-art { height: 135px; }
+}
+@media (max-width: 390px) {
+  .tools-hero-simple .tools-hero-copy h1 { font-size: 42px; }
+}
+</style>
+<style id="quans-contact-page-styles">
+.contact-workspace { position: relative; overflow: hidden; padding-bottom: 10px; }
+.contact-hero {
+  min-height: 590px; display: grid; grid-template-columns: minmax(0,.94fr) minmax(420px,1.06fr);
+  gap: clamp(30px,5vw,74px); align-items: center;
+  padding-top: clamp(62px,8vw,98px); padding-bottom: 72px;
+}
+.contact-copy { position: relative; z-index: 2; max-width: 560px; }
+.contact-copy h1 {
+  margin: 23px 0 0; color: var(--q-ink); font-size: clamp(48px,5.5vw,72px);
+  line-height: .99; letter-spacing: -.065em; font-weight: 800;
+}
+.contact-copy h1 em {
+  color: var(--q-violet); font-family: var(--q-serif); font-weight: 400;
+  font-style: italic; letter-spacing: -.055em;
+}
+.contact-copy > p { max-width: 500px; margin: 24px 0 0; color: #77748b; font-size: 15px; line-height: 1.85; }
+.contact-note { display: flex; align-items: flex-start; gap: 13px; max-width: 420px; margin-top: 38px; padding-top: 21px; border-top: 1px solid #e9e5f1; }
+.contact-note-index { color: var(--q-coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; padding-top: 3px; }
+.contact-note strong, .contact-note small { display: block; }
+.contact-note strong { color: #343149; font-size: 11px; font-weight: 800; }
+.contact-note small { margin-top: 4px; color: #9995aa; font-size: 10px; line-height: 1.5; }
+.contact-visual { min-height: 455px; position: relative; isolation: isolate; display: grid; place-items: center; }
+.contact-visual-grid { position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(rgba(130,110,190,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.12) 1px,transparent 1px); background-size: 31px 31px; mask-image: linear-gradient(110deg,transparent,#000 28%,#000 78%,transparent); }
+.contact-orbit { position: absolute; width: 405px; height: 405px; border: 1px solid rgba(125,100,208,.2); border-radius: 41% 59% 47% 53% / 49% 42% 58% 51%; transform: rotate(-16deg); z-index: -1; animation: contactOrbit 24s linear infinite; }
+.contact-orbit-two { width: 315px; height: 315px; border-style: dashed; border-color: rgba(255,139,118,.3); border-radius: 48% 52% 34% 66% / 38% 57% 43% 62%; animation-duration: 31s; animation-direction: reverse; }
+@keyframes contactOrbit { to { transform: rotate(344deg); } }
+.contact-window { width: min(100%,480px); position: relative; z-index: 2; padding: 9px; background: #17162d; border: 1px solid #393459; box-shadow: 0 28px 75px rgba(39,27,90,.2); transform: rotate(1.5deg); animation: contactWindowFloat 8s ease-in-out infinite; }
+@keyframes contactWindowFloat { 0%,100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-9px) rotate(.8deg); } }
+.contact-window-top { height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; border-bottom: 1px solid #34314d; color: #f7f5ff; }
+.contact-window-brand { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 900; letter-spacing: -.03em; }
+.contact-window-brand span { display: inline-grid; place-items: center; width: 19px; height: 19px; background: linear-gradient(135deg,#8b6af1,#d27ce8); color: white; font-family: Georgia,serif; font-size: 11px; }
+.contact-window-status { color: #83c6a8; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
+.contact-window-body { padding: clamp(22px,3vw,31px); background: #1d1c39; color: #fff; }
+.contact-window-kicker { color: #aaa5c4; font-size: 8px; font-weight: 900; letter-spacing: .16em; }
+.contact-window-title { margin: 17px 0 9px; color: #fff; font-family: var(--q-serif); font-size: clamp(31px,3.5vw,39px); line-height: 1.04; letter-spacing: -.045em; }
+.contact-window-title em { color: #b8a6ff; font-weight: 400; }
+.contact-window-copy { max-width: 330px; margin: 0; color: #a5a1bf; font-size: 10px; line-height: 1.75; }
+.contact-email-panel { display: flex; align-items: center; gap: 12px; margin-top: 25px; padding: 14px; background: #f7f6fc; color: #211f37; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 12px 22px rgba(5,4,23,.18); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.contact-email-panel:hover { transform: translateY(-3px); box-shadow: 0 16px 27px rgba(5,4,23,.24); }
+.contact-email-icon { flex: 0 0 39px; width: 39px; height: 39px; display: grid; place-items: center; background: #e9e1ff; color: #6b50ca; font-size: 15px; }
+.contact-email-copy { min-width: 0; flex: 1; }
+.contact-email-copy small, .contact-email-copy strong { display: block; }
+.contact-email-copy small { margin-bottom: 5px; color: #9691a6; font-size: 7px; font-weight: 900; letter-spacing: .14em; }
+.contact-email-copy strong { color: #302d48; font-size: clamp(10px,1.2vw,13px); font-weight: 800; overflow-wrap: anywhere; }
+.contact-email-panel > i { color: #7053da; font-size: 13px; }
+.contact-window-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 15px; color: #8985a7; font-size: 8px; }
+.contact-window-foot span:last-child { display: flex; align-items: center; gap: 6px; color: #c7b9ff; }
+.contact-float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 9px; padding: 10px 13px; background: rgba(255,255,255,.95); border: 1px solid #e6e1f1; box-shadow: 0 15px 35px rgba(38,30,84,.1); animation: contactFloat 6s ease-in-out infinite; }
+.contact-float-top { top: 42px; right: -6px; }
+.contact-float-bottom { bottom: 35px; left: -12px; animation-delay: -2.3s; }
+@keyframes contactFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.contact-float-icon { width: 31px; height: 31px; display: grid; place-items: center; font-size: 13px; }
+.contact-float-coral { background: #fff0eb; color: #e87964; }
+.contact-float-violet { background: #f0ecff; color: #7053da; }
+.contact-float b, .contact-float small { display: block; }
+.contact-float b { color: #29263f; font-size: 9px; }
+.contact-float small { margin-top: 3px; color: #918da3; font-size: 7px; }
+.contact-topics { padding-top: 33px; padding-bottom: 86px; border-top: 1px solid #e9e5f0; }
+.contact-topics-heading { display: flex; align-items: end; justify-content: space-between; gap: 26px; margin-bottom: 27px; }
+.contact-topics-heading h2 { margin: 12px 0 0; color: var(--q-ink); font-size: clamp(31px,4vw,43px); line-height: 1.04; letter-spacing: -.055em; font-weight: 800; }
+.contact-topics-heading h2 em { color: var(--q-violet); font-family: var(--q-serif); font-style: italic; font-weight: 400; }
+.contact-topics-heading p { max-width: 355px; margin: 0 0 3px; color: #858197; font-size: 11px; line-height: 1.8; }
+.contact-topic-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-top: 1px solid #e9e5f0; border-bottom: 1px solid #e9e5f0; }
+.contact-topic { min-height: 142px; padding: 23px 22px 22px 0; }
+.contact-topic + .contact-topic { padding-left: 22px; border-left: 1px solid #e9e5f0; }
+.contact-topic-index { display: block; color: var(--q-coral); font-size: 9px; font-weight: 900; letter-spacing: .14em; }
+.contact-topic h3 { margin: 11px 0 6px; color: #343149; font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
+.contact-topic p { max-width: 270px; margin: 0; color: #89859a; font-size: 10px; line-height: 1.7; }
+.contact-bottom { padding-bottom: 35px; }
+.contact-bottom-inner { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 28px 0; border-top: 1px solid #e9e5f0; }
+.contact-bottom-inner h2 { margin: 8px 0 0; color: var(--q-ink); font-size: 24px; font-weight: 800; letter-spacing: -.045em; }
+.contact-button { display: inline-flex; align-items: center; justify-content: center; gap: 11px; min-height: 46px; padding: 0 17px; color: #fff; background: linear-gradient(110deg,#7354e7,#8d65f4); box-shadow: 0 12px 24px rgba(112,80,220,.18); font-size: 11px; font-weight: 800; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.contact-button:hover { transform: translateY(-2px); box-shadow: 0 16px 28px rgba(112,80,220,.26); }
+.contact-button i { font-size: 13px; }
+
+/* The older signup flow creates its OTP panel dynamically; keep that view in the same palette. */
+#signupForm #otpCodeInput:focus { border-color: #a88be3 !important; box-shadow: 0 0 0 3px rgba(118,85,232,.12) !important; }
+
+.dark .contact-copy h1, .dark .contact-topics-heading h2, .dark .contact-bottom-inner h2 { color: #f1edff; }
+.dark .contact-copy > p, .dark .contact-topics-heading p, .dark .contact-topic p { color: #aaa5c1; }
+.dark .contact-note { border-color: #38334f; }
+.dark .contact-note strong, .dark .contact-topic h3 { color: #e6e1f2; }
+.dark .contact-note small { color: #aaa5c1; }
+.dark .contact-topics, .dark .contact-topic-grid, .dark .contact-topic + .contact-topic, .dark .contact-bottom-inner { border-color: #38334f; }
+.dark .contact-float { background: rgba(34,31,58,.96); border-color: #3b3657; }
+.dark .contact-float b { color: #e8e3f4; }
+.dark .contact-float small { color: #aaa5c1; }
+
+@media (max-width: 1000px) {
+  .contact-hero { grid-template-columns: minmax(0,1fr) minmax(350px,.95fr); gap: 24px; }
+  .contact-float-top { right: -2px; }
+  .contact-float-bottom { left: -2px; }
+}
+@media (max-width: 800px) {
+  .contact-hero { grid-template-columns: 1fr; padding-top: 55px; padding-bottom: 55px; }
+  .contact-copy { max-width: 680px; }
+  .contact-visual { min-height: 420px; margin-top: 3px; }
+  .contact-topics { padding-top: 28px; padding-bottom: 65px; }
+}
+@media (max-width: 560px) {
+  .contact-hero { padding-top: 43px; gap: 16px; }
+  .contact-copy h1 { font-size: 46px; }
+  .contact-copy > p { font-size: 13px; line-height: 1.8; }
+  .contact-note { margin-top: 27px; }
+  .contact-visual { min-height: 345px; margin-inline: -8px; overflow: hidden; }
+  .contact-window { width: 460px; max-width: none; transform: scale(.76) rotate(1.5deg); }
+  .contact-orbit { width: 310px; height: 310px; }
+  .contact-orbit-two { width: 245px; height: 245px; }
+  .contact-float { padding: 7px 8px; gap: 6px; }
+  .contact-float-top { top: 4px; right: 0; }
+  .contact-float-bottom { bottom: 2px; left: 0; }
+  .contact-float-icon { width: 26px; height: 26px; }
+  .contact-float b { font-size: 8px; }
+  .contact-float small { font-size: 6px; }
+  .contact-topics-heading { align-items: flex-start; flex-direction: column; gap: 11px; }
+  .contact-topic-grid { grid-template-columns: 1fr; }
+  .contact-topic, .contact-topic + .contact-topic { min-height: 0; padding: 18px 0; border-left: 0; }
+  .contact-topic + .contact-topic { border-top: 1px solid #e9e5f0; }
+  .dark .contact-topic + .contact-topic { border-color: #38334f; }
+  .contact-bottom-inner { align-items: flex-start; flex-direction: column; }
+  .contact-bottom-inner .contact-button { width: 100%; }
+}
+@media (max-width: 390px) {
+  .contact-copy h1 { font-size: 41px; }
+  .contact-visual { min-height: 300px; }
+  .contact-window { transform: scale(.65) rotate(1.5deg); }
+  .contact-float-bottom { max-width: 145px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-orbit, .contact-window, .contact-float { animation: none !important; }
+}
+</style>
+
+<style id="quans-contact-backdrop-styles">
+.contact-page-backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(circle at 80% 12%, rgba(217,204,255,.18), transparent 29rem), radial-gradient(circle at 9% 50%, rgba(106,215,231,.1), transparent 26rem); }
+.contact-backdrop-shape { position: absolute; pointer-events: none; }
+#scroll-box-1 { top: -7%; left: -11%; width: min(50vw,650px); aspect-ratio: 1; max-width: 650px; border-radius: 4rem; background: linear-gradient(135deg,rgba(217,204,255,.36),rgba(217,204,255,0)); }
+#scroll-box-2 { top: 50vh; left: 5%; width: min(40vw,500px); aspect-ratio: 1; border-radius: 3rem; background: linear-gradient(135deg,rgba(106,215,231,.14),transparent 70%); }
+#scroll-box-right-1 { top: 15vh; right: 8%; width: min(12vw,150px); aspect-ratio: 1; border-radius: 1.1rem; background: linear-gradient(135deg,rgba(118,85,232,.12),rgba(106,215,231,.06)); }
+#scroll-box-right-2 { top: 65vh; right: 12%; width: min(18vw,220px); aspect-ratio: 1; border-radius: 2rem; background: linear-gradient(135deg,rgba(255,139,118,.1),transparent); }
+#scroll-circle { position: absolute; top: 10rem; right: 25%; width: 24rem; height: 24rem; border: 1px dashed rgba(118,85,232,.16); border-radius: 50%; }
+.contact-backdrop-inner-circle { position: absolute; top: 13rem; right: 27%; width: 18rem; height: 18rem; border: 1px solid rgba(106,215,231,.15); border-radius: 50%; }
+.contact-backdrop-floor { position: absolute; bottom: 0; left: -5%; width: 110%; height: 40vh; background: linear-gradient(to top,rgba(118,85,232,.035),transparent); }
+.dark .contact-page-backdrop { background: radial-gradient(circle at 78% 18%,rgba(99,75,168,.18),transparent 28rem),radial-gradient(circle at 12% 56%,rgba(58,139,145,.1),transparent 25rem),#141326; }
+.dark #scroll-box-1 { background: linear-gradient(135deg,rgba(118,85,232,.13),transparent); }
+.dark #scroll-box-2 { background: linear-gradient(135deg,rgba(58,139,145,.12),transparent 70%); }
+.dark #scroll-box-right-1 { background: linear-gradient(135deg,rgba(118,85,232,.12),rgba(106,215,231,.04)); }
+.dark #scroll-box-right-2 { background: linear-gradient(135deg,rgba(255,139,118,.07),transparent); }
+.dark #scroll-circle { border-color: rgba(118,85,232,.17); }
+@media (max-width: 560px) { #scroll-circle { width: 17rem; height: 17rem; right: -1rem; top: 18rem; } .contact-backdrop-inner-circle { width: 13rem; height: 13rem; right: 0; top: 20rem; } }
+</style>
+
+<style id="quans-mobile-navigation-styles">
+  /* Mobile header: retain the Quans mark and menu control, not the desktop nav/auth row. */
+  @media (max-width: 800px) {
+    .site-page header > div.absolute.inset-x-0 {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > button:not(#openMobileMenu),
+    .site-page header #navAuthGroup > .mobile-auth-wrap > div:first-child {
+      display: none !important;
+    }
+
+    .site-page header #navAuthGroup > .mobile-auth-wrap {
+      display: flex !important;
+      align-items: center;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup {
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0 !important;
+    }
+
+    .site-page header #navAuthGroup #openMobileMenu {
+      display: inline-flex !important;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e0ef !important;
+      border-radius: 10px !important;
+      color: #29263f !important;
+      background: rgba(255,255,255,.88) !important;
+      box-shadow: 0 5px 14px rgba(39,27,90,.06);
+    }
+
+    .mobile-sidebar {
+      z-index: 1000;
+      isolation: isolate;
+    }
+
+    .mobile-sidebar:not(.opacity-0) {
+      visibility: visible;
+    }
+
+    .mobile-sidebar-overlay {
+      border: 0;
+      padding: 0;
+      background: rgba(23,22,43,.38);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      opacity: 0;
+      transition: opacity .3s ease;
+      cursor: default;
+    }
+
+    .mobile-sidebar:not(.opacity-0) .mobile-sidebar-overlay {
+      opacity: 1;
+    }
+
+    .mobile-drawer-panel {
+      box-sizing: border-box;
+      width: min(390px, 92vw);
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
+      color: #17162b;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(217,204,255,.34), transparent 230px),
+        linear-gradient(160deg, #fff 0%, #fbfaff 56%, #f8fbff 100%);
+      border-left: 1px solid rgba(226,222,239,.9);
+      border-radius: 22px 0 0 22px;
+      box-shadow: -24px 0 70px rgba(23,22,43,.18);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ece8f3;
+    }
+
+    .mobile-drawer-brand {
+      color: #17162b;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.09em;
+      text-decoration: none;
+    }
+
+    .mobile-drawer-brand span { color: #7655e8; }
+
+    .mobile-drawer-close {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f1;
+      border-radius: 10px;
+      color: #514c69;
+      background: rgba(255,255,255,.85);
+      font-size: 16px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .mobile-drawer-close:hover {
+      color: #5e40ce;
+      background: #f1edff;
+      transform: rotate(4deg);
+    }
+
+    .mobile-drawer-intro { padding: 29px 0 22px; }
+
+    .mobile-drawer-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #817b9c;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .2em;
+    }
+
+    .mobile-drawer-kicker span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff8b76;
+      box-shadow: 0 0 0 4px rgba(255,139,118,.13);
+    }
+
+    .mobile-drawer-intro h2 {
+      margin: 13px 0 7px;
+      color: #17162b;
+      font-size: 34px;
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -.065em;
+    }
+
+    .mobile-drawer-intro h2 em {
+      color: #7655e8;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .mobile-drawer-intro p {
+      margin: 0;
+      color: #858197;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .mobile-drawer-nav {
+      display: grid;
+      gap: 5px;
+      padding: 2px 0 20px;
+    }
+
+    .mobile-drawer-panel .mobile-nav-link {
+      position: relative;
+      display: grid;
+      background: transparent !important;
+      border-color: transparent !important;
+      grid-template-columns: 42px minmax(0,1fr) 16px;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 9px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #39364f;
+      background: transparent;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover {
+      background: rgba(255,255,255,.86);
+      border-color: #ece7f5;
+      transform: translateX(2px);
+    }
+
+    .mobile-nav-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #e9e4f3;
+      border-radius: 11px;
+      color: #7655e8;
+      background: #f3efff;
+      font-size: 14px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .mobile-nav-copy { min-width: 0; display: block; }
+    .mobile-nav-copy strong {
+      display: block;
+      color: #29263f;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .mobile-nav-copy small {
+      display: block;
+      margin-top: 4px;
+      color: #9691a6;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .mobile-nav-arrow {
+      color: #b0aabd;
+      font-size: 10px;
+      transition: color .2s ease, transform .2s ease;
+    }
+
+    .mobile-nav-link:hover .mobile-nav-arrow {
+      color: #7655e8;
+      transform: translate(2px,-2px);
+    }
+
+    .mobile-drawer-panel .mobile-nav-link.is-active {
+      border-color: #e4dcfb !important;
+      background: linear-gradient(100deg, rgba(240,236,255,.96), rgba(255,255,255,.9)) !important;
+      box-shadow: inset 3px 0 0 #7655e8;
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-icon {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg,#7354e7,#9677f0);
+      box-shadow: 0 7px 14px rgba(112,80,220,.16);
+    }
+
+    .mobile-nav-link.is-active .mobile-nav-copy strong,
+    .mobile-nav-link.is-active .mobile-nav-arrow { color: #5e40ce; }
+
+    .mobile-drawer-actions,
+    .mobile-drawer-account {
+      margin-top: auto;
+      padding: 17px;
+      border: 1px solid #e9e3f3;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 10px 24px rgba(39,27,90,.045);
+    }
+
+    .mobile-drawer-actions p {
+      margin: 0 0 13px;
+      color: #5d5873;
+      font-size: 11px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-primary,
+    .mobile-drawer-secondary {
+      display: flex;
+      width: 100%;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .mobile-drawer-primary {
+      color: #fff;
+      border: 1px solid transparent;
+      background: linear-gradient(110deg,#7354e7,#8d65f4);
+      box-shadow: 0 9px 18px rgba(112,80,220,.18);
+    }
+
+    .mobile-drawer-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(112,80,220,.24); }
+
+    .mobile-drawer-secondary {
+      margin-top: 7px;
+      color: #514c69;
+      border: 1px solid #e9e4f1;
+      background: #fff;
+    }
+
+    .mobile-account-kicker {
+      display: block;
+      color: #8b83a4;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .18em;
+    }
+
+    #mobileSidebarUserEmail {
+      margin: 7px 0 12px;
+      overflow-wrap: anywhere;
+      color: #39364f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .mobile-drawer-account button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 2px;
+      color: #5d5873;
+      border: 0;
+      border-top: 1px solid #f0edf5;
+      background: transparent;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mobile-drawer-account button i { width: 16px; color: #7655e8; }
+    .mobile-drawer-account button[data-mobile-logout] i { color: #ff8b76; }
+
+    .mobile-drawer-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 17px;
+      margin-top: 17px;
+      color: #aaa5b6;
+      border-top: 1px solid #ece8f3;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    body.mobile-menu-open { overflow: hidden; }
+  }
+
+  @media (max-width: 380px) {
+    .mobile-drawer-panel { padding-left: 18px; padding-right: 18px; }
+    .mobile-drawer-intro h2 { font-size: 31px; }
+    .mobile-nav-link { grid-template-columns: 38px minmax(0,1fr) 14px; gap: 10px; padding-inline: 9px; }
+    .mobile-nav-icon { width: 36px; height: 36px; }
+  }
+
+  @media (min-width: 801px) {
+    #mobileSidebar { display: none !important; }
+  }
+
+  .dark .mobile-drawer-panel {
+    color: #f1edff;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(112,89,180,.22), transparent 230px),
+      linear-gradient(160deg, #1c1a31 0%, #171529 58%, #191b2d 100%);
+    border-left-color: #38334f;
+  }
+  .dark .mobile-drawer-top,
+  .dark .mobile-drawer-footer { border-color: #38334f; }
+  .dark .mobile-drawer-brand,
+  .dark .mobile-drawer-intro h2 { color: #f1edff; }
+  .dark .mobile-drawer-intro p,
+  .dark .mobile-nav-copy small { color: #aaa5c1; }
+  .dark .mobile-nav-copy strong { color: #e9e5f5; }
+  .dark .mobile-drawer-panel .mobile-nav-link:hover { background: rgba(48,43,77,.72) !important; border-color: #494066 !important; }
+  .dark .mobile-drawer-panel .mobile-nav-link.is-active {
+    border-color: #5b4c8c !important;
+    background: linear-gradient(100deg, rgba(62,51,101,.9), rgba(37,33,61,.9)) !important;
+    box-shadow: inset 3px 0 0 #9b83ee;
+  }
+  .dark .mobile-nav-link.is-active .mobile-nav-copy strong,
+  .dark .mobile-nav-link.is-active .mobile-nav-arrow { color: #d4c8ff; }
+  .dark .mobile-nav-icon { border-color: #494066; background: #30294d; color: #c1b1ff; }
+  .dark .mobile-drawer-close,
+  .dark .mobile-drawer-secondary { color: #e8e3f4; background: #24213c; border-color: #494066; }
+  .dark .mobile-drawer-actions,
+  .dark .mobile-drawer-account { background: rgba(36,33,60,.88); border-color: #494066; }
+  .dark .mobile-drawer-actions p,
+  .dark .mobile-account-kicker,
+  .dark #mobileSidebarUserEmail,
+  .dark .mobile-drawer-account button { color: #c5bfd8; }
+  .dark .mobile-drawer-account button { border-top-color: #38334f; }
+  .dark .mobile-drawer-footer { color: #817b98; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-sidebar-overlay, .mobile-drawer-panel, .mobile-nav-link,
+    .mobile-nav-icon, .mobile-nav-arrow, .mobile-drawer-close,
+    .mobile-drawer-primary, .mobile-drawer-secondary { transition-duration: .01ms !important; }
+  }
+</style>
+
+
+<style id="quans-account-ui-redesign">
+/* Signed-in account dropdown — QUANS visual system */
+#navAuthGroup .q-account-menu-wrap { position: relative; }
+#navAuthGroup .q-account-trigger {
+    display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
+    padding: 5px 13px 5px 6px; border: 1px solid #e9e6f0; border-radius: 999px;
+    background: rgba(255,255,255,.94); color: #29263f; font-family: 'DM Sans',sans-serif;
+    font-size: 12px; font-weight: 800; letter-spacing: -.01em;
+    box-shadow: 0 5px 16px rgba(43,31,91,.055);
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, background .2s ease;
+}
+#navAuthGroup .q-account-trigger:hover,
+#navAuthGroup .q-account-trigger[aria-expanded="true"] {
+    border-color: #d6cafa; background: #fff;
+    box-shadow: 0 8px 22px rgba(91,65,169,.12); transform: translateY(-1px);
+}
+#navAuthGroup .q-account-avatar {
+    display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px;
+    border-radius: 50%; color: #fff; font-size: 12px;
+    background: linear-gradient(135deg,#7655e8 0%,#8f72ed 58%,#6ad7e7 135%);
+    box-shadow: 0 4px 10px rgba(118,85,232,.2);
+}
+#navAuthGroup .q-account-greeting { color: #29263f; }
+#navAuthGroup .q-account-chevron {
+    margin-left: 1px; color: #8d86a4; font-size: 9px;
+    transition: transform .2s ease, color .2s ease;
+}
+#navAuthGroup .q-account-trigger[aria-expanded="true"] .q-account-chevron { transform: rotate(180deg); color: #7655e8; }
+#navAuthGroup .q-account-dropdown {
+    top: calc(100% + 12px); width: 278px; max-width: calc(100vw - 24px);
+    overflow: hidden; border: 1px solid #e8e2f3; border-radius: 19px;
+    background: #fff; box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06);
+    transform-origin: top right;
+}
+#navAuthGroup .q-account-dropdown:not(.hidden) { animation: qAccountDropdownIn .18s ease-out both; }
+@keyframes qAccountDropdownIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+#navAuthGroup .q-account-dropdown-head {
+    display: flex; align-items: center; gap: 12px; padding: 17px 17px 15px;
+    background: radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff);
+    border-bottom: 1px solid #eeeaf5;
+}
+#navAuthGroup .q-account-dropdown-mark {
+    display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px;
+    border: 1px solid rgba(255,255,255,.9); border-radius: 14px;
+    color: #7655e8; background: #fff; box-shadow: 0 5px 14px rgba(83,61,145,.09); font-size: 15px;
+}
+#navAuthGroup .q-account-dropdown-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+#navAuthGroup .q-account-eyebrow { color: #8a81a5; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
+#navAuthGroup .q-account-dropdown-copy strong { color: #29263f; font-size: 13px; font-weight: 800; }
+#navAuthGroup .q-account-dropdown-copy > span:last-child { max-width: 185px; overflow: hidden; color: #89859a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+#navAuthGroup .q-account-dropdown-actions { padding: 8px; }
+#navAuthGroup .q-account-dropdown-item {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px;
+    border: 0; border-radius: 12px; background: transparent; text-align: left;
+    transition: background .18s ease, transform .18s ease;
+}
+#navAuthGroup .q-account-dropdown-item:hover { background: #f8f6fd; transform: translateX(2px); }
+#navAuthGroup .q-account-action-icon {
+    display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 35px;
+    border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 12px;
+}
+#navAuthGroup .q-account-action-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 2px; }
+#navAuthGroup .q-account-action-copy strong { color: #302d48; font-size: 12px; font-weight: 800; }
+#navAuthGroup .q-account-action-copy small { color: #9b97aa; font-size: 10px; }
+#navAuthGroup .q-account-action-arrow { color: #b5aec7; font-size: 10px; transition: transform .18s ease,color .18s ease; }
+#navAuthGroup .q-account-dropdown-item:hover .q-account-action-arrow { color: #7655e8; transform: translateX(2px); }
+#navAuthGroup .q-account-dropdown-divider { height: 1px; margin: 3px 7px; background: #eeeaf5; }
+#navAuthGroup .q-account-logout .q-account-action-icon { color: #cf6877; background: #fff0f2; }
+#navAuthGroup .q-account-logout .q-account-action-copy strong { color: #a94f5c; }
+#navAuthGroup .q-account-logout:hover { background: #fff8f8; }
+#navAuthGroup .q-account-logout:hover .q-account-action-arrow { color: #cf6877; }
+
+/* Account settings popup */
+#settingsPopupModal { background: rgba(23,22,43,.58) !important; backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
+#settingsPopupModal .q-settings-dialog {
+    color: #29263f; background: #fff; border: 1px solid rgba(233,230,240,.95);
+    box-shadow: 0 30px 100px rgba(23,22,43,.24);
+}
+#settingsPopupModal .q-settings-sidebar {
+    position: relative; display: flex; width: 232px; flex: 0 0 232px; flex-direction: column;
+    padding: 28px 18px 19px; border-right: 1px solid #e9e6f0;
+    background: radial-gradient(circle at 5% 8%,rgba(217,204,255,.55),transparent 13rem),linear-gradient(155deg,#fbfaff 0%,#f5f1ff 100%);
+}
+#settingsPopupModal .q-settings-sidebar-brand { display: flex; align-items: center; gap: 11px; padding: 0 7px 34px; }
+#settingsPopupModal .q-settings-brand-mark {
+    display: grid; place-items: center; width: 41px; height: 41px; flex: 0 0 41px;
+    border: 1px solid rgba(255,255,255,.88); border-radius: 13px;
+    color: #fff; background: linear-gradient(135deg,#7655e8,#9275ee 68%,#6ad7e7 145%);
+    box-shadow: 0 7px 17px rgba(118,85,232,.2); font-size: 22px; font-weight: 900; letter-spacing: -.12em;
+}
+#settingsPopupModal .q-settings-sidebar-brand > div { display: flex; flex-direction: column; gap: 2px; }
+#settingsPopupModal .q-settings-sidebar-brand strong { color: #29263f; font-size: 15px; font-weight: 900; letter-spacing: -.06em; }
+#settingsPopupModal .q-settings-sidebar-brand small { color: #928da5; font-size: 10px; }
+#settingsPopupModal .q-settings-sidebar-label { margin: 0 9px 10px; color: #a19bb2; font-size: 9px; font-weight: 900; letter-spacing: .17em; }
+#settingsPopupModal .q-settings-nav-button {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px 11px;
+    border: 1px solid transparent; border-radius: 12px; color: #77758b;
+    background: transparent; text-align: left; font-size: 12px; font-weight: 800;
+}
+#settingsPopupModal .q-settings-nav-button.active {
+    color: #fff; background: linear-gradient(110deg,#7655e8,#6849d7);
+    box-shadow: 0 8px 18px rgba(118,85,232,.2);
+}
+#settingsPopupModal .q-settings-nav-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-nav-button.active .q-settings-nav-icon { color: #7655e8; }
+#settingsPopupModal .q-settings-nav-arrow { margin-left: auto; font-size: 9px; opacity: .65; }
+#settingsPopupModal .q-settings-sidebar-note {
+    margin-top: auto; padding: 15px 13px; border: 1px solid rgba(217,204,255,.8); border-radius: 15px;
+    background: rgba(255,255,255,.72);
+}
+#settingsPopupModal .q-settings-note-icon { display: grid; place-items: center; width: 29px; height: 29px; margin-bottom: 10px; border-radius: 9px; color: #7655e8; background: #f0ebff; font-size: 12px; }
+#settingsPopupModal .q-settings-sidebar-note strong { display: block; color: #48415f; font-size: 10px; font-weight: 800; }
+#settingsPopupModal .q-settings-sidebar-note p { margin: 5px 0 0; color: #8d879e; font-size: 10px; line-height: 1.55; }
+#settingsPopupModal .q-settings-sidebar-footer { padding: 19px 7px 0; color: #aaa5b8; font-size: 8px; font-weight: 900; letter-spacing: .13em; }
+#settingsPopupModal .q-settings-sidebar-footer span { padding: 0 4px; color: #c3b8e6; }
+#settingsPopupModal .q-settings-main { position: relative; min-width: 0; flex: 1; padding: 47px 45px 38px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d9ccff transparent; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar { width: 6px; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar-thumb { border-radius: 20px; background: #d9ccff; }
+#settingsPopupModal .q-settings-desktop-close,
+#settingsPopupModal .q-settings-close {
+    display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px;
+    border: 1px solid #eeeaf5; border-radius: 11px; color: #89839c; background: #fbfaff;
+    transition: all .2s ease;
+}
+#settingsPopupModal .q-settings-close:hover { border-color: #d9ccff; color: #5e40ce; background: #f2edff; }
+#settingsPopupModal .q-settings-desktop-close { position: absolute; top: 19px; right: 20px; }
+#settingsPopupModal .q-settings-heading { margin-bottom: 29px; padding-right: 35px; }
+#settingsPopupModal .q-settings-kicker { display: inline-flex; align-items: center; gap: 9px; color: #817b9c; font-size: 9px; font-weight: 900; letter-spacing: .18em; }
+#settingsPopupModal .q-settings-kicker span { width: 7px; height: 7px; border-radius: 50%; background: #ff8b76; box-shadow: 0 0 0 4px rgba(255,139,118,.13); }
+#settingsPopupModal .q-settings-heading h2 { margin: 12px 0 7px; color: #17162b; font-size: 25px; font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
+#settingsPopupModal .q-settings-heading p { max-width: 440px; margin: 0; color: #858197; font-size: 12px; line-height: 1.7; }
+#settingsPopupModal .q-settings-field-label { display: block; margin-bottom: 10px; color: #9691a6; font-size: 9px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+#settingsPopupModal .q-settings-email-card {
+    display: flex; max-width: 510px; min-height: 60px; align-items: center; gap: 12px; padding: 10px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; background: #f9f7fd;
+    box-shadow: inset 0 1px 2px rgba(39,29,80,.025);
+}
+#settingsPopupModal .q-settings-email-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid #eeeaf5; border-radius: 10px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-email-value { min-width: 0; flex: 1; overflow: hidden; color: #343149 !important; font-size: 12px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+#settingsPopupModal .q-settings-verified-icon { color: #6ebc9e; font-size: 13px; }
+#settingsPopupModal .q-settings-actions { display: grid; max-width: 510px; gap: 10px; margin-top: 27px; }
+#settingsPopupModal .q-settings-action {
+    display: flex; width: 100%; min-height: 63px; align-items: center; gap: 13px; padding: 11px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; color: #343149; background: #fff; text-align: left;
+    transition: transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+#settingsPopupModal .q-settings-action:hover { transform: translateY(-1px); border-color: #d7cbf7; background: #fdfcff; box-shadow: 0 8px 19px rgba(60,44,110,.055); }
+#settingsPopupModal .q-settings-action-icon { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 13px; }
+#settingsPopupModal .q-settings-action-title { flex: 1; color: #343149; font-size: 12px; font-weight: 800; }
+#settingsPopupModal .q-settings-action-chevron { color: #c1bbcf; font-size: 10px; transition: transform .2s ease,color .2s ease; }
+#settingsPopupModal .q-settings-action:hover .q-settings-action-chevron { transform: translateX(3px); color: #7655e8; }
+#settingsPopupModal .q-settings-action-danger { border-color: #f3e3e6; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-icon { color: #d66d7a; background: #fff0f2; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-title { color: #bd5866; }
+#settingsPopupModal .q-settings-action-danger:hover { border-color: #efcbd0; background: #fff9f9; }
+#settingsPopupModal #settingsAlertMsg { border-radius: 13px !important; line-height: 1.5; }
+#settingsPopupModal #settingsAlertMsg.bg-emerald-50 { border: 1px solid #ccebdd; background: #f0fbf5; color: #388b67; }
+#settingsPopupModal #settingsAlertMsg.bg-rose-50 { border: 1px solid #f3d6da; background: #fff5f6; color: #bd5866; }
+
+@media (max-width: 767px) {
+    #navAuthGroup .q-account-dropdown { right: -3px; }
+    #settingsPopupModal { padding: 0 !important; }
+    #settingsPopupModal .q-settings-dialog { width: 100%; height: 100%; max-height: none; min-height: 0; border: 0; border-radius: 0; }
+    #settingsPopupModal .q-settings-mobile-header { display: flex; min-height: 69px; align-items: center; justify-content: space-between; padding: 12px 19px; border-bottom: 1px solid #eeeaf5; background: #fff; }
+    #settingsPopupModal .q-settings-mobile-brand { display: flex; align-items: center; gap: 10px; }
+    #settingsPopupModal .q-settings-mobile-brand .q-settings-brand-mark { width: 36px; height: 36px; flex-basis: 36px; border-radius: 11px; font-size: 19px; }
+    #settingsPopupModal .q-settings-mobile-title { display: flex; flex-direction: column; gap: 1px; }
+    #settingsPopupModal .q-settings-mobile-title strong { color: #29263f; font-size: 13px; font-weight: 800; }
+    #settingsPopupModal .q-settings-mobile-title small { color: #9691a6; font-size: 10px; }
+    #settingsPopupModal .q-settings-sidebar { width: 100%; flex: 0 0 auto; flex-direction: row; align-items: center; padding: 10px 17px; border-right: 0; border-bottom: 1px solid #e9e6f0; background: #fbfaff; }
+    #settingsPopupModal .q-settings-sidebar-brand,
+    #settingsPopupModal .q-settings-sidebar-label,
+    #settingsPopupModal .q-settings-sidebar-note,
+    #settingsPopupModal .q-settings-sidebar-footer { display: none; }
+    #settingsPopupModal .q-settings-nav-button { width: auto; min-width: 112px; padding: 7px 10px; }
+    #settingsPopupModal .q-settings-main { padding: 28px 21px 34px; }
+    #settingsPopupModal .q-settings-desktop-close { display: none; }
+    #settingsPopupModal .q-settings-heading { margin-bottom: 24px; }
+    #settingsPopupModal .q-settings-heading h2 { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #navAuthGroup .q-account-dropdown:not(.hidden) { animation: none; }
+    #navAuthGroup .q-account-trigger,
+    #navAuthGroup .q-account-dropdown-item,
+    #settingsPopupModal * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Higher-specificity refinements over the legacy header/settings utility rules. */
+#navAuthGroup #userDropdownMenu.q-account-dropdown {
+    width: 278px !important; max-width: calc(100vw - 24px); margin-top: 0 !important; padding: 0 !important;
+    border: 1px solid #e8e2f3 !important; border-radius: 19px !important; background: #fff !important;
+    box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06) !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item {
+    padding: 10px !important; border: 0 !important; border-radius: 12px !important;
+    color: inherit !important; background: transparent; font-size: 12px !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item:hover {
+    background: #f8f6fd !important; color: inherit !important;
+}
+#navAuthGroup #userDropdownMenu.q-account-dropdown button.q-account-logout:hover { background: #fff8f8 !important; }
+#settingsPopupModal > .q-settings-dialog {
+    border: 1px solid rgba(233,230,240,.95) !important; border-radius: 28px !important;
+    box-shadow: 0 30px 100px rgba(23,22,43,.24) !important;
+}
+#settingsPopupModal button#tabBtnAccount.q-settings-nav-button { border-radius: 12px !important; }
+#settingsPopupModal #panelSectionAccount button.q-settings-action { border-radius: 14px !important; }
+@media (max-width: 767px) {
+    #settingsPopupModal > .q-settings-dialog { border: 0 !important; border-radius: 0 !important; }
+}
+</style>
+
+</head>
+<body class="site-page contact-page min-h-screen text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
+
+ <div class="contact-page-backdrop" aria-hidden="true">
+    <div id="scroll-box-1" class="contact-backdrop-shape contact-backdrop-shape-one"></div>
+    <div id="scroll-box-2" class="contact-backdrop-shape contact-backdrop-shape-two"></div>
+    <div id="scroll-box-right-1" class="contact-backdrop-shape contact-backdrop-shape-three"></div>
+    <div id="scroll-box-right-2" class="contact-backdrop-shape contact-backdrop-shape-four"></div>
+    <div id="scroll-circle" class="contact-backdrop-circle"></div>
+    <div class="contact-backdrop-inner-circle"></div>
+    <div class="contact-backdrop-floor"></div>
+ </div>
+
+<div class="min-h-screen w-full relative flex flex-col antialiased">
+
+    <header class="w-full px-6 py-6 flex justify-between items-center bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100/10 dark:border-slate-900/10">
+        <div class="flex items-center">
+            <span class="text-3xl font-black tracking-tighter text-brand-blue">QUANS<span class="text-black dark:text-white">.</span></span>
+        </div>
+
+        <div class="hidden md:flex absolute inset-x-0 justify-center items-center pointer-events-none space-x-6">
+            <a id="nav-home" href="index.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Home
+            </a>
+            <a id="nav-tool" href="tool.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Tools
+            </a>
+            <a id="nav-explore" href="explore.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Explore
+            </a>
+            <a id="nav-price" href="pricing.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Pricing
+            </a>
+            <a id="nav-contact" href="contact.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                Contact Us
+            </a>
+            <a id="nav-about" href="about.html" class="pointer-events-auto text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors tracking-tight">
+                About Us
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-3 sm:space-x-4" id="navAuthGroup">
+            <button onclick="openLoginPopup()" class="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 hover:text-brand-blue transition-colors">
+                Login
+            </button>
+            <button onclick="openAuthPopup(event)" class="text-sm sm:text-base font-medium bg-brand-blue text-white px-5 sm:px-7 py-2.5 rounded-full hover:bg-brand-hover shadow-md transition-all">
+                Signup
+            </button>
+            
+            <button id="openMobileMenu" class="flex md:hidden w-10 h-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="contact-workspace">
+        <section class="contact-hero site-container">
+            <div class="contact-copy">
+                <h1>Good work starts<br><em>with a conversation.</em></h1>
+                <p>Questions about Quans, thoughts on how we can make it better, or an idea you'd like to share? We'd love to hear from you.</p>
+                <div class="contact-note">
+                    <span class="contact-note-index" aria-hidden="true">01</span>
+                    <span><strong>A direct line to Quans</strong><small>Reach out with questions, feedback or suggestions.</small></span>
+                </div>
+            </div>
+
+            <div class="contact-visual" aria-label="Quans contact information">
+                <div class="contact-visual-grid"></div>
+                <div class="contact-orbit"></div>
+                <div class="contact-orbit contact-orbit-two"></div>
+
+                <div class="contact-window">
+                    <div class="contact-window-top">
+                        <div class="contact-window-brand"><span>Q</span> QUANS <small style="color:#8581a8;font-size:8px;letter-spacing:.12em;margin-left:3px;">CONTACT</small></div>
+                        <div class="contact-window-status"><i class="fa-solid fa-circle" style="font-size:5px;margin-right:5px;"></i> OPEN CHANNEL</div>
+                    </div>
+                    <div class="contact-window-body">
+                        <span class="contact-window-kicker">YOUR MESSAGE MATTERS</span>
+                        <h2 class="contact-window-title">Let's start<br><em>with a hello.</em></h2>
+                        <p class="contact-window-copy">Send your questions, feedback or ideas directly to our inbox. We'd be glad to hear what you have in mind.</p>
+                        <a class="contact-email-panel" href="mailto:wangikarrajat@gmail.com" aria-label="Email Quans at wangikarrajat@gmail.com">
+                            <span class="contact-email-icon"><i class="fa-solid fa-envelope"></i></span>
+                            <span class="contact-email-copy"><small>EMAIL ADDRESS</small><strong>wangikarrajat@gmail.com</strong></span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                        <div class="contact-window-foot"><span>QUANS / 2026</span><span><i class="fa-solid fa-paper-plane"></i> SAY HELLO</span></div>
+                    </div>
+                </div>
+
+                <div class="contact-float contact-float-top">
+                    <span class="contact-float-icon contact-float-coral"><i class="fa-solid fa-comment-dots"></i></span>
+                    <span><b>Questions welcome</b><small>We're listening.</small></span>
+                </div>
+                <div class="contact-float contact-float-bottom">
+                    <span class="contact-float-icon contact-float-violet"><i class="fa-solid fa-lightbulb"></i></span>
+                    <span><b>Have an idea?</b><small>Tell us what could be better.</small></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-topics site-container">
+            <div class="contact-topics-heading">
+                <div>
+                    <span class="section-kicker">WHAT CAN YOU REACH OUT ABOUT?</span>
+                    <h2>Start wherever<br><em>you are.</em></h2>
+                </div>
+                <p>You don't need a perfect brief. A question, a quick thought or a detailed suggestion are all good places to start.</p>
+            </div>
+            <div class="contact-topic-grid">
+                <article class="contact-topic">
+                    <span class="contact-topic-index">01 / QUESTIONS</span>
+                    <h3>Something you'd like to know?</h3>
+                    <p>Ask about Quans, its tools or how to get started with a workflow.</p>
+                </article>
+                <article class="contact-topic">
+                    <span class="contact-topic-index">02 / FEEDBACK</span>
+                    <h3>Help us make it better.</h3>
+                    <p>Share what feels useful and what could be clearer or easier to use.</p>
+                </article>
+                <article class="contact-topic">
+                    <span class="contact-topic-index">03 / IDEAS</span>
+                    <h3>Something you'd like to see?</h3>
+                    <p>Tell us about a tool, feature or workflow that would help your work.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contact-bottom site-container">
+            <div class="contact-bottom-inner">
+                <div>
+                    <span class="section-kicker">WHENEVER YOU'RE READY</span>
+                    <h2>We'd love to hear from you.</h2>
+                </div>
+                <a class="contact-button" href="mailto:wangikarrajat@gmail.com">Send us an email <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="fade-in delay-3 w-full py-8 text-slate-800 dark:text-slate-300 font-semibold text-sm mt-auto bg-white/20 dark:bg-slate-950/20 backdrop-blur-md border-t border-white/20 dark:border-slate-900/20 shadow-lg px-6 sm:px-12">
+    <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-y-4">
+        
+        <p>&copy; 2026 QUANS. All rights reserved.</p>
+        
+        <div class="flex items-center space-x-6">
+            <a href="privacypolicy.html" class="hover:text-brand-blue transition-colors duration-200">
+                Privacy Policy
+            </a>
+            <a href="termscondn.html" class="hover:text-brand-blue transition-colors duration-200">
+                Terms & Conditions
+            </a>
+        </div>
+        
+    </div>
+</footer>
+
+    <div id="mobileSidebar" class="mobile-sidebar fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+        <button id="sidebarOverlay" class="mobile-sidebar-overlay absolute inset-0" type="button" aria-label="Close navigation menu"></button>
+
+        <aside class="mobile-drawer-panel absolute top-0 right-0 h-screen h-[100dvh] w-[min(390px,92vw)] overflow-y-auto flex flex-col transform translate-x-full transition-transform duration-300 ease-out" role="dialog" aria-modal="true" aria-labelledby="mobileSidebarTitle" tabindex="-1">
+            <div class="mobile-drawer-top">
+                <a href="index.html" class="mobile-drawer-brand" aria-label="Quans home">QUANS<span>.</span></a>
+                <button id="closeMobileMenu" class="mobile-drawer-close" type="button" aria-label="Close navigation menu">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="mobile-drawer-intro">
+                <h2 id="mobileSidebarTitle">Explore <em>Quans.</em></h2>
+                <p>Everything you need to move your work forward.</p>
+            </div>
+
+            <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
+                <a id="mobile-nav-home" href="index.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Home</strong><small>Your Quans overview</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-tool" href="tool.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Tools</strong><small>Explore focused workflows</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-explore" href="explore.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Explore</strong><small>Discover what you can create</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-price" href="pricing.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-tag" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Pricing</strong><small>Plans and access</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-contact" href="contact.html" class="mobile-nav-link is-active">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>Contact Us</strong><small>Questions, feedback and ideas</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+                <a id="mobile-nav-about" href="about.html" class="mobile-nav-link">
+                    <span class="mobile-nav-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span>
+                    <span class="mobile-nav-copy"><strong>About Us</strong><small>The story behind Quans</small></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square mobile-nav-arrow" aria-hidden="true"></i>
+                </a>
+            </nav>
+
+            <div id="mobileSidebarGuestActions" class="mobile-drawer-actions">
+                <p>Ready to make room for better ideas?</p>
+                <button type="button" class="mobile-drawer-primary" data-mobile-signup>Get started <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                <button type="button" class="mobile-drawer-secondary" data-mobile-login>Log in to your account</button>
+            </div>
+
+            <div id="mobileSidebarAccountActions" class="mobile-drawer-account hidden">
+                <span class="mobile-account-kicker">YOUR ACCOUNT</span>
+                <p id="mobileSidebarUserEmail">Signed in to Quans</p>
+                <button type="button" data-mobile-settings><i class="fa-solid fa-gear" aria-hidden="true"></i> Account settings</button>
+                <button type="button" data-mobile-logout><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Log out</button>
+            </div>
+
+            <div class="mobile-drawer-footer">
+                <span>© 2026 QUANS</span>
+                <span>Thoughtful tools. Better work.</span>
+            </div>
+        </aside>
+    </div>
+
+    <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Background overlay -->
+        <div id="authModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Signup dialog: keep relative and scale-95 for existing animation JS -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <!-- Decorative background -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
+                    </div>
+    
+                    <div class="relative z-10">
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                HUMONOID AI WORKSPACE
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Make room for
+                                <span class="block italic text-[#8969ce]">better ideas.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Bring your ideas, writing and everyday work together with a collection of thoughtful AI-powered tools.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Mini workspace visual -->
+                    <div class="relative z-10 mt-12">
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="grid grid-cols-2 gap-2 mt-4">
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#8065bf]/25 text-[#c3aaff] mb-3">
+                                        <i class="fa-solid fa-pen-nib text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Content Studio</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Shape your ideas</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#6bcac7]/20 text-[#8ce2de] mb-3">
+                                        <i class="fa-solid fa-file-lines text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Proposals</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Build with clarity</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#f1a7c4]/20 text-[#f4b8d0] mb-3">
+                                        <i class="fa-solid fa-repeat text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Repurposer</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Create more from less</p>
+                                </div>
+    
+                                <div class="bg-[#302b40] border border-white/5 p-3">
+                                    <div class="w-7 h-7 flex items-center justify-center bg-[#e9c98c]/20 text-[#eecf9a] mb-3">
+                                        <i class="fa-solid fa-user-tie text-xs"></i>
+                                    </div>
+                                    <p class="text-[11px] text-white font-semibold">Resume Toolkit</p>
+                                    <p class="text-[9px] text-white/40 mt-1">Move forward</p>
+                                </div>
+    
+                            </div>
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+                    </div>
+                </aside>
+    
+                <!-- RIGHT: Signup form -->
+                <section class="relative flex flex-col justify-center px-6 py-9 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close button -->
+                    <button id="closeAuthModal"
+                        type="button"
+                        aria-label="Close signup"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile brand -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <div class="mb-7">
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE STARTS HERE
+                            </span>
+    
+                            <h3 class="mt-4 text-[34px] sm:text-[39px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Create your account<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign up to explore your tools and bring your next idea to life.
+                            </p>
+                        </div>
+    
+                        <!-- Google signup -->
+                        <button id="googleSignupBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or use email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original signup form and IDs retained -->
+                        <form id="signupForm" class="space-y-4 text-left">
+    
+                            <div id="signupErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <div>
+                                <label for="signupEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="signupEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <div>
+                                <label for="signupPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+                                    <input id="signupPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="new-password"
+                                        placeholder="Create a password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleSignupPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="signupEyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- Signup CTA -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-3 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Create account</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Login switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+                            <p class="text-sm text-[#858091]">
+                                Already have an account?
+    
+                                <button id="switchToLogin"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Log in
+                                </button>
+                            </p>
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            By creating an account, you agree to use Quans responsibly.
+                        </p>
+    
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loginModal" class="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    
+        <!-- Overlay -->
+        <div id="loginModalOverlay"
+            class="absolute inset-0 bg-[#191522]/55 backdrop-blur-md">
+        </div>
+    
+        <!-- Login dialog -->
+        <div class="relative w-full max-w-[920px] max-h-[calc(100vh-24px)] overflow-y-auto bg-[#fbfaff] border border-white/60 rounded-[22px] shadow-[0_30px_100px_rgba(25,21,34,0.24)] transform scale-95 transition-transform duration-300 z-10">
+    
+            <div class="grid md:grid-cols-[0.92fr_1.08fr] min-h-[570px]">
+    
+                <!-- LEFT: Brand panel -->
+                <aside class="hidden md:flex flex-col justify-between relative overflow-hidden bg-[#eee9ff] p-9 lg:p-11 border-r border-[#e3dcf5]">
+    
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-[-90px] right-[-80px] w-64 h-64 border border-[#b8a8e8]/50 rotate-45"></div>
+                        <div class="absolute top-[-45px] right-[-35px] w-48 h-48 border border-[#b8a8e8]/40 rotate-45"></div>
+                        <div class="absolute bottom-[-90px] left-[-70px] w-64 h-64 bg-[#d8cefa]/60 blur-2xl"></div>
+                        <div class="absolute top-[42%] left-[-65px] w-44 h-44 bg-[#b8f0ef]/50 blur-3xl"></div>
+                    </div>
+    
+                    <div class="relative z-10">
+    
+                        <a href="index.html" class="inline-flex items-center gap-2 text-[#252031]">
+                            <span class="text-[25px] font-extrabold tracking-[-1.8px]">
+                                QUANS<span class="text-[#9675df]">.</span>
+                            </span>
+                        </a>
+    
+                        <div class="mt-20">
+    
+                            <span class="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[#7965b0]">
+                                <span class="w-2 h-2 bg-[#a98bea]"></span>
+                                GOOD TO HAVE YOU BACK
+                            </span>
+    
+                            <h2 class="mt-6 text-[39px] lg:text-[46px] leading-[1.12] tracking-[-1.9px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Your ideas are
+                                <span class="block italic text-[#8969ce]">waiting for you.</span>
+                            </h2>
+    
+                            <p class="mt-5 text-[14px] leading-7 text-[#726b82] max-w-[300px]">
+                                Pick up where you left off. Your creative workspace and specialized tools are ready when you are.
+                            </p>
+    
+                        </div>
+                    </div>
+    
+                    <!-- Workspace preview -->
+                    <div class="relative z-10 mt-12">
+    
+                        <div class="bg-[#242033] border border-[#383248] p-4 shadow-xl shadow-[#514277]/15">
+    
+                            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-[#a78be8]"></span>
+                                    <span class="text-[10px] tracking-[1.5px] uppercase font-bold text-white/70">
+                                        Your workspace
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-white/35">QUANS / 01</span>
+                            </div>
+    
+                            <div class="mt-5">
+                                <p class="text-[10px] text-white/40 uppercase tracking-[1.5px]">
+                                    Keep creating
+                                </p>
+    
+                                <p class="mt-2 text-xl text-white leading-snug"
+                                    style="font-family: Georgia, 'Times New Roman', serif;">
+                                    Good ideas deserve
+                                    <span class="italic text-[#bba5f4]">room to grow.</span>
+                                </p>
+                            </div>
+    
+                            <div class="mt-5 flex items-center gap-2">
+                                <div class="h-1 flex-1 bg-[#9275d1]"></div>
+                                <div class="h-1 flex-1 bg-[#6dcac7]"></div>
+                                <div class="h-1 flex-1 bg-[#e5a6c2]"></div>
+                                <div class="h-1 flex-1 bg-[#d9bc83]"></div>
+                            </div>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-[#827895] mt-4 tracking-wide">
+                            One workspace. Different ways to create.
+                        </p>
+    
+                    </div>
+    
+                </aside>
+    
+                <!-- RIGHT: Login form -->
+                <section class="relative flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-11 lg:px-12">
+    
+                    <!-- Close -->
+                    <button id="closeLoginModal"
+                        type="button"
+                        aria-label="Close login"
+                        class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-[#e9e5ef] text-[#777183] hover:text-[#292437] hover:bg-[#f2eff8] transition-colors">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+    
+                    <!-- Mobile branding -->
+                    <div class="md:hidden mb-9">
+                        <span class="text-[25px] font-extrabold tracking-[-1.8px] text-[#252031]">
+                            QUANS<span class="text-[#9675df]">.</span>
+                        </span>
+                        <p class="text-[10px] uppercase tracking-[1.8px] text-[#8a819b] mt-1">
+                            Humonoid AI workspace
+                        </p>
+                    </div>
+    
+                    <div class="max-w-[390px] w-full mx-auto">
+    
+                        <!-- Heading -->
+                        <div class="mb-7">
+    
+                            <span class="text-[10px] font-bold tracking-[2px] uppercase text-[#9675df]">
+                                YOUR WORKSPACE AWAITS
+                            </span>
+    
+                            <h3 class="mt-4 text-[36px] sm:text-[41px] leading-tight tracking-[-1.5px] text-[#252031]"
+                                style="font-family: Georgia, 'Times New Roman', serif;">
+                                Welcome back<span class="text-[#a383e5]">.</span>
+                            </h3>
+    
+                            <p class="text-sm leading-6 text-[#858091] mt-3">
+                                Sign in to continue creating, refining and getting things done.
+                            </p>
+    
+                        </div>
+    
+                        <!-- Google login -->
+                        <button id="googleLoginBtn"
+                            type="button"
+                            class="w-full min-h-[49px] flex items-center justify-center gap-3 border border-[#e6e1ed] bg-white text-[#363142] text-sm font-semibold hover:bg-[#f8f6fc] hover:border-[#cfc3e8] transition-all">
+                            <i class="fa-brands fa-google text-base text-[#4285F4]"></i>
+                            <span>Continue with Google</span>
+                        </button>
+    
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 my-6">
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                            <span class="text-[10px] uppercase tracking-[2px] font-semibold text-[#aaa4b3]">
+                                Or sign in with email
+                            </span>
+                            <div class="flex-1 h-px bg-[#e9e5ef]"></div>
+                        </div>
+    
+                        <!-- Original login form -->
+                        <form id="loginForm" class="space-y-4 text-left">
+    
+                            <div id="loginErrorMsg"
+                                class="hidden flex items-center gap-2 bg-[#fff0f1] text-[#c34e62] border border-[#f4d5dc] text-sm font-semibold p-3.5 mb-4">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                                <span class="error-text"></span>
+                            </div>
+    
+                            <!-- Email -->
+                            <div>
+                                <label for="loginEmailInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Email address
+                                </label>
+    
+                                <input id="loginEmailInput"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="name@company.com"
+                                    class="w-full h-[49px] px-4 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+                            </div>
+    
+                            <!-- Password -->
+                            <div>
+                                <label for="loginPasswordInput"
+                                    class="block text-[10px] font-bold uppercase tracking-[1.5px] text-[#777184] mb-2">
+                                    Password
+                                </label>
+    
+                                <div class="relative w-full">
+    
+                                    <input id="loginPasswordInput"
+                                        type="password"
+                                        required
+                                        autocomplete="current-password"
+                                        placeholder="Enter your password"
+                                        class="w-full h-[49px] pl-4 pr-12 border border-[#e4dfeb] bg-white text-sm text-[#292437] placeholder:text-[#b0aab8] outline-none focus:border-[#a88be3] focus:ring-2 focus:ring-[#a88be3]/15 transition-all">
+    
+                                    <button type="button"
+                                        id="toggleLoginPassword"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#9992a3] hover:text-[#7257b3]">
+                                        <i class="fa-solid fa-eye text-sm" id="eyeIcon"></i>
+                                    </button>
+    
+                                </div>
+                            </div>
+    
+                            <!-- Forgot password -->
+                            <div class="text-right pt-1">
+                                <a id="forgotPasswordLink"
+                                    class="cursor-pointer text-xs font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Forgot password?
+                                </a>
+                            </div>
+    
+                            <!-- Login button -->
+                            <button type="submit"
+                                class="w-full h-[50px] mt-2 bg-[#8064c1] text-white text-sm font-bold tracking-wide flex items-center justify-center gap-3 hover:bg-[#7053b2] shadow-[0_8px_20px_rgba(128,100,193,0.18)] hover:shadow-[0_10px_25px_rgba(128,100,193,0.25)] transition-all duration-200">
+                                <span>Sign in to Quans</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+    
+                        </form>
+    
+                        <!-- Signup switch -->
+                        <div class="mt-7 pt-5 border-t border-[#eeeaf2] text-center">
+    
+                            <p class="text-sm text-[#858091]">
+                                New to Quans?
+    
+                                <button id="switchToSignup"
+                                    type="button"
+                                    class="ml-1 font-bold text-[#8064c1] hover:text-[#6749a8] underline underline-offset-4 decoration-[#c5b5e8]">
+                                    Create an account
+                                </button>
+                            </p>
+    
+                        </div>
+    
+                        <p class="text-[10px] text-center leading-5 text-[#aaa4b2] mt-6">
+                            Your workspace is just one sign-in away.
+                        </p>
+    
+                    </div>
+                </section>
+    
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsPopupModal" class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-5 transition-opacity duration-300">
+    <div class="q-settings-dialog relative w-full h-full md:h-auto md:min-h-[540px] md:max-h-[calc(100vh-40px)] md:max-w-[820px] md:rounded-[28px] flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+
+        <!-- Mobile settings header -->
+        <div class="q-settings-mobile-header md:hidden">
+            <div class="q-settings-mobile-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <span class="q-settings-mobile-title">
+                    <strong>Settings</strong>
+                    <small>Account and security</small>
+                </span>
+            </div>
+            <button id="closeSettingsMobileBtn" type="button" class="q-settings-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Account sidebar -->
+        <aside class="q-settings-sidebar">
+            <div class="q-settings-sidebar-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <div>
+                    <strong>QUANS</strong>
+                    <small>Account center</small>
+                </div>
+            </div>
+
+            <div class="q-settings-sidebar-label">YOUR ACCOUNT</div>
+            <button id="tabBtnAccount" type="button" class="q-settings-nav-button active" aria-current="page">
+                <span class="q-settings-nav-icon"><i class="fa-solid fa-circle-user"></i></span>
+                <span>Account</span>
+                <i class="fa-solid fa-chevron-right q-settings-nav-arrow"></i>
+            </button>
+
+            <div class="q-settings-sidebar-note">
+                <span class="q-settings-note-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                <strong>Your account, your control.</strong>
+                <p>Manage your sign-in details and account access from one place.</p>
+            </div>
+
+            <div class="q-settings-sidebar-footer">QUANS <span>·</span> ACCOUNT CENTER</div>
+        </aside>
+
+        <!-- Main account content -->
+        <main class="q-settings-main">
+            <button id="closeSettingsDesktopBtn" type="button" class="q-settings-close q-settings-desktop-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="panelSectionAccount" class="q-settings-account-panel">
+                <div class="q-settings-heading">
+                    <h2>Account Profiles</h2>
+                    <p>Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div id="settingsAlertMsg" class="hidden items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <section class="q-settings-email-section">
+                    <label class="q-settings-field-label">Registered Email Address</label>
+                    <div class="q-settings-email-card">
+                        <span class="q-settings-email-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span id="settingsEmailTextDisplay" class="q-settings-email-value">loading...</span>
+                        <span class="q-settings-verified-icon" aria-label="Account"><i class="fa-solid fa-shield-halved"></i></span>
+                    </div>
+                </section>
+
+                <section class="q-settings-actions" aria-label="Account actions">
+                    <button id="settingsChangePasswordBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
+                        <span class="q-settings-action-title">Change Password</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsLogoutBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span class="q-settings-action-title">Log Out</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsOpenDeleteModalBtn" type="button" class="q-settings-action q-settings-action-danger">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="q-settings-action-title">Delete Account</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div id="settingsHardDeleteModal" class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
+        <div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
+        
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+            Once you delete your account, your profile and username are permanently removed from Quans.
+        </p>
+        
+        <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
+            <input id="settingsDeleteChallengeInput" type="text" placeholder="Type here..." autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100">
+            <p id="settingsDeleteInlineError" class="text-xs font-semibold text-rose-500 mt-2 hidden">⚠️ Verification input mismatch. Try typing carefully.</p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="settingsCancelDeleteBtn" type="button" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Cancel
+            </button>
+            <button id="settingsConfirmHardDeleteBtn" type="button" disabled class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all">
+                Delete Permanently
+            </button>
+        </div>
+    </div>
+</div>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
+                    colors: { brand: { blue: '#7655E8', hover: '#5E40CE', light: '#F0ECFF' } }
+                }
+            }
+        }
+
+        const authModal = document.getElementById('authModal');
+        const loginModal = document.getElementById('loginModal');
+        window.userIsAuthenticated = false;
+
+        function clearAllErrors() {
+            const loginErr = document.getElementById('loginErrorMsg');
+            const signupErr = document.getElementById('signupErrorMsg');
+            if (loginErr) loginErr.classList.add('hidden');
+            if (signupErr) signupErr.classList.add('hidden');
+        }
+
+        function resetFormInputs() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            if (loginForm) loginForm.reset();
+            if (signupForm) signupForm.reset();
+        }
+
+        window.openAuthPopup = function(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (window.userIsAuthenticated) return;
+            clearAllErrors();
+            resetFormInputs();
+            window.closeLoginPopup();
+            authModal.classList.remove('opacity-0', 'pointer-events-none');
+            authModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
+        }
+
+        window.closeAuthPopup = function() {
+            authModal.classList.add('opacity-0', 'pointer-events-none');
+            authModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
+        }
+
+        window.openLoginPopup = function(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (window.userIsAuthenticated) return;
+            clearAllErrors();
+            resetFormInputs();
+            window.closeAuthPopup();
+            loginModal.classList.remove('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.replace('scale-95', 'scale-100');
+        }
+
+        window.closeLoginPopup = function() {
+            loginModal.classList.add('opacity-0', 'pointer-events-none');
+            loginModal.querySelector('.relative').classList.replace('scale-100', 'scale-95');
+            resetFormInputs();
+        }
+
+        document.getElementById('closeAuthModal').addEventListener('click', window.closeAuthPopup);
+        document.getElementById('authModalOverlay').addEventListener('click', window.closeAuthPopup);
+        document.getElementById('closeLoginModal').addEventListener('click', window.closeLoginPopup);
+        document.getElementById('loginModalOverlay').addEventListener('click', window.closeLoginPopup);
+
+        document.querySelectorAll('.tool-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (window.userIsAuthenticated) {
+                    const tool = button.getAttribute('data-tool');
+                    if (tool === 'ai-assistant') {
+                        window.location.href = 'ai.html';
+                    } else if (tool === 'social-generator'){
+                        window.location.href = 'social.html'
+                    } else {
+                        window.location.href = `tools/${tool}.html`;
+                    }
+                } else {
+                    window.openAuthPopup(e);
+                }
+            });
+        });
+
+        const setupToggle = (btn, input, icon) => {
+            if (btn && input && icon) {
+                btn.addEventListener('click', () => {
+                    const isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    icon.classList.replace(isPass ? 'fa-eye' : 'fa-eye-slash', isPass ? 'fa-eye-slash' : 'fa-eye');
+                });
+            }
+        };
+        setupToggle(document.getElementById('toggleLoginPassword'), document.getElementById('loginPasswordInput'), document.getElementById('eyeIcon'));
+        setupToggle(document.getElementById('toggleSignupPassword'), document.getElementById('signupPasswordInput'), document.getElementById('signupEyeIcon'));
+
+        document.getElementById('switchToSignup').addEventListener('click', () => window.openAuthPopup());
+        document.getElementById('switchToLogin').addEventListener('click', () => window.openLoginPopup());
+
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const sidebarPanel = mobileSidebar ? mobileSidebar.querySelector('.mobile-drawer-panel') : null;
+        let sidebarReturnFocus = null;
+
+        const toggleSidebar = (open) => {
+            if (!mobileSidebar || !sidebarPanel) return;
+            const menuButtons = document.querySelectorAll('#openMobileMenu');
+
+            if (open) {
+                sidebarReturnFocus = document.activeElement;
+                mobileSidebar.classList.remove('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'false');
+                sidebarPanel.classList.remove('translate-x-full');
+                document.body.classList.add('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'true'));
+                const closeButton = document.getElementById('closeMobileMenu');
+                if (closeButton) closeButton.focus({ preventScroll: true });
+            } else {
+                mobileSidebar.classList.add('opacity-0', 'pointer-events-none');
+                mobileSidebar.setAttribute('aria-hidden', 'true');
+                sidebarPanel.classList.add('translate-x-full');
+                document.body.classList.remove('mobile-menu-open');
+                menuButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
+                if (sidebarReturnFocus && typeof sidebarReturnFocus.focus === 'function') {
+                    sidebarReturnFocus.focus({ preventScroll: true });
+                }
+                sidebarReturnFocus = null;
+            }
+        };
+
+        // Keep the drawer's bottom section in sync with Firebase authentication state.
+        window.syncMobileSidebarAccount = function(user) {
+            const guestActions = document.getElementById('mobileSidebarGuestActions');
+            const accountActions = document.getElementById('mobileSidebarAccountActions');
+            const emailLabel = document.getElementById('mobileSidebarUserEmail');
+            if (!guestActions || !accountActions) return;
+
+            guestActions.classList.toggle('hidden', Boolean(user));
+            accountActions.classList.toggle('hidden', !user);
+            if (emailLabel) emailLabel.textContent = user && user.email ? user.email : 'Signed in to Quans';
+        };
+
+        // Global dropdown toggle handler.
+        window.toggleUserDropdown = function(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            const trigger = document.getElementById('userDropdownTrigger');
+            if (!menu) return;
+            const willOpen = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !willOpen);
+            if (trigger) trigger.setAttribute('aria-expanded', String(willOpen));
+        };
+
+        // One delegated handler supports the drawer after Firebase replaces the auth controls.
+        document.addEventListener('click', (e) => {
+            const target = e.target instanceof Element ? e.target : null;
+            if (!target) return;
+
+            if (target.closest('#openMobileMenu')) {
+                toggleSidebar(true);
+            } else if (target.closest('#closeMobileMenu') || target.closest('#sidebarOverlay')) {
+                toggleSidebar(false);
+            } else if (target.closest('[data-mobile-signup]')) {
+                toggleSidebar(false);
+                window.openAuthPopup();
+            } else if (target.closest('[data-mobile-login]')) {
+                toggleSidebar(false);
+                window.openLoginPopup();
+            } else if (target.closest('[data-mobile-settings]')) {
+                toggleSidebar(false);
+                const settingsTrigger = document.getElementById('firebaseSettingsTriggerBtn');
+                if (settingsTrigger) settingsTrigger.click();
+            } else if (target.closest('[data-mobile-logout]')) {
+                toggleSidebar(false);
+                const logoutTrigger = document.getElementById('firebaseLogoutBtn');
+                if (logoutTrigger) logoutTrigger.click();
+            } else if (target.closest('#mobileSidebar a')) {
+                toggleSidebar(false);
+            }
+
+            const menu = document.getElementById('userDropdownMenu');
+            if (menu && !menu.classList.contains('hidden') &&
+                !target.closest('#userDropdownMenu') &&
+                !target.closest('[onclick*="toggleUserDropdown"]')) {
+                menu.classList.add('hidden');
+                const trigger = document.getElementById('userDropdownTrigger');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileSidebar && !mobileSidebar.classList.contains('pointer-events-none')) {
+                toggleSidebar(false);
+            }
+        });
+
+        // Parallax Scroll Script for Balanced Geometric Boxes
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        
+        const box1 = document.getElementById('scroll-box-1');
+        const box2 = document.getElementById('scroll-box-2');
+        const rightBox1 = document.getElementById('scroll-box-right-1');
+        const rightBox2 = document.getElementById('scroll-box-right-2');
+        const circle = document.getElementById('scroll-circle');
+        
+        if (box1 && box2 && rightBox1 && rightBox2 && circle) {
+            // Left Layout Elements Motion
+            box1.style.transform = `translate3d(0, ${scrolled * -0.15}px, 0) rotate(${12 + (scrolled * 0.02)}deg)`;
+            box2.style.transform = `translate3d(0, ${scrolled * -0.3}px, 0) rotate(${-12 - (scrolled * 0.01)}deg)`;
+            
+            // Right Layout Elements Motion (Slightly altered rates for asymmetrical depth)
+            rightBox1.style.transform = `translate3d(0, ${scrolled * -0.25}px, 0) rotate(${45 + (scrolled * 0.04)}deg)`;
+            rightBox2.style.transform = `translate3d(0, ${scrolled * -0.1}px, 0) rotate(${-12 + (scrolled * 0.02)}deg)`;
+            
+            // Center-Right Technical Circle Alignment Shift
+            circle.style.transform = `translate3d(0, ${scrolled * -0.2}px, 0)`;
+        }
+    }, { passive: true });
+
+        document.addEventListener("DOMContentLoaded", () => {
+        // 1. Get the current URL path and clean it up (lowercase, remove slashes)
+        let currentUrl = window.location.pathname.toLowerCase();
+        
+        // 2. Master configuration pairs list matching page names
+        const navPairs = [
+            { pcId: "nav-home", mobileId: "mobile-nav-home", pageName: "index" },
+            { pcId: "nav-tool", mobileId: "mobile-nav-tool", pageName: "tool" },
+            { pcId: "nav-explore", mobileId: "mobile-nav-explore", pageName: "explore" },
+            { pcId: "nav-price", mobileId: "mobile-nav-price", pageName: "pricing" },
+            { pcId: "nav-contact", mobileId: "mobile-nav-contact", pageName: "contact" },
+            { pcId: "nav-about", mobileId: "mobile-nav-about", pageName: "about" },
+            { pcId: "nav-setting", mobileId: "mobile-nav-setting", pageName: "setting" }
+        ];
+    
+        // Extract a clean page name (e.g. transforms "/tool.html" or "/tool/" into just "tool")
+        let cleanCurrentPage = currentUrl.replace(".html", "").split("/").pop().trim();
+        
+        // Fallback to home page index if the address bar path is empty
+        if (!cleanCurrentPage || cleanCurrentPage === "") {
+            cleanCurrentPage = "index";
+        }
+    
+        // 3. Loop over all pairs, clear defaults, and light up the active target layout
+        navPairs.forEach(pair => {
+            const pcElement = document.getElementById(pair.pcId);
+            const mobileElement = document.getElementById(pair.mobileId);
+    
+            // Reset states to default clean slate first
+            if (pcElement) {
+                pcElement.classList.remove("text-brand-blue");
+                pcElement.classList.add("text-slate-600");
+            }
+            if (mobileElement) {
+                mobileElement.classList.remove("bg-blue-100/80", "border-blue-200", "is-active");
+                mobileElement.classList.add("bg-slate-50", "border-slate-100");
+            }
+    
+            // Check if our clean page name matches the pair configuration
+            if (cleanCurrentPage === pair.pageName) {
+                // Activate PC active color
+                if (pcElement) {
+                    pcElement.classList.remove("text-slate-600");
+                    pcElement.classList.add("text-brand-blue");
+                }
+                // Activate Mobile darker border combination
+                if (mobileElement) {
+                    mobileElement.classList.remove("bg-slate-50", "border-slate-100");
+                    mobileElement.classList.add("bg-blue-100/80", "border-blue-200", "is-active");
+                }
+            }
+        });
+    });
+        
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            onAuthStateChanged,
+            signOut,
+            sendEmailVerification,
+            sendPasswordResetEmail
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Native website style error mask converter
+        function handleAuthError(error) {
+            switch(error.code) {
+                case 'auth/invalid-email':
+                    return 'Please enter a valid email address style.';
+                case 'auth/user-disabled':
+                    return 'This system account has been disabled.';
+                case 'auth/user-not-found':
+                    return 'No matching profile registry found.';
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    return 'Incorrect account credentials. Please verify your email and password.';
+                case 'auth/email-already-in-use':
+                    return 'This email layout is already linked to an active account registry.';
+                case 'auth/weak-password':
+                    return 'Password must be at least 6 characters long.';
+                case 'auth/popup-closed-by-user':
+                    return 'Verification window closed before authentication profile could finish connecting.';
+                case 'auth/cancelled-popup-request':
+                    return 'Authentication connection processing sequence terminated.';
+                case 'auth/popup-blocked':
+                    return 'Verification interface blocked by system window layout rules.';
+                case 'auth/requires-recent-login':
+                    return 'Security protocol requires a fresh session token. Please log out and sign back in to try again.';
+                default:
+                    return error.message.replace('Firebase: ', '').replace(/\(auth\/.*\)\.?/, '').trim();
+            }
+        }
+
+        // --- SIGNUP FORM EVENT LISTENER ---
+        // Global utility state holders for your OTP operational system
+        // Firebase Authentication is the single source of truth for email verification.
+        // Keep the original signup form markup so the existing UI remains unchanged.
+        let initialSignupFormHTML = "";
+        document.addEventListener("DOMContentLoaded", () => {
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl) initialSignupFormHTML = signupFormEl.innerHTML;
+        });
+
+        window.resetSignupFormToInitialState = function () {
+            const signupFormEl = document.getElementById('signupForm');
+            if (signupFormEl && initialSignupFormHTML) {
+                signupFormEl.innerHTML = initialSignupFormHTML;
+            }
+        };
+
+        const signupFormElement = document.getElementById('signupForm');
+        if (signupFormElement) {
+            signupFormElement.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const errDiv = document.getElementById('signupErrorMsg');
+                if (errDiv) errDiv.classList.add('hidden');
+
+                const emailInput = document.getElementById('signupEmailInput')?.value.trim() || '';
+                const passwordInput = document.getElementById('signupPasswordInput')?.value || '';
+                const signupFormEl = document.getElementById('signupForm');
+                const submitButton = signupFormEl.querySelector('button[type="submit"], button:not([type])');
+
+                const showSignupError = (message) => {
+                    if (!errDiv) {
+                        alert(message);
+                        return;
+                    }
+                    errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                    errDiv.classList.remove('hidden', 'bg-amber-50', 'text-amber-700', 'border-amber-200');
+                    const textContainer = errDiv.querySelector('.error-text');
+                    if (textContainer) textContainer.innerText = message;
+                    else errDiv.innerText = '⚠️ ' + message;
+                };
+
+                if (passwordInput.length < 6) {
+                    showSignupError('Password must be at least 6 characters long.');
+                    return;
+                }
+
+                if (submitButton) submitButton.disabled = true;
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, emailInput, passwordInput);
+
+                    try {
+                        await sendEmailVerification(userCredential.user, {
+                            url: `${window.location.origin}/index.html`,
+                            handleCodeInApp: false
+                        });
+                    } catch (verificationEmailError) {
+                        await signOut(auth).catch(() => {});
+                        showSignupError('Your account was created, but Firebase could not send the verification email. Please use Log in to request another verification link.');
+                        return;
+                    }
+
+                    await signOut(auth).catch(() => {});
+
+                    if (typeof window.closeAuthPopup === 'function') {
+                        window.closeAuthPopup();
+                    } else {
+                        const modal = signupFormEl.closest('.modal') || signupFormEl.parentElement;
+                        if (modal) modal.classList.add('hidden');
+                    }
+
+                    window.resetSignupFormToInitialState();
+                    alert('Your QUANS account has been created. We sent a Firebase verification link to your email. Please verify your email before logging in.');
+                } catch (error) {
+                    const message = typeof handleAuthError === 'function'
+                        ? handleAuthError(error)
+                        : (error?.message || 'Unable to create your QUANS account right now.');
+                    showSignupError(message);
+                } finally {
+                    if (submitButton) submitButton.disabled = false;
+                }
+            });
+        }
+
+        // --- LOGIN FORM EVENT LISTENER ---
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            // Reset message container styles back to hidden first
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+
+            const emailInput = document.getElementById('loginEmailInput').value.trim();
+            const passwordInput = document.getElementById('loginPasswordInput').value;
+
+            // Save a reference to the main login form element container
+            const loginFormEl = document.getElementById('loginForm');
+
+            signInWithEmailAndPassword(auth, emailInput, passwordInput)
+                .then((userCredential) => {
+                    // 🛠️ SUCCESS PHASE: Account exists and matches!
+                    // Clear form values out completely
+                    loginFormEl.reset();
+
+                    // Update background HTML for the newly authenticated user
+                    if (typeof window.updateUIForLoggedInUser === 'function') {
+                        window.updateUIForLoggedInUser(userCredential.user);
+                    }
+                    
+                    // Close the authentication modal wrapper view instantly
+                    if (typeof window.closeAuthPopup === 'function') {
+                        window.closeAuthPopup();
+                    } else {
+                        const modal = loginFormEl.closest('.modal') || loginFormEl.parentElement;
+                        if(modal) modal.classList.add('hidden');
+                    }
+
+                    // 🛠️ FIX: Wipe out fields and reset to original state automatically right after closing!
+                    if (typeof window.resetLoginFormToInitialState === 'function') {
+                        window.resetLoginFormToInitialState();
+                    }
+                })
+                .catch((error) => {
+                    // 🛠️ FAILURE PHASE: Pass Firebase error codes clean straight to the view text container
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('bg-amber-50', 'text-amber-700', 'border-amber-200');
+
+                        let customMsg = "Authentication error: " + error.message;
+                        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') { 
+                            customMsg = "Incorrect email address or password credentials."; 
+                        } else if (error.code === 'auth/user-disabled') { 
+                            customMsg = "This user account profile has been suspended."; 
+                        } else if (error.code === 'auth/invalid-email') {
+                            customMsg = "The email address structure is invalid.";
+                        }
+                        
+                        // Safe selector assignment check to prevent script crashes
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = customMsg;
+                        } else {
+                            errDiv.innerText = "⚠️ " + customMsg;
+                        }
+                        
+                        errDiv.classList.remove('hidden');
+                    } else {
+                        alert("Authentication failure: " + error.message);
+                    }
+                });
+        });
+
+        // --- COMPLETE FORGOT PASSWORD SYSTEM ---
+
+        // 1. Declare the template container structure state safely on the global window object
+        if (typeof window.initialLoginFormHTML === 'undefined') {
+            window.initialLoginFormHTML = "";
+        }
+        
+        // 2. Expose the resetting function globally so your "X" close icons can use it too!
+        window.forceResetLoginPopup = function() {
+            const loginFormEl = document.getElementById('loginForm');
+            const errDiv = document.getElementById('loginErrorMsg');
+            
+            if (errDiv) {
+                errDiv.classList.add('hidden');
+            }
+            
+            if (loginFormEl) {
+                // Restore the original raw form HTML (inputs, buttons, links)
+                if (window.initialLoginFormHTML) {
+                    loginFormEl.innerHTML = window.initialLoginFormHTML;
+                }
+                // Wipes out typed characters inside input boxes cleanly
+                if (typeof loginFormEl.reset === 'function') {
+                    loginFormEl.reset(); 
+                }
+            }
+        };
+        
+        // 3. Wrap everything in an initializer that waits for the DOM to be completely ready
+        function initializeForgotPasswordSystem() {
+            const forgotLink = document.getElementById('forgotPasswordLink');
+            const loginFormEl = document.getElementById('loginForm');
+        
+            // Save the clean, initial inner state template of your login window form right now
+            if (loginFormEl && !window.initialLoginFormHTML) {
+                window.initialLoginFormHTML = loginFormEl.innerHTML;
+            }
+        
+            // Stop execution safely if the forgot password link isn't rendered on this specific page view
+            if (!forgotLink) return;
+        
+            // Remove any older duplicate event listeners to prevent double-firing bugs
+            forgotLink.replaceWith(forgotLink.cloneNode(true));
+            
+            // Re-select the freshly cleared clean element node link
+            const activeForgotLink = document.getElementById('forgotPasswordLink');
+        
+            activeForgotLink.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                
+                const currentLoginFormEl = document.getElementById('loginForm');
+                const errDiv = document.getElementById('loginErrorMsg');
+                
+                // Safety checkpoint check: Ensure the backup string exists
+                if (currentLoginFormEl && !window.initialLoginFormHTML) {
+                    window.initialLoginFormHTML = currentLoginFormEl.innerHTML;
+                }
+        
+                const emailField = document.getElementById('loginEmailInput');
+                const emailInput = emailField ? emailField.value.trim() : "";
+        
+                // 🚨 CHECK 1: If the email address input box field is empty
+                if (!emailInput) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "Please enter your email address first to get a reset link.";
+                        } else {
+                            errDiv.innerText = "⚠️ Please enter your email address first to get a reset link.";
+                        }
+                    } else {
+                        alert("Please enter your email address first to get a reset link.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // 🚨 CHECK 2: Strict email format validation via Regular Expression
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput)) {
+                    if (errDiv) {
+                        errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                        errDiv.classList.remove('hidden');
+                        
+                        const errorTextContainer = errDiv.querySelector('.error-text');
+                        if (errorTextContainer) {
+                            errorTextContainer.innerText = "The email address layout structure is invalid.";
+                        } else {
+                            errDiv.innerText = "⚠️ The email address layout structure is invalid.";
+                        }
+                    } else {
+                        alert("The email address layout structure is invalid.");
+                    }
+                    return; // Stop right here!
+                }
+        
+                // Clean slate: Clear past error frames out before making the network request API call
+                if (errDiv) errDiv.classList.add('hidden');
+        
+                // 🚀 FIRE FIREBASE NETWORK REQUEST LINK DELIVERER
+                sendPasswordResetEmail(auth, emailInput)
+                    .then(() => {
+                        // SUCCESS PHASE: Render response interface success confirmation frame template inside the popup box
+                        currentLoginFormEl.innerHTML = `
+                            <div class="text-center py-6 px-4 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm animate-fadeIn">
+                                <div class="w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md mb-3">
+                                    📩
+                                </div>
+                                <h3 class="text-xl font-bold text-emerald-900 mb-1">Reset Link Sent!</h3>
+                                <p class="text-sm text-emerald-700 mb-5 leading-relaxed">
+                                    We have sent a secure password reset link to:<br>
+                                    <strong class="text-emerald-900 font-semibold">${emailInput}</strong>
+                                </p>
+                                <p class="text-xs text-slate-500 mb-5">
+                                    Please check your inbox or spam folder to recover access.
+                                </p>
+                                <button type="button" id="closeForgotSuccessBtn" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-full shadow-md transition-all">
+                                    Close Window
+                                </button>
+                            </div>
+                        `;
+        
+                        // Handle closing and wiping out components
+                        document.getElementById('closeForgotSuccessBtn').addEventListener('click', (btnEvent) => {
+                            btnEvent.preventDefault();
+        
+                            // Close the popup window layer modal cleanly
+                            if (typeof window.closeAuthPopup === 'function') {
+                                window.closeAuthPopup();
+                            } else {
+                                const modal = currentLoginFormEl.closest('.modal') || currentLoginFormEl.parentElement;
+                                if (modal) modal.classList.add('hidden');
+                            }
+        
+                            // Wipes fields and resets the template instantly as it closes!
+                            window.forceResetLoginPopup();
+                        });
+                    })
+                    .catch((error) => {
+                        // FAILURE PHASE: Handle non-existent accounts safely from Firebase response
+                        if (errDiv) {
+                            errDiv.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-100');
+                            errDiv.classList.remove('hidden');
+                            
+                            let customMsg = "Error sending reset link: " + error.message;
+                            if (error.code === 'auth/user-not-found') {
+                                customMsg = "No account found matching this email address.";
+                            } else if (error.code === 'auth/invalid-email') {
+                                customMsg = "The email address structure layout is invalid.";
+                            }
+        
+                            const errorTextContainer = errDiv.querySelector('.error-text');
+                            if (errorTextContainer) {
+                                errorTextContainer.innerText = customMsg;
+                            } else {
+                                errDiv.innerText = "⚠️ " + customMsg;
+                            }
+                        } else {
+                            alert("Reset Error: " + error.message);
+                        }
+                    });
+            });
+        }
+        
+        // 4. Run the code safely whether the browser window loaded early or late!
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initializeForgotPasswordSystem);
+        } else {
+            initializeForgotPasswordSystem();
+        }
+        
+        const handleGoogleAuthFlow = () => {
+            signInWithPopup(auth, googleProvider)
+                .catch((error) => {
+                    if (error.code === 'auth/popup-closed-by-user') { alert("Sign-in popup closed before completion."); }
+                    else if (error.code === 'auth/cancelled-popup-request') { alert("Authentication operation conflict detected."); }
+                    else if (error.code === 'auth/popup-blocked') { alert("Authentication popup blocked by browser settings."); }
+                    else { alert(`Google sign-in error: ${error.message}`); }
+                });
+        };
+
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuthFlow);
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuthFlow);
+
+        // =========================================================================
+        // ON AUTH STATE CHANGED INTERACTION FRAMEWORK
+        // =========================================================================
+        const navAuthGroup = document.getElementById('navAuthGroup');
+        const initialNavHTML = navAuthGroup ? navAuthGroup.innerHTML : "";
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.userIsAuthenticated = true;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(user);
+                
+                if (typeof window.closeAuthPopup === 'function') window.closeAuthPopup();
+                if (typeof window.closeLoginPopup === 'function') window.closeLoginPopup();
+        
+                if (navAuthGroup) {
+                    navAuthGroup.innerHTML = `
+                        <div class="mobile-auth-wrap flex items-center space-x-3 fade-in">
+                            <div class="q-account-menu-wrap relative inline-block text-left">
+                                <button id="userDropdownTrigger" type="button" onclick="toggleUserDropdown(event)" class="q-account-trigger" aria-haspopup="true" aria-controls="userDropdownMenu" aria-expanded="false">
+                                    <span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
+                                    <span class="q-account-greeting">Hello!</span>
+                                    <i class="fa-solid fa-chevron-down q-account-chevron"></i>
+                                </button>
+                                <div id="userDropdownMenu" class="q-account-dropdown hidden absolute right-0 origin-top-right z-50" role="menu" aria-labelledby="userDropdownTrigger">
+                                    <div class="q-account-dropdown-head">
+                                        <div class="q-account-dropdown-mark"><i class="fa-solid fa-user-check"></i></div>
+                                        <div class="q-account-dropdown-copy">
+                                            <span class="q-account-eyebrow">YOUR ACCOUNT</span>
+                                            <strong>Welcome to QUANS</strong>
+                                            <span id="userDropdownEmail">Signed in to QUANS</span>
+                                        </div>
+                                    </div>
+                                    <div class="q-account-dropdown-actions">
+                                        <button id="firebaseSettingsTriggerBtn" type="button" class="q-account-dropdown-item" role="menuitem">
+                                            <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
+                                            <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
+                                            <i class="fa-solid fa-arrow-up-right-from-square q-account-action-arrow"></i>
+                                        </button>
+                                        <div class="q-account-dropdown-divider"></div>
+                                        <button id="firebaseLogoutBtn" type="button" class="q-account-dropdown-item q-account-logout" role="menuitem">
+                                            <span class="q-account-action-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                                            <span class="q-account-action-copy"><strong>Log out</strong><small>Sign out of QUANS</small></span>
+                                            <i class="fa-solid fa-arrow-right q-account-action-arrow"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="openMobileMenu" class="md:hidden flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-xs" aria-label="Open navigation menu" aria-controls="mobileSidebar" aria-expanded="false">
+                                <i class="fa-solid fa-bars text-sm"></i>
+                            </button>
+                        </div>
+                    `;
+
+document.getElementById('firebaseSettingsTriggerBtn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const dropdownMenu = document.getElementById('userDropdownMenu');
+                        if (dropdownMenu) dropdownMenu.classList.add('hidden');
+                        const dropdownTrigger = document.getElementById('userDropdownTrigger');
+                        if (dropdownTrigger) dropdownTrigger.setAttribute('aria-expanded', 'false');
+                        openSettingsPopupSystem();
+                    });
+
+                    document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+                        signOut(auth).then(() => {
+                            closeSettingsPopupSystem();
+                        }).catch((err) => { alert(handleAuthError(err)); });
+                    });
+                }
+                
+                const targetDisplayEmailSpan = document.getElementById("settingsEmailTextDisplay");
+                if (targetDisplayEmailSpan) targetDisplayEmailSpan.innerText = user.email || "No Email Provided";
+                const targetDropdownEmailSpan = document.getElementById("userDropdownEmail");
+                if (targetDropdownEmailSpan) targetDropdownEmailSpan.innerText = user.email || "Signed in to QUANS";
+
+            } else {
+                window.userIsAuthenticated = false;
+                if (typeof window.syncMobileSidebarAccount === 'function') window.syncMobileSidebarAccount(null);
+                if (navAuthGroup) navAuthGroup.innerHTML = initialNavHTML;
+                closeSettingsPopupSystem();
+            }
+        });
+
+        // =========================================================================
+        // LAYOUT SETTINGS POPUP SYSTEM INTERACTION ARCHITECTURE
+        // =========================================================================
+        const settingsPopupModal = document.getElementById("settingsPopupModal");
+        const settingsHardDeleteModal = document.getElementById("settingsHardDeleteModal");
+        
+        const panelSectionAccount = document.getElementById("panelSectionAccount");
+
+        function openSettingsPopupSystem() {
+            if (!settingsPopupModal) return;
+            settingsPopupModal.classList.remove("hidden");
+            settingsPopupModal.classList.add("flex");
+            // Clear past alert banner messages whenever popup mounts
+            const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+            if (settingsAlertMsg) settingsAlertMsg.classList.add("hidden");
+            if (panelSectionAccount) panelSectionAccount.classList.remove("hidden");
+        }
+
+        function closeSettingsPopupSystem() {
+            if (settingsPopupModal) {
+                settingsPopupModal.classList.remove("flex");
+                settingsPopupModal.classList.add("hidden");
+            }
+            closeHardDeleteModalSystem();
+        }
+
+        const closeTriggers = ["closeSettingsDesktopBtn", "closeSettingsMobileBtn"];
+        closeTriggers.forEach(btnId => {
+            const btnEl = document.getElementById(btnId);
+            if (btnEl) btnEl.addEventListener("click", closeSettingsPopupSystem);
+        });
+
+        // --- PASSWORD RESET TRIGGERS ---
+        const settingsChangePasswordBtn = document.getElementById("settingsChangePasswordBtn");
+        const settingsAlertMsg = document.getElementById("settingsAlertMsg");
+
+        if (settingsChangePasswordBtn) {
+            settingsChangePasswordBtn.addEventListener("click", async () => {
+                const activeUser = auth.currentUser;
+                if (!activeUser || !activeUser.email) return;
+                try {
+                    await sendPasswordResetEmail(auth, activeUser.email);
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = `A verification reset link has been securely sent to: ${activeUser.email}`;
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    if (settingsAlertMsg) {
+                        settingsAlertMsg.className = "flex items-center space-x-2 bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/40 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in";
+                        settingsAlertMsg.querySelector('.alert-text').innerText = handleAuthError(error);
+                        settingsAlertMsg.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+
+        const settingsLogoutBtn = document.getElementById("settingsLogoutBtn");
+        if (settingsLogoutBtn) {
+            settingsLogoutBtn.addEventListener("click", () => {
+                signOut(auth).catch(err => alert(handleAuthError(err)));
+            });
+        }
+
+        // --- SECURE PERMANENT ACCOUNT DELETION BLOCK ---
+        const settingsOpenDeleteModalBtn = document.getElementById("settingsOpenDeleteModalBtn");
+        const settingsCancelDeleteBtn = document.getElementById("settingsCancelDeleteBtn");
+        const settingsDeleteChallengeInput = document.getElementById("settingsDeleteChallengeInput");
+        const settingsConfirmHardDeleteBtn = document.getElementById("settingsConfirmHardDeleteBtn");
+        const settingsDeleteInlineError = document.getElementById("settingsDeleteInlineError");
+
+        if (settingsOpenDeleteModalBtn) {
+            settingsOpenDeleteModalBtn.addEventListener("click", () => {
+                if (settingsDeleteChallengeInput) settingsDeleteChallengeInput.value = "";
+                if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                if (settingsConfirmHardDeleteBtn) {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+                if (settingsHardDeleteModal) {
+                    settingsHardDeleteModal.classList.remove("hidden");
+                    settingsHardDeleteModal.classList.add("flex");
+                }
+            });
+        }
+
+        function closeHardDeleteModalSystem() {
+            if (settingsHardDeleteModal) {
+                settingsHardDeleteModal.classList.remove("flex");
+                settingsHardDeleteModal.classList.add("hidden");
+            }
+        }
+
+        if (settingsCancelDeleteBtn) settingsCancelDeleteBtn.addEventListener("click", closeHardDeleteModalSystem);
+
+        if (settingsDeleteChallengeInput) {
+            settingsDeleteChallengeInput.addEventListener("input", (e) => {
+                if (e.target.value === "Delete My Account") {
+                    if (settingsDeleteInlineError) settingsDeleteInlineError.classList.add("hidden");
+                    settingsConfirmHardDeleteBtn.disabled = false;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white shadow-md transition-all";
+                } else {
+                    settingsConfirmHardDeleteBtn.disabled = true;
+                    settingsConfirmHardDeleteBtn.className = "flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all";
+                }
+            });
+        }
+
+        function showToast(message, type = 'success') {
+        // 1. Check or create the toast wrapper container
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            // Positioned perfectly at the upper center, stacking items vertically down
+            toastContainer.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-[9999] space-y-3 max-w-sm w-full px-4 flex flex-col items-center';
+            document.body.appendChild(toastContainer);
+        }
+    
+        // 2. Create the individual toast element
+        const toast = document.createElement('div');
+        
+        // -translate-y-4 makes it start slightly higher up for a slide-down effect
+        const baseStyles = 'p-4 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 border transition-all duration-300 transform -translate-y-4 opacity-0 w-full';
+        const typeStyles = type === 'success' 
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80' 
+            : 'bg-rose-50 text-rose-800 border-rose-200/80';
+            
+        toast.className = `${baseStyles} ${typeStyles}`;
+    
+        // Select the appropriate icon
+        const icon = type === 'success' 
+            ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>' 
+            : '<i class="fa-solid fa-circle-exclamation text-rose-600 text-base flex-shrink-0"></i>';
+    
+        toast.innerHTML = `${icon}<span class="flex-grow">${message}</span>`;
+        toastContainer.appendChild(toast);
+    
+        // 3. Trigger downward entry slide animation
+        setTimeout(() => {
+            toast.classList.remove('-translate-y-4', 'opacity-0');
+        }, 10);
+    
+        // 4. Smoothly slide up and fade away after 3.5 seconds
+        setTimeout(() => {
+            toast.classList.add('-translate-y-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+        if (settingsConfirmHardDeleteBtn) {
+            settingsConfirmHardDeleteBtn.addEventListener("click", async () => {
+                const user = auth.currentUser;
+                if (user) {
+                    user.delete().then(() => {
+                        // Show custom success website toast
+                        showToast("Account Deleted Successfully.", "success");
+                        
+                        // Allow 1.5 seconds for the toast to be seen before navigating away
+                        setTimeout(() => {
+                            if (typeof closeSettingsPopupSystem === "function") {
+                                closeSettingsPopupSystem(); // Close the modal layout cleanly
+                            }
+                            window.location.href = "index.html"; // Safe exit redirect routing
+                        }, 4000);
+                        
+                    }).catch((error) => {
+                        // Show custom error website toast instead of chrome popup alert
+                        showToast(handleAuthError(error), "error");
+                    });
+                }
+            });
+        }
+
+</script>
+</body>
+</html>

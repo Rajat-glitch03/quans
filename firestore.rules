@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isVerifiedOwner(userId) {
+      return request.auth != null
+        && request.auth.uid == userId
+        && request.auth.token.email_verified == true;
+    }
+
+    // Browser-accessible saved history only. Users can access only their own records.
+    // These are the four history subcollections used by the current QUANS frontend.
+    match /users/{userId}/{historyCollection}/{documentId} {
+      allow read, create, update, delete: if isVerifiedOwner(userId)
+        && historyCollection in ['chats', 'generations', 'proposals', 'repurposings'];
+    }
+
+    // User profile root documents, credit accounts, ledgers, reservations, claims,
+    // deletion jobs, and every other collection are server/Admin SDK only.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

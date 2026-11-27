@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>QUANS | Social Content Generator</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth Mobile Sidebar Animation Transitions */
+        .sidebar-overlay-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .sidebar-panel-active {
+            transform: translateX(0) !important;
+        }
+    </style>
+<style id="quans-tool-account-design">
+/* Signed-in account dropdown — QUANS visual system */
+.q-account-menu-wrap .q-account-menu-wrap { position: relative; }
+.q-account-menu-wrap .q-account-trigger {
+    display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
+    padding: 5px 13px 5px 6px; border: 1px solid #e9e6f0; border-radius: 999px;
+    background: rgba(255,255,255,.94); color: #29263f; font-family: 'DM Sans',sans-serif;
+    font-size: 12px; font-weight: 800; letter-spacing: -.01em;
+    box-shadow: 0 5px 16px rgba(43,31,91,.055);
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, background .2s ease;
+}
+.q-account-menu-wrap .q-account-trigger:hover,
+.q-account-menu-wrap .q-account-trigger[aria-expanded="true"] {
+    border-color: #d6cafa; background: #fff;
+    box-shadow: 0 8px 22px rgba(91,65,169,.12); transform: translateY(-1px);
+}
+.q-account-menu-wrap .q-account-avatar {
+    display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px;
+    border-radius: 50%; color: #fff; font-size: 12px;
+    background: linear-gradient(135deg,#7655e8 0%,#8f72ed 58%,#6ad7e7 135%);
+    box-shadow: 0 4px 10px rgba(118,85,232,.2);
+}
+.q-account-menu-wrap .q-account-greeting { color: #29263f; }
+.q-account-menu-wrap .q-account-chevron {
+    margin-left: 1px; color: #8d86a4; font-size: 9px;
+    transition: transform .2s ease, color .2s ease;
+}
+.q-account-menu-wrap .q-account-trigger[aria-expanded="true"] .q-account-chevron { transform: rotate(180deg); color: #7655e8; }
+.q-account-menu-wrap .q-account-dropdown {
+    top: calc(100% + 12px); width: 278px; max-width: calc(100vw - 24px);
+    overflow: hidden; border: 1px solid #e8e2f3; border-radius: 19px;
+    background: #fff; box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06);
+    transform-origin: top right;
+}
+.q-account-menu-wrap .q-account-dropdown:not(.hidden) { animation: qAccountDropdownIn .18s ease-out both; }
+@keyframes qAccountDropdownIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.q-account-menu-wrap .q-account-dropdown-head {
+    display: flex; align-items: center; gap: 12px; padding: 17px 17px 15px;
+    background: radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff);
+    border-bottom: 1px solid #eeeaf5;
+}
+.q-account-menu-wrap .q-account-dropdown-mark {
+    display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px;
+    border: 1px solid rgba(255,255,255,.9); border-radius: 14px;
+    color: #7655e8; background: #fff; box-shadow: 0 5px 14px rgba(83,61,145,.09); font-size: 15px;
+}
+.q-account-menu-wrap .q-account-dropdown-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.q-account-menu-wrap .q-account-eyebrow { color: #8a81a5; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
+.q-account-menu-wrap .q-account-dropdown-copy strong { color: #29263f; font-size: 13px; font-weight: 800; }
+.q-account-menu-wrap .q-account-dropdown-copy > span:last-child { max-width: 185px; overflow: hidden; color: #89859a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.q-account-menu-wrap .q-account-dropdown-actions { padding: 8px; }
+.q-account-menu-wrap .q-account-dropdown-item {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px;
+    border: 0; border-radius: 12px; background: transparent; text-align: left;
+    transition: background .18s ease, transform .18s ease;
+}
+.q-account-menu-wrap .q-account-dropdown-item:hover { background: #f8f6fd; transform: translateX(2px); }
+.q-account-menu-wrap .q-account-action-icon {
+    display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 35px;
+    border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 12px;
+}
+.q-account-menu-wrap .q-account-action-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 2px; }
+.q-account-menu-wrap .q-account-action-copy strong { color: #302d48; font-size: 12px; font-weight: 800; }
+.q-account-menu-wrap .q-account-action-copy small { color: #9b97aa; font-size: 10px; }
+.q-account-menu-wrap .q-account-action-arrow { color: #b5aec7; font-size: 10px; transition: transform .18s ease,color .18s ease; }
+.q-account-menu-wrap .q-account-dropdown-item:hover .q-account-action-arrow { color: #7655e8; transform: translateX(2px); }
+.q-account-menu-wrap .q-account-dropdown-divider { height: 1px; margin: 3px 7px; background: #eeeaf5; }
+.q-account-menu-wrap .q-account-logout .q-account-action-icon { color: #cf6877; background: #fff0f2; }
+.q-account-menu-wrap .q-account-logout .q-account-action-copy strong { color: #a94f5c; }
+.q-account-menu-wrap .q-account-logout:hover { background: #fff8f8; }
+.q-account-menu-wrap .q-account-logout:hover .q-account-action-arrow { color: #cf6877; }
+
+/* Account settings popup */
+#settingsPopupModal { background: rgba(23,22,43,.58) !important; backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
+#settingsPopupModal .q-settings-dialog {
+    color: #29263f; background: #fff; border: 1px solid rgba(233,230,240,.95);
+    box-shadow: 0 30px 100px rgba(23,22,43,.24);
+}
+#settingsPopupModal .q-settings-sidebar {
+    position: relative; display: flex; width: 232px; flex: 0 0 232px; flex-direction: column;
+    padding: 28px 18px 19px; border-right: 1px solid #e9e6f0;
+    background: radial-gradient(circle at 5% 8%,rgba(217,204,255,.55),transparent 13rem),linear-gradient(155deg,#fbfaff 0%,#f5f1ff 100%);
+}
+#settingsPopupModal .q-settings-sidebar-brand { display: flex; align-items: center; gap: 11px; padding: 0 7px 34px; }
+#settingsPopupModal .q-settings-brand-mark {
+    display: grid; place-items: center; width: 41px; height: 41px; flex: 0 0 41px;
+    border: 1px solid rgba(255,255,255,.88); border-radius: 13px;
+    color: #fff; background: linear-gradient(135deg,#7655e8,#9275ee 68%,#6ad7e7 145%);
+    box-shadow: 0 7px 17px rgba(118,85,232,.2); font-size: 22px; font-weight: 900; letter-spacing: -.12em;
+}
+#settingsPopupModal .q-settings-sidebar-brand > div { display: flex; flex-direction: column; gap: 2px; }
+#settingsPopupModal .q-settings-sidebar-brand strong { color: #29263f; font-size: 15px; font-weight: 900; letter-spacing: -.06em; }
+#settingsPopupModal .q-settings-sidebar-brand small { color: #928da5; font-size: 10px; }
+#settingsPopupModal .q-settings-sidebar-label { margin: 0 9px 10px; color: #a19bb2; font-size: 9px; font-weight: 900; letter-spacing: .17em; }
+#settingsPopupModal .q-settings-nav-button {
+    display: flex; width: 100%; align-items: center; gap: 11px; padding: 10px 11px;
+    border: 1px solid transparent; border-radius: 12px; color: #77758b;
+    background: transparent; text-align: left; font-size: 12px; font-weight: 800;
+}
+#settingsPopupModal .q-settings-nav-button.active {
+    color: #fff; background: linear-gradient(110deg,#7655e8,#6849d7);
+    box-shadow: 0 8px 18px rgba(118,85,232,.2);
+}
+#settingsPopupModal .q-settings-nav-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-nav-button.active .q-settings-nav-icon { color: #7655e8; }
+#settingsPopupModal .q-settings-nav-arrow { margin-left: auto; font-size: 9px; opacity: .65; }
+#settingsPopupModal .q-settings-sidebar-note {
+    margin-top: auto; padding: 15px 13px; border: 1px solid rgba(217,204,255,.8); border-radius: 15px;
+    background: rgba(255,255,255,.72);
+}
+#settingsPopupModal .q-settings-note-icon { display: grid; place-items: center; width: 29px; height: 29px; margin-bottom: 10px; border-radius: 9px; color: #7655e8; background: #f0ebff; font-size: 12px; }
+#settingsPopupModal .q-settings-sidebar-note strong { display: block; color: #48415f; font-size: 10px; font-weight: 800; }
+#settingsPopupModal .q-settings-sidebar-note p { margin: 5px 0 0; color: #8d879e; font-size: 10px; line-height: 1.55; }
+#settingsPopupModal .q-settings-sidebar-footer { padding: 19px 7px 0; color: #aaa5b8; font-size: 8px; font-weight: 900; letter-spacing: .13em; }
+#settingsPopupModal .q-settings-sidebar-footer span { padding: 0 4px; color: #c3b8e6; }
+#settingsPopupModal .q-settings-main { position: relative; min-width: 0; flex: 1; padding: 47px 45px 38px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d9ccff transparent; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar { width: 6px; }
+#settingsPopupModal .q-settings-main::-webkit-scrollbar-thumb { border-radius: 20px; background: #d9ccff; }
+#settingsPopupModal .q-settings-desktop-close,
+#settingsPopupModal .q-settings-close {
+    display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px;
+    border: 1px solid #eeeaf5; border-radius: 11px; color: #89839c; background: #fbfaff;
+    transition: all .2s ease;
+}
+#settingsPopupModal .q-settings-close:hover { border-color: #d9ccff; color: #5e40ce; background: #f2edff; }
+#settingsPopupModal .q-settings-desktop-close { position: absolute; top: 19px; right: 20px; }
+#settingsPopupModal .q-settings-heading { margin-bottom: 29px; padding-right: 35px; }
+#settingsPopupModal .q-settings-kicker { display: inline-flex; align-items: center; gap: 9px; color: #817b9c; font-size: 9px; font-weight: 900; letter-spacing: .18em; }
+#settingsPopupModal .q-settings-kicker span { width: 7px; height: 7px; border-radius: 50%; background: #ff8b76; box-shadow: 0 0 0 4px rgba(255,139,118,.13); }
+#settingsPopupModal .q-settings-heading h2 { margin: 12px 0 7px; color: #17162b; font-size: 25px; font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
+#settingsPopupModal .q-settings-heading p { max-width: 440px; margin: 0; color: #858197; font-size: 12px; line-height: 1.7; }
+#settingsPopupModal .q-settings-field-label { display: block; margin-bottom: 10px; color: #9691a6; font-size: 9px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+#settingsPopupModal .q-settings-email-card {
+    display: flex; max-width: 510px; min-height: 60px; align-items: center; gap: 12px; padding: 10px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; background: #f9f7fd;
+    box-shadow: inset 0 1px 2px rgba(39,29,80,.025);
+}
+#settingsPopupModal .q-settings-email-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid #eeeaf5; border-radius: 10px; color: #7655e8; background: #fff; font-size: 13px; }
+#settingsPopupModal .q-settings-email-value { min-width: 0; flex: 1; overflow: hidden; color: #343149 !important; font-size: 12px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+#settingsPopupModal .q-settings-verified-icon { color: #6ebc9e; font-size: 13px; }
+#settingsPopupModal .q-settings-actions { display: grid; max-width: 510px; gap: 10px; margin-top: 27px; }
+#settingsPopupModal .q-settings-action {
+    display: flex; width: 100%; min-height: 63px; align-items: center; gap: 13px; padding: 11px 14px;
+    border: 1px solid #e9e6f0; border-radius: 14px; color: #343149; background: #fff; text-align: left;
+    transition: transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+#settingsPopupModal .q-settings-action:hover { transform: translateY(-1px); border-color: #d7cbf7; background: #fdfcff; box-shadow: 0 8px 19px rgba(60,44,110,.055); }
+#settingsPopupModal .q-settings-action-icon { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; border-radius: 11px; color: #7655e8; background: #f1edff; font-size: 13px; }
+#settingsPopupModal .q-settings-action-title { flex: 1; color: #343149; font-size: 12px; font-weight: 800; }
+#settingsPopupModal .q-settings-action-chevron { color: #c1bbcf; font-size: 10px; transition: transform .2s ease,color .2s ease; }
+#settingsPopupModal .q-settings-action:hover .q-settings-action-chevron { transform: translateX(3px); color: #7655e8; }
+#settingsPopupModal .q-settings-action-danger { border-color: #f3e3e6; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-icon { color: #d66d7a; background: #fff0f2; }
+#settingsPopupModal .q-settings-action-danger .q-settings-action-title { color: #bd5866; }
+#settingsPopupModal .q-settings-action-danger:hover { border-color: #efcbd0; background: #fff9f9; }
+#settingsPopupModal #settingsAlertMsg { border-radius: 13px !important; line-height: 1.5; }
+#settingsPopupModal #settingsAlertMsg.bg-emerald-50 { border: 1px solid #ccebdd; background: #f0fbf5; color: #388b67; }
+#settingsPopupModal #settingsAlertMsg.bg-rose-50 { border: 1px solid #f3d6da; background: #fff5f6; color: #bd5866; }
+
+@media (max-width: 767px) {
+    .q-account-menu-wrap .q-account-dropdown { right: -3px; }
+    #settingsPopupModal { padding: 0 !important; }
+    #settingsPopupModal .q-settings-dialog { width: 100%; height: 100%; max-height: none; min-height: 0; border: 0; border-radius: 0; }
+    #settingsPopupModal .q-settings-mobile-header { display: flex; min-height: 69px; align-items: center; justify-content: space-between; padding: 12px 19px; border-bottom: 1px solid #eeeaf5; background: #fff; }
+    #settingsPopupModal .q-settings-mobile-brand { display: flex; align-items: center; gap: 10px; }
+    #settingsPopupModal .q-settings-mobile-brand .q-settings-brand-mark { width: 36px; height: 36px; flex-basis: 36px; border-radius: 11px; font-size: 19px; }
+    #settingsPopupModal .q-settings-mobile-title { display: flex; flex-direction: column; gap: 1px; }
+    #settingsPopupModal .q-settings-mobile-title strong { color: #29263f; font-size: 13px; font-weight: 800; }
+    #settingsPopupModal .q-settings-mobile-title small { color: #9691a6; font-size: 10px; }
+    #settingsPopupModal .q-settings-sidebar { width: 100%; flex: 0 0 auto; flex-direction: row; align-items: center; padding: 10px 17px; border-right: 0; border-bottom: 1px solid #e9e6f0; background: #fbfaff; }
+    #settingsPopupModal .q-settings-sidebar-brand,
+    #settingsPopupModal .q-settings-sidebar-label,
+    #settingsPopupModal .q-settings-sidebar-note,
+    #settingsPopupModal .q-settings-sidebar-footer { display: none; }
+    #settingsPopupModal .q-settings-nav-button { width: auto; min-width: 112px; padding: 7px 10px; }
+    #settingsPopupModal .q-settings-main { padding: 28px 21px 34px; }
+    #settingsPopupModal .q-settings-desktop-close { display: none; }
+    #settingsPopupModal .q-settings-heading { margin-bottom: 24px; }
+    #settingsPopupModal .q-settings-heading h2 { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .q-account-menu-wrap .q-account-dropdown:not(.hidden) { animation: none; }
+    .q-account-menu-wrap .q-account-trigger,
+    .q-account-menu-wrap .q-account-dropdown-item,
+    #settingsPopupModal * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Higher-specificity refinements over the legacy header/settings utility rules. */
+.q-account-menu-wrap #userDropdownMenu.q-account-dropdown {
+    width: 278px !important; max-width: calc(100vw - 24px); margin-top: 0 !important; padding: 0 !important;
+    border: 1px solid #e8e2f3 !important; border-radius: 19px !important; background: #fff !important;
+    box-shadow: 0 22px 58px rgba(35,26,75,.18), 0 4px 12px rgba(35,26,75,.06) !important;
+}
+.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item {
+    padding: 10px !important; border: 0 !important; border-radius: 12px !important;
+    color: inherit !important; background: transparent; font-size: 12px !important;
+}
+.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-dropdown-item:hover {
+    background: #f8f6fd !important; color: inherit !important;
+}
+.q-account-menu-wrap #userDropdownMenu.q-account-dropdown button.q-account-logout:hover { background: #fff8f8 !important; }
+#settingsPopupModal > .q-settings-dialog {
+    border: 1px solid rgba(233,230,240,.95) !important; border-radius: 28px !important;
+    box-shadow: 0 30px 100px rgba(23,22,43,.24) !important;
+}
+#settingsPopupModal button#tabBtnAccount.q-settings-nav-button { border-radius: 12px !important; }
+#settingsPopupModal #panelSectionAccount button.q-settings-action { border-radius: 14px !important; }
+@media (max-width: 767px) {
+    #settingsPopupModal > .q-settings-dialog { border: 0 !important; border-radius: 0 !important; }
+}
+
+
+/* QUANS shared account and tool workspace finishing layer */
+:root {
+  --q-ink:#17162b; --q-ink-soft:#29263f; --q-muted:#77758b; --q-line:#e9e6f0;
+  --q-paper:#fbfaff; --q-violet:#7655e8; --q-violet-dark:#5e40ce;
+  --q-cyan:#6ad7e7; --q-coral:#ff8b76; --q-lilac:#d9ccff;
+}
+body { font-family:'DM Sans',sans-serif !important; background:#fbfaff !important; color:var(--q-ink); }
+header.sticky {
+  background:rgba(251,250,255,.94) !important; border-bottom:1px solid rgba(226,222,239,.9) !important;
+  box-shadow:0 7px 26px rgba(27,20,69,.035); backdrop-filter:blur(18px);
+}
+header h1 { color:#29263f !important; letter-spacing:-.035em !important; }
+header a[href="tool.html"] { border-color:#e6e1f0 !important; color:#514c69 !important; background:#fff !important; }
+header a[href="tool.html"]:hover { border-color:#d6cafa !important; color:#5e40ce !important; background:#fbfaff !important; }
+#profileTriggerBtn { border:1px solid #e9e6f0 !important; }
+#profileDropdownMenu { z-index:90; }
+main > section { border-color:#e9e6f0 !important; box-shadow:0 12px 34px rgba(39,29,80,.035) !important; }
+#generationTriggerBtn { background:linear-gradient(110deg,#7655e8,#8e6df0) !important; box-shadow:0 9px 20px rgba(118,85,232,.17); }
+#generationTriggerBtn:hover { background:linear-gradient(110deg,#5e40ce,#7655e8) !important; }
+input:focus, textarea:focus { border-color:#9b83ef !important; box-shadow:0 0 0 3px rgba(118,85,232,.09); }
+#desktopDropupTriggerBtn { background:#29263f !important; }
+#desktopDropupTriggerBtn:hover { background:#5e40ce !important; }
+#desktopDropupPanel { border-color:#e9e6f0 !important; box-shadow:0 20px 50px rgba(35,26,75,.13) !important; }
+#mobileSidebarDrawerOverlay > #mobileSidebarDrawerPanel { border-left:1px solid #e9e6f0; }
+#mobileSidebarDrawerPanel > div:first-child { background:linear-gradient(120deg,#fbfaff,#f5f1ff) !important; }
+.q-account-menu-wrap { position:relative; }
+.q-account-trigger { border:1px solid #e9e6f0; border-radius:999px; background:#fff; color:#29263f; box-shadow:0 5px 16px rgba(43,31,91,.055); }
+.q-account-trigger:hover, .q-account-trigger[aria-expanded="true"] { border-color:#d6cafa; box-shadow:0 8px 22px rgba(91,65,169,.12); }
+.q-account-dropdown { position:absolute; top:calc(100% + 9px); right:0; width:278px; max-width:calc(100vw - 22px); overflow:hidden; border:1px solid #e8e2f3; border-radius:19px; background:#fff; box-shadow:0 22px 58px rgba(35,26,75,.18); transform-origin:top right; }
+.q-account-dropdown-head { display:flex; align-items:center; gap:12px; padding:16px; background:radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff); border-bottom:1px solid #eeeaf5; }
+.q-account-dropdown-mark { display:grid; place-items:center; width:42px; height:42px; flex:0 0 42px; border:1px solid #fff; border-radius:14px; color:#7655e8; background:#fff; box-shadow:0 5px 14px rgba(83,61,145,.09); font-weight:900; }
+.q-account-dropdown-copy { display:flex; min-width:0; flex-direction:column; gap:3px; }
+.q-account-eyebrow { color:#8a81a5; font-size:9px; font-weight:900; letter-spacing:.16em; }
+.q-account-dropdown-copy strong { color:#29263f; font-size:13px; font-weight:800; }
+.q-account-email { max-width:185px; overflow:hidden; color:#89859a; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.q-account-dropdown-actions { padding:8px; }
+.q-account-dropdown-item { display:flex; width:100%; align-items:center; gap:11px; padding:10px; border:0; border-radius:12px; background:transparent; text-align:left; transition:background .18s ease,transform .18s ease; }
+.q-account-dropdown-item:hover { background:#f8f6fd; transform:translateX(2px); }
+.q-account-action-icon { display:grid; place-items:center; width:35px; height:35px; flex:0 0 35px; border-radius:11px; color:#7655e8; background:#f1edff; font-size:12px; }
+.q-account-action-copy { display:flex; min-width:0; flex:1; flex-direction:column; gap:2px; }
+.q-account-action-copy strong { color:#302d48; font-size:12px; font-weight:800; }
+.q-account-action-copy small { color:#9b97aa; font-size:10px; }
+.q-account-action-arrow { color:#b5aec7; font-size:10px; }
+.q-account-dropdown-divider { height:1px; margin:3px 7px; background:#eeeaf5; }
+.q-account-logout .q-account-action-icon { color:#cf6877; background:#fff0f2; }
+.q-account-logout .q-account-action-copy strong { color:#a94f5c; }
+.q-account-logout:hover { background:#fff8f8; }
+.q-mobile-nav-overlay { position:fixed; inset:0; z-index:85; background:rgba(23,22,43,.38); backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .25s ease; }
+.q-mobile-nav-overlay.is-open { opacity:1; pointer-events:auto; }
+.q-mobile-nav-panel { position:absolute; top:0; right:0; width:min(390px,92vw); height:100%; overflow-y:auto; padding:22px; background:linear-gradient(155deg,#fff 0%,#fbfaff 68%,#f5f1ff 100%); border-left:1px solid #e9e6f0; box-shadow:-20px 0 60px rgba(35,26,75,.13); transform:translateX(102%); transition:transform .28s cubic-bezier(.2,.8,.2,1); display:flex; flex-direction:column; }
+.q-mobile-nav-overlay.is-open .q-mobile-nav-panel { transform:translateX(0); }
+.q-mobile-nav-brand { display:flex; align-items:center; justify-content:space-between; padding-bottom:21px; border-bottom:1px solid #e9e6f0; }
+.q-mobile-nav-brandmark { display:flex; align-items:center; gap:11px; color:#17162b; font-size:18px; font-weight:900; letter-spacing:-.08em; }
+.q-mobile-nav-brandmark b { display:grid; place-items:center; width:37px; height:37px; border-radius:12px; color:#fff; background:linear-gradient(135deg,#7655e8,#6ad7e7); }
+.q-mobile-nav-close { width:36px; height:36px; border:1px solid #e9e6f0; border-radius:11px; color:#77758b; background:#fff; }
+.q-mobile-nav-kicker { margin:24px 0 10px; color:#9b94ae; font-size:9px; font-weight:900; letter-spacing:.18em; }
+.q-mobile-nav-links { display:grid; gap:8px; }
+.q-mobile-nav-link { display:flex; align-items:center; gap:12px; padding:12px; border:1px solid #ece8f3; border-radius:14px; color:#39354f; background:rgba(255,255,255,.86); text-decoration:none; font-size:13px; font-weight:750; }
+.q-mobile-nav-link i { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; color:#7655e8; background:#f1edff; }
+.q-mobile-nav-link .q-nav-arrow { margin-left:auto; color:#bbb4ca; font-size:10px; }
+.q-mobile-account { margin-top:auto; padding-top:18px; }
+.q-mobile-account-card { padding:14px; border:1px solid #e6def7; border-radius:16px; background:rgba(255,255,255,.82); }
+.q-mobile-account-card strong { display:block; color:#29263f; font-size:12px; }
+.q-mobile-account-card small { display:block; margin-top:4px; color:#89859a; font-size:10px; overflow-wrap:anywhere; }
+.q-mobile-account-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+.q-mobile-account-actions button { min-height:39px; border:1px solid #e8e2f3; border-radius:11px; color:#5e40ce; background:#fff; font-size:11px; font-weight:800; }
+.q-mobile-account-actions button:last-child { color:#b45564; }
+#settingsPopupModal { background:rgba(23,22,43,.58) !important; backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px); }
+#settingsPopupModal .q-settings-dialog { color:#29263f; background:#fff; border:1px solid rgba(233,230,240,.95); box-shadow:0 30px 100px rgba(23,22,43,.24); }
+#settingsHardDeleteModal { background:rgba(23,22,43,.64) !important; backdrop-filter:blur(8px); }
+#settingsPopupModal #settingsAlertMsg { border-radius:13px !important; line-height:1.5; }
+@media (max-width:767px) {
+  header.sticky { min-height:60px; }
+  #profileDropdownRoot .q-account-dropdown { right:-4px; }
+  #settingsPopupModal { padding:0 !important; }
+}
+@media (prefers-reduced-motion:reduce) { .q-account-dropdown,.q-mobile-nav-panel,#settingsPopupModal * { transition-duration:.01ms !important; animation-duration:.01ms !important; } }
+</style>
+<style id="quans-social-studio-design">
+
+:root {
+    --q-ink:#17162b; --q-ink-soft:#29263f; --q-muted:#77758b; --q-muted-light:#9e9bac;
+    --q-line:#e9e6f0; --q-paper:#fbfaff; --q-white:#fff; --q-violet:#7655e8;
+    --q-violet-dark:#5e40ce; --q-cyan:#6ad7e7; --q-coral:#ff8b76; --q-lilac:#d9ccff;
+    --q-green:#6ebc9e; --q-serif:Georgia,'Times New Roman',serif;
+}
+* { box-sizing:border-box; }
+html { min-height:100%; scroll-behavior:smooth; }
+body.q-workspace-page {
+    width:100%; min-width:320px; height:100vh; height:100dvh; overflow:hidden;
+    margin:0; display:flex; flex-direction:column; color:var(--q-ink);
+    background:
+      radial-gradient(circle at 86% 6%,rgba(207,190,255,.23),transparent 27rem),
+      radial-gradient(circle at 5% 48%,rgba(112,218,228,.12),transparent 25rem),
+      #fbfaff;
+    font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased;
+}
+body.q-workspace-page::before {
+    content:""; position:fixed; z-index:-1; inset:0; pointer-events:none; opacity:.25;
+    background-image:linear-gradient(rgba(130,110,190,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,190,.07) 1px,transparent 1px);
+    background-size:42px 42px; mask-image:linear-gradient(180deg,#000,transparent 75%);
+}
+button,input,textarea { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid rgba(118,85,232,.35); outline-offset:3px; }
+::selection { background:rgba(118,85,232,.2); color:var(--q-ink); }
+.scrollbar-none::-webkit-scrollbar { display:none; }
+.scrollbar-none { -ms-overflow-style:none; scrollbar-width:none; }
+
+/* Navigation */
+.q-topbar {
+    position:relative; z-index:60; flex:0 0 76px; min-height:76px; width:100%;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    padding:12px clamp(18px,4vw,58px); border-bottom:1px solid rgba(226,222,239,.86);
+    background:rgba(251,250,255,.9); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 8px 32px rgba(27,20,69,.025);
+}
+.q-topbar-brand-group,.q-topbar-actions { display:flex; align-items:center; }
+.q-topbar-brand-group { gap:17px; min-width:0; }
+.q-brand { color:var(--q-ink); text-decoration:none; font-size:25px; line-height:1; font-weight:900; letter-spacing:-.09em; white-space:nowrap; }
+.q-brand span { color:var(--q-violet); }
+.q-topbar-divider { width:1px; height:34px; background:#e7e2ef; }
+.q-current-tool { display:flex; flex-direction:column; gap:3px; }
+.q-current-tool span,.q-panel-kicker { color:#938da7; font-size:8px; font-weight:900; letter-spacing:.17em; }
+.q-current-tool strong { color:#343149; font-size:12px; font-weight:800; letter-spacing:-.02em; }
+.q-topbar-actions { gap:17px; }
+.q-topbar-status { display:flex; align-items:center; gap:8px; color:#87839a; font-size:10px; font-weight:700; }
+.q-topbar-status span { width:7px; height:7px; border-radius:50%; background:#6ebc9e; box-shadow:0 0 0 4px rgba(110,188,158,.13); }
+.q-account-menu-wrap { position:relative; }
+.q-account-trigger {
+    display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:5px 13px 5px 6px;
+    border:1px solid #e9e6f0; border-radius:999px; color:#29263f; background:rgba(255,255,255,.94);
+    font-size:12px; font-weight:800; box-shadow:0 5px 16px rgba(43,31,91,.055);
+    transition:border-color .2s,box-shadow .2s,transform .2s,background .2s; cursor:pointer;
+}
+.q-account-trigger:hover,.q-account-trigger[aria-expanded="true"] { border-color:#d6cafa; background:#fff; box-shadow:0 8px 22px rgba(91,65,169,.12); transform:translateY(-1px); }
+.q-account-avatar { display:grid; place-items:center; width:32px; height:32px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#7655e8,#8f72ed 58%,#6ad7e7 135%); box-shadow:0 4px 10px rgba(118,85,232,.2); font-size:12px; }
+.q-account-chevron { margin-left:1px; color:#8d86a4; font-size:9px; transition:transform .2s,color .2s; }
+.q-account-trigger[aria-expanded="true"] .q-account-chevron { transform:rotate(180deg); color:var(--q-violet); }
+.q-account-dropdown { position:absolute; top:calc(100% + 12px); right:0; z-index:100; width:254px; overflow:hidden; border:1px solid #e8e2f3; border-radius:17px; background:#fff; box-shadow:0 22px 58px rgba(35,26,75,.18),0 4px 12px rgba(35,26,75,.06); transform-origin:top right; }
+.q-account-dropdown:not(.hidden) { animation:qMenuIn .18s ease-out both; }
+@keyframes qMenuIn { from { opacity:0; transform:translateY(-6px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+.q-account-dropdown-head { display:flex; align-items:center; gap:11px; padding:15px; border-bottom:1px solid #eeeaf5; background:radial-gradient(circle at 92% 5%,rgba(217,204,255,.5),transparent 9rem),linear-gradient(120deg,#fbfaff,#f5f1ff); }
+.q-account-menu-mark { display:grid; place-items:center; width:37px; height:37px; border-radius:12px; color:var(--q-violet); background:#fff; box-shadow:0 5px 14px rgba(83,61,145,.09); }
+.q-account-dropdown-head strong,.q-account-dropdown-head small { display:block; }
+.q-account-dropdown-head strong { color:#29263f; font-size:12px; font-weight:800; }
+.q-account-dropdown-head small { margin-top:3px; color:#89859a; font-size:10px; }
+.q-account-dropdown-actions { padding:7px; }
+.q-account-dropdown-item { display:flex; width:100%; align-items:center; gap:10px; padding:9px; border:0; border-radius:11px; text-align:left; background:transparent; cursor:pointer; transition:background .18s,transform .18s; }
+.q-account-dropdown-item:hover { background:#fff7f8; transform:translateX(2px); }
+.q-account-action-icon { display:grid; place-items:center; width:33px; height:33px; flex:0 0 33px; border-radius:10px; color:#cf6877; background:#fff0f2; font-size:12px; }
+.q-account-action-copy { display:flex; flex:1; flex-direction:column; gap:2px; }
+.q-account-action-copy strong { color:#a94f5c; font-size:11px; font-weight:800; }
+.q-account-action-copy small { color:#a49aaa; font-size:9px; }
+.q-account-action-arrow { color:#c5a8ad; font-size:9px; }
+.q-mobile-history-button { display:none; width:42px; height:42px; place-items:center; border:1px solid #e7e2ef; border-radius:10px; color:#5e40ce; background:#fff; box-shadow:0 5px 14px rgba(39,27,90,.05); cursor:pointer; }
+
+/* Intro and workspace grid */
+.q-workspace-main { width:min(1480px,100%); flex:1 1 auto; min-height:0; min-width:0; margin:0 auto; padding:28px clamp(16px,3.2vw,48px) 34px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#d9ccff transparent; }
+.q-workspace-main::-webkit-scrollbar { width:6px; }
+.q-workspace-main::-webkit-scrollbar-thumb { border-radius:20px; background:#d9ccff; }
+.q-page-intro { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; margin:0 0 24px; }
+.q-page-intro-copy { max-width:660px; }
+.q-eyebrow { display:inline-flex; align-items:center; gap:9px; color:#817b9c; font-size:9px; font-weight:900; letter-spacing:.18em; }
+.q-eyebrow i { display:grid; place-items:center; width:24px; height:24px; border:1px solid #e5e0f3; border-radius:7px; color:var(--q-violet); background:rgba(255,255,255,.8); font-size:11px; }
+.q-page-intro h1 { margin:12px 0 9px; color:var(--q-ink); font-size:clamp(31px,3.6vw,46px); line-height:.99; font-weight:800; letter-spacing:-.065em; }
+.q-page-intro h1 em { color:var(--q-violet); font-family:var(--q-serif); font-weight:400; letter-spacing:-.055em; }
+.q-page-intro-copy p { max-width:570px; margin:0; color:#77748b; font-size:12px; line-height:1.75; }
+.q-intro-aside { width:300px; flex:0 0 300px; padding:12px 15px; border:1px solid #e8e3f0; background:rgba(255,255,255,.74); box-shadow:0 8px 25px rgba(39,27,90,.035); }
+.q-intro-aside-top { display:flex; justify-content:space-between; align-items:center; padding-bottom:9px; border-bottom:1px solid #efebf4; color:#9690a8; font-size:8px; font-weight:900; letter-spacing:.16em; }
+.q-intro-aside-top i { color:var(--q-violet); font-size:11px; }
+.q-workflow-step { display:flex; align-items:center; gap:10px; padding:8px 0; }
+.q-workflow-step > span { display:grid; place-items:center; width:24px; height:24px; flex:0 0 24px; color:#7354d8; background:#f1edff; font-size:8px; font-weight:900; }
+.q-workflow-step strong,.q-workflow-step small { display:block; }
+.q-workflow-step strong { color:#39364f; font-size:10px; font-weight:800; }
+.q-workflow-step small { margin-top:2px; color:#9a95a9; font-size:8px; }
+.q-workflow-rule { width:1px; height:7px; margin-left:11px; background:#ded7f4; }
+.q-workspace-grid { display:grid; grid-template-columns:minmax(300px,370px) minmax(0,1fr); align-items:stretch; gap:16px; min-height:650px; }
+.q-panel { min-width:0; border:1px solid #e8e4f0 !important; border-radius:13px !important; background:rgba(255,255,255,.96) !important; box-shadow:0 13px 38px rgba(38,30,84,.045) !important; }
+.q-input-card { padding:22px !important; overflow:visible !important; }
+.q-panel-heading { display:flex; align-items:flex-start; gap:12px; padding-bottom:17px; margin-bottom:17px; border-bottom:1px solid #eeeaf4; }
+.q-panel-heading-mark { display:grid; place-items:center; width:38px; height:38px; flex:0 0 38px; border:1px solid #e4dcfb; color:var(--q-violet); background:linear-gradient(140deg,#f0ebff,#faf8ff); font-size:13px; }
+.q-panel-heading h2,.q-output-heading h2 { margin:4px 0 4px; color:#29263f; font-size:17px; line-height:1.2; font-weight:800; letter-spacing:-.045em; }
+.q-panel-heading p,.q-output-heading p { margin:0; color:#8c879c; font-size:10px; line-height:1.55; }
+.q-form-content { display:flex; flex-direction:column; gap:17px !important; padding-bottom:16px !important; }
+.q-input-card label:not(.relative) { color:#88839b !important; font-size:9px !important; font-weight:900 !important; letter-spacing:.12em !important; text-transform:uppercase; }
+.q-input-card label i { color:var(--q-violet) !important; }
+.q-input-card textarea,.q-input-card input[type="url"] { width:100%; border:1px solid #e6e2ed !important; border-radius:8px !important; color:#39364f !important; background:#fdfcff !important; box-shadow:none !important; font-size:11px !important; line-height:1.65; transition:border-color .2s,box-shadow .2s,background .2s; }
+.q-input-card textarea { min-height:98px; padding:12px 13px !important; }
+.q-input-card input[type="url"] { min-height:41px; padding:10px 12px !important; }
+.q-input-card textarea::placeholder,.q-input-card input::placeholder { color:#b2adbd !important; }
+.q-input-card textarea:focus,.q-input-card input[type="url"]:focus { border-color:#b9a9f4 !important; background:#fff !important; box-shadow:0 0 0 3px rgba(118,85,232,.09) !important; outline:none; }
+.q-input-card .custom-dropdown-root { gap:7px !important; }
+.q-input-card .dropdown-trigger { min-height:42px; padding:0 11px !important; border:1px solid #e6e2ed !important; border-radius:8px !important; color:#39364f !important; background:#fdfcff !important; box-shadow:none !important; font-size:10px !important; font-weight:700; }
+.q-input-card .dropdown-trigger:hover,.q-input-card .dropdown-trigger:focus { border-color:#b9a9f4 !important; background:#fff !important; }
+.q-input-card .dropdown-menu-options { top:calc(100% + 6px) !important; border:1px solid #e8e2f3 !important; border-radius:10px !important; box-shadow:0 16px 36px rgba(35,26,75,.14) !important; padding:5px !important; }
+.q-input-card .option-item { border-radius:6px; padding:9px 10px !important; font-size:10px !important; }
+.q-input-card .option-item:hover { color:#5e40ce !important; background:#f5f1ff !important; }
+.q-input-card .q-form-content > .border-t { padding-top:16px !important; border-color:#eeeaf4 !important; }
+.q-input-card .q-form-content > .border-t h3 { margin:0 0 12px; color:#655d83 !important; font-size:9px !important; letter-spacing:.13em !important; }
+.q-input-card .q-form-content > .border-t h3 i { color:#7655e8 !important; }
+.q-input-card .q-form-content > .border-t > div { margin-bottom:10px; }
+.q-input-card .q-form-content > .border-t label { margin-bottom:6px !important; }
+.q-input-card .peer-checked\:bg-brand-blue:checked + div { background:#7655e8 !important; }
+.q-input-card .mt-4.border-t { margin-top:0 !important; }
+#generationTriggerBtn { min-height:47px; margin-top:auto !important; border:1px solid transparent; border-radius:8px !important; color:#fff !important; background:linear-gradient(110deg,#7354e7,#8d65f4) !important; box-shadow:0 10px 20px rgba(112,80,220,.18) !important; font-size:11px !important; font-weight:900; letter-spacing:.01em; transition:transform .2s,box-shadow .2s,opacity .2s; }
+#generationTriggerBtn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 14px 25px rgba(112,80,220,.25) !important; }
+#generationTriggerBtn:disabled { cursor:wait; }
+
+/* Output canvas and generated content */
+.q-output-card { min-height:650px !important; }
+.q-output-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:21px 23px 17px; border-bottom:1px solid #eeeaf4; background:linear-gradient(100deg,#fff 0%,#fdfcff 100%); }
+.q-output-heading-copy h2 { font-size:19px; }
+.q-output-heading-mark { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:64px; padding:11px 12px; border:1px solid #eee9f7; color:#7257ce; background:#faf8ff; }
+.q-output-heading-mark i { font-size:17px; }
+.q-output-heading-mark span { font-size:7px; font-weight:900; letter-spacing:.13em; }
+.q-output-toolbar { height:auto !important; min-height:48px; padding:9px 18px !important; background:#fbfaff !important; border-bottom:1px solid #eeeaf4 !important; }
+#statusDotIndicator { width:7px !important; height:7px !important; border-radius:50%; background:#c8c3d5; }
+#statusLabelIndicator { color:#817b96 !important; font-size:10px !important; font-weight:700 !important; }
+#copyToClipboardBtn { min-height:32px; padding:0 11px !important; border:1px solid #e5e0ef !important; border-radius:7px !important; color:#6652ba !important; background:#fff !important; font-size:9px !important; box-shadow:none !important; }
+#copyToClipboardBtn:hover { border-color:#cfc3fb !important; color:#5e40ce !important; background:#f7f4ff !important; }
+#outputDisplayScreenFrame { padding:21px 22px 76px !important; justify-content:flex-start; background:linear-gradient(180deg,#fdfcff 0%,#fff 160px); }
+#fallbackEmptyStatePanel { display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; max-width:470px; min-height:425px; margin:auto; padding:24px 20px !important; color:#89839c !important; }
+.q-empty-art { position:relative; width:190px; height:178px; margin:0 auto 22px; }
+.q-empty-art-back { position:absolute; top:23px; left:26px; width:132px; height:139px; border:1px solid #e1daf4; background:linear-gradient(145deg,#f2efff,#fff); transform:rotate(-9deg); }
+.q-empty-art-sheet { position:absolute; top:17px; left:37px; width:128px; height:145px; padding:12px; border:1px solid #e8e3f0; background:#fff; box-shadow:0 15px 32px rgba(46,34,101,.10); transform:rotate(4deg); }
+.q-empty-art-top { display:flex; gap:4px; padding-bottom:9px; border-bottom:1px solid #eeeaf4; }
+.q-empty-art-top span { width:5px; height:5px; border-radius:50%; background:#d9d1f3; }
+.q-empty-art-title { width:70%; height:8px; margin-top:14px; background:#d9ccff; }
+.q-empty-art-line { width:100%; height:4px; margin-top:8px; background:#eeeaf4; }
+.q-empty-art-line.short { width:62%; margin-top:5px; }
+.q-empty-art-line.mid { width:76%; margin-top:5px; }
+.q-empty-art-section { width:39%; height:5px; margin-top:17px; background:#bfe9e9; }
+.q-empty-art-footer { display:flex; align-items:center; gap:5px; margin-top:16px; color:#8b7acb; font-size:6px; font-weight:900; letter-spacing:.12em; }
+.q-empty-art-footer i { font-size:8px; }
+.q-empty-art-spark { position:absolute; color:#ff8b76; }
+.q-spark-one { top:8px; right:12px; font-size:24px; }
+.q-spark-two { bottom:16px; left:9px; color:#6ad7e7; font-size:21px; }
+.q-empty-kicker { color:#9189ab; font-size:8px; font-weight:900; letter-spacing:.18em; }
+#fallbackEmptyStatePanel h3 { margin:9px 0 7px; color:#302d48; font-size:20px; line-height:1.2; font-weight:800; letter-spacing:-.045em; }
+#fallbackEmptyStatePanel p { max-width:340px; margin:0; color:#9691a6; font-size:10px; line-height:1.75; font-weight:500; }
+#contentRendererDisplayBlock { display:flex; flex-direction:column; gap:13px !important; width:100%; max-width:880px; margin:0 auto; padding-bottom:15px; color:#39364f; }
+#contentRendererDisplayBlock.hidden { display:none !important; }
+#fallbackEmptyStatePanel.hidden { display:none !important; }
+#contentRendererDisplayBlock > div { border:1px solid #e9e5f0 !important; border-radius:10px !important; padding:17px !important; background:#fff !important; box-shadow:0 5px 15px rgba(39,27,90,.025) !important; }
+#contentRendererDisplayBlock > div:first-child { border-top:2px solid #9b83ef !important; }
+#contentRendererDisplayBlock > div > span:first-child { color:#7163a0 !important; font-size:8px !important; font-weight:900 !important; letter-spacing:.14em; }
+#contentRendererDisplayBlock [id^="generated"] { color:#4e4962 !important; font-size:11px !important; line-height:1.8; }
+#contentRendererDisplayBlock [id="generatedComplexity"],#contentRendererDisplayBlock [id="generatedDuration"] { color:#302d48 !important; font-size:12px !important; }
+#contentRendererDisplayBlock .bg-slate-50 { border:1px solid #f0edf5; background:#fbfaff !important; }
+#contentRendererDisplayBlock .border-b { border-color:#eeeaf4 !important; }
+#contentRendererDisplayBlock button { display:grid; place-items:center; width:29px; height:29px; border:1px solid #eeeaf4; border-radius:7px; color:#867da5; background:#fff; }
+#contentRendererDisplayBlock button:hover { border-color:#d9ccff; color:#5e40ce; background:#f7f4ff; }
+#contentRendererDisplayBlock > .grid { border:0 !important; padding:0 !important; background:transparent !important; box-shadow:none !important; }
+#contentRendererDisplayBlock > .grid > div { border:1px solid #e9e5f0 !important; border-radius:10px !important; padding:15px !important; background:#fff !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap { padding:14px 0 0 !important; border-top:1px solid #eeeaf4 !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button { display:inline-flex; width:auto; min-height:34px; padding:0 12px !important; border-radius:7px !important; font-size:9px !important; font-weight:800 !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button:first-child { color:#fff !important; border-color:transparent !important; background:linear-gradient(110deg,#7354e7,#8d65f4) !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button:not(:first-child) { color:#6753bd !important; border-color:#e5e0ef !important; background:#fff !important; }
+
+/* Saved history surfaces */
+#desktopDropupContainer { right:20px !important; bottom:17px !important; }
+#desktopDropupTriggerBtn { min-height:39px; padding:0 14px !important; border:1px solid #5e40ce; border-radius:8px !important; color:#fff !important; background:#29263f !important; box-shadow:0 9px 20px rgba(35,26,75,.16) !important; font-size:10px !important; font-weight:800; }
+#desktopDropupTriggerBtn:hover { background:#5e40ce !important; }
+#desktopDropupPanel { bottom:48px !important; width:min(350px,calc(100vw - 36px)) !important; height:390px !important; border:1px solid #e8e2f3 !important; border-radius:13px !important; box-shadow:0 24px 65px rgba(35,26,75,.17) !important; }
+#desktopDropupPanel > div:first-child { padding:14px !important; border-color:#eeeaf4 !important; background:#fbfaff !important; }
+#desktopDropupPanel h3 { color:#51496e !important; font-size:9px !important; font-weight:900 !important; letter-spacing:.12em; text-transform:uppercase; }
+#desktopHistorySearchBox,#mobileHistorySearchBox { min-height:38px; border:1px solid #e6e2ed !important; border-radius:7px !important; color:#39364f; background:#fff !important; font-size:10px !important; }
+#desktopHistorySearchBox:focus,#mobileHistorySearchBox:focus { border-color:#b9a9f4 !important; outline:none; box-shadow:0 0 0 3px rgba(118,85,232,.08); }
+#desktopGenerationsScrollList,#mobileGenerationsScrollList { padding:9px !important; background:#fff; }
+#desktopGenerationsScrollList > div,#mobileGenerationsScrollList > div { padding:11px !important; border:1px solid #eeeaf4 !important; border-radius:9px !important; background:#fff !important; }
+#desktopGenerationsScrollList > div:hover,#mobileGenerationsScrollList > div:hover { border-color:#d9ccff !important; background:#fdfcff !important; }
+#desktopGenerationsScrollList input,#mobileGenerationsScrollList input { color:#39364f !important; font-size:10px !important; font-weight:800 !important; }
+#desktopGenerationsScrollList .encoding-metadata span,#mobileGenerationsScrollList .encoding-metadata span { border:1px solid #eeeaf4; background:#f7f4ff !important; color:#7163a0 !important; font-size:8px !important; }
+#desktopGenerationsScrollList button,#mobileGenerationsScrollList button { width:25px; height:25px; border-radius:6px; }
+#desktopGenerationsScrollList .text-center,#mobileGenerationsScrollList .text-center { color:#9a95a9; font-size:10px; line-height:1.7; }
+.q-history-overlay { background:rgba(23,22,43,.42) !important; backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); }
+.q-history-drawer { width:min(390px,90vw) !important; max-width:none !important; border-left:1px solid #e8e2f3; border-radius:18px 0 0 18px; background:linear-gradient(160deg,#fff,#fbfaff 80%) !important; box-shadow:-24px 0 70px rgba(23,22,43,.18) !important; }
+.q-history-drawer-heading { min-height:70px; padding:0 20px !important; border-color:#ece8f3 !important; background:transparent !important; }
+.q-history-drawer-heading span { color:#29263f !important; font-size:12px !important; font-weight:900 !important; letter-spacing:-.02em; }
+#mobileDrawerCloseBtn { width:34px !important; height:34px !important; border:1px solid #e9e4f1 !important; border-radius:9px !important; color:#89839c !important; }
+#mobileSidebarDrawerPanel > div:nth-child(2) { padding:14px 17px !important; background:transparent !important; border-color:#ece8f3 !important; }
+#mobileGenerationsScrollList { background:transparent !important; }
+
+/* Responsive composition */
+@media (max-width:1100px) {
+    .q-workspace-main { padding-inline:22px; }
+    .q-workspace-grid { grid-template-columns:minmax(285px,335px) minmax(0,1fr); gap:13px; }
+    .q-input-card { padding:18px !important; }
+    .q-intro-aside { width:270px; flex-basis:270px; }
+}
+@media (max-width:800px) {
+    body.q-workspace-page { height:auto; min-height:100vh; min-height:100dvh; overflow:auto; }
+    .q-topbar { position:sticky; top:0; flex-basis:66px; min-height:66px; padding:10px 17px; }
+    .q-topbar-status { display:none; }
+    .q-topbar-actions { gap:9px; }
+    .q-mobile-history-button { display:grid; }
+    .q-workspace-main { flex:1 0 auto; min-height:0; overflow:visible; padding:25px 16px 32px; }
+    .q-page-intro { align-items:flex-start; flex-direction:column; gap:17px; margin-bottom:18px; }
+    .q-page-intro h1 { font-size:clamp(34px,8vw,44px); }
+    .q-intro-aside { display:grid; width:100%; flex:0 0 auto; grid-template-columns:1fr 1fr 1fr; align-items:center; padding:10px 12px; }
+    .q-intro-aside-top { grid-column:1/-1; padding-bottom:8px; }
+    .q-workflow-step { align-items:flex-start; gap:7px; padding:9px 4px 2px 0; }
+    .q-workflow-step > span { width:22px; height:22px; flex-basis:22px; }
+    .q-workflow-step strong { font-size:9px; }
+    .q-workflow-step small { font-size:7px; }
+    .q-workflow-rule { display:none; }
+    .q-workspace-grid { grid-template-columns:1fr; min-height:0; gap:14px; }
+    .q-input-card { min-height:0; padding:19px !important; }
+    .q-form-content { gap:16px !important; }
+    .q-output-card { min-height:560px !important; }
+    #outputDisplayScreenFrame { min-height:430px; padding:18px 15px 72px !important; }
+    #desktopDropupContainer { display:none !important; }
+}
+@media (max-width:520px) {
+    .q-brand { font-size:22px; }
+    .q-topbar-brand-group { gap:11px; }
+    .q-topbar-divider { height:29px; }
+    .q-current-tool span { font-size:7px; }
+    .q-current-tool strong { font-size:10px; }
+    .q-account-trigger { min-height:40px; padding:4px 10px 4px 5px; font-size:11px; }
+    .q-account-avatar { width:29px; height:29px; }
+    .q-mobile-history-button { width:40px; height:40px; }
+    .q-page-intro-copy p { font-size:11px; }
+    .q-intro-aside { gap:3px; }
+    .q-workflow-step { flex-direction:column; gap:5px; }
+    .q-workflow-step div { min-width:0; }
+    .q-workflow-step strong { font-size:8px; }
+    .q-workflow-step small { font-size:7px; line-height:1.35; }
+    .q-panel-heading h2 { font-size:16px; }
+    .q-output-heading { padding:17px 15px 14px; }
+    .q-output-heading h2 { font-size:16px; }
+    .q-output-heading p { max-width:255px; font-size:9px; }
+    .q-output-heading-mark { min-width:53px; padding:9px 7px; }
+    .q-output-heading-mark span { font-size:6px; }
+    #statusLabelIndicator { font-size:9px !important; }
+    #copyToClipboardBtn { padding-inline:8px !important; font-size:8px !important; }
+    #fallbackEmptyStatePanel { min-height:390px; }
+    #fallbackEmptyStatePanel h3 { font-size:18px; }
+    #contentRendererDisplayBlock > div { padding:13px !important; }
+    .q-history-drawer { width:min(380px,92vw) !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+    *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+
+
+/* Social Content Studio — same QUANS workspace language, tuned for social output */
+.q-social-intro h1 { max-width:720px; }
+.q-social-output-mark { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:64px; padding:11px 12px; border:1px solid #eee9f7; color:#7257ce; background:#faf8ff; }
+.q-social-output-mark i { font-size:17px; }
+.q-social-output-mark span { font-size:7px; font-weight:900; letter-spacing:.13em; }
+#contentRendererDisplayBlock { gap:13px !important; }
+#contentRendererDisplayBlock > div { border:1px solid #e9e5f0 !important; border-radius:10px !important; padding:17px !important; background:#fff !important; box-shadow:0 5px 15px rgba(39,27,90,.025) !important; }
+#contentRendererDisplayBlock > div:first-child { border-top:2px solid #9b83ef !important; }
+#contentRendererDisplayBlock > div > span:first-child { color:#7163a0 !important; font-size:8px !important; font-weight:900 !important; letter-spacing:.14em; }
+#contentRendererDisplayBlock [id^="generated"] { color:#4e4962 !important; font-size:11px !important; line-height:1.8; }
+#contentRendererDisplayBlock [id^="generatedHookText"] { color:#302d48 !important; font-size:12px !important; font-weight:800 !important; line-height:1.6; }
+#contentRendererDisplayBlock .border-b { border-color:#eeeaf4 !important; }
+#contentRendererDisplayBlock .bg-slate-50 { border:1px solid #f0edf5; background:#fbfaff !important; }
+#contentRendererDisplayBlock button { display:grid; place-items:center; width:29px; height:29px; border:1px solid #eeeaf4; border-radius:7px; color:#867da5; background:#fff; }
+#contentRendererDisplayBlock button:hover { border-color:#d9ccff; color:#5e40ce; background:#f7f4ff; }
+#contentRendererDisplayBlock > .flex.flex-wrap { padding:14px 0 0 !important; border-top:1px solid #eeeaf4 !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button { display:inline-flex; width:auto; min-height:34px; padding:0 12px !important; border-radius:7px !important; font-size:9px !important; font-weight:800 !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button:first-child { color:#fff !important; border-color:transparent !important; background:linear-gradient(110deg,#7354e7,#8d65f4) !important; }
+#contentRendererDisplayBlock > .flex.flex-wrap button:not(:first-child) { color:#6753bd !important; border-color:#e5e0ef !important; background:#fff !important; }
+.q-topbar-actions #quansMobileNavBtn { width:40px; height:40px; border:1px solid #e7e2ef; border-radius:10px; color:#7655e8; background:#fff; box-shadow:0 5px 14px rgba(39,27,90,.05); }
+@media (max-width:800px) {
+  .q-social-output-mark { min-width:53px; padding:9px 7px; }
+  .q-social-output-mark span { font-size:6px; }
+}
+
+</style>
+    <meta name="quans-app-check-site-key" content="6Lf1RzUuAAAAADxwHQWWdFCCzbMHxAEA6dJqu9lQ">
+</head>
+<body class="q-workspace-page">
+
+    <header class="q-topbar">
+    <div class="q-topbar-brand-group">
+        <a href="tool.html" class="q-brand" aria-label="Quans workspace">QUANS<span>.</span></a>
+        <span class="q-topbar-divider" aria-hidden="true"></span>
+        <div class="q-current-tool">
+            <span>WORKSPACE</span>
+            <strong>Social Content Studio</strong>
+        </div>
+    </div>
+    <div class="q-topbar-actions">
+        <div class="q-account-menu-wrap relative" id="profileDropdownRoot">
+        <button id="profileTriggerBtn" type="button" class="q-account-trigger flex items-center gap-2 px-2 py-1.5" aria-haspopup="true" aria-expanded="false">
+            <span class="q-account-avatar"><i class="fa-solid fa-user"></i></span>
+            <span id="userHelloDisplay" class="q-account-greeting">Hello!</span>
+            <i class="fa-solid fa-chevron-down q-account-chevron"></i>
+        </button>
+        <div id="profileDropdownMenu" class="q-account-dropdown hidden absolute right-0 z-[90]">
+            <div class="q-account-dropdown-head">
+                <span class="q-account-dropdown-mark">Q</span>
+                <div class="q-account-dropdown-copy">
+                    <span class="q-account-eyebrow">YOUR ACCOUNT</span>
+                    <strong>Welcome to QUANS</strong>
+                    <span class="q-account-email" id="qAccountEmailDisplay">Loading account...</span>
+                </div>
+            </div>
+            <div class="q-account-dropdown-actions">
+                <button id="settingsActionBtn" type="button" class="q-account-dropdown-item">
+                    <span class="q-account-action-icon"><i class="fa-solid fa-sliders"></i></span>
+                    <span class="q-account-action-copy"><strong>Settings</strong><small>Manage your account</small></span>
+                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                </button>
+                <div class="q-account-dropdown-divider"></div>
+                <button id="logoutActionBtn" type="button" class="q-account-dropdown-item q-account-logout">
+                    <span class="q-account-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                    <span class="q-account-action-copy"><strong>Log Out</strong><small>Sign out of QUANS</small></span>
+                    <i class="fa-solid fa-chevron-right q-account-action-arrow"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+        <button id="quansMobileNavBtn" type="button" class="md:hidden flex items-center justify-center w-8 h-8 border border-[#e9e6f0] text-[#7655e8] rounded-full bg-white hover:bg-[#f8f6fd] transition-colors shadow-xs" aria-label="Open QUANS navigation"><i class="fa-solid fa-bars-staggered text-xs"></i></button>
+        <button id="mobileDrawerOpenBtn" class="q-mobile-history-button md:hidden flex items-center justify-center w-8 h-8 border border-slate-200 text-slate-600 rounded-full bg-white hover:bg-slate-50 transition-colors shadow-xs">
+                <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+            </button>
+    </div>
+</header>
+
+    <main class="q-workspace-main">
+    <section class="q-page-intro q-social-intro">
+        <div class="q-page-intro-copy">
+            <span class="q-eyebrow"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> SOCIAL CONTENT WORKSPACE</span>
+            <h1>Turn ideas into posts<br><em>worth sharing.</em></h1>
+            <p>Shape a social post around your audience, platform and goal. Generate hooks, a focused body, and creative direction in one clear workspace.</p>
+        </div>
+        <div class="q-intro-aside" aria-label="Social content workflow">
+            <div class="q-intro-aside-top"><span>YOUR WORKFLOW</span><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i></div>
+            <div class="q-workflow-step"><span>01</span><div><strong>Set the direction</strong><small>Choose platform and audience</small></div></div>
+            <div class="q-workflow-rule"></div>
+            <div class="q-workflow-step"><span>02</span><div><strong>Generate the post</strong><small>Explore hooks and copy</small></div></div>
+            <div class="q-workflow-rule"></div>
+            <div class="q-workflow-step"><span>03</span><div><strong>Refine and publish</strong><small>Make it your own</small></div></div>
+        </div>
+    </section>
+    <div class="q-workspace-grid">
+<section class="q-panel q-input-card w-full md:w-[380px] bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col p-4 sm:p-5 overflow-y-auto shrink-0 z-10 h-auto md:h-full">
+            <div class="q-panel-heading">
+        <div class="q-panel-heading-mark"><i class="fa-solid fa-sliders" aria-hidden="true"></i></div>
+        <div><span class="q-panel-kicker">01 / CONTENT INPUT</span><h2>Build your post</h2><p>Set the context, audience and direction for your next piece of content.</p></div>
+    </div>
+    <div class="space-y-4 pb-4 q-form-content">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-pen-nib text-brand-blue"></i>Enter Your Topic Context</label>
+                    <textarea id="topicInputField" rows="3" placeholder="What is your business..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-3 outline-none text-xs sm:text-sm text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownPlatformRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">LinkedIn</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="LinkedIn">LinkedIn</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Instagram">Instagram</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Facebook">Facebook</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="X (Twitter)">X (Twitter)</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownToneRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tone</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Professional</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Professional">Professional</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Funny">Funny</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Storytelling">Storytelling</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Motivational">Motivational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educational">Educational</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Casual">Casual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownAudienceRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audience</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Developers</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Developers">Developers</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Founders">Founders</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Students">Students</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Creators">Creators</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Business Owners">Business Owners</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="General">General</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownGoalRoot">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                        <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                            <span class="selected-display-value truncate">Get comments</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                        </button>
+                        <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Get comments">Get comments</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Go viral">Go viral</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Build authority">Build authority</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Sell a product">Sell a product</div>
+                            <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Educate">Educate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5 relative custom-dropdown-root" id="dropdownLengthRoot">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Post Length</label>
+                    <button type="button" class="dropdown-trigger w-full flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 bg-white shadow-xs hover:border-slate-300 transition-colors">
+                        <span class="selected-display-value truncate">Short</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 shrink-0"></i>
+                    </button>
+                    <div class="dropdown-menu-options hidden absolute left-0 top-[102%] w-full bg-white border border-slate-100 rounded-xl shadow-xl z-30 max-h-40 overflow-y-auto py-1">
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Short">Short</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Medium">Medium</div>
+                        <div class="option-item px-3 py-2 text-xs hover:bg-slate-50 cursor-pointer text-slate-700 font-medium" data-value="Long">Long</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2.5 pt-1">
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="addCtaCheckbox" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-blue"></div>
+                        <span class="ml-2 text-xs font-bold text-slate-600">Add CTA</span>
+                    </label>
+                </div>
+
+                <div class="mt-4 border-t border-slate-100 pt-4 space-y-3">
+                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1"><i class="fa-solid fa-fingerprint text-brand-blue"></i>Brand Identity Scanner (Optional)</h3>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Profile URL Context</label>
+                        <input type="url" id="brandContextInput" placeholder="e.g., https://mybrand.com" class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 transition-colors shadow-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Writing History Style Sample</label>
+                        <textarea id="sampleWritingStyleInput" rows="2" placeholder="Paste a past post here to copy your natural syntax voice..." class="w-full border border-slate-200 focus:border-brand-blue rounded-xl p-2.5 outline-none text-xs text-slate-700 placeholder-slate-400 resize-none transition-colors shadow-xs"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generationTriggerBtn" class="w-full mt-4 md:mt-auto bg-brand-blue text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl shadow-sm hover:bg-brand-hover transition-all flex items-center justify-center gap-2 group text-xs sm:text-sm shrink-0">
+                <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i>
+                <span>Generate Content</span>
+            </button>
+        </section>
+<section class="q-panel q-output-card flex-1 bg-white border border-slate-100 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col overflow-hidden relative min-h-[500px] md:min-h-0 h-auto md:h-full z-10">
+            <div class="q-output-heading">
+        <div class="q-output-heading-copy">
+            <span class="q-panel-kicker">02 / GENERATED WORK</span>
+            <h2>Your content canvas</h2>
+            <p>Your hooks, post copy, call to action, hashtags and creative direction come together here.</p>
+        </div>
+        <div class="q-social-output-mark"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i><span>POST DRAFT</span></div>
+    </div>
+    <div class="q-output-toolbar h-12 border-b border-slate-100 px-4 flex items-center justify-between bg-slate-50/40 shrink-0">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                    <div id="statusDotIndicator" class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></div>
+                    <span id="statusLabelIndicator" class="text-[13px] sm:text-[15px] font-bold text-slate-500 truncate">Waiting for inputs...</span>
+                </div>
+                <button id="copyToClipboardBtn" class="hidden flex items-center gap-1 text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2.5 py-1.5 rounded-lg hover:text-brand-blue hover:border-brand-blue transition-all shrink-0 shadow-xs">
+                    <i class="fa-regular fa-copy"></i>
+                    <span id="copyBtnLabelText">Copy Full Blueprint</span>
+                </button>
+            </div>
+
+            <div id="outputDisplayScreenFrame" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col justify-center">
+                <div id="fallbackEmptyStatePanel" class="q-empty-state text-center max-w-xs mx-auto text-slate-400 py-12">
+        <div class="q-empty-art" aria-hidden="true">
+            <div class="q-empty-art-back"></div>
+            <div class="q-empty-art-sheet">
+                <div class="q-empty-art-top"><span></span><span></span><span></span></div>
+                <div class="q-empty-art-title"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line short"></div>
+                <div class="q-empty-art-section"></div><div class="q-empty-art-line"></div><div class="q-empty-art-line mid"></div>
+                <div class="q-empty-art-footer"><i class="fa-solid fa-sparkles"></i> READY FOR YOUR IDEA</div>
+            </div>
+            <span class="q-empty-art-spark q-spark-one">✦</span><span class="q-empty-art-spark q-spark-two">✧</span>
+        </div>
+        <span class="q-empty-kicker">A CLEAR STARTING POINT</span>
+        <h3>Your next post starts here.</h3>
+        <p>Share your topic and choose the direction. Your social content blueprint will take shape in this canvas.</p>
+    </div>
+                
+                <div id="contentRendererDisplayBlock" class="hidden w-full space-y-4 text-xs sm:text-sm select-text">
+                    <div class="space-y-2.5">
+                        <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire"></i> Generated Hook Stream Options</span>
+                        <div class="grid grid-cols-1 gap-2.5">
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText1" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText1')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText2" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText2')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-3.5 flex items-start justify-between gap-3">
+                                <div id="generatedHookText3" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug whitespace-pre-wrap flex-1"></div>
+                                <button onclick="copyIndividualSegmentBlock('generatedHookText3')" class="text-slate-400 hover:text-brand-blue text-xs transition-colors p-1 shrink-0"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-align-left"></i> Post Body Text Asset</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedMainBodyText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedMainBodyText" class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed"></div>
+                    </div>
+
+                    <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase text-emerald-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-bullseye"></i> Conversion Closing Line (CTA)</span>
+                            <button onclick="copyIndividualSegmentBlock('generatedCtaText')" class="text-slate-400 hover:text-slate-600 text-xs transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="generatedCtaText" class="text-xs sm:text-sm font-semibold text-slate-800 whitespace-pre-wrap"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-white border border-slate-100 shadow-2xs rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-hashtag"></i> Tags Index</span>
+                            <div id="generatedHashtags" class="text-[11px] font-mono text-blue-500 font-medium whitespace-pre-wrap"></div>
+                        </div>
+                        <div class="bg-white border border-slate-100 border-dashed rounded-xl p-4">
+                            <span class="block text-[10px] font-bold uppercase text-purple-500 tracking-wider mb-1.5 flex items-center gap-1"><i class="fa-solid fa-image"></i> Media Art Direction Prompt</span>
+                            <div id="generatedImageSuggestion" class="text-[11px] text-slate-500 italic whitespace-pre-wrap"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Quick-Refine Micro-Prompt Variant Optimization Dock Control Panel Toolbar Bar -->
+                    <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+                        <button onclick="handleMicroRefinement('shorter')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-compress text-[10px]"></i>
+                            <span>Shorter</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('professional')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-briefcase text-[10px]"></i>
+                            <span>Executive</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('funny')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-face-smile text-[10px]"></i>
+                            <span>Wittier</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('hook')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-magnet text-[10px]"></i>
+                            <span>Punchy Hook</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('sales')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-gavel text-[10px]"></i>
+                            <span>Sales Pitch</span>
+                        </button>
+                        <button onclick="handleMicroRefinement('story')" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-slate-200 hover:border-brand-blue rounded-lg text-[10px] font-bold text-slate-600 hover:text-brand-blue transition-all shadow-2xs">
+                            <i class="fa-solid fa-book text-[10px]"></i>
+                            <span>Narrative</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:block absolute bottom-4 right-4 z-40" id="desktopDropupContainer">
+                <button id="desktopDropupTriggerBtn" class="flex items-center gap-2 bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-all cursor-pointer">
+                    <i class="fa-solid fa-folder-open text-[11px]"></i>
+                    <span>Your Generations</span>
+                    <i class="fa-solid fa-chevron-up text-[9px] text-slate-400 ml-0.5 transition-transform duration-300" id="desktopDropupIcon"></i>
+                </button>
+                
+                <div id="desktopDropupPanel" class="hidden absolute bottom-12 right-0 w-[340px] h-[380px] bg-white border border-slate-200 shadow-xl rounded-xl flex flex-col overflow-hidden transition-all duration-300">
+                    <div class="p-3 border-b border-slate-100 bg-slate-50 flex flex-col gap-2 shrink-0">
+                        <h3 class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Archive Stack Records</h3>
+                        <div class="relative">
+                            <input type="text" id="desktopHistorySearchBox" placeholder="Search archive logs..." class="w-full text-xs border border-slate-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-brand-blue bg-white">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+                    <div id="desktopGenerationsScrollList" class="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-none p-2 space-y-1"></div>
+                </div>
+            </div>
+        </section>
+    </div></main>
+
+    <div id="mobileSidebarDrawerOverlay" class="q-history-overlay md:hidden fixed inset-0 bg-slate-900/40 opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex justify-end">
+        <div id="mobileSidebarDrawerPanel" class="q-history-drawer w-[85%] max-w-[320px] h-full bg-white shadow-xl flex flex-col translate-x-full transition-transform duration-300 ease-out">
+            <div class="q-history-drawer-heading h-16 border-b border-slate-100 px-4 flex items-center justify-between shrink-0 bg-slate-50">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-database text-brand-blue"></i>Your Generations</span>
+                <button id="mobileDrawerCloseBtn" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-full border border-slate-200 bg-white shadow-xs">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
+            <div class="p-3 bg-white border-b border-slate-100 shrink-0">
+                <div class="relative">
+                    <input type="text" id="mobileHistorySearchBox" placeholder="Filter archived builds..." class="w-full text-xs border border-slate-200 rounded-xl pl-8 pr-3 py-2 outline-none focus:border-brand-blue">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400"></i>
+                </div>
+            </div>
+            <div id="mobileGenerationsScrollList" class="flex-1 overflow-y-auto p-2 space-y-1 bg-slate-50/50"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- CUSTOM THEME DESIGN SYSTEM TOKENS SCHEMA INITIALIZATION ---
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"DM Sans"', 'sans-serif'] },
+                    colors: { brand: { blue: '#4A90E2', hover: '#357ABD', light: '#F0F6FF' } }
+                }
+            }
+        };
+
+        // --- CONNECTIVE INFRASTRUCTURE DATA REPOSITORY STACK CONFIGURATIONS ---
+        const firebaseConfig = {
+              apiKey: "AIzaSyAlixKQr90Wn2u1kOkE7erppf7omed5KXU",
+              authDomain: "quans-175a2.firebaseapp.com",
+              projectId: "quans-175a2",
+              storageBucket: "quans-175a2.firebasestorage.app",
+              messagingSenderId: "221298439204",
+              appId: "1:221298439204:web:47b39c005411c979ca54b1",
+              measurementId: "G-J6EZ37W65Y"
+        };
+        
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const quansAppCheckSiteKey = document.querySelector('meta[name="quans-app-check-site-key"]')?.content || '';
+        let quansAppCheckInstance = null;
+        if (quansAppCheckSiteKey && !quansAppCheckSiteKey.startsWith('REPLACE_')) {
+            try {
+                quansAppCheckInstance = firebase.appCheck();
+                quansAppCheckInstance.activate(
+                    new firebase.appCheck.ReCaptchaEnterpriseProvider(quansAppCheckSiteKey),
+                    true
+                );
+            } catch (appCheckError) {
+                console.error('[QUANS] App Check initialization failed:', appCheckError?.message || appCheckError);
+            }
+        }
+        window.quansGetAppCheckToken = async function () {
+            if (!quansAppCheckInstance) return '';
+            const tokenResult = await quansAppCheckInstance.getToken(false);
+            return tokenResult?.token || '';
+        };
+
+        function getQuansGenerationRequestId(key) {
+            const storageKey = `quans:generation-request:${key}`;
+            try {
+                const existing = localStorage.getItem(storageKey);
+                if (existing && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(existing)) return existing;
+            } catch (_) {}
+
+            const bytes = new Uint8Array(16);
+            crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
+            const requestId = `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+            try { localStorage.setItem(storageKey, requestId); } catch (_) {}
+            return requestId;
+        }
+
+        function clearQuansGenerationRequestId(key) {
+            try { localStorage.removeItem(`quans:generation-request:${key}`); } catch (_) {}
+        }
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Runtime Global Variable Registration Parameter State Mapping Objects
+        let currentUserObject = null;
+
+        async function assertQuansApiResponse(response) {
+            if (response.ok) return;
+            const payload = await response.json().catch(() => ({}));
+            const error = new Error(payload.error || `Generation request failed (${response.status}).`);
+            error.code = payload.code || 'GENERATION_REQUEST_FAILED';
+            error.required = payload.required;
+            error.available = payload.available;
+            throw error;
+        }
+
+        function getQuansCreditNotice(error, toolName, defaultCost) {
+            if (!error || !['EMAIL_NOT_VERIFIED', 'GENERATION_RATE_LIMITED', 'INSUFFICIENT_CREDITS', 'FREE_CREDITS_NOT_AVAILABLE', 'FREE_CREDITS_ALREADY_CLAIMED'].includes(error.code)) return null;
+            if (error.code === 'EMAIL_NOT_VERIFIED') {
+                return {
+                    title: 'Verify your email to use QUANS',
+                    message: error.message || 'Open the Firebase verification link sent to your email, then sign in again.',
+                    status: 'Email verification required'
+                };
+            }
+            if (error.code === 'GENERATION_RATE_LIMITED') {
+                return {
+                    title: 'Please wait before generating again',
+                    message: error.message || 'You have reached the short-term generation limit. Please wait a little and try again.',
+                    status: 'Short-term limit reached'
+                };
+            }
+            if (error.code === 'INSUFFICIENT_CREDITS') {
+                const required = Number.isFinite(Number(error.required)) ? Number(error.required) : defaultCost;
+                const available = Number.isFinite(Number(error.available)) ? Number(error.available) : 0;
+                return {
+                    title: 'You\u2019re out of credits',
+                    message: `${toolName} needs ${required} credits for this generation, but your current balance is ${available}.`,
+                    status: `Not enough credits \u00b7 ${available} available, ${required} needed`
+                };
+            }
+            if (error.code === 'FREE_CREDITS_ALREADY_CLAIMED') {
+                return {
+                    title: 'This email has already received its free credits',
+                    message: error.message || 'This email address has already received its one-time 50-credit welcome allowance. Deleting or recreating the account does not make it eligible again.',
+                    status: 'One-time allowance already claimed'
+                };
+            }
+
+            return {
+                title: 'Your free credits are not available for this account',
+                message: error.message || 'The 50-credit starter allowance is a one-time benefit for accounts created after the credit programme launch. You can review the available options on the Pricing page.',
+                status: 'No free-credit allowance on this account'
+            };
+        }
+        let generationLogsCacheArray = [];
+        let globalActiveSearchQueryToken = "";
+        let activeGeneratedPostObject = null;
+
+        // Object Tracking Active Values For Custom Dropdowns Selection Architecture
+        const activeFormStateModel = {
+            platform: "LinkedIn",
+            tone: "Professional",
+            audience: "Developers",
+            goal: "Get comments",
+            length: "Short"
+        };
+
+        // DOM Elements Map Pointer Directory Configuration Objects
+        const profileTriggerBtn = document.getElementById('profileTriggerBtn');
+        const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+        const logoutActionBtn = document.getElementById('logoutActionBtn');
+        const userHelloDisplay = document.getElementById('userHelloDisplay');
+        
+        const topicInputField = document.getElementById('topicInputField');
+        const addCtaCheckbox = document.getElementById('addCtaCheckbox');
+        const generationTriggerBtn = document.getElementById('generationTriggerBtn');
+        
+        const statusDotIndicator = document.getElementById('statusDotIndicator');
+        const statusLabelIndicator = document.getElementById('statusLabelIndicator');
+        const fallbackEmptyStatePanel = document.getElementById('fallbackEmptyStatePanel');
+        const contentRendererDisplayBlock = document.getElementById('contentRendererDisplayBlock');
+        const copyToClipboardBtn = document.getElementById('copyToClipboardBtn');
+        const copyBtnLabelText = document.getElementById('copyBtnLabelText');
+        const outputDisplayScreenFrame = document.getElementById('outputDisplayScreenFrame');
+
+        const desktopDropupTriggerBtn = document.getElementById('desktopDropupTriggerBtn');
+        const desktopDropupPanel = document.getElementById('desktopDropupPanel');
+        const desktopDropupIcon = document.getElementById('desktopDropupIcon');
+        const desktopHistorySearchBox = document.getElementById('desktopHistorySearchBox');
+        const desktopGenerationsScrollList = document.getElementById('desktopGenerationsScrollList');
+
+        const mobileDrawerOpenBtn = document.getElementById('mobileDrawerOpenBtn');
+        const mobileDrawerCloseBtn = document.getElementById('mobileDrawerCloseBtn');
+        const mobileSidebarDrawerOverlay = document.getElementById('mobileSidebarDrawerOverlay');
+        const mobileSidebarDrawerPanel = document.getElementById('mobileSidebarDrawerPanel');
+        const mobileHistorySearchBox = document.getElementById('mobileHistorySearchBox');
+        const mobileGenerationsScrollList = document.getElementById('mobileGenerationsScrollList');
+
+        // --- CUSTOM WEB WEBPAGE REPLACEMENT DROPDOWN LAYOUT MANAGEMENT LOGIC ---
+        function initializeCustomDropdownModules() {
+            const dropdownRoots = document.querySelectorAll('.custom-dropdown-root');
+            
+            dropdownRoots.forEach(root => {
+                const triggerBtn = root.querySelector('.dropdown-trigger');
+                const optionsMenu = root.querySelector('.dropdown-menu-options');
+                const displaySpan = root.querySelector('.selected-display-value');
+                const optionItems = root.querySelectorAll('.option-item');
+                const stateKey = root.id.replace('dropdown', '').replace('Root', '').toLowerCase();
+
+                // Toggle menu on click
+                triggerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Close all other dropdown menus first
+                    document.querySelectorAll('.dropdown-menu-options').forEach(menu => {
+                        if (menu !== optionsMenu) menu.classList.add('hidden');
+                    });
+                    optionsMenu.classList.toggle('hidden');
+                });
+
+                // Option selection handler logic
+                optionItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const chosenVal = item.getAttribute('data-value');
+                        displaySpan.innerText = chosenVal;
+                        activeFormStateModel[stateKey] = chosenVal;
+                        optionsMenu.classList.add('hidden');
+                    });
+                });
+            });
+
+            // Global click capture hook layer to dismiss floating dropdown elements instantly
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu-options').forEach(menu => menu.classList.add('hidden'));
+            });
+        }
+
+        // Helper interface method used to explicitly force dynamic visual value synchronizations across UI custom elements
+        function updateCustomDropdownUIValueDisplay(componentNameKey, absoluteTargetValue) {
+            const rootTargetNode = document.getElementById(`dropdown${componentNameKey.charAt(0).toUpperCase() + componentNameKey.slice(1)}Root`);
+            if (rootTargetNode) {
+                const displaySpanNode = rootTargetNode.querySelector('.selected-display-value');
+                if (displaySpanNode) displaySpanNode.innerText = absoluteTargetValue;
+                activeFormStateModel[componentNameKey] = absoluteTargetValue;
+            }
+        }
+
+        // --- SECURITY IDENTITY TRACKING ACCESS GUARDS MATRIX IMPLEMENTATIONS ---
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+            } else {
+                currentUserObject = user;
+                if (user.displayName) {
+                    const primaryFirstNameName = user.displayName.split(' ')[0];
+                    userHelloDisplay.innerText = `Hello!`;
+                } else {
+                    userHelloDisplay.innerText = "Hello!";
+                }
+                initializeCustomDropdownModules();
+                syncGenerationsRealtimeDatabaseStack();
+            }
+        });
+
+        // Dropdown User profile overlay interaction handlers
+        profileTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdownMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => { profileDropdownMenu.classList.add('hidden'); });
+        logoutActionBtn.addEventListener('click', () => { auth.signOut(); });
+
+        // Desktop Dropup Component Event Layout Toggles handlers
+        desktopDropupTriggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isMenuClosed = desktopDropupPanel.classList.toggle('hidden');
+            desktopDropupIcon.style.transform = !isMenuClosed ? "rotate(180deg)" : "rotate(0deg)";
+        });
+        desktopDropupPanel.addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', () => {
+            desktopDropupPanel.classList.add('hidden');
+            desktopDropupIcon.style.transform = "rotate(0deg)";
+        });
+
+        // Mobile Sidebar Drawer Actions Controls Interface Implementations
+        mobileDrawerOpenBtn.addEventListener('click', () => {
+            mobileSidebarDrawerOverlay.classList.add('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.add('sidebar-panel-active');
+        });
+        const closeMobileDrawerHandler = () => {
+            mobileSidebarDrawerOverlay.classList.remove('sidebar-overlay-active');
+            mobileSidebarDrawerPanel.classList.remove('sidebar-panel-active');
+        };
+        mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerOverlay.addEventListener('click', closeMobileDrawerHandler);
+        mobileSidebarDrawerPanel.addEventListener('click', (e) => e.stopPropagation());
+
+        // COPY OPERATIONS TRANSACTION LAYER EXECUTIONS (Copies entire constructed text block cleanly)
+        copyToClipboardBtn.addEventListener('click', () => {
+            if (!activeGeneratedPostObject) return;
+            const blueprintTextString = `HOOK 1:\n${activeGeneratedPostObject.hook1 || activeGeneratedPostObject.hook || ''}\n\nHOOK 2:\n${activeGeneratedPostObject.hook2 || ''}\n\nHOOK 3:\n${activeGeneratedPostObject.hook3 || ''}\n\nBODY:\n${activeGeneratedPostObject.mainPost || ''}\n\nCTA:\n${activeGeneratedPostObject.cta || ''}\n\n${activeGeneratedPostObject.hashtags || ''}`;
+            navigator.clipboard.writeText(blueprintTextString).then(() => {
+                copyBtnLabelText.innerText = "Copied!";
+                setTimeout(() => copyBtnLabelText.innerText = "Copy Full Blueprint", 1500);
+            }).catch(err => console.error("Clipboard blocking operation anomaly detected:", err));
+        });
+
+        function copyIndividualSegmentBlock(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText || document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Segment asset copied to clipboard!");
+            }).catch(err => console.error("Segment copy blocked:", err));
+        }
+
+        // REAL-TIME FIRESTORE DATA ACQUISITION & SYNCHRONIZATION BINDINGS
+        function syncGenerationsRealtimeDatabaseStack() {
+            if (!currentUserObject) return;
+
+            db.collection('users').doc(currentUserObject.uid).collection('generations')
+              .orderBy('timestamp', 'desc')
+              .onSnapshot((snapshot) => {
+                  generationLogsCacheArray = [];
+                  snapshot.forEach(doc => {
+                      generationLogsCacheArray.push({ id: doc.id, ...doc.data() });
+                  });
+                  renderGenerationsListCanvasDOM();
+              }, faultError => console.error("Firestore sync fault:", faultError));
+        }
+
+        // DYNAMIC RENDERING INTERACTIVE LOG FACTORY COMPILER LAYER OVERVIEW
+        function escapeHistoryValue(value) {
+            return String(value ?? '').replace(/[&<>\"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;'
+            }[character]));
+        }
+
+        function renderGenerationsListCanvasDOM() {
+            const filteredArray = generationLogsCacheArray.filter(item => {
+                if(!globalActiveSearchQueryToken.trim()) return true;
+                const activeMatchTokenValue = globalActiveSearchQueryToken.toLowerCase();
+                return (item.title && item.title.toLowerCase().includes(activeMatchTokenValue)) || 
+                       (item.promptInput && item.promptInput.toLowerCase().includes(activeMatchTokenValue)) ||
+                       (item.platform && item.platform.toLowerCase().includes(activeMatchTokenValue));
+            });
+
+            const renderBlockFactoryHtml = (item) => {
+                const rawId = String(item.id || '');
+                if (!/^[A-Za-z0-9_-]{1,128}$/.test(rawId)) return '';
+                const safeId = rawId;
+                const safeTitle = escapeHistoryValue(item.title || 'Untitled Generation');
+                const safePlatform = escapeHistoryValue(item.platform || 'LinkedIn');
+                const safeTone = escapeHistoryValue(item.tone || 'Professional');
+                return `
+                <div class="p-2.5 bg-white border border-slate-100 rounded-xl hover:border-brand-blue shadow-xs transition-all flex flex-col gap-1.5 group/item relative cursor-pointer" onclick="loadArchivedItemToWorkspace('${safeId}')">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-1.5 min-w-0 flex-1">
+                            <i class="fa-regular fa-file-lines text-slate-400 text-xs shrink-0"></i>
+                            <input type="text" value="${safeTitle}" 
+                                class="text-xs font-bold text-slate-700 bg-transparent border-b border-transparent focus:border-brand-blue outline-none min-w-0 flex-1 cursor-text"
+                                onclick="event.stopPropagation()" 
+                                onchange="renameGenerationDocRecord('${safeId}', this.value)" 
+                                id="titleInputNode-${safeId}">
+                        </div>
+                        <div class="flex items-center gap-1 shrink-0 opacity-100 md:opacity-0 group-hover/item:opacity-100 transition-opacity">
+                            <button onclick="event.stopPropagation(); document.getElementById('titleInputNode-${safeId}').focus();" class="w-6 h-6 rounded-md hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-blue text-[10px]">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteGenerationDocRecord('${safeId}')" class="w-6 h-6 rounded-md hover:bg-rose-50 flex items-center justify-center text-slate-400 hover:text-rose-500 text-[10px]">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-wrap text-[9px] font-bold encoding-metadata">
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">${safePlatform}</span>
+                        <span class="bg-blue-50/50 px-1.5 py-0.5 rounded text-brand-blue">${safeTone}</span>
+                    </div>
+                </div>
+            `;
+            };
+
+            const finalCompiledHtmlMarkup = filteredArray.length ? filteredArray.map(renderBlockFactoryHtml).join('') : `
+                <div class="text-center py-8 text-slate-400 text-xs font-medium">No configuration matches located.</div>
+            `;
+
+            desktopGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+            mobileGenerationsScrollList.innerHTML = finalCompiledHtmlMarkup;
+        }
+
+        // Interactive Key Ingestion Stream Handlers
+        desktopHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
+        });
+        mobileHistorySearchBox.addEventListener('input', (e) => {
+            globalActiveSearchQueryToken = e.target.value;
+            renderGenerationsListCanvasDOM();
+        });
+
+        // FIRESTORE RECORD WRITING CONTROLLER HOOKS INTERACTION NODES
+        async function renameGenerationDocRecord(docId, nextTitleValue) {
+            if(!currentUserObject || !nextTitleValue.trim()) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).update({
+                    title: nextTitleValue.trim()
+                });
+            } catch(err) { console.error("Operational update abort:", err); }
+        }
+
+        async function deleteGenerationDocRecord(docId) {
+            if(!currentUserObject || !confirm("Are you sure you want to delete this generation?")) return;
+            try {
+                await db.collection('users').doc(currentUserObject.uid).collection('generations').doc(docId).delete();
+            } catch(err) { console.error("Deletion transaction execution rollback:", err); }
+        }
+
+        // ACTION EVENT: LOAD HISTORICAL ARCHIVE VALUE DIRECTLY TO ACTIVE SCREEN VIEWPORTS
+        function loadArchivedItemToWorkspace(docId) {
+            const targetingMatchNode = generationLogsCacheArray.find(g => g.id === docId);
+            if (!targetingMatchNode) return;
+
+            // Fluid state synchronizations over our custom dropdown components
+            topicInputField.value = targetingMatchNode.promptInput || "";
+            updateCustomDropdownUIValueDisplay('platform', targetingMatchNode.platform || "LinkedIn");
+            updateCustomDropdownUIValueDisplay('tone', targetingMatchNode.tone || "Professional");
+            updateCustomDropdownUIValueDisplay('audience', targetingMatchNode.audience || "Developers");
+            updateCustomDropdownUIValueDisplay('goal', targetingMatchNode.goal || "Get comments");
+            updateCustomDropdownUIValueDisplay('length', targetingMatchNode.length || "Short");
+            addCtaCheckbox.checked = !!targetingMatchNode.addCTA;
+
+            // Restore brand inputs if present
+            document.getElementById('brandContextInput').value = targetingMatchNode.brandContext || "";
+            document.getElementById('sampleWritingStyleInput').value = targetingMatchNode.sampleWritingStyle || "";
+
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+
+            statusDotIndicator.className = "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = `Archived Content Session Restored [${targetingMatchNode.platform || 'LinkedIn'}].`;
+            
+            try {
+                const parsedObject = JSON.parse(targetingMatchNode.generatedOutput);
+                activeGeneratedPostObject = parsedObject;
+                renderStructuredOutput(parsedObject);
+            } catch (e) {
+                // Fallback for flat storage strings
+                const fallbackObject = { hook1: targetingMatchNode.generatedOutput, hook2: "", hook3: "", mainPost: "", cta: "", hashtags: "", imageSuggestion: "" };
+                activeGeneratedPostObject = fallbackObject;
+                renderStructuredOutput(fallbackObject);
+            }
+            closeMobileDrawerHandler();
+        }
+
+        // STRUCTURED OBJECT VIEW BINDING INTERFACE METHOD
+        function renderStructuredOutput(dataObject) {
+            fallbackEmptyStatePanel.classList.add('hidden');
+            contentRendererDisplayBlock.classList.remove('hidden');
+            copyToClipboardBtn.classList.remove('hidden');
+            outputDisplayScreenFrame.classList.remove('justify-center');
+
+            document.getElementById('generatedHookText1').innerHTML = formatTextTokenWeights(dataObject.hook1 || dataObject.hook || "None generated.");
+            document.getElementById('generatedHookText2').innerHTML = formatTextTokenWeights(dataObject.hook2 || "Alternative hook option 2.");
+            document.getElementById('generatedHookText3').innerHTML = formatTextTokenWeights(dataObject.hook3 || "Alternative hook option 3.");
+            document.getElementById('generatedMainBodyText').innerHTML = formatTextTokenWeights(dataObject.mainPost || "None generated.");
+            document.getElementById('generatedCtaText').innerHTML = formatTextTokenWeights(dataObject.cta || "");
+            document.getElementById('generatedHashtags').innerText = dataObject.hashtags || "";
+            document.getElementById('generatedImageSuggestion').innerText = dataObject.imageSuggestion || "";
+        }
+
+        function formatTextTokenWeights(rawStr) {
+            if (rawStr === null || rawStr === undefined || rawStr === '') return '';
+            const escaped = String(rawStr).replace(/[&<>\"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;'
+            }[character]));
+            return escaped
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function setUIProcessingState(isLoading, customMessage = "Processing structural inputs...") {
+            generationTriggerBtn.disabled = isLoading;
+            generationTriggerBtn.style.opacity = isLoading ? "0.6" : "1";
+            statusDotIndicator.className = isLoading ? "w-2 h-2 rounded-full bg-amber-400 animate-bounce" : "w-2 h-2 rounded-full bg-emerald-500";
+            statusLabelIndicator.innerText = isLoading ? "Generating..." : "Ready";
+        }
+
+        // ACTION PROCESS DISPATCH: DISPATCH GENERATION CONFIGS TO SERVER ENDPOINTS
+        generationTriggerBtn.addEventListener('click', async () => {
+            const promptValueInputString = topicInputField.value.trim();
+            if(!promptValueInputString) {
+                alert("Please write your core text topic configuration parameter rules first before generating content.");
+                return;
+            }
+        
+            setUIProcessingState(true);
+        
+            const platformToken = activeFormStateModel.platform;
+            const toneToken = activeFormStateModel.tone;
+            const audienceToken = activeFormStateModel.audience;
+            const goalToken = activeFormStateModel.goal;
+            const lengthToken = activeFormStateModel.length;
+            const ctaActiveFlag = addCtaCheckbox.checked;
+            const brandContextToken = document.getElementById('brandContextInput').value.trim();
+            const sampleStyleToken = document.getElementById('sampleWritingStyleInput').value.trim();
+        
+            try {
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {}),
+                        'X-Quans-Request-Id': getQuansGenerationRequestId('post-generate'),
+                    },
+                    body: JSON.stringify({
+                        topic: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        brandContext: brandContextToken,
+                        sampleWritingStyle: sampleStyleToken
+                    })
+                });
+        
+                await assertQuansApiResponse(apiPayloadResponse);
+                const structuredDataPayload = await apiPayloadResponse.json();
+                clearQuansGenerationRequestId('post-generate');
+                
+                activeGeneratedPostObject = structuredDataPayload;
+                renderStructuredOutput(structuredDataPayload);
+                
+                setUIProcessingState(false);
+                statusLabelIndicator.innerText = "Generation complete. Final post asset available below.";
+        
+                // Write generated content record down to Firestore instantly if signed in
+                if(currentUserObject) {
+                    const formattedTruncatedTitle = promptValueInputString.split('\n')[0].substring(0, 22) + "...";
+                    await db.collection('users').doc(currentUserObject.uid).collection('generations').add({
+                        title: formattedTruncatedTitle,
+                        promptInput: promptValueInputString,
+                        platform: platformToken,
+                        tone: toneToken,
+                        audience: audienceToken,
+                        goal: goalToken,
+                        length: lengthToken,
+                        addCTA: ctaActiveFlag,
+                        brandContext: brandContextToken,
+                        sampleWritingStyle: sampleStyleToken,
+                        generatedOutput: JSON.stringify(structuredDataPayload),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+        
+            } catch (err) {
+                console.error("Upstream communication breakdown fault:", err);
+                generationTriggerBtn.disabled = false;
+                generationTriggerBtn.style.opacity = "1";
+                const creditNotice = getQuansCreditNotice(err, 'Post Studio', 2);
+                if (creditNotice) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-500";
+                    statusLabelIndicator.innerText = creditNotice.status;
+                    alert(`${creditNotice.title}\n\n${creditNotice.message}\n\nOpen the Pricing page to review your options.`);
+                } else {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                    statusLabelIndicator.innerText = "Generation failed. Please try again.";
+                    alert("We couldn\u2019t generate your post. Please try again shortly.");
+                }
+            }
+        });
+
+        // QUICK-REFINE ACTION ROUTER PIPELINE HANDLER
+        async function handleMicroRefinement(actionKey) {
+            if (!activeGeneratedPostObject) {
+                alert("Generate a post configuration layout blueprint first before processing rapid variants.");
+                return;
+            }
+
+            setUIProcessingState(true);
+
+            try {
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
+                const apiPayloadResponse = await fetch('/api/social', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await currentUserObject.getIdToken()}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {}),
+                        'X-Quans-Request-Id': getQuansGenerationRequestId('post-refine')
+                    },
+                    body: JSON.stringify({
+                        platform: activeFormStateModel.platform,
+                        tone: activeFormStateModel.tone,
+                        audience: activeFormStateModel.audience,
+                        goal: activeFormStateModel.goal,
+                        length: activeFormStateModel.length,
+                        addCTA: addCtaCheckbox.checked,
+                        refineAction: actionKey,
+                        existingPostContext: JSON.stringify(activeGeneratedPostObject)
+                    })
+                });
+
+                await assertQuansApiResponse(apiPayloadResponse);
+                const refinedData = await apiPayloadResponse.json();
+                clearQuansGenerationRequestId('post-refine');
+                
+                activeGeneratedPostObject = refinedData;
+                renderStructuredOutput(refinedData);
+                setUIProcessingState(false);
+                statusLabelIndicator.innerText = "Refinement update compiled successfully.";
+
+            } catch (err) {
+                console.error("Micro-refinement transaction anomaly encountered:", err);
+                setUIProcessingState(false);
+                const creditNotice = getQuansCreditNotice(err, 'Post Studio', 2);
+                if (creditNotice) {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-amber-500";
+                    statusLabelIndicator.innerText = creditNotice.status;
+                    alert(`${creditNotice.title}\n\n${creditNotice.message}\n\nOpen the Pricing page to review your options.`);
+                } else {
+                    statusDotIndicator.className = "w-2 h-2 rounded-full bg-red-500";
+                    statusLabelIndicator.innerText = "Could not apply the refinement. Please try again.";
+                    alert("Could not update the post variants. Please try again.");
+                }
+            }
+        }
+    </script>
+<div id="quansMobileNavOverlay" class="q-mobile-nav-overlay" aria-hidden="true">
+      <aside class="q-mobile-nav-panel" aria-label="QUANS navigation">
+        <div class="q-mobile-nav-brand"><div class="q-mobile-nav-brandmark"><b>Q</b> QUANS.</div><button id="quansMobileNavClose" class="q-mobile-nav-close" aria-label="Close navigation"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="q-mobile-nav-kicker">EXPLORE QUANS</div>
+        <nav class="q-mobile-nav-links"><a class="q-mobile-nav-link" href="index.html"><i class="fa-solid fa-house-chimney"></i><span>Home</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<a class="q-mobile-nav-link" href="tool.html"><i class="fa-solid fa-screwdriver-wrench"></i><span>Tools</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<a class="q-mobile-nav-link" href="explore.html"><i class="fa-solid fa-compass"></i><span>Explore</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<a class="q-mobile-nav-link" href="pricing.html"><i class="fa-solid fa-tag"></i><span>Pricing</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<a class="q-mobile-nav-link" href="contact.html"><i class="fa-solid fa-envelope"></i><span>Contact Us</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a>
+<a class="q-mobile-nav-link" href="about.html"><i class="fa-solid fa-circle-info"></i><span>About Us</span><i class="fa-solid fa-chevron-right q-nav-arrow"></i></a></nav>
+        <div class="q-mobile-account"><div class="q-mobile-account-card"><strong>Signed in to QUANS</strong><small id="qMobileAccountEmail">Loading account...</small><div class="q-mobile-account-actions"><button id="qMobileSettingsBtn" type="button"><i class="fa-solid fa-sliders mr-1"></i> Settings</button><button id="qMobileLogoutBtn" type="button"><i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out</button></div></div></div>
+      </aside>
+    </div>
+    <div id="settingsPopupModal" class="q-settings-overlay hidden fixed inset-0 z-[100] items-center justify-center p-0 md:p-5 transition-opacity duration-300">
+    <div class="q-settings-dialog relative w-full h-full md:h-auto md:min-h-[540px] md:max-h-[calc(100vh-40px)] md:max-w-[820px] md:rounded-[28px] flex flex-col md:flex-row overflow-hidden transition-all transform duration-300">
+
+        <!-- Mobile settings header -->
+        <div class="q-settings-mobile-header md:hidden">
+            <div class="q-settings-mobile-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <span class="q-settings-mobile-title">
+                    <strong>Settings</strong>
+                    <small>Account and security</small>
+                </span>
+            </div>
+            <button id="closeSettingsMobileBtn" type="button" class="q-settings-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Account sidebar -->
+        <aside class="q-settings-sidebar">
+            <div class="q-settings-sidebar-brand">
+                <span class="q-settings-brand-mark">Q</span>
+                <div>
+                    <strong>QUANS</strong>
+                    <small>Account center</small>
+                </div>
+            </div>
+
+            <div class="q-settings-sidebar-label">YOUR ACCOUNT</div>
+            <button id="tabBtnAccount" type="button" class="q-settings-nav-button active" aria-current="page">
+                <span class="q-settings-nav-icon"><i class="fa-solid fa-circle-user"></i></span>
+                <span>Account</span>
+                <i class="fa-solid fa-chevron-right q-settings-nav-arrow"></i>
+            </button>
+
+            <div class="q-settings-sidebar-note">
+                <span class="q-settings-note-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                <strong>Your account, your control.</strong>
+                <p>Manage your sign-in details and account access from one place.</p>
+            </div>
+
+            <div class="q-settings-sidebar-footer">QUANS <span>·</span> ACCOUNT CENTER</div>
+        </aside>
+
+        <!-- Main account content -->
+        <main class="q-settings-main">
+            <button id="closeSettingsDesktopBtn" type="button" class="q-settings-close q-settings-desktop-close" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="panelSectionAccount" class="q-settings-account-panel">
+                <div class="q-settings-heading">
+                    <span class="q-settings-kicker"><span></span> ACCOUNT SETTINGS</span>
+                    <h2>Account Profiles</h2>
+                    <p>Manage your system registration settings configuration metadata layers.</p>
+                </div>
+
+                <div id="settingsAlertMsg" class="hidden items-center space-x-2 text-sm font-semibold p-4 rounded-2xl mb-4 fade-in">
+                    <i class="fa-solid fa-circle-info flex-shrink-0"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <section class="q-settings-email-section">
+                    <label class="q-settings-field-label">Registered Email Address</label>
+                    <div class="q-settings-email-card">
+                        <span class="q-settings-email-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span id="settingsEmailTextDisplay" class="q-settings-email-value">loading...</span>
+                        <span class="q-settings-verified-icon" aria-label="Account"><i class="fa-solid fa-shield-halved"></i></span>
+                    </div>
+                </section>
+
+                <section class="q-settings-actions" aria-label="Account actions">
+                    <button id="settingsChangePasswordBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-key"></i></span>
+                        <span class="q-settings-action-title">Change Password</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsLogoutBtn" type="button" class="q-settings-action">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span class="q-settings-action-title">Log Out</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+
+                    <button id="settingsOpenDeleteModalBtn" type="button" class="q-settings-action q-settings-action-danger">
+                        <span class="q-settings-action-icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="q-settings-action-title">Delete Account</span>
+                        <i class="fa-solid fa-chevron-right q-settings-action-chevron"></i>
+                    </button>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div id="settingsHardDeleteModal" class="hidden fixed inset-0 z-[110] items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs transition-opacity">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-transparent dark:border-slate-800 text-center animate-fadeIn" style="font-family: 'DM Sans', sans-serif;">
+        <div class="w-14 h-14 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-full flex items-center justify-center mx-auto text-xl shadow-xs mb-4">⚠️</div>
+        
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">We're sorry to see you go.</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+            Once you delete your account, your profile and username are permanently removed from Quans.
+        </p>
+        
+        <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 mb-4 text-left">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Type exact verification token text below:</label>
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none mb-2 bg-slate-200/60 dark:bg-slate-800 px-2 py-1 rounded inline-block">Delete My Account</p>
+            <input id="settingsDeleteChallengeInput" type="text" placeholder="Type here..." autocomplete="off" class="w-full px-4 py-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-rose-500 dark:focus:border-rose-500 focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-950/40 outline-none transition-all text-slate-800 dark:text-slate-100">
+            <p id="settingsDeleteInlineError" class="text-xs font-semibold text-rose-500 mt-2 hidden">⚠️ Verification input mismatch. Try typing carefully.</p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="settingsCancelDeleteBtn" type="button" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Cancel
+            </button>
+            <button id="settingsConfirmHardDeleteBtn" type="button" disabled class="flex-1 py-3 px-4 rounded-xl text-sm font-bold tracking-tight bg-rose-600 text-white opacity-40 cursor-not-allowed shadow-md transition-all">
+                Delete Permanently
+            </button>
+        </div>
+    </div>
+</div>
+    
+<script>
+(() => {
+  const settingsAuth = firebase.auth();
+  async function deleteQuansAccountOnServer(user) {
+    async function submitDelete() {
+      const token = await user.getIdToken(true);
+      const appCheckToken = await window.quansGetAppCheckToken?.() || '';
+      const response = await fetch('/api/account-delete', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {})
+        }
+      });
+      const payload = await response.json().catch(() => ({}));
+      return { response, payload };
+    }
+
+    let result = await submitDelete();
+    if (result.response.status === 401 && result.payload.code === 'AUTH_RECENT_LOGIN_REQUIRED') {
+      const isGoogle = (user.providerData || []).some(provider => provider.providerId === 'google.com');
+      if (isGoogle) {
+        throw new Error('For security, please log out, sign back in with Google, then confirm account deletion again.');
+      }
+      const password = window.prompt('For security, re-enter your account password to delete your QUANS account:');
+      if (!password) throw new Error('Account deletion cancelled.');
+      const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+      await user.reauthenticateWithCredential(credential);
+      result = await submitDelete();
+    }
+
+    if (!result.response.ok) {
+      const error = new Error(result.payload.error || 'Unable to delete your account right now.');
+      error.code = result.payload.code || 'ACCOUNT_DELETE_FAILED';
+      throw error;
+    }
+    await settingsAuth.signOut().catch(() => {});
+  }
+  const modal = document.getElementById('settingsPopupModal');
+  const hardDeleteModal = document.getElementById('settingsHardDeleteModal');
+  const challenge = document.getElementById('settingsDeleteChallengeInput');
+  const confirmDelete = document.getElementById('settingsConfirmHardDeleteBtn');
+  const alertBox = document.getElementById('settingsAlertMsg');
+  const alertText = alertBox?.querySelector('.alert-text');
+  const emailTargets = ['settingsEmailTextDisplay','qAccountEmailDisplay','qMobileAccountEmail'];
+  const byId = id => document.getElementById(id);
+  const setEmail = user => emailTargets.forEach(id => { const node=byId(id); if(node) node.textContent=user?.email || 'Signed-in account'; });
+  const showAlert = (message, type='info') => {
+    if (!alertBox) return;
+    alertBox.className = `flex items-center gap-2 text-sm font-semibold p-4 mb-4 ${type==='error' ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-emerald-50 text-emerald-700 border border-emerald-100'}`;
+    if (alertText) alertText.textContent = message;
+  };
+  const closeDropdown = () => {
+    const menu=byId('profileDropdownMenu'); if(menu) menu.classList.add('hidden');
+    const aiMenu=byId('userDropdown'); if(aiMenu) { aiMenu.classList.add('opacity-0','pointer-events-none','translate-y-2'); }
+    const trigger=byId('profileTriggerBtn') || byId('userMenuBtn'); if(trigger) trigger.setAttribute('aria-expanded','false');
+  };
+  const openSettings = () => {
+    closeDropdown();
+    const user=settingsAuth.currentUser; setEmail(user);
+    if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.classList.add('overflow-hidden'); }
+    if(alertBox) alertBox.classList.add('hidden');
+  };
+  const closeSettings = () => { if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); } document.body.classList.remove('overflow-hidden'); };
+  const openHardDelete = () => { if(hardDeleteModal) { hardDeleteModal.classList.remove('hidden'); hardDeleteModal.classList.add('flex'); } if(challenge) { challenge.value=''; challenge.focus(); } if(confirmDelete) { confirmDelete.disabled=true; confirmDelete.classList.add('opacity-40','cursor-not-allowed'); } };
+  const closeHardDelete = () => { if(hardDeleteModal) { hardDeleteModal.classList.add('hidden'); hardDeleteModal.classList.remove('flex'); } };
+
+  ['settingsActionBtn','aiSettingsActionBtn','qMobileSettingsBtn','aiSidebarSettingsBtn'].forEach(id => byId(id)?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); closeMobileNav(); openSettings(); }));
+  ['closeSettingsMobileBtn','closeSettingsDesktopBtn'].forEach(id => byId(id)?.addEventListener('click', closeSettings));
+  modal?.addEventListener('click', e => { if(e.target===modal) closeSettings(); });
+  byId('settingsChangePasswordBtn')?.addEventListener('click', async () => {
+    const user=settingsAuth.currentUser;
+    if(!user?.email) { showAlert('No email address is available for this account.','error'); return; }
+    try { await settingsAuth.sendPasswordResetEmail(user.email); showAlert('Password reset instructions have been sent to your email.'); }
+    catch(err) { console.error('Password reset request failed:',err); showAlert(err.message || 'Unable to send password reset email.','error'); }
+  });
+  byId('settingsLogoutBtn')?.addEventListener('click', async () => { try { await settingsAuth.signOut(); window.location.href='index.html'; } catch(err) { console.error(err); showAlert('Unable to log out. Please try again.','error'); } });
+  byId('settingsOpenDeleteModalBtn')?.addEventListener('click', openHardDelete);
+  byId('settingsCancelDeleteBtn')?.addEventListener('click', closeHardDelete);
+  hardDeleteModal?.addEventListener('click', e => { if(e.target===hardDeleteModal) closeHardDelete(); });
+  challenge?.addEventListener('input', () => {
+    const valid=challenge.value.trim()==='Delete My Account'; if(confirmDelete) { confirmDelete.disabled=!valid; confirmDelete.classList.toggle('opacity-40',!valid); confirmDelete.classList.toggle('cursor-not-allowed',!valid); }
+    byId('settingsDeleteInlineError')?.classList.add('hidden');
+  });
+  confirmDelete?.addEventListener('click', async () => {
+    if(challenge?.value.trim()!=='Delete My Account') { byId('settingsDeleteInlineError')?.classList.remove('hidden'); return; }
+    const user=settingsAuth.currentUser; if(!user) return;
+    confirmDelete.disabled=true; confirmDelete.textContent='Deleting...';
+    try {
+      await deleteQuansAccountOnServer(user);
+      window.location.href = 'index.html';
+    } catch(err) {
+      console.error('Account deletion failed:', err?.code || err?.message);
+      confirmDelete.disabled = false;
+      confirmDelete.textContent = 'Delete Permanently';
+      showAlert(err.message || 'Account deletion failed. Please sign in again and retry.', 'error');
+      closeHardDelete();
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+    }
+  });
+
+  const navOverlay=byId('quansMobileNavOverlay');
+  const closeMobileNav=() => { navOverlay?.classList.remove('is-open'); navOverlay?.setAttribute('aria-hidden','true'); document.body.classList.remove('overflow-hidden'); };
+  byId('quansMobileNavBtn')?.addEventListener('click', () => { navOverlay?.classList.add('is-open'); navOverlay?.setAttribute('aria-hidden','false'); document.body.classList.add('overflow-hidden'); });
+  byId('quansMobileNavClose')?.addEventListener('click', closeMobileNav);
+  navOverlay?.addEventListener('click',e=>{ if(e.target===navOverlay) closeMobileNav(); });
+  byId('qMobileLogoutBtn')?.addEventListener('click', async()=>{ try { await settingsAuth.signOut(); window.location.href='index.html'; } catch(err){ console.error(err); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeSettings(); closeHardDelete(); closeMobileNav(); } });
+  settingsAuth.onAuthStateChanged(user => setEmail(user));
+  const trigger=byId('profileTriggerBtn') || byId('userMenuBtn');
+  trigger?.addEventListener('click',()=>requestAnimationFrame(()=>trigger.setAttribute('aria-expanded',String(!(byId('profileDropdownMenu')?.classList.contains('hidden') ?? true)))));
+})();
+</script>
+</body>
+</html>
