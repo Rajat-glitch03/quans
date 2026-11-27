@@ -127,9 +127,8 @@ async function fetchGeminiWithRetry(url, options) {
 
 async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck, X-Quans-Request-Id');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
@@ -813,8 +812,33 @@ STRICT RESTRICTIONS:
 
         const responseJsonText = data.candidates[0].content.parts[0].text;
 
-        // Send the cleanly structured JSON data right back to your frontend view layer
-        return res.status(200).json(JSON.parse(responseJsonText));
+        let parsedOutput;
+        try {
+            parsedOutput = JSON.parse(responseJsonText);
+        } catch (parseError) {
+            return res.status(502).json({
+                error: 'The AI service returned an unreadable post. Your credits were not used.',
+                code: 'AI_INVALID_RESPONSE',
+                retryable: true
+            });
+        }
+
+        if (
+            !parsedOutput ||
+            typeof parsedOutput !== 'object' ||
+            Array.isArray(parsedOutput) ||
+            typeof parsedOutput.mainPost !== 'string' ||
+            !parsedOutput.mainPost.trim()
+        ) {
+            return res.status(502).json({
+                error: 'The AI service did not return a complete post. Your credits were not used.',
+                code: 'AI_INVALID_RESPONSE',
+                retryable: true
+            });
+        }
+
+        // Only a complete, usable post is considered a successful generation.
+        return res.status(200).json(parsedOutput);
 
     } catch (error) {
         console.error("Vercel Serverless Function Catch-All Error:", error);
