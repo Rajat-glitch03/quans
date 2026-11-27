@@ -13,5 +13,9 @@
     "jwks-rsa": {
       "jose": "4.15.9"
     }
+  },
+  "scripts": {
+    "migrate:free-credit-claims": "node scripts/migrate-free-credit-claims.js",
+    "cleanup:account-deletions": "node scripts/cleanup-account-deletions.js"
   }
 }
