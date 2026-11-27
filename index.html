@@ -1024,7 +1024,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   }
 </style>
 
-    <meta name="quans-app-check-site-key" content="REPLACE_WITH_FIREBASE_APPCHECK_RECAPTCHA_V3_SITE_KEY">
+    <meta name="quans-app-check-site-key" content="REPLACE_WITH_RECAPTCHA_ENTERPRISE_SITE_KEY">
 </head>
 <body class="site-page site-home-page min-h-screen text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 flex flex-col selection:bg-brand-blue selection:text-white transition-colors duration-200"> 
 
@@ -2189,7 +2189,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { initializeAppCheck, ReCaptchaV3Provider, getToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider, getToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check.js";
         import { 
             getAuth, 
             createUserWithEmailAndPassword, 
@@ -2217,16 +2217,17 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
         const app = initializeApp(firebaseConfig);
 
-        // Firebase App Check is optional during setup. Once a real public
-        // reCAPTCHA v3 site key is configured, every custom API request below
-        // can attach an attestation token. Server enforcement is enabled only
-        // after QUANS_REQUIRE_APPCHECK=true is set in Vercel.
+        // Firebase App Check is optional during setup. Once the public
+        // reCAPTCHA Enterprise site key is added below, this page initializes
+        // App Check with automatic token refresh. The account-delete request
+        // below attaches the resulting token; server-side verification must
+        // be configured separately before enforcing App Check on that route.
         const quansAppCheckSiteKey = document.querySelector('meta[name="quans-app-check-site-key"]')?.content || '';
         let quansAppCheckInstance = null;
         if (quansAppCheckSiteKey && !quansAppCheckSiteKey.startsWith('REPLACE_')) {
             try {
                 quansAppCheckInstance = initializeAppCheck(app, {
-                    provider: new ReCaptchaV3Provider(quansAppCheckSiteKey),
+                    provider: new ReCaptchaEnterpriseProvider(quansAppCheckSiteKey),
                     isTokenAutoRefreshEnabled: true
                 });
             } catch (appCheckError) {
