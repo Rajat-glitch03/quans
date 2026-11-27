@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-check-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -1082,6 +1083,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 }
 
 </style>
+    <meta name="quans-app-check-site-key" content="REPLACE_WITH_FIREBASE_APPCHECK_RECAPTCHA_V3_SITE_KEY">
 </head>
 
 <body class="q-workspace-page">
@@ -1411,6 +1413,44 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
+        }
+
+        // Firebase App Check is optional until the public reCAPTCHA site key is configured.
+        const quansAppCheckSiteKey = document.querySelector('meta[name="quans-app-check-site-key"]')?.content || '';
+        let quansAppCheckInstance = null;
+        if (quansAppCheckSiteKey && !quansAppCheckSiteKey.startsWith('REPLACE_')) {
+            try {
+                quansAppCheckInstance = firebase.appCheck();
+                quansAppCheckInstance.activate(quansAppCheckSiteKey, true);
+            } catch (appCheckError) {
+                console.error('[QUANS] App Check initialization failed:', appCheckError?.message || appCheckError);
+            }
+        }
+        window.quansGetAppCheckToken = async function () {
+            if (!quansAppCheckInstance) return '';
+            const tokenResult = await quansAppCheckInstance.getToken(false);
+            return tokenResult?.token || '';
+        };
+
+        function getQuansGenerationRequestId(key) {
+            const storageKey = `quans:generation-request:${key}`;
+            try {
+                const existing = localStorage.getItem(storageKey);
+                if (existing && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(existing)) return existing;
+            } catch (_) {}
+
+            const bytes = new Uint8Array(16);
+            crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
+            const requestId = `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+            try { localStorage.setItem(storageKey, requestId); } catch (_) {}
+            return requestId;
+        }
+
+        function clearQuansGenerationRequestId(key) {
+            try { localStorage.removeItem(`quans:generation-request:${key}`); } catch (_) {}
         }
         
         const auth = firebase.auth();
@@ -1830,6 +1870,38 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
         };
 
         // Static append wrapper with custom feedback tracking capability bindings
+        function sanitizeResumeMarkup(untrustedMarkup) {
+            const parsed = new DOMParser().parseFromString(String(untrustedMarkup || ''), 'text/html');
+            const fragment = document.createDocumentFragment();
+            const allowedTags = new Set(['STRONG', 'EM', 'BR']);
+
+            function appendSafeNode(sourceNode, targetNode) {
+                if (sourceNode.nodeType === Node.TEXT_NODE) {
+                    targetNode.appendChild(document.createTextNode(sourceNode.nodeValue || ''));
+                    return;
+                }
+                if (sourceNode.nodeType !== Node.ELEMENT_NODE) return;
+                if (!allowedTags.has(sourceNode.tagName)) {
+                    targetNode.appendChild(document.createTextNode(sourceNode.textContent || ''));
+                    return;
+                }
+                const safeElement = document.createElement(sourceNode.tagName.toLowerCase());
+                if (sourceNode.tagName !== 'BR') {
+                    Array.from(sourceNode.childNodes).forEach(child => appendSafeNode(child, safeElement));
+                }
+                targetNode.appendChild(safeElement);
+            }
+
+            Array.from(parsed.body.childNodes).forEach(node => appendSafeNode(node, fragment));
+            return fragment;
+        }
+
+        function escapeResumeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[character]));
+        }
+
         function appendCustomStaticMessageBubble(htmlContent, isUser) {
             const wrapper = document.createElement('div');
             wrapper.className = `flex w-full fade-in flex-col ${isUser ? 'items-end' : 'items-start'}`;
@@ -1842,7 +1914,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 isUser ? 'bg-brand-blue text-white rounded-3xl rounded-br-sm' : 'bg-slate-50 border border-slate-100 text-slate-800 rounded-3xl rounded-bl-sm'
             }`;
             
-            bubble.innerHTML = htmlContent;
+            bubble.appendChild(sanitizeResumeMarkup(htmlContent));
             row.appendChild(bubble);
             wrapper.appendChild(row);
 
@@ -1853,19 +1925,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 
                 // Pure clean text rendering parser computation for local clipboard integration
                 const cleanExtractText = bubble.innerText || bubble.textContent;
+                        const likeButton = document.createElement('button');
+                        likeButton.className = 'hover:text-emerald-500 transition-colors p-1';
+                        likeButton.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
+                        likeButton.addEventListener('click', () => window.handleFeedbackClick?.(likeButton, 'like'));
 
-                actionToolbar.innerHTML = `
-                    <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
-                        <i class="fa-regular fa-thumbs-up"></i>
-                    </button>
-                    <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
-                        <i class="fa-regular fa-thumbs-down"></i>
-                    </button>
-                    <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
-                        <i class="fa-regular fa-copy"></i>
-                        <span class="text-[10px] hidden font-medium">Copied!</span>
-                    </button>
-                `;
+                        const dislikeButton = document.createElement('button');
+                        dislikeButton.className = 'hover:text-rose-500 transition-colors p-1';
+                        dislikeButton.innerHTML = '<i class="fa-regular fa-thumbs-down"></i>';
+                        dislikeButton.addEventListener('click', () => window.handleFeedbackClick?.(dislikeButton, 'dislike'));
+
+                        const copyButton = document.createElement('button');
+                        copyButton.className = 'hover:text-brand-blue transition-colors p-1 flex items-center gap-1';
+                        copyButton.innerHTML = '<i class="fa-regular fa-copy"></i><span class="text-[10px] hidden font-medium">Copied!</span>';
+                        copyButton.addEventListener('click', () => window.handleCopyClick?.(copyButton, cleanExtractText));
+                        actionToolbar.append(likeButton, dislikeButton, copyButton);
                 wrapper.appendChild(actionToolbar);
             }
 
@@ -1950,10 +2024,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 } else if(node.nodeType === Node.ELEMENT_NODE) {
                     if(node.tagName === 'BR') {
                         flatTokens.push({ type: 'br' });
-                    } else {
-                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase(), attrs: Array.from(node.attributes) });
+                    } else if (node.tagName === 'STRONG' || node.tagName === 'EM') {
+                        flatTokens.push({ type: 'tag-start', tag: node.tagName.toLowerCase() });
                         Array.from(node.childNodes).forEach(segmentNode);
                         flatTokens.push({ type: 'tag-end' });
+                    } else {
+                        (node.textContent || '').split('').forEach(c => flatTokens.push({ type: 'text', value: c }));
                     }
                 }
             }
@@ -1987,18 +2063,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                         const cleanExtractText = bubbleTargetElement.innerText || bubbleTargetElement.textContent;
                         const actionToolbar = document.createElement('div');
                         actionToolbar.className = 'flex items-center gap-3 mt-1.5 ml-3 text-slate-400 text-xs';
-                        actionToolbar.innerHTML = `
-                            <button class="hover:text-emerald-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'like')">
-                                <i class="fa-regular fa-thumbs-up"></i>
-                            </button>
-                            <button class="hover:text-rose-500 transition-colors p-1" onclick="handleFeedbackClick(this, 'dislike')">
-                                <i class="fa-regular fa-thumbs-down"></i>
-                            </button>
-                            <button class="hover:text-brand-blue transition-colors p-1 flex items-center gap-1" onclick="handleCopyClick(this, \`${cleanExtractText.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">
-                                <i class="fa-regular fa-copy"></i>
-                                <span class="text-[10px] hidden font-medium">Copied!</span>
-                            </button>
-                        `;
+                        const likeButton = document.createElement('button');
+                        likeButton.className = 'hover:text-emerald-500 transition-colors p-1';
+                        likeButton.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
+                        likeButton.addEventListener('click', () => window.handleFeedbackClick?.(likeButton, 'like'));
+
+                        const dislikeButton = document.createElement('button');
+                        dislikeButton.className = 'hover:text-rose-500 transition-colors p-1';
+                        dislikeButton.innerHTML = '<i class="fa-regular fa-thumbs-down"></i>';
+                        dislikeButton.addEventListener('click', () => window.handleFeedbackClick?.(dislikeButton, 'dislike'));
+
+                        const copyButton = document.createElement('button');
+                        copyButton.className = 'hover:text-brand-blue transition-colors p-1 flex items-center gap-1';
+                        copyButton.innerHTML = '<i class="fa-regular fa-copy"></i><span class="text-[10px] hidden font-medium">Copied!</span>';
+                        copyButton.addEventListener('click', () => window.handleCopyClick?.(copyButton, cleanExtractText));
+                        actionToolbar.append(likeButton, dislikeButton, copyButton);
                         wrapperNode.appendChild(actionToolbar);
                     }
                     return;
@@ -2011,7 +2090,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     activeContainer.appendChild(document.createElement('br'));
                 } else if(token.type === 'tag-start') {
                     const el = document.createElement(token.tag);
-                    token.attrs.forEach(attr => el.setAttribute(attr.name, attr.value));
                     activeContainer.appendChild(el);
                     elementStack.push(activeContainer);
                     activeContainer = el;
@@ -2117,11 +2195,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                     throw new DOMException("Aborted", "AbortError");
                 }
 
+                const appCheckToken = await window.quansGetAppCheckToken?.() || '';
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
+                        'Authorization': `Bearer ${await currentUser.getIdToken()}`,
+                        ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {}),
+                        'X-Quans-Request-Id': getQuansGenerationRequestId('resume-generate')
                     },
                     body: JSON.stringify({ contents: currentChatMessages })
                 });
@@ -2140,13 +2221,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
                 }
 
                 const data = await response.json();
+                clearQuansGenerationRequestId('resume-generate');
                 const aiResponseText = data.candidates[0].content.parts[0].text;
                 if (window.__resumeBuilderRequestActive && window.renderResumeBuilderOutput) {
                     window.renderResumeBuilderOutput(aiResponseText);
                     window.__resumeBuilderRequestActive = false;
                 }
                 
-                const processedHtml = aiResponseText
+                const processedHtml = escapeResumeHtml(aiResponseText)
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/\n/g, '<br>');
@@ -2243,6 +2325,41 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
     <script>
 (() => {
   const settingsAuth = firebase.auth();
+  async function deleteQuansAccountOnServer(user) {
+    async function submitDelete() {
+      const token = await user.getIdToken(true);
+      const appCheckToken = await window.quansGetAppCheckToken?.() || '';
+      const response = await fetch('/api/account-delete', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          ...(appCheckToken ? { 'X-Firebase-AppCheck': appCheckToken } : {})
+        }
+      });
+      const payload = await response.json().catch(() => ({}));
+      return { response, payload };
+    }
+
+    let result = await submitDelete();
+    if (result.response.status === 401 && result.payload.code === 'AUTH_RECENT_LOGIN_REQUIRED') {
+      const isGoogle = (user.providerData || []).some(provider => provider.providerId === 'google.com');
+      if (isGoogle) {
+        throw new Error('For security, please log out, sign back in with Google, then confirm account deletion again.');
+      }
+      const password = window.prompt('For security, re-enter your account password to delete your QUANS account:');
+      if (!password) throw new Error('Account deletion cancelled.');
+      const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+      await user.reauthenticateWithCredential(credential);
+      result = await submitDelete();
+    }
+
+    if (!result.response.ok) {
+      const error = new Error(result.payload.error || 'Unable to delete your account right now.');
+      error.code = result.payload.code || 'ACCOUNT_DELETE_FAILED';
+      throw error;
+    }
+    await settingsAuth.signOut().catch(() => {});
+  }
   const modal = document.getElementById('settingsPopupModal');
   const hardDeleteModal = document.getElementById('settingsHardDeleteModal');
   const challenge = document.getElementById('settingsDeleteChallengeInput');
@@ -2293,8 +2410,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
     if(challenge?.value.trim()!=='Delete My Account') { byId('settingsDeleteInlineError')?.classList.remove('hidden'); return; }
     const user=settingsAuth.currentUser; if(!user) return;
     confirmDelete.disabled=true; confirmDelete.textContent='Deleting...';
-    try { await user.delete(); window.location.href='index.html'; }
-    catch(err) { console.error('Account deletion failed:',err); confirmDelete.disabled=false; confirmDelete.textContent='Delete Permanently'; showAlert(err.message || 'Account deletion failed. Please sign in again and retry.','error'); closeHardDelete(); if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); } }
+    try {
+      await deleteQuansAccountOnServer(user);
+      window.location.href = 'index.html';
+    } catch(err) {
+      console.error('Account deletion failed:', err?.code || err?.message);
+      confirmDelete.disabled = false;
+      confirmDelete.textContent = 'Delete Permanently';
+      showAlert(err.message || 'Account deletion failed. Please sign in again and retry.', 'error');
+      closeHardDelete();
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+    }
   });
 
   const navOverlay=byId('quansMobileNavOverlay');
@@ -2325,6 +2451,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   window.renderResumeBuilderOutput=showResult;
   window.restoreResumeBuilderResult=text=>{const clean=String(text||'').replace(/<br\s*\/?>(?=.)/gi,'\n').replace(/<\/(?:p|div|li|h[1-6])>/gi,'\n').replace(/<[^>]*>/g,'');showResult(clean);setStatus('Saved resume loaded from your history.');};
   window.getResumeBuilderCreditNotice = error => {
+    if (error?.code === 'EMAIL_NOT_VERIFIED') {
+      return {
+        title: 'Verify your email to use QUANS',
+        message: error.message || 'Open the Firebase verification link sent to your email, then sign in again.',
+        status: 'Email verification required'
+      };
+    }
+    if (error?.code === 'GENERATION_RATE_LIMITED') {
+      return {
+        title: 'Please wait before generating again',
+        message: error.message || 'You have reached the short-term generation limit. Please wait a little and try again.',
+        status: 'Short-term limit reached'
+      };
+    }
     if (error?.code === 'INSUFFICIENT_CREDITS') {
       const required = Number.isFinite(Number(error.required)) ? Number(error.required) : 8;
       const available = Number.isFinite(Number(error.available)) ? Number(error.available) : 0;
