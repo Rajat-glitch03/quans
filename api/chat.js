@@ -99,9 +99,8 @@ async function fetchGeminiWithRetry(url, options) {
 
 async function handler(req, res) {
     // 1. Handle CORS Preflight requests smoothly
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck, X-Quans-Request-Id');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
